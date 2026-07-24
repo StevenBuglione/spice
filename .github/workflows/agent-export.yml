@@ -1,0 +1,25 @@
+name: Agent workspace export
+
+on:
+  push:
+    branches:
+      - agent/transport-issue-8-1013
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Upload workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-issue-8-workspace
+          path: .
+          include-hidden-files: true
+          retention-days: 1
