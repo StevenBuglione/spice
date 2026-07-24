@@ -1,0 +1,25 @@
+name: Agent workspace export
+
+on:
+  push:
+    branches:
+      - agent/issue-8-type-aware-loading
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Package exact workspace
+        run: tar --exclude=.git -czf /tmp/spice-workspace.tar.gz .
+      - name: Upload workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-workspace-${{ github.sha }}
+          path: /tmp/spice-workspace.tar.gz
+          retention-days: 1
+          if-no-files-found: error
