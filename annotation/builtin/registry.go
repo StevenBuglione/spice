@@ -3,19 +3,11 @@ package builtin
 
 import "github.com/StevenBuglione/spice/annotation"
 
-// Registry returns a fresh immutable-by-construction registry of built-in
-// annotations. Returning a value instead of exposing mutable global state keeps
-// tests and compiler runs independent.
+// Registry returns a fresh immutable-by-construction registry of built-in annotations.
 func Registry() annotation.Registry {
 	return annotation.MustRegistry(
-		annotation.Definition{
-			Name:    "Application",
-			Targets: annotation.Targets(annotation.TargetFunction),
-		},
-		annotation.Definition{
-			Name:    "Configuration",
-			Targets: annotation.Targets(annotation.TargetType),
-		},
+		annotation.Definition{Name: "Application", Targets: annotation.Targets(annotation.TargetFunction)},
+		annotation.Definition{Name: "Configuration", Targets: annotation.Targets(annotation.TargetType)},
 		annotation.Definition{
 			Name:    "Controller",
 			Targets: annotation.Targets(annotation.TargetType),
@@ -27,19 +19,16 @@ func Registry() annotation.Registry {
 			Name:    "Get",
 			Targets: annotation.Targets(annotation.TargetMethod),
 			Arguments: []annotation.ArgumentDefinition{
-				{Name: "path", Kinds: []annotation.Kind{annotation.KindString}, Required: true},
+				{Name: "path", Kinds: []annotation.Kind{annotation.KindString}, Required: true, Positional: true},
 			},
 		},
 		annotation.Definition{
 			Name:    "Post",
 			Targets: annotation.Targets(annotation.TargetMethod),
 			Arguments: []annotation.ArgumentDefinition{
-				{Name: "path", Kinds: []annotation.Kind{annotation.KindString}, Required: true},
+				{Name: "path", Kinds: []annotation.Kind{annotation.KindString}, Required: true, Positional: true},
 			},
 		},
-		annotation.Definition{
-			Name:    "Service",
-			Targets: annotation.Targets(annotation.TargetType),
-		},
+		annotation.Definition{Name: "Service", Targets: annotation.Targets(annotation.TargetType)},
 	)
 }
