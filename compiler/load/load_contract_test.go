@@ -100,6 +100,53 @@ var Value string = 1
 	}
 }
 
+func TestLoadOmitsNonAddressableDeclarationsAndReturnsUniqueSymbolIDs(t *testing.T) {
+	dir := writeModule(t, map[string]string{
+		"go.mod": "module example.com/identity\n\ngo 1.23.0\n",
+		"catalog/first.go": `package catalog
+
+func init() {}
+
+var _ = 1
+const _ = 2
+
+var First int
+`,
+		"catalog/second.go": `package catalog
+
+func init() {}
+
+var _ = 3
+const _ = 4
+
+const Second = 5
+`,
+	})
+
+	program, err := Load(context.Background(), Options{Dir: dir}, "./...")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+
+	symbols := program.Symbols()
+	assertUniqueSymbolIDs(t, symbols)
+	if got, want := symbolIDs(symbols), []string{
+		"example.com/identity/catalog",
+		"example.com/identity/catalog.First",
+		"example.com/identity/catalog.Second",
+	}; !reflect.DeepEqual(got, want) {
+		t.Fatalf("symbol IDs = %v, want non-addressable declarations omitted as %v", got, want)
+	}
+	for _, excluded := range []string{
+		"example.com/identity/catalog._",
+		"example.com/identity/catalog.init",
+	} {
+		if symbolByID(symbols, excluded) != nil {
+			t.Fatalf("non-addressable declaration %q entered symbol catalog: %v", excluded, symbolIDs(symbols))
+		}
+	}
+}
+
 func replaceEnvironmentValue(environment []string, name, value string) []string {
 	prefix := name + "="
 	result := make([]string, 0, len(environment)+1)

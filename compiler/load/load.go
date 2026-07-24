@@ -212,6 +212,9 @@ func packageSymbols(root *packages.Package) []Symbol {
 						}
 					case *ast.ValueSpec:
 						for _, name := range specification.Names {
+							if name.Name == "_" {
+								continue
+							}
 							object := root.TypesInfo.Defs[name]
 							if object == nil {
 								continue
@@ -225,6 +228,9 @@ func packageSymbols(root *packages.Package) []Symbol {
 					}
 				}
 			case *ast.FuncDecl:
+				if declaration.Recv == nil && declaration.Name.Name == "init" {
+					continue
+				}
 				object, _ := root.TypesInfo.Defs[declaration.Name].(*types.Func)
 				if object == nil {
 					continue

@@ -67,6 +67,7 @@ var ExternalTestOnly int
 	}
 
 	symbols := program.Symbols()
+	assertUniqueSymbolIDs(t, symbols)
 	for _, id := range []string{
 		"example.com/fixture/app",
 		"example.com/fixture/app.Answer",
@@ -404,6 +405,24 @@ func symbolIDs(symbols []Symbol) []string {
 		ids[i] = symbol.ID
 	}
 	return ids
+}
+
+func assertUniqueSymbolIDs(t *testing.T, symbols []Symbol) {
+	t.Helper()
+	seen := make(map[string]Symbol, len(symbols))
+	for _, symbol := range symbols {
+		if previous, exists := seen[symbol.ID]; exists {
+			t.Fatalf(
+				"duplicate symbol ID %q for %s at %s and %s at %s",
+				symbol.ID,
+				previous.Kind,
+				previous.Position,
+				symbol.Kind,
+				symbol.Position,
+			)
+		}
+		seen[symbol.ID] = symbol
+	}
 }
 
 func deterministicSummary(program *Program) []byte {

@@ -26,6 +26,8 @@ method                          <package-path>.<receiver-origin>.<name>
 
 Pointer receivers normalize to the defining named type. Generic receiver declarations normalize through the `go/types.Named` origin, so receiver spelling and instantiation syntax do not change the method ID. Function and method signatures remain separate live type data because signatures can evolve independently of logical identity.
 
+The catalog omits package-level `init` functions and blank-identifier declarations (`_`). Go permits multiple declarations with those names, and later Spice phases cannot address them by logical name. Excluding them preserves the one-to-one stable-ID contract without introducing filesystem- or source-order-based suffixes.
+
 ## Diagnostics
 
 The library does not print, exit, or mutate module files. Package-list, parse, and type errors are collected into deterministic diagnostics and returned through `LoadError`. An ill-typed root package remains visible in the result for diagnostics, but it is marked unsafe for semantic generation.
