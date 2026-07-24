@@ -1,0 +1,34 @@
+name: Verifier Export
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out temporary export branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - name: Validate and archive exact reviewed head
+        shell: bash
+        run: |
+          set -euo pipefail
+          reviewed_head=f9f36ad52531f30d3bfe06fc2477d89ee5222ffe
+          parent=$(git rev-parse HEAD^)
+          test "$parent" = "$reviewed_head"
+          git archive --format=tar.gz --output=/tmp/spice-pr15-f9f36ad.tar.gz "$reviewed_head"
+      - name: Upload exact reviewed tree
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-pr15-f9f36ad
+          path: /tmp/spice-pr15-f9f36ad.tar.gz
+          if-no-files-found: error
+          retention-days: 1
