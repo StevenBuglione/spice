@@ -24,9 +24,14 @@ const (
 )
 
 // Diagnostic is a normalized package-list, parse, or type-checking diagnostic.
+// Position remains the familiar rendered Go position. Filename, Line, and
+// Column retain its structured components so deterministic ordering is numeric.
 type Diagnostic struct {
 	PackagePath string
 	Position    string
+	Filename    string
+	Line        int
+	Column      int
 	Kind        string
 	Message     string
 }
@@ -43,18 +48,28 @@ func (d Diagnostic) String() string {
 	return location + ": " + d.Message
 }
 
+// SourceFile pairs one deterministic compiled-file identity with its syntax
+// tree. Syntax may be nil when the package driver reports a compiled file for
+// which go/packages could not retain an AST.
+type SourceFile struct {
+	PhysicalPath string
+	Syntax       *ast.File
+}
+
 // Symbol is a stable logical declaration record backed by live go/types and AST
-// references from one Program instance.
+// references from one Program instance. Position is the developer-facing,
+// //line-adjusted position; PhysicalPosition identifies the loaded Go file.
 type Symbol struct {
-	ID          string
-	Kind        SymbolKind
-	Name        string
-	PackagePath string
-	Receiver    string
-	Position    token.Position
-	Object      types.Object
-	Node        ast.Node
-	Signature   *types.Signature
+	ID               string
+	Kind             SymbolKind
+	Name             string
+	PackagePath      string
+	Receiver         string
+	Position         token.Position
+	PhysicalPosition token.Position
+	Object           types.Object
+	Node             ast.Node
+	Signature        *types.Signature
 }
 
 // Package is one root package selected by the standard Go package driver.
@@ -64,6 +79,7 @@ type Package struct {
 	Name            string
 	Dir             string
 	ModulePath      string
+	Files           []SourceFile
 	CompiledGoFiles []string
 	IllTyped        bool
 	Types           *types.Package
@@ -89,6 +105,7 @@ func (p *Program) Packages() []Package {
 	result := make([]Package, len(p.packages))
 	copy(result, p.packages)
 	for i := range result {
+		result[i].Files = append([]SourceFile(nil), result[i].Files...)
 		result[i].CompiledGoFiles = append([]string(nil), result[i].CompiledGoFiles...)
 		result[i].Syntax = append([]*ast.File(nil), result[i].Syntax...)
 	}
@@ -139,6 +156,15 @@ func sortDiagnostics(diagnostics []Diagnostic) {
 		left, right := diagnostics[i], diagnostics[j]
 		if left.PackagePath != right.PackagePath {
 			return left.PackagePath < right.PackagePath
+		}
+		if left.Filename != right.Filename {
+			return left.Filename < right.Filename
+		}
+		if left.Line != right.Line {
+			return left.Line < right.Line
+		}
+		if left.Column != right.Column {
+			return left.Column < right.Column
 		}
 		if left.Position != right.Position {
 			return left.Position < right.Position
