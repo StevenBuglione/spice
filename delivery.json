@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 9,
+  "generation": 10,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,19 +8,19 @@
     "issue": 11,
     "pr": null,
     "branch": "agent/issue-11-typed-annotation-resolution",
-    "head": "1bff88c92044b17abd249ef8b2d1fb65bf19390a",
+    "head": "57785b906f12c350216053559babf9d69b5c3c8e",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
-    "next_action": "Freeze issue #11's bounded typed-annotation resolution contract, create the canonical branch and draft PR, implement the load-resolve-validate CLI migration, run the frozen verification matrix, and publish an exact-SHA handoff."
+    "next_action": "Open the canonical draft PR, obtain the permanent exact-head workspace artifact, implement typed annotation resolution and CLI migration within the frozen scope, then run the complete proof matrix."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260724T170718Z-968864",
     "acquired_at": "2026-07-24T17:07:18Z",
-    "heartbeat_at": "2026-07-24T17:07:18Z",
-    "lease_until": "2026-07-24T17:52:18Z"
+    "heartbeat_at": "2026-07-24T17:08:58Z",
+    "lease_until": "2026-07-24T17:53:58Z"
   },
   "review_lock": {
     "active": false,
@@ -33,7 +33,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T17:07:18Z",
-    "summary": "Acquired the atomic writer lock for issue #11, selected the canonical branch, and began contract freeze before implementation."
+    "at": "2026-07-24T17:08:58Z",
+    "summary": "Heartbeated the writer lock after establishing the canonical issue #11 branch and initial resolver package commit."
   }
 }
