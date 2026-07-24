@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 42,
+  "generation": 43,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFYING",
+    "status": "VERIFIED",
     "issue": 13,
     "pr": 35,
     "branch": "agent/issue-13-provider-catalog",
@@ -13,7 +13,7 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Verifier independently reviews and executes the frozen provider-catalog and alias-duplicate matrix against exact head ca2133e1da9f95b7b3070e5eeef73996856f9196, then records CHANGES_REQUESTED or VERIFIED and merges only if the head remains unchanged."
+    "next_action": "Squash-merge PR #35 using expected head ca2133e1da9f95b7b3070e5eeef73996856f9196, then record MERGED, release the review lock and reconcile issue closure and default-branch health."
   },
   "writer_lock": {
     "active": false,
@@ -28,13 +28,13 @@
     "owner": "verifier",
     "token": "verifier-20260724T234200Z-a91c7e",
     "acquired_at": "2026-07-24T23:42:00Z",
-    "heartbeat_at": "2026-07-24T23:42:00Z",
-    "lease_until": "2026-07-25T00:27:00Z",
+    "heartbeat_at": "2026-07-24T23:47:14Z",
+    "lease_until": "2026-07-25T00:32:14Z",
     "head": "ca2133e1da9f95b7b3070e5eeef73996856f9196"
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-24T23:42:00Z",
-    "summary": "Atomically acquired the review lock for exact READY_FOR_VERIFICATION head ca2133e1da9f95b7b3070e5eeef73996856f9196 and began independent bounded verification."
+    "at": "2026-07-24T23:47:14Z",
+    "summary": "Independently verified the complete frozen provider-catalog contract and alias-duplicate correction against exact unchanged head ca2133e1da9f95b7b3070e5eeef73996856f9196; local proof, executable fixtures, mutation proof, CI and artifact provenance all passed."
   }
 }
