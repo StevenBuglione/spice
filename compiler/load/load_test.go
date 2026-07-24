@@ -105,6 +105,51 @@ var ExternalTestOnly int
 	}
 }
 
+func TestLoadRejectsTestVariantMode(t *testing.T) {
+	dir := writeModule(t, map[string]string{
+		"go.mod": "module example.com/testvariants\n\ngo 1.23.0\n",
+		"app/app.go": `package app
+
+var Production int
+`,
+		"app/app_test.go": `package app
+
+var TestOnly int
+`,
+		"app/external_test.go": `package app_test
+
+var ExternalTestOnly int
+`,
+	})
+
+	var first []byte
+	for iteration := 0; iteration < 3; iteration++ {
+		program, err := Load(context.Background(), Options{Dir: dir, Tests: true}, "./...")
+		if err == nil {
+			t.Fatalf("Load() iteration %d error = nil, want unsupported-mode error", iteration)
+		}
+		if got := program.Packages(); len(got) != 0 {
+			t.Fatalf("Load() iteration %d packages = %#v, want none", iteration, got)
+		}
+		if got := program.Symbols(); len(got) != 0 {
+			t.Fatalf("Load() iteration %d symbols = %#v, want none", iteration, got)
+		}
+		diagnostics := program.Diagnostics()
+		if len(diagnostics) != 1 || diagnostics[0].Kind != "configuration" ||
+			!strings.Contains(diagnostics[0].Message, "test-variant loading is unsupported") {
+			t.Fatalf("Load() iteration %d diagnostics = %#v, want deterministic unsupported-mode diagnostic", iteration, diagnostics)
+		}
+		summary := deterministicSummary(program)
+		if iteration == 0 {
+			first = summary
+			continue
+		}
+		if !reflect.DeepEqual(summary, first) {
+			t.Fatalf("unsupported-mode summary changed between loads:\nfirst: %s\nnext:  %s", first, summary)
+		}
+	}
+}
+
 func TestLoadBuildConstraints(t *testing.T) {
 	dir := writeModule(t, map[string]string{
 		"go.mod": "module example.com/tags\n\ngo 1.23.0\n",
@@ -122,7 +167,7 @@ var Tagged int
 `,
 	})
 
-	program, err := Load(context.Background(), Options{Dir: dir}, "./tagged")
+	program, err := Load(context.Background(), Options{Dir: dir}, "./...")
 	if err != nil {
 		t.Fatalf("Load(default) error = %v", err)
 	}
@@ -138,7 +183,7 @@ var Tagged int
 		}
 	}
 
-	tagged, err := Load(context.Background(), Options{Dir: dir, BuildFlags: []string{"-tags=spice_excluded"}}, "./tagged")
+	tagged, err := Load(context.Background(), Options{Dir: dir, BuildFlags: []string{"-tags=spice_excluded"}}, "./...")
 	if err != nil {
 		t.Fatalf("Load(tagged) error = %v", err)
 	}
@@ -258,16 +303,20 @@ func TestLoadOverlay(t *testing.T) {
 
 func TestLoadDeterministic(t *testing.T) {
 	dir := writeModule(t, map[string]string{
-		"go.mod": "module example.com/deterministic\n\ngo 1.23.0\n",
-		"z/z.go": "package z\n\nvar Z int\n",
-		"a/a.go": "package a\n\nconst A = 1\n",
+		"go.mod":           "module example.com/deterministic\n\ngo 1.23.0\n",
+		"z/z.go":           "package z\n\nvar Z int\n",
+		"a/a.go":           "package a\n\nconst A = 1\n",
+		"broken/broken.go": "package broken\n\nvar Value string = 1\n",
 	})
 
 	var first []byte
 	for iteration := 0; iteration < 3; iteration++ {
-		program, err := Load(context.Background(), Options{Dir: dir}, "./z", "./a")
-		if err != nil {
-			t.Fatalf("Load() iteration %d error = %v", iteration, err)
+		program, err := Load(context.Background(), Options{Dir: dir}, "./z", "./a", "./broken")
+		if err == nil {
+			t.Fatalf("Load() iteration %d error = nil, want deterministic type error", iteration)
+		}
+		if len(program.Diagnostics()) == 0 {
+			t.Fatalf("Load() iteration %d returned no diagnostics", iteration)
 		}
 		summary := deterministicSummary(program)
 		if iteration == 0 {
