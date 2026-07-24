@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 7,
+  "generation": 8,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -12,7 +12,7 @@
     "contract_revision": 2,
     "verification_cycles": 6,
     "final_stabilization": true,
-    "next_action": "Confirm issue #8 closure and default-branch CI for squash merge commit 1bff88c92044b17abd249ef8b2d1fb65bf19390a, then the next implementer may select the highest-priority frozen ready issue."
+    "next_action": "Issue #8 closure and the exact squash commit on main are confirmed. No open pull request or active lock remains. The next primary implementer may claim issue #11 after checking for any visible default-branch CI failure; the current connector does not expose push-triggered workflow runs."
   },
   "writer_lock": {
     "active": false,
@@ -32,8 +32,8 @@
     "head": null
   },
   "last_transition": {
-    "role": "verifier",
-    "at": "2026-07-24T16:59:00Z",
-    "summary": "Recorded VERIFIED and squash-merged exact PR #15 head as main commit 1bff88c92044b17abd249ef8b2d1fb65bf19390a; released review lock."
+    "role": "watchdog",
+    "at": "2026-07-24T16:59:01Z",
+    "summary": "Confirmed PR #15 merged, issue #8 closed, main at squash commit 1bff88c92044b17abd249ef8b2d1fb65bf19390a, no open PRs, and both locks released; cleared the completed-lane next action for issue #11 selection."
   }
 }
