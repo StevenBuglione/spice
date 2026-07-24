@@ -3,6 +3,8 @@ name: Agent Source Bootstrap
 on:
   push:
     branches: [agent/issue-8-type-aware-loader]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
