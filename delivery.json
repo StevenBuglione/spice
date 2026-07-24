@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 22,
+  "generation": 23,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFYING",
+    "status": "VERIFIED",
     "issue": 11,
     "pr": 34,
     "branch": "agent/issue-11-typed-annotation-resolution",
@@ -12,7 +12,7 @@
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
-    "next_action": "Verifier is independently executing the complete frozen issue #11 command and regression matrix against exact head df82fdf7ca356eb99aada3162dc401073f540f9e; any head change invalidates review."
+    "next_action": "Squash-merge PR #34 immediately with expected head df82fdf7ca356eb99aada3162dc401073f540f9e, then record MERGED and release review lock verifier-20260724T184100Z-b84e2d."
   },
   "writer_lock": {
     "active": false,
@@ -27,13 +27,13 @@
     "owner": "verifier",
     "token": "verifier-20260724T184100Z-b84e2d",
     "acquired_at": "2026-07-24T18:41:00Z",
-    "heartbeat_at": "2026-07-24T18:46:00Z",
-    "lease_until": "2026-07-24T19:31:00Z",
+    "heartbeat_at": "2026-07-24T18:50:00Z",
+    "lease_until": "2026-07-24T19:35:00Z",
     "head": "df82fdf7ca356eb99aada3162dc401073f540f9e"
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-24T18:46:00Z",
-    "summary": "Heartbeated review lock verifier-20260724T184100Z-b84e2d before the long independent command matrix for exact PR #34 head df82fdf7ca356eb99aada3162dc401073f540f9e."
+    "at": "2026-07-24T18:50:00Z",
+    "summary": "Recorded VERIFIED for exact PR #34 head df82fdf7ca356eb99aada3162dc401073f540f9e after complete frozen-contract review, independent exact-artifact execution, mutation proof, exact-head CI inspection, and unchanged-head recheck."
   }
 }
