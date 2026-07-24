@@ -18,6 +18,7 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		positional   bool
 	}{
 		{name: "Application", targets: []annotation.Target{annotation.TargetFunction}},
+		{name: "Bean", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Configuration", targets: []annotation.Target{annotation.TargetType}},
 		{name: "Controller", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix"},
 		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true, positional: true},

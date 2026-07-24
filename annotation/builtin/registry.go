@@ -7,6 +7,7 @@ import "github.com/StevenBuglione/spice/annotation"
 func Registry() annotation.Registry {
 	return annotation.MustRegistry(
 		annotation.Definition{Name: "Application", Targets: annotation.Targets(annotation.TargetFunction)},
+		annotation.Definition{Name: "Bean", Targets: annotation.Targets(annotation.TargetFunction)},
 		annotation.Definition{Name: "Configuration", Targets: annotation.Targets(annotation.TargetType)},
 		annotation.Definition{
 			Name:    "Controller",

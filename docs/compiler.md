@@ -72,3 +72,13 @@ Each occurrence carries its canonical symbol ID, package path, target, physical 
 Grouped declaration metadata fails closed when it could describe multiple specs or names, and blank identifiers cannot be annotation targets. Place metadata on one individual spec or split a multi-name declaration.
 
 The `spice annotations` and `spice verify` commands accept ordinary Go package patterns, default to `.`, and perform one load-resolve-validate pipeline. `compiler/scan.Tree` remains for compatibility tests but is no longer the authoritative CLI source.
+
+## Typed provider catalog
+
+`compiler/provider` consumes the same `load.Program` and `resolve.Result` already produced for one CLI command. It never reloads packages, reparses files, walks function bodies, reflects on runtime values, or executes provider functions.
+
+After ordinary annotation target and argument validation, each valid package-level `@Bean` function contributes one deterministic provider record. Accepted signatures are `func(dependencies...) T` and `func(dependencies...) (T, error)`. Records retain live `go/types.Type` values only for the owning program, plus import-path-qualified stable type strings for diagnostics and later serialization. Inputs preserve parameter order and positions.
+
+Catalog output is sorted by stable provider symbol ID. Exact output conflicts use `types.Identical` and fail closed with one deterministic diagnostic naming every conflicting declaration. Distinct named types remain distinct even when their underlying representations match. The catalog does not perform assignability-based interface selection, dependency graph construction, provider invocation, scopes, lifecycle, or code generation.
+
+`spice verify` runs this catalog stage only after loading, typed annotation resolution, target validation, and argument validation have succeeded. Library code remains quiet; the CLI owns rendering and exit status.
