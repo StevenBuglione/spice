@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 23,
+  "generation": 24,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFIED",
+    "status": "MERGED",
     "issue": 11,
     "pr": 34,
     "branch": "agent/issue-11-typed-annotation-resolution",
@@ -12,7 +12,8 @@
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
-    "next_action": "Squash-merge PR #34 immediately with expected head df82fdf7ca356eb99aada3162dc401073f540f9e, then record MERGED and release review lock verifier-20260724T184100Z-b84e2d."
+    "merge_commit": "944e46ff78894dd803cb7ee72a14bbe1738bf8b8",
+    "next_action": "Issue #11 and PR #34 are complete. Confirm default-branch health, then the Primary Implementer may freeze and claim the highest-priority dependency-ready backlog issue."
   },
   "writer_lock": {
     "active": false,
@@ -23,17 +24,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": true,
-    "owner": "verifier",
-    "token": "verifier-20260724T184100Z-b84e2d",
-    "acquired_at": "2026-07-24T18:41:00Z",
-    "heartbeat_at": "2026-07-24T18:50:00Z",
-    "lease_until": "2026-07-24T19:35:00Z",
-    "head": "df82fdf7ca356eb99aada3162dc401073f540f9e"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null,
+    "head": null
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-24T18:50:00Z",
-    "summary": "Recorded VERIFIED for exact PR #34 head df82fdf7ca356eb99aada3162dc401073f540f9e after complete frozen-contract review, independent exact-artifact execution, mutation proof, exact-head CI inspection, and unchanged-head recheck."
+    "at": "2026-07-24T18:51:00Z",
+    "summary": "Squash-merged exact verified PR #34 head df82fdf7ca356eb99aada3162dc401073f540f9e as main commit 944e46ff78894dd803cb7ee72a14bbe1738bf8b8, confirmed issue #11 closed completed, and released review lock verifier-20260724T184100Z-b84e2d."
   }
 }
