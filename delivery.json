@@ -1,26 +1,26 @@
 {
   "schema_version": 2,
-  "generation": 10,
+  "generation": 11,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
     "status": "IMPLEMENTING",
     "issue": 11,
-    "pr": null,
+    "pr": 34,
     "branch": "agent/issue-11-typed-annotation-resolution",
     "head": "57785b906f12c350216053559babf9d69b5c3c8e",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
-    "next_action": "Open the canonical draft PR, obtain the permanent exact-head workspace artifact, implement typed annotation resolution and CLI migration within the frozen scope, then run the complete proof matrix."
+    "next_action": "Execute the frozen local verification matrix against the permanent exact-head workspace, fix all failures, then push the tested resolver/CLI implementation to PR #34 and await exact-head CI."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260724T170718Z-968864",
     "acquired_at": "2026-07-24T17:07:18Z",
-    "heartbeat_at": "2026-07-24T17:08:58Z",
-    "lease_until": "2026-07-24T17:53:58Z"
+    "heartbeat_at": "2026-07-24T17:18:21Z",
+    "lease_until": "2026-07-24T18:03:21Z"
   },
   "review_lock": {
     "active": false,
@@ -33,7 +33,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T17:08:58Z",
-    "summary": "Heartbeated the writer lock after establishing the canonical issue #11 branch and initial resolver package commit."
+    "at": "2026-07-24T17:18:21Z",
+    "summary": "Heartbeated before the full issue #11 verification phase; canonical draft PR #34 exists and focused resolver/CLI tests pass locally."
   }
 }
