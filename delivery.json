@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 14,
+  "generation": 15,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -27,13 +27,13 @@
     "owner": "verifier",
     "token": "verifier-20260724T174030Z-a71c9e",
     "acquired_at": "2026-07-24T17:40:30Z",
-    "heartbeat_at": "2026-07-24T17:40:30Z",
-    "lease_until": "2026-07-24T18:25:30Z",
+    "heartbeat_at": "2026-07-24T17:43:15Z",
+    "lease_until": "2026-07-24T18:28:15Z",
     "head": "5f170aa68a70438e3cc27decd6b06050fee7483b"
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-24T17:40:30Z",
-    "summary": "Atomically acquired review lock verifier-20260724T174030Z-a71c9e and began independent verification of PR #34 at exact head 5f170aa68a70438e3cc27decd6b06050fee7483b."
+    "at": "2026-07-24T17:43:15Z",
+    "summary": "Heartbeated review lock verifier-20260724T174030Z-a71c9e before the long exact-head verification command matrix for PR #34."
   }
 }
