@@ -1,0 +1,37 @@
+name: Implementation
+about: Bounded, testable implementation work
+labels: [enhancement]
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Developer outcome
+      description: What should a Spice developer be able to do after this is complete?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: List the exact implementation boundary.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Include observable behavior, errors, tests, and runnable smoke paths.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Required verification
+      description: `make verify` plus issue-specific executable commands.
+    validations:
+      required: true
+  - type: textarea
+    id: exclusions
+    attributes:
+      label: Out of scope
+      description: Name adjacent work that must not be included.
