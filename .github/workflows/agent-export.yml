@@ -1,9 +1,9 @@
 name: Agent workspace export
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/transport-issue-8-1013
+      - main
 
 permissions:
   contents: read
@@ -12,9 +12,10 @@ jobs:
   export:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out exact branch
+      - name: Check out exact pull request head
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: Upload workspace
         uses: actions/upload-artifact@v4
