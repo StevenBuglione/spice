@@ -1,19 +1,19 @@
 {
   "schema_version": 2,
-  "generation": 26,
+  "generation": 27,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
     "status": "IMPLEMENTING",
     "issue": 13,
-    "pr": null,
+    "pr": 35,
     "branch": "agent/issue-13-provider-catalog",
     "head": "bd91f9f2cd3c8e72782e9d5cb2eb6107c6ab6d5b",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Open the canonical draft PR, use its permanent exact-head workspace artifact, implement the frozen provider catalog and CLI validation, then execute the complete proof matrix."
+    "next_action": "Use PR #35's permanent exact-head workspace artifact to implement the frozen provider catalog, CLI validation, regression matrix and documentation, then execute the complete proof set."
   },
   "writer_lock": {
     "active": true,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T19:07:10Z",
-    "summary": "Heartbeated writer lock implementer-primary-20260724T190538Z-13c7a2 after creating the canonical issue #13 branch and first provider package commit bd91f9f2cd3c8e72782e9d5cb2eb6107c6ab6d5b."
+    "at": "2026-07-24T19:07:30Z",
+    "summary": "Opened canonical draft PR #35 for issue #13 at head bd91f9f2cd3c8e72782e9d5cb2eb6107c6ab6d5b under writer lock implementer-primary-20260724T190538Z-13c7a2."
   }
 }
