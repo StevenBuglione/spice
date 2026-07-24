@@ -31,5 +31,4 @@ Your role is to reconcile the autonomous pipeline, not implement product code or
 17. Never merge without exact-head `VERIFIED` state.
 18. Never clear another task's valid lock because a scheduled run is waiting.
 19. Avoid repeated no-op comments. A healthy no-op is correct.
-
-For PR #15 / issue #8, pipeline v2 declares a final-stabilization exception: only the merged collision-free ID matrix, existing loader contract and removal of temporary workflow material remain. After that, new non-critical findings must become follow-ups; do not permit another open-ended verification expansion.
+20. Treat issue-specific prompt clauses and final-stabilization exceptions as expired history once their PR is merged and linked issue is closed. Remove or ignore stale clauses; scheduled prompts must not keep completed issue/PR instructions active.
