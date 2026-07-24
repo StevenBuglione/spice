@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 1,
+  "generation": 2,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -9,9 +9,10 @@
     "pr": 15,
     "branch": "agent/issue-8-type-aware-loading",
     "head": "3f65ee71ee8b0ea7e8f5a20c34d6466626b0eb60",
-    "contract_revision": 1,
+    "contract_revision": 2,
     "verification_cycles": 6,
-    "next_action": "Implement the frozen collision-free stable-ID contract, remove temporary workflow material, run the complete required suite, and publish an exact-SHA handoff."
+    "final_stabilization": true,
+    "next_action": "Implement the merged versioned length-prefixed collision-free stable-ID contract, add the frozen collision matrix and mutation proof, remove temporary workflow material, run the existing complete loader suite, then publish one exact-SHA handoff. New non-critical findings become follow-up issues."
   },
   "writer_lock": {
     "active": false,
@@ -32,7 +33,7 @@
   },
   "last_transition": {
     "role": "pipeline-audit",
-    "at": "2026-07-24T15:19:30Z",
-    "summary": "Initialized pipeline v2 state after repeated comment-lock races and verification churn."
+    "at": "2026-07-24T15:31:00Z",
+    "summary": "Pipeline v2 merged; issue #8 entered finite final stabilization to end review churn."
   }
 }
