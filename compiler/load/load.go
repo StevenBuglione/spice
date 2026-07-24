@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go/ast"
+	"go/token"
 	"go/types"
 	"path/filepath"
 	"sort"
@@ -118,16 +119,60 @@ func cloneOverlay(overlay map[string][]byte) map[string][]byte {
 	return result
 }
 
-func packageRecord(root *packages.Package) Package {
-	files := append([]string(nil), root.CompiledGoFiles...)
-	for i := range files {
-		files[i] = filepath.Clean(files[i])
+func cleanSortedFiles(files []string) []string {
+	result := append([]string(nil), files...)
+	for i := range result {
+		result[i] = filepath.Clean(result[i])
 	}
-	sort.Strings(files)
+	sort.Strings(result)
+	return result
+}
+
+func fileSet(files []string) map[string]struct{} {
+	result := make(map[string]struct{}, len(files))
+	for _, file := range files {
+		result[filepath.Clean(file)] = struct{}{}
+	}
+	return result
+}
+
+func sourcePackageName(root *packages.Package, sourceFiles map[string]struct{}) *ast.Ident {
+	var selected *ast.Ident
+	var selectedPosition token.Position
+	for _, file := range root.Syntax {
+		if file == nil || file.Name == nil || !sourcePosition(root, file.Name.Pos(), sourceFiles) {
+			continue
+		}
+		position := root.Fset.PositionFor(file.Name.Pos(), true)
+		if selected == nil || position.Filename < selectedPosition.Filename ||
+			(position.Filename == selectedPosition.Filename && position.Offset < selectedPosition.Offset) {
+			selected = file.Name
+			selectedPosition = position
+		}
+	}
+	return selected
+}
+
+func sourceObject(root *packages.Package, object types.Object, sourceFiles map[string]struct{}) bool {
+	return object != nil && sourcePosition(root, object.Pos(), sourceFiles)
+}
+
+func sourcePosition(root *packages.Package, position token.Pos, sourceFiles map[string]struct{}) bool {
+	if !position.IsValid() {
+		return false
+	}
+	filename := root.Fset.PositionFor(position, true).Filename
+	_, ok := sourceFiles[filepath.Clean(filename)]
+	return ok
+}
+
+func packageRecord(root *packages.Package) Package {
+	files := cleanSortedFiles(root.CompiledGoFiles)
+	sourceFiles := cleanSortedFiles(root.GoFiles)
 
 	dir := ""
-	if len(files) > 0 {
-		dir = filepath.Dir(files[0])
+	if len(sourceFiles) > 0 {
+		dir = filepath.Dir(sourceFiles[0])
 	}
 	modulePath := ""
 	if root.Module != nil {
@@ -184,9 +229,9 @@ func packageSymbols(root *packages.Package) []Symbol {
 		return nil
 	}
 
+	sourceFiles := fileSet(root.GoFiles)
 	symbols := make([]Symbol, 0)
-	if len(root.Syntax) > 0 && root.Syntax[0] != nil && root.Syntax[0].Name != nil {
-		name := root.Syntax[0].Name
+	if name := sourcePackageName(root, sourceFiles); name != nil {
 		symbols = append(symbols, Symbol{
 			ID:          root.PkgPath,
 			Kind:        SymbolPackage,
@@ -210,7 +255,7 @@ func packageSymbols(root *packages.Package) []Symbol {
 						if specification.Name.Name == "_" {
 							continue
 						}
-						if object := root.TypesInfo.Defs[specification.Name]; object != nil {
+						if object := root.TypesInfo.Defs[specification.Name]; object != nil && sourceObject(root, object, sourceFiles) {
 							symbols = append(symbols, objectSymbol(root, object, specification, SymbolType, ""))
 						}
 					case *ast.ValueSpec:
@@ -219,7 +264,7 @@ func packageSymbols(root *packages.Package) []Symbol {
 								continue
 							}
 							object := root.TypesInfo.Defs[name]
-							if object == nil {
+							if object == nil || !sourceObject(root, object, sourceFiles) {
 								continue
 							}
 							kind := SymbolVariable
@@ -235,7 +280,7 @@ func packageSymbols(root *packages.Package) []Symbol {
 					continue
 				}
 				object, _ := root.TypesInfo.Defs[declaration.Name].(*types.Func)
-				if object == nil {
+				if object == nil || !sourceObject(root, object, sourceFiles) {
 					continue
 				}
 				signature, _ := object.Type().(*types.Signature)

@@ -6,6 +6,8 @@
 
 The loader deliberately accepts standard Go package patterns such as `./...` rather than translating them into a filesystem walk. It also passes through caller-provided working directories, environments, build flags, overlays, and cancellation.
 
+Package directories come from the selected source files reported by `go/packages.Package.GoFiles`. The deterministically sorted `CompiledGoFiles` list remains available separately because cgo can replace a source file with generated build-cache inputs during type checking. This keeps module ownership and future architecture checks anchored to the developer's source tree without hiding the actual compiled-file set.
+
 Normal application compilation keeps `Tests` disabled. Requests with `Options.Tests` set to true fail immediately with a deterministic configuration diagnostic. Test-package and generated test-binary variants remain unsupported until Spice defines separate identities for production packages, in-package test variants, external test packages, and generated test binaries. This prevents duplicate stable package and symbol IDs from entering later compiler phases.
 
 ## Program lifetime
@@ -27,6 +29,8 @@ method                          <package-path>.<receiver-origin>.<name>
 Pointer receivers normalize to the defining named type. Generic receiver declarations normalize through the `go/types.Named` origin, so receiver spelling and instantiation syntax do not change the method ID. Function and method signatures remain separate live type data because signatures can evolve independently of logical identity.
 
 The catalog omits package-level `init` functions and every blank-identifier declaration (`_`), including types, package functions, methods, variables, and constants. Go permits multiple declarations with those names, and later Spice phases cannot address them by logical name. Excluding them preserves the one-to-one stable-ID contract without introducing filesystem- or source-order-based suffixes.
+
+Logical symbols and the package symbol must resolve to source files selected in `GoFiles`, including caller overlays and ordinary committed generated `.go` files. cgo's cache-backed helper files remain part of the live type universe and compiled-file metadata, but their `_C*`, `_cgo*`, and hash-bearing declarations are not source-addressable Spice symbols. User declarations from an `import "C"` file retain their original source positions through cgo line directives.
 
 ## Diagnostics
 
