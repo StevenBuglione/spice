@@ -1,26 +1,26 @@
 {
   "schema_version": 2,
-  "generation": 19,
+  "generation": 20,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "IMPLEMENTING",
+    "status": "READY_FOR_VERIFICATION",
     "issue": 11,
     "pr": 34,
     "branch": "agent/issue-11-typed-annotation-resolution",
-    "head": "5f170aa68a70438e3cc27decd6b06050fee7483b",
+    "head": "df82fdf7ca356eb99aada3162dc401073f540f9e",
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
-    "next_action": "Push the bounded physical-ordering correction and regression to the canonical branch, wait for exact-head CI and workspace artifact, rerun exact-head proof if required, then release writer_lock and publish READY_FOR_VERIFICATION."
+    "next_action": "Independent verifier must acquire review_lock for exact head df82fdf7ca356eb99aada3162dc401073f540f9e, execute the frozen issue #11 matrix including reversed-//line physical diagnostic ordering, inspect exact-head CI and the permanent workspace artifact, and merge only if the head remains unchanged and no bounded blocker remains."
   },
   "writer_lock": {
-    "active": true,
-    "owner": "primary-implementer",
-    "token": "implementer-primary-20260724T180602Z-c81f4d",
-    "acquired_at": "2026-07-24T18:06:02Z",
-    "heartbeat_at": "2026-07-24T18:11:00Z",
-    "lease_until": "2026-07-24T18:56:00Z"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null
   },
   "review_lock": {
     "active": false,
@@ -33,7 +33,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T18:11:00Z",
-    "summary": "Heartbeated writer lock before pushing the tested issue #11 physical diagnostic ordering correction."
+    "at": "2026-07-24T18:14:00Z",
+    "summary": "Released writer lock implementer-primary-20260724T180602Z-c81f4d and handed off exact head df82fdf7ca356eb99aada3162dc401073f540f9e after the complete frozen matrix, race suite, deterministic repeats, exact-head artifact, and CI passed."
   }
 }
