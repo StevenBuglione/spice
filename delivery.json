@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 25,
+  "generation": 26,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 13,
     "pr": null,
     "branch": "agent/issue-13-provider-catalog",
-    "head": "3f88a1f0c8e8663a566520e9eb2f82005e6d5313",
+    "head": "bd91f9f2cd3c8e72782e9d5cb2eb6107c6ab6d5b",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Freeze issue #13's bounded @Bean provider-catalog contract, create the canonical branch and draft PR, implement the catalog and CLI verification stage, then run the complete frozen proof matrix."
+    "next_action": "Open the canonical draft PR, use its permanent exact-head workspace artifact, implement the frozen provider catalog and CLI validation, then execute the complete proof matrix."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260724T190538Z-13c7a2",
     "acquired_at": "2026-07-24T19:05:38Z",
-    "heartbeat_at": "2026-07-24T19:05:38Z",
-    "lease_until": "2026-07-24T19:50:38Z"
+    "heartbeat_at": "2026-07-24T19:07:10Z",
+    "lease_until": "2026-07-24T19:52:10Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T19:05:38Z",
-    "summary": "Atomically acquired writer lock implementer-primary-20260724T190538Z-13c7a2 and claimed issue #13 as the sole implementation lane from main head 3f88a1f0c8e8663a566520e9eb2f82005e6d5313."
+    "at": "2026-07-24T19:07:10Z",
+    "summary": "Heartbeated writer lock implementer-primary-20260724T190538Z-13c7a2 after creating the canonical issue #13 branch and first provider package commit bd91f9f2cd3c8e72782e9d5cb2eb6107c6ab6d5b."
   }
 }
