@@ -1,0 +1,29 @@
+name: Verifier Export
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/verifier-export.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact review tree plus exporter
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Remove verifier-only transport file
+        run: rm -f .github/workflows/verifier-export.yml
+      - name: Package workspace
+        run: tar --exclude=.git -czf /tmp/spice-workspace.tar.gz .
+      - name: Upload workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-workspace-1639d55
+          path: /tmp/spice-workspace.tar.gz
+          if-no-files-found: error
+          retention-days: 1
