@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 16,
+  "generation": 17,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "CHANGES_REQUESTED",
+    "status": "IMPLEMENTING",
     "issue": 11,
     "pr": 34,
     "branch": "agent/issue-11-typed-annotation-resolution",
@@ -12,15 +12,15 @@
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
-    "next_action": "Reuse issue #11, branch agent/issue-11-typed-annotation-resolution and PR #34. Preserve physical source ordering through validation diagnostics, add a committed reversed-//line CLI regression and repeatability proof, rerun the complete frozen command matrix, obtain green exact-head CI, release writer_lock, and publish a new exact-SHA READY_FOR_VERIFICATION handoff."
+    "next_action": "Preserve physical source ordering through validation diagnostics, add a committed reversed-//line CLI regression with repeated-output proof, rerun the complete frozen command matrix and exact-head CI, then release writer_lock and publish READY_FOR_VERIFICATION for the exact pushed SHA."
   },
   "writer_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null
+    "active": true,
+    "owner": "primary-implementer",
+    "token": "implementer-primary-20260724T180602Z-c81f4d",
+    "acquired_at": "2026-07-24T18:06:02Z",
+    "heartbeat_at": "2026-07-24T18:06:02Z",
+    "lease_until": "2026-07-24T18:51:02Z"
   },
   "review_lock": {
     "active": false,
@@ -32,8 +32,8 @@
     "head": null
   },
   "last_transition": {
-    "role": "verifier",
-    "at": "2026-07-24T17:47:30Z",
-    "summary": "Released review lock verifier-20260724T174030Z-a71c9e and requested one bounded correction on PR #34: validation diagnostics must preserve frozen physical source ordering instead of re-sorting by //line display paths. Verification cycle advanced to 1."
+    "role": "primary-implementer",
+    "at": "2026-07-24T18:06:02Z",
+    "summary": "Acquired writer lock implementer-primary-20260724T180602Z-c81f4d to implement the single verifier-requested physical diagnostic ordering correction on PR #34."
   }
 }
