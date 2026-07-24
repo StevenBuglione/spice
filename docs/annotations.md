@@ -18,14 +18,15 @@ Built-in annotation names are unqualified:
 ```go
 // @Service
 // @Configuration
-// @Transactional
 ```
 
-Third-party or ambiguous annotations may be qualified:
+The parser accepts qualified names for future starter and third-party definitions:
 
 ```go
 // @security.Authorize(roles=["admin"])
 ```
+
+During the current bootstrap, `spice verify` fails closed on unknown annotations. A qualified annotation is syntactically valid, but it must have a registered typed definition before verification succeeds. User-defined definition loading is planned; unknown annotations are not silently accepted because doing so would hide spelling mistakes and missing starters.
 
 ## Arguments
 
@@ -46,9 +47,48 @@ Supported bootstrap values:
 
 Named arguments must follow positional arguments, and duplicate named arguments are rejected.
 
+Typed annotation definitions include argument names, accepted value kinds, required status, and positional support. Argument schema enforcement is a later compiler phase; the current verifier enforces annotation existence and declaration targets.
+
+## Built-in definitions and targets
+
+Spice ships the following initial definitions:
+
+| Annotation | Allowed target | Defined arguments |
+|---|---|---|
+| `@Application` | Function | None |
+| `@Configuration` | Type | None |
+| `@Controller` | Type | `prefix` string, optional |
+| `@Get` | Method | `path` string, required |
+| `@Post` | Method | `path` string, required |
+| `@Service` | Type | None |
+
+Examples:
+
+```go
+// @Application
+func main() {}
+
+// @Controller(prefix="/users")
+type UserController struct{}
+
+// @Get(path="/{id}")
+func (UserController) GetUser() {}
+
+// @Service
+type UserService struct{}
+```
+
+Invalid placement fails with a source-positioned, actionable diagnostic:
+
+```text
+controller.go:3:1: annotation @Controller cannot target function "NewController"; allowed target: type
+```
+
+The definition registry is immutable by construction and uses deterministic constant-time name lookup. This model is public so future starters and custom annotation tooling can use the same metadata without a process-global mutable registry.
+
 ## Declaration association
 
-Annotations may target packages, types, functions, methods, variables, and constants. Future compiler phases will validate whether a specific annotation is legal on a target.
+Annotations may be discovered on packages, types, functions, methods, variables, and constants. Each annotation definition determines which of those declaration kinds are legal.
 
 ## Why comments
 

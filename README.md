@@ -18,6 +18,7 @@ The repository currently provides:
 
 - A parser for Spice annotations.
 - A source scanner that associates annotations with Go declarations.
+- Typed built-in annotation definitions and source-positioned target validation.
 - A runnable `spice` CLI with `version`, `annotations`, and `verify` commands.
 - A runnable HTTP example with tests.
 - A deterministic verification script and GitHub Actions workflow.

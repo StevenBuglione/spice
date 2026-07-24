@@ -36,7 +36,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Modulith | Event publication registry | Durable event publication and completion tracking | planned |
 | Modulith | Documentation | Mermaid/PlantUML/JSON module diagrams and canvases | planned |
 | Modulith | Runtime observations | Module-aware spans and interaction metrics | planned |
-| Current bootstrap | Annotation parser and declaration scan | Valid comment syntax and source association | available |
+| Current bootstrap | Annotation parser, declaration scan, and target metadata | Valid comment syntax, source association, typed built-in definitions, and target diagnostics | available |
 
 ## Coverage rules
 
