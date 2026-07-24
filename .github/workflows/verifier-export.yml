@@ -1,0 +1,37 @@
+name: Verifier export exact head
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exporter branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - name: Validate and archive reviewed parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected=3f65ee71ee8b0ea7e8f5a20c34d6466626b0eb60
+          parent="$(git rev-parse HEAD^)"
+          test "$parent" = "$expected"
+          git archive --format=tar.gz --output=spice-exact-head.tar.gz "$expected"
+          printf '%s\n' "$expected" > exact-head-sha.txt
+      - name: Upload exact reviewed tree
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-exact-head-3f65ee
+          path: |
+            spice-exact-head.tar.gz
+            exact-head-sha.txt
+          if-no-files-found: error
+          retention-days: 1
