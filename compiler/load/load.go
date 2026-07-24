@@ -207,6 +207,9 @@ func packageSymbols(root *packages.Package) []Symbol {
 				for _, specification := range declaration.Specs {
 					switch specification := specification.(type) {
 					case *ast.TypeSpec:
+						if specification.Name.Name == "_" {
+							continue
+						}
 						if object := root.TypesInfo.Defs[specification.Name]; object != nil {
 							symbols = append(symbols, objectSymbol(root, object, specification, SymbolType, ""))
 						}
@@ -228,7 +231,7 @@ func packageSymbols(root *packages.Package) []Symbol {
 					}
 				}
 			case *ast.FuncDecl:
-				if declaration.Recv == nil && declaration.Name.Name == "init" {
+				if declaration.Name.Name == "_" || (declaration.Recv == nil && declaration.Name.Name == "init") {
 					continue
 				}
 				object, _ := root.TypesInfo.Defs[declaration.Name].(*types.Func)

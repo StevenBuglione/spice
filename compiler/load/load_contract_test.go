@@ -107,19 +107,31 @@ func TestLoadOmitsNonAddressableDeclarationsAndReturnsUniqueSymbolIDs(t *testing
 
 func init() {}
 
+type _ int
+func _() {}
 var _ = 1
 const _ = 2
 
+type Service struct{}
+func (Service) _() {}
+func (Service) Start() {}
+
 var First int
+const FirstConstant = 3
 `,
 		"catalog/second.go": `package catalog
 
 func init() {}
 
-var _ = 3
-const _ = 4
+type _ string
+func _() {}
+var _ = 4
+const _ = 5
 
-const Second = 5
+func (Service) _() {}
+
+func Build() *Service { return &Service{} }
+const Second = 6
 `,
 	})
 
@@ -132,17 +144,18 @@ const Second = 5
 	assertUniqueSymbolIDs(t, symbols)
 	if got, want := symbolIDs(symbols), []string{
 		"example.com/identity/catalog",
+		"example.com/identity/catalog.Build",
 		"example.com/identity/catalog.First",
+		"example.com/identity/catalog.FirstConstant",
 		"example.com/identity/catalog.Second",
+		"example.com/identity/catalog.Service",
+		"example.com/identity/catalog.Service.Start",
 	}; !reflect.DeepEqual(got, want) {
-		t.Fatalf("symbol IDs = %v, want non-addressable declarations omitted as %v", got, want)
+		t.Fatalf("symbol IDs = %v, want every non-addressable declaration omitted as %v", got, want)
 	}
-	for _, excluded := range []string{
-		"example.com/identity/catalog._",
-		"example.com/identity/catalog.init",
-	} {
-		if symbolByID(symbols, excluded) != nil {
-			t.Fatalf("non-addressable declaration %q entered symbol catalog: %v", excluded, symbolIDs(symbols))
+	for _, symbol := range symbols {
+		if symbol.Name == "_" || symbol.Name == "init" {
+			t.Fatalf("non-addressable %s declaration %q entered symbol catalog: %v", symbol.Kind, symbol.ID, symbolIDs(symbols))
 		}
 	}
 }
