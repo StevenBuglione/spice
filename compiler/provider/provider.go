@@ -253,55 +253,51 @@ func TypeID(value types.Type) string {
 }
 
 func duplicateDiagnostics(providers []Provider) []Diagnostic {
-	buckets := make(map[string][]int)
-	for index, provider := range providers {
-		buckets[provider.OutputTypeID] = append(buckets[provider.OutputTypeID], index)
+	// OutputTypeID is a deterministic display/serialization form, but it is not
+	// semantic identity: valid aliases may render differently from the type they
+	// denote. Build groups from the live go/types universe first, then choose a
+	// deterministic display name independently.
+	var groups [][]int
+	for index := range providers {
+		placed := false
+		for groupIndex := range groups {
+			if types.Identical(providers[index].Output, providers[groups[groupIndex][0]].Output) {
+				groups[groupIndex] = append(groups[groupIndex], index)
+				placed = true
+				break
+			}
+		}
+		if !placed {
+			groups = append(groups, []int{index})
+		}
 	}
-	keys := make([]string, 0, len(buckets))
-	for key := range buckets {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
 
 	var diagnostics []Diagnostic
-	for _, key := range keys {
-		indices := buckets[key]
-		var groups [][]int
-		for _, index := range indices {
-			placed := false
-			for groupIndex := range groups {
-				if types.Identical(providers[index].Output, providers[groups[groupIndex][0]].Output) {
-					groups[groupIndex] = append(groups[groupIndex], index)
-					placed = true
-					break
-				}
-			}
-			if !placed {
-				groups = append(groups, []int{index})
-			}
+	for _, group := range groups {
+		if len(group) < 2 {
+			continue
 		}
-		for _, group := range groups {
-			if len(group) < 2 {
-				continue
+		displayTypeID := providers[group[0]].OutputTypeID
+		conflicts := make([]string, len(group))
+		for i, index := range group {
+			provider := providers[index]
+			if provider.OutputTypeID < displayTypeID {
+				displayTypeID = provider.OutputTypeID
 			}
-			conflicts := make([]string, len(group))
-			for i, index := range group {
-				provider := providers[index]
-				conflicts[i] = fmt.Sprintf("%s at %s", provider.Symbol.DisplayLabel, renderedPosition(provider.Position))
-			}
-			first := providers[group[0]]
-			diagnostics = append(diagnostics, Diagnostic{
-				Position:         first.Position,
-				PhysicalPosition: first.PhysicalPosition,
-				ProviderID:       first.SymbolID,
-				Kind:             "duplicate-output",
-				Message: fmt.Sprintf(
-					"multiple @Bean providers produce exact type %s: %s; qualifiers and implicit interface bindings are not supported",
-					key,
-					strings.Join(conflicts, ", "),
-				),
-			})
+			conflicts[i] = fmt.Sprintf("%s at %s", provider.Symbol.DisplayLabel, renderedPosition(provider.Position))
 		}
+		first := providers[group[0]]
+		diagnostics = append(diagnostics, Diagnostic{
+			Position:         first.Position,
+			PhysicalPosition: first.PhysicalPosition,
+			ProviderID:       first.SymbolID,
+			Kind:             "duplicate-output",
+			Message: fmt.Sprintf(
+				"multiple @Bean providers produce exact type %s: %s; qualifiers and implicit interface bindings are not supported",
+				displayTypeID,
+				strings.Join(conflicts, ", "),
+			),
+		})
 	}
 	return diagnostics
 }
