@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 13,
+  "generation": 14,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "READY_FOR_VERIFICATION",
+    "status": "VERIFYING",
     "issue": 11,
     "pr": 34,
     "branch": "agent/issue-11-typed-annotation-resolution",
@@ -12,7 +12,7 @@
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
-    "next_action": "Independent verifier must acquire review_lock for exact head 5f170aa68a70438e3cc27decd6b06050fee7483b, execute the frozen issue #11 matrix from the permanent workspace artifact, inspect the complete diff and CI, and merge only if the head remains unchanged."
+    "next_action": "Independent verifier is executing the frozen issue #11 contract against exact head 5f170aa68a70438e3cc27decd6b06050fee7483b. Any head change invalidates this review."
   },
   "writer_lock": {
     "active": false,
@@ -23,17 +23,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null,
-    "head": null
+    "active": true,
+    "owner": "verifier",
+    "token": "verifier-20260724T174030Z-a71c9e",
+    "acquired_at": "2026-07-24T17:40:30Z",
+    "heartbeat_at": "2026-07-24T17:40:30Z",
+    "lease_until": "2026-07-24T18:25:30Z",
+    "head": "5f170aa68a70438e3cc27decd6b06050fee7483b"
   },
   "last_transition": {
-    "role": "primary-implementer",
-    "at": "2026-07-24T17:26:06Z",
-    "summary": "Released writer lock implementer-primary-20260724T170718Z-968864 and handed non-draft PR #34 to independent verification at exact head 5f170aa68a70438e3cc27decd6b06050fee7483b after local exact-artifact proof and green CI."
+    "role": "verifier",
+    "at": "2026-07-24T17:40:30Z",
+    "summary": "Atomically acquired review lock verifier-20260724T174030Z-a71c9e and began independent verification of PR #34 at exact head 5f170aa68a70438e3cc27decd6b06050fee7483b."
   }
 }
