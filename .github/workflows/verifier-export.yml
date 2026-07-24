@@ -1,0 +1,32 @@
+name: Verifier Export
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Validate reviewed parent and archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          reviewed_sha="$(git rev-parse HEAD^)"
+          test "$reviewed_sha" = "82bbe4cb1607aedaf4d3ff6bcecc820e6fc5bc07"
+          git archive --format=tar.gz --output=spice-reviewed-head.tar.gz "$reviewed_sha"
+          printf '%s\n' "$reviewed_sha" > reviewed-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spice-reviewed-head-82bbe4
+          path: |
+            spice-reviewed-head.tar.gz
+            reviewed-head.txt
+          if-no-files-found: error
+          retention-days: 1
