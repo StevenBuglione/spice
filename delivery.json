@@ -1,18 +1,18 @@
 {
   "schema_version": 2,
-  "generation": 15,
+  "generation": 16,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFYING",
+    "status": "CHANGES_REQUESTED",
     "issue": 11,
     "pr": 34,
     "branch": "agent/issue-11-typed-annotation-resolution",
     "head": "5f170aa68a70438e3cc27decd6b06050fee7483b",
     "contract_revision": 1,
-    "verification_cycles": 0,
+    "verification_cycles": 1,
     "final_stabilization": false,
-    "next_action": "Independent verifier is executing the frozen issue #11 contract against exact head 5f170aa68a70438e3cc27decd6b06050fee7483b. Any head change invalidates this review."
+    "next_action": "Reuse issue #11, branch agent/issue-11-typed-annotation-resolution and PR #34. Preserve physical source ordering through validation diagnostics, add a committed reversed-//line CLI regression and repeatability proof, rerun the complete frozen command matrix, obtain green exact-head CI, release writer_lock, and publish a new exact-SHA READY_FOR_VERIFICATION handoff."
   },
   "writer_lock": {
     "active": false,
@@ -23,17 +23,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": true,
-    "owner": "verifier",
-    "token": "verifier-20260724T174030Z-a71c9e",
-    "acquired_at": "2026-07-24T17:40:30Z",
-    "heartbeat_at": "2026-07-24T17:43:15Z",
-    "lease_until": "2026-07-24T18:28:15Z",
-    "head": "5f170aa68a70438e3cc27decd6b06050fee7483b"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null,
+    "head": null
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-24T17:43:15Z",
-    "summary": "Heartbeated review lock verifier-20260724T174030Z-a71c9e before the long exact-head verification command matrix for PR #34."
+    "at": "2026-07-24T17:47:30Z",
+    "summary": "Released review lock verifier-20260724T174030Z-a71c9e and requested one bounded correction on PR #34: validation diagnostics must preserve frozen physical source ordering instead of re-sorting by //line display paths. Verification cycle advanced to 1."
   }
 }
