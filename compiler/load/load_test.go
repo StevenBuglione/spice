@@ -156,8 +156,8 @@ const Excluded = true
 func TestLoadDeterministic(t *testing.T) {
 	root := fixture(t, map[string]string{
 		"go.mod": "module example.com/deterministic\n\ngo 1.23.0\n",
-		"b/b.go":  "package b\nvar B int\n",
-		"a/a.go":  "package a\nvar A int\n",
+		"b/b.go": "package b\nvar B int\n",
+		"a/a.go": "package a\nvar A int\n",
 	})
 	var first []byte
 	for iteration := 0; iteration < 3; iteration++ {
