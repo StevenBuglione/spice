@@ -48,5 +48,3 @@ make verify
 23. Publish `READY_FOR_VERIFICATION` only when frozen criteria, docs, examples, local proof and issue-specific runtime proof pass for the exact pushed head, the PR is non-draft, and the writer lock is released.
 24. Update `delivery.json` atomically and mirror issue #32. Do not merely append a state comment.
 25. Never approve or merge your own PR.
-
-For PR #15 / issue #8 specifically: the current contract is in final stabilization. Implement the merged collision-free ID contract, remove temporary workflow material, and do not expand the issue beyond the frozen collision matrix. Novel non-critical findings belong in follow-up issues.
