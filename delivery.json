@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 29,
+  "generation": 30,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 13,
     "pr": 35,
     "branch": "agent/issue-13-provider-catalog",
-    "head": "bd91f9f2cd3c8e72782e9d5cb2eb6107c6ab6d5b",
+    "head": "647e51484a8db2c2ebfa13a79c8a629059113465",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Push the fully passing eight-file provider-catalog implementation to the unchanged canonical PR #35 branch, then wait for exact-head CI and artifact proof."
+    "next_action": "Wait for exact-head CI and permanent workspace artifact for 647e51484a8db2c2ebfa13a79c8a629059113465, then independently rerun the complete frozen matrix against that artifact before handoff."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260724T190538Z-13c7a2",
     "acquired_at": "2026-07-24T19:05:38Z",
-    "heartbeat_at": "2026-07-24T19:15:30Z",
-    "lease_until": "2026-07-24T20:00:30Z"
+    "heartbeat_at": "2026-07-24T19:42:10Z",
+    "lease_until": "2026-07-24T20:27:10Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T19:15:30Z",
-    "summary": "Heartbeated writer lock implementer-primary-20260724T190538Z-13c7a2 before pushing issue #13 after the complete local, offline, race, deterministic and executable fixture matrix passed."
+    "at": "2026-07-24T19:42:10Z",
+    "summary": "Fast-forwarded canonical PR #35 branch to passing implementation commit 647e51484a8db2c2ebfa13a79c8a629059113465 and heartbeated writer lock implementer-primary-20260724T190538Z-13c7a2 while waiting for exact-head CI and artifact proof."
   }
 }
