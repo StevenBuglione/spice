@@ -8,6 +8,8 @@ import (
 	"go/types"
 	"path/filepath"
 	"sort"
+	"strconv"
+	"strings"
 
 	"golang.org/x/tools/go/packages"
 )
@@ -95,10 +97,10 @@ func Load(ctx context.Context, options Options, patterns ...string) (*Program, e
 		if left.Kind != right.Kind {
 			return left.Kind < right.Kind
 		}
-		if left.Position.Filename != right.Position.Filename {
-			return left.Position.Filename < right.Position.Filename
+		if left.PhysicalPosition.Filename != right.PhysicalPosition.Filename {
+			return left.PhysicalPosition.Filename < right.PhysicalPosition.Filename
 		}
-		return left.Position.Offset < right.Position.Offset
+		return left.PhysicalPosition.Offset < right.PhysicalPosition.Offset
 	})
 	sortDiagnostics(program.diagnostics)
 
@@ -158,20 +160,31 @@ func sourceObject(root *packages.Package, object types.Object, sourceFiles map[s
 }
 
 func sourcePosition(root *packages.Package, position token.Pos, sourceFiles map[string]struct{}) bool {
-	if !position.IsValid() {
+	if !position.IsValid() || root.Fset == nil {
 		return false
 	}
-	filename := root.Fset.PositionFor(position, true).Filename
-	_, ok := sourceFiles[filepath.Clean(filename)]
+	physical := filepath.Clean(root.Fset.PositionFor(position, false).Filename)
+	if _, ok := sourceFiles[physical]; ok {
+		return true
+	}
+	display := filepath.Clean(root.Fset.PositionFor(position, true).Filename)
+	_, ok := sourceFiles[display]
 	return ok
 }
 
 func packageRecord(root *packages.Package) Package {
-	files := cleanSortedFiles(root.CompiledGoFiles)
-	sourceFiles := cleanSortedFiles(root.GoFiles)
+	files := sourceFileRecords(root)
+	compiledGoFiles := make([]string, len(files))
+	syntax := make([]*ast.File, len(files))
+	for i, file := range files {
+		compiledGoFiles[i] = file.PhysicalPath
+		syntax[i] = file.Syntax
+	}
 
 	dir := ""
-	if len(sourceFiles) > 0 {
+	if root.Dir != "" {
+		dir = filepath.Clean(root.Dir)
+	} else if sourceFiles := cleanSortedFiles(root.GoFiles); len(sourceFiles) > 0 {
 		dir = filepath.Dir(sourceFiles[0])
 	}
 	modulePath := ""
@@ -185,30 +198,111 @@ func packageRecord(root *packages.Package) Package {
 		Name:            root.Name,
 		Dir:             dir,
 		ModulePath:      modulePath,
-		CompiledGoFiles: files,
+		Files:           files,
+		CompiledGoFiles: compiledGoFiles,
 		IllTyped:        root.IllTyped || len(root.Errors) > 0,
 		Types:           root.Types,
 		TypesInfo:       root.TypesInfo,
-		Syntax:          append([]*ast.File(nil), root.Syntax...),
+		Syntax:          syntax,
 		Raw:             root,
 	}
+}
+
+func sourceFileRecords(root *packages.Package) []SourceFile {
+	syntaxByPath := make(map[string][]*ast.File, len(root.Syntax))
+	for _, file := range root.Syntax {
+		if file == nil || root.Fset == nil {
+			continue
+		}
+		path := filepath.Clean(root.Fset.PositionFor(file.Pos(), false).Filename)
+		syntaxByPath[path] = append(syntaxByPath[path], file)
+	}
+
+	compiled := cleanSortedFiles(root.CompiledGoFiles)
+	result := make([]SourceFile, 0, len(compiled)+len(syntaxByPath))
+	for _, path := range compiled {
+		var syntax *ast.File
+		if queue := syntaxByPath[path]; len(queue) > 0 {
+			syntax = queue[0]
+			if len(queue) == 1 {
+				delete(syntaxByPath, path)
+			} else {
+				syntaxByPath[path] = queue[1:]
+			}
+		}
+		result = append(result, SourceFile{PhysicalPath: path, Syntax: syntax})
+	}
+
+	leftovers := make([]string, 0, len(syntaxByPath))
+	for path := range syntaxByPath {
+		leftovers = append(leftovers, path)
+	}
+	sort.Strings(leftovers)
+	for _, path := range leftovers {
+		for _, syntax := range syntaxByPath[path] {
+			result = append(result, SourceFile{PhysicalPath: path, Syntax: syntax})
+		}
+	}
+	return result
 }
 
 func packageDiagnostics(root *packages.Package) []Diagnostic {
 	diagnostics := make([]Diagnostic, 0, len(root.Errors))
 	for _, packageError := range root.Errors {
-		position := packageError.Pos
-		if position != "" {
-			position = filepath.Clean(position)
-		}
+		position, filename, line, column := normalizeDiagnosticPosition(packageError.Pos)
 		diagnostics = append(diagnostics, Diagnostic{
 			PackagePath: root.PkgPath,
 			Position:    position,
+			Filename:    filename,
+			Line:        line,
+			Column:      column,
 			Kind:        errorKindName(packageError.Kind),
 			Message:     packageError.Msg,
 		})
 	}
 	return diagnostics
+}
+
+func normalizeDiagnosticPosition(raw string) (position, filename string, line, column int) {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return "", "", 0, 0
+	}
+
+	prefix, trailing, ok := splitTrailingNumber(raw)
+	if !ok {
+		filename = filepath.Clean(raw)
+		return filename, filename, 0, 0
+	}
+	prefix2, preceding, hasPreceding := splitTrailingNumber(prefix)
+	if hasPreceding {
+		filename = filepath.Clean(prefix2)
+		line, column = preceding, trailing
+	} else {
+		filename = filepath.Clean(prefix)
+		line = trailing
+	}
+
+	position = filename
+	if line > 0 {
+		position += ":" + strconv.Itoa(line)
+	}
+	if column > 0 {
+		position += ":" + strconv.Itoa(column)
+	}
+	return position, filename, line, column
+}
+
+func splitTrailingNumber(value string) (string, int, bool) {
+	separator := strings.LastIndexByte(value, ':')
+	if separator < 0 || separator == len(value)-1 {
+		return value, 0, false
+	}
+	number, err := strconv.Atoi(value[separator+1:])
+	if err != nil {
+		return value, 0, false
+	}
+	return value[:separator], number, true
 }
 
 func errorKindName(kind packages.ErrorKind) string {
@@ -233,12 +327,13 @@ func packageSymbols(root *packages.Package) []Symbol {
 	symbols := make([]Symbol, 0)
 	if name := sourcePackageName(root, sourceFiles); name != nil {
 		symbols = append(symbols, Symbol{
-			ID:          root.PkgPath,
-			Kind:        SymbolPackage,
-			Name:        root.Name,
-			PackagePath: root.PkgPath,
-			Position:    root.Fset.PositionFor(name.Pos(), true),
-			Node:        name,
+			ID:               root.PkgPath,
+			Kind:             SymbolPackage,
+			Name:             root.Name,
+			PackagePath:      root.PkgPath,
+			Position:         root.Fset.PositionFor(name.Pos(), true),
+			PhysicalPosition: root.Fset.PositionFor(name.Pos(), false),
+			Node:             name,
 		})
 	}
 
@@ -310,14 +405,15 @@ func objectSymbol(root *packages.Package, object types.Object, node ast.Node, ki
 		id = root.PkgPath + "." + receiver + "." + object.Name()
 	}
 	return Symbol{
-		ID:          id,
-		Kind:        kind,
-		Name:        object.Name(),
-		PackagePath: root.PkgPath,
-		Receiver:    receiver,
-		Position:    root.Fset.PositionFor(object.Pos(), true),
-		Object:      object,
-		Node:        node,
+		ID:               id,
+		Kind:             kind,
+		Name:             object.Name(),
+		PackagePath:      root.PkgPath,
+		Receiver:         receiver,
+		Position:         root.Fset.PositionFor(object.Pos(), true),
+		PhysicalPosition: root.Fset.PositionFor(object.Pos(), false),
+		Object:           object,
+		Node:             node,
 	}
 }
 
