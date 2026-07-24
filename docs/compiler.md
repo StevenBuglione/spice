@@ -6,7 +6,7 @@
 
 The loader deliberately accepts standard Go package patterns such as `./...` rather than translating them into a filesystem walk. It also passes through caller-provided working directories, environments, build flags, overlays, and cancellation.
 
-Package directories come from the selected source files reported by `go/packages.Package.GoFiles`. The deterministically sorted `CompiledGoFiles` list remains available separately because cgo can replace a source file with generated build-cache inputs during type checking. This keeps module ownership and future architecture checks anchored to the developer's source tree without hiding the actual compiled-file set.
+Package directories come from `go/packages.Package.Dir`, with selected source files as a deterministic fallback for drivers that omit it. Each package exposes a deterministic `Files` view that pairs a physical compiled-file path with its AST. The compatibility `CompiledGoFiles` and `Syntax` slices are derived from that same view and remain index-aligned; they are never sorted independently. Cgo-transformed build-cache inputs remain visible without redefining source package ownership.
 
 Normal application compilation keeps `Tests` disabled. Requests with `Options.Tests` set to true fail immediately with a deterministic configuration diagnostic. Test-package and generated test-binary variants remain unsupported until Spice defines separate identities for production packages, in-package test variants, external test packages, and generated test binaries. This prevents duplicate stable package and symbol IDs from entering later compiler phases.
 
@@ -30,13 +30,13 @@ Pointer receivers normalize to the defining named type. Generic receiver declara
 
 The catalog omits package-level `init` functions and every blank-identifier declaration (`_`), including types, package functions, methods, variables, and constants. Go permits multiple declarations with those names, and later Spice phases cannot address them by logical name. Excluding them preserves the one-to-one stable-ID contract without introducing filesystem- or source-order-based suffixes.
 
-Logical symbols and the package symbol must resolve to source files selected in `GoFiles`, including caller overlays and ordinary committed generated `.go` files. cgo's cache-backed helper files remain part of the live type universe and compiled-file metadata, but their `_C*`, `_cgo*`, and hash-bearing declarations are not source-addressable Spice symbols. User declarations from an `import "C"` file retain their original source positions through cgo line directives.
+Every symbol retains two positions from the same token file set: `PhysicalPosition` uses the unadjusted loaded Go file, while `Position` is the developer-facing `//line`-adjusted location. Source ownership accepts a declaration when either its physical loaded file or its adjusted origin belongs to a selected `GoFiles` source. This preserves ordinary source-mapped generated Go and user declarations from an `import "C"` file while excluding cgo cache helpers whose physical and adjusted provenance are both generated. Adjusted paths are display metadata only and never filesystem authority.
 
 ## Diagnostics
 
-The library does not print, exit, or mutate module files. Package-list, parse, and type errors are collected into deterministic diagnostics and returned through `LoadError`. An ill-typed root package remains visible in the result for diagnostics, but it is marked unsafe for semantic generation.
+The library does not print, exit, or mutate module files. Package-list, parse, and type errors are collected into deterministic diagnostics and returned through `LoadError`. Rendered Go positions remain available in `Diagnostic.Position`, while filename, line, and column are retained as structured fields so line 2 sorts before line 10. An ill-typed root package remains visible in the result for diagnostics, but it is marked unsafe for semantic generation.
 
-CLI layers decide how diagnostics are rendered.
+CLI layers decide how diagnostics are rendered. The caller context is forwarded to `go/packages` and external `GOPACKAGESDRIVER` processes; cancelling an already-running load terminates the driver and returns `context.Canceled`.
 
 ## Dependency and offline policy
 
