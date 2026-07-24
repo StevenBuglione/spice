@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 17,
+  "generation": 18,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -19,8 +19,8 @@
     "owner": "primary-implementer",
     "token": "implementer-primary-20260724T180602Z-c81f4d",
     "acquired_at": "2026-07-24T18:06:02Z",
-    "heartbeat_at": "2026-07-24T18:06:02Z",
-    "lease_until": "2026-07-24T18:51:02Z"
+    "heartbeat_at": "2026-07-24T18:09:20Z",
+    "lease_until": "2026-07-24T18:54:20Z"
   },
   "review_lock": {
     "active": false,
@@ -33,7 +33,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T18:06:02Z",
-    "summary": "Acquired writer lock implementer-primary-20260724T180602Z-c81f4d to implement the single verifier-requested physical diagnostic ordering correction on PR #34."
+    "at": "2026-07-24T18:09:20Z",
+    "summary": "Heartbeated writer lock before running the complete frozen issue #11 verification matrix."
   }
 }
