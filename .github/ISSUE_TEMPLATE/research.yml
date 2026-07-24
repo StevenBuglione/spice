@@ -1,0 +1,25 @@
+name: Research
+about: Evidence needed before an implementation decision
+labels: [question]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Decision question
+      description: State the concrete decision this research must enable.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence required
+      description: Name primary sources, prototypes, benchmarks, or developer feedback needed.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Expected repository output
+      description: Specify the research note, RFC, ADR, issue, or prototype required.
+    validations:
+      required: true
