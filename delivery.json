@@ -1,26 +1,26 @@
 {
   "schema_version": 2,
-  "generation": 8,
+  "generation": 9,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "MERGED",
-    "issue": 8,
-    "pr": 15,
-    "branch": "agent/issue-8-type-aware-loading",
-    "head": "9181fa6270e0e7156f92a770749e5f9361d641b5",
-    "contract_revision": 2,
-    "verification_cycles": 6,
-    "final_stabilization": true,
-    "next_action": "Issue #8 closure and the exact squash commit on main are confirmed. No open pull request or active lock remains. The next primary implementer may claim issue #11 after checking for any visible default-branch CI failure; the current connector does not expose push-triggered workflow runs."
+    "status": "IMPLEMENTING",
+    "issue": 11,
+    "pr": null,
+    "branch": "agent/issue-11-typed-annotation-resolution",
+    "head": "1bff88c92044b17abd249ef8b2d1fb65bf19390a",
+    "contract_revision": 1,
+    "verification_cycles": 0,
+    "final_stabilization": false,
+    "next_action": "Freeze issue #11's bounded typed-annotation resolution contract, create the canonical branch and draft PR, implement the load-resolve-validate CLI migration, run the frozen verification matrix, and publish an exact-SHA handoff."
   },
   "writer_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null
+    "active": true,
+    "owner": "primary-implementer",
+    "token": "implementer-primary-20260724T170718Z-968864",
+    "acquired_at": "2026-07-24T17:07:18Z",
+    "heartbeat_at": "2026-07-24T17:07:18Z",
+    "lease_until": "2026-07-24T17:52:18Z"
   },
   "review_lock": {
     "active": false,
@@ -32,8 +32,8 @@
     "head": null
   },
   "last_transition": {
-    "role": "watchdog",
-    "at": "2026-07-24T16:59:01Z",
-    "summary": "Confirmed PR #15 merged, issue #8 closed, main at squash commit 1bff88c92044b17abd249ef8b2d1fb65bf19390a, no open PRs, and both locks released; cleared the completed-lane next action for issue #11 selection."
+    "role": "primary-implementer",
+    "at": "2026-07-24T17:07:18Z",
+    "summary": "Acquired the atomic writer lock for issue #11, selected the canonical branch, and began contract freeze before implementation."
   }
 }
