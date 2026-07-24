@@ -109,9 +109,7 @@ func maskForTarget(target Target) TargetSet {
 	}
 }
 
-// ArgumentDefinition describes one supported annotation argument. Argument
-// validation is a later compiler phase; this model exists now so built-in and
-// third-party definitions share one stable public representation.
+// ArgumentDefinition describes one supported annotation argument.
 type ArgumentDefinition struct {
 	Name       string
 	Kinds      []Kind
@@ -128,8 +126,6 @@ type Definition struct {
 }
 
 // Registry is an immutable-by-construction annotation definition lookup.
-// NewRegistry defensively copies all slice-backed data, and lookup methods
-// return copies so callers cannot mutate registry state.
 type Registry struct {
 	definitions map[string]Definition
 	names       []string
@@ -157,8 +153,7 @@ func NewRegistry(definitions ...Definition) (Registry, error) {
 	return registry, nil
 }
 
-// MustRegistry creates a registry or panics. It is intended for package-owned,
-// compile-time definition sets such as Spice's built-ins.
+// MustRegistry creates a registry or panics.
 func MustRegistry(definitions ...Definition) Registry {
 	registry, err := NewRegistry(definitions...)
 	if err != nil {
@@ -201,9 +196,13 @@ func validateDefinition(definition Definition) error {
 	}
 
 	seenArguments := make(map[string]struct{}, len(definition.Arguments))
+	positionalArguments := 0
 	for _, argument := range definition.Arguments {
 		if strings.TrimSpace(argument.Name) == "" {
 			return fmt.Errorf("annotation definition %q contains an argument without a name", definition.Name)
+		}
+		if strings.TrimSpace(argument.Name) != argument.Name {
+			return fmt.Errorf("annotation definition %q argument %q must not contain surrounding whitespace", definition.Name, argument.Name)
 		}
 		if _, exists := seenArguments[argument.Name]; exists {
 			return fmt.Errorf("annotation definition %q contains duplicate argument %q", definition.Name, argument.Name)
@@ -212,6 +211,12 @@ func validateDefinition(definition Definition) error {
 		if len(argument.Kinds) == 0 {
 			return fmt.Errorf("annotation definition %q argument %q requires at least one value kind", definition.Name, argument.Name)
 		}
+		if argument.Positional {
+			positionalArguments++
+		}
+	}
+	if positionalArguments > 1 {
+		return fmt.Errorf("annotation definition %q contains multiple positional arguments; only one is supported", definition.Name)
 	}
 	return nil
 }

@@ -15,12 +15,13 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		targets      []annotation.Target
 		argumentName string
 		required     bool
+		positional   bool
 	}{
 		{name: "Application", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Configuration", targets: []annotation.Target{annotation.TargetType}},
 		{name: "Controller", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix"},
-		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true},
-		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true},
+		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true, positional: true},
+		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true, positional: true},
 		{name: "Service", targets: []annotation.Target{annotation.TargetType}},
 	}
 
@@ -54,7 +55,7 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 				t.Fatalf("%s argument count = %d, want 1", test.name, len(definition.Arguments))
 			}
 			argument := definition.Arguments[0]
-			if argument.Name != test.argumentName || argument.Required != test.required {
+			if argument.Name != test.argumentName || argument.Required != test.required || argument.Positional != test.positional {
 				t.Fatalf("%s argument = %#v", test.name, argument)
 			}
 			if !reflect.DeepEqual(argument.Kinds, []annotation.Kind{annotation.KindString}) {

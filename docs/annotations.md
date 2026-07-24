@@ -13,83 +13,62 @@ The parser also accepts `//@Controller`, but `gofmt` inserts a space after `//`,
 
 ## Names
 
-Built-in annotation names are unqualified:
-
-```go
-// @Service
-// @Configuration
-```
-
-The parser accepts qualified names for future starter and third-party definitions:
-
-```go
-// @security.Authorize(roles=["admin"])
-```
-
-During the current bootstrap, `spice verify` fails closed on unknown annotations. A qualified annotation is syntactically valid, but it must have a registered typed definition before verification succeeds. User-defined definition loading is planned; unknown annotations are not silently accepted because doing so would hide spelling mistakes and missing starters.
+Built-in names are unqualified. Qualified names are reserved for future starters and third-party definitions. During bootstrap, `spice verify` fails closed on unknown annotations.
 
 ## Arguments
 
-Spice supports positional and named arguments:
+Definitions decide whether arguments are named, positional, required, and which parsed value kinds they accept. Spice does not silently coerce values.
+
+Controller prefixes are optional and named-only:
 
 ```go
-// @Profile("production")
 // @Controller(prefix="/users")
+type UserController struct{}
+
+// @Controller
+type RootController struct{}
 ```
 
-Supported bootstrap values:
+Route paths are required strings and support either named or concise positional syntax:
 
-- Strings: `"users"`
-- Integers: `3`
-- Booleans: `true`
-- Identifiers: `exponential`
-- Lists: `["admin", "operator"]`
+```go
+// @Get(path="/{id}")
+func (UserController) GetUser() {}
 
-Named arguments must follow positional arguments, and duplicate named arguments are rejected.
+// @Get("/{id}")
+func (UserController) GetUserCompact() {}
 
-Typed annotation definitions include argument names, accepted value kinds, required status, and positional support. Argument schema enforcement is a later compiler phase; the current verifier enforces annotation existence and declaration targets.
+// @Post("/")
+func (UserController) CreateUser() {}
+```
+
+Marker annotations such as `@Application`, `@Configuration`, and `@Service` accept no arguments.
+
+The bootstrap parser supports strings, integers, booleans, identifiers, and lists. The current validator checks the outer parsed kind only; it does not yet implement defaults, aliases, composed annotations, nested annotations, enum-like identifiers, or list element schemas.
+
+## Argument diagnostics
+
+Invalid invocations fail before generation with deterministic source-positioned diagnostics:
+
+```text
+controller.go:3:1: annotation @Controller does not define argument "prefx"; available argument: prefix
+controller.go:8:1: annotation @Get requires argument "path"
+controller.go:13:1: annotation @Get argument "path" requires string, got integer
+controller.go:18:1: annotation @Get assigns argument "path" more than once
+service.go:3:1: annotation @Service does not accept arguments
+```
+
+A positional value is accepted only when exactly one definition argument is explicitly positional. Spice rejects multiple positional values and rejects positional syntax for named-only definitions.
 
 ## Built-in definitions and targets
-
-Spice ships the following initial definitions:
 
 | Annotation | Allowed target | Defined arguments |
 |---|---|---|
 | `@Application` | Function | None |
 | `@Configuration` | Type | None |
-| `@Controller` | Type | `prefix` string, optional |
-| `@Get` | Method | `path` string, required |
-| `@Post` | Method | `path` string, required |
+| `@Controller` | Type | `prefix` string, optional, named-only |
+| `@Get` | Method | `path` string, required, named or positional |
+| `@Post` | Method | `path` string, required, named or positional |
 | `@Service` | Type | None |
 
-Examples:
-
-```go
-// @Application
-func main() {}
-
-// @Controller(prefix="/users")
-type UserController struct{}
-
-// @Get(path="/{id}")
-func (UserController) GetUser() {}
-
-// @Service
-type UserService struct{}
-```
-
-Invalid placement fails with a source-positioned, actionable diagnostic:
-
-```text
-controller.go:3:1: annotation @Controller cannot target function "NewController"; allowed target: type
-```
-
-The definition registry is immutable by construction and uses deterministic constant-time name lookup. This model is public so future starters and custom annotation tooling can use the same metadata without a process-global mutable registry.
-
-## Declaration association
-
-Annotations may be discovered on packages, types, functions, methods, variables, and constants. Each annotation definition determines which of those declaration kinds are legal.
-
-## Why comments
-
-Raw `@Controller` is not valid Go syntax. Declaration comments preserve standard Go parsing, formatting, tests, debugging, and static tooling while allowing Spice to provide compiler-adjacent diagnostics and generation.
+Annotations may be discovered on packages, types, functions, methods, variables, and constants. Each annotation definition determines which declaration kinds and invocation forms are legal.
