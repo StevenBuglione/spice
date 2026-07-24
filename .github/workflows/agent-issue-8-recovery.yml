@@ -1,0 +1,176 @@
+name: Issue 8 Recovery Patch
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    if: github.event.pull_request.head.ref == 'agent/issue-8-type-aware-loading'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out implementation branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/issue-8-type-aware-loading
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+          cache: false
+
+      - name: Apply verifier-requested recovery
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          load_path = Path('compiler/load/load.go')
+          load_text = load_path.read_text()
+          old_field = '\tTests      bool\n'
+          old_config = '\t\tTests:      options.Tests,\n'
+          if old_field not in load_text or old_config not in load_text:
+              raise SystemExit('expected test-loading API was not found')
+          load_text = load_text.replace(old_field, '', 1)
+          load_text = load_text.replace(old_config, '\t\tTests:      false,\n', 1)
+          load_path.write_text(load_text)
+
+          test_path = Path('compiler/load/load_test.go')
+          test_text = test_path.read_text()
+          test_text = test_text.replace(
+              'Load(context.Background(), Options{Dir: dir}, "./tagged")',
+              'Load(context.Background(), Options{Dir: dir}, "./...")',
+              1,
+          )
+          test_text = test_text.replace(
+              'Load(context.Background(), Options{Dir: dir, BuildFlags: []string{"-tags=spice_excluded"}}, "./tagged")',
+              'Load(context.Background(), Options{Dir: dir, BuildFlags: []string{"-tags=spice_excluded"}}, "./...")',
+              1,
+          )
+
+          insertion_anchor = 'func TestLoadBuildConstraints(t *testing.T) {'
+          if insertion_anchor not in test_text:
+              raise SystemExit('build-constraint test anchor was not found')
+          regression = r'''func TestOptionsDoNotExposeTestVariantLoading(t *testing.T) {
+	if _, exists := reflect.TypeOf(Options{}).FieldByName("Tests"); exists {
+		t.Fatal("Options exposes unsupported test-variant loading")
+	}
+
+	dir := writeModule(t, map[string]string{
+		"go.mod": "module example.com/testvariants\n\ngo 1.23.0\n",
+		"app/app.go": `package app
+
+var Production int
+`,
+		"app/app_test.go": `package app
+
+var TestOnly int
+`,
+		"app/external_test.go": `package app_test
+
+var ExternalTestOnly int
+`,
+	})
+
+	program, err := Load(context.Background(), Options{Dir: dir}, "./...")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+
+	packageIDs := make(map[string]struct{})
+	for _, pkg := range program.Packages() {
+		if _, duplicate := packageIDs[pkg.ID]; duplicate {
+			t.Fatalf("duplicate stable package ID %q in %#v", pkg.ID, program.Packages())
+		}
+		packageIDs[pkg.ID] = struct{}{}
+		if strings.HasSuffix(pkg.Path, "_test") || strings.HasSuffix(pkg.Path, ".test") {
+			t.Fatalf("application load returned test package %q", pkg.Path)
+		}
+	}
+
+	symbolIDsSeen := make(map[string]struct{})
+	for _, symbol := range program.Symbols() {
+		if _, duplicate := symbolIDsSeen[symbol.ID]; duplicate {
+			t.Fatalf("duplicate stable symbol ID %q in %v", symbol.ID, symbolIDs(program.Symbols()))
+		}
+		symbolIDsSeen[symbol.ID] = struct{}{}
+	}
+	if symbolByID(program.Symbols(), "example.com/testvariants/app.Production") == nil {
+		t.Fatal("application load omitted production declaration")
+	}
+	if symbolByID(program.Symbols(), "example.com/testvariants/app.TestOnly") != nil ||
+		symbolByID(program.Symbols(), "example.com/testvariants/app_test.ExternalTestOnly") != nil {
+		t.Fatalf("application load returned test declarations: %v", symbolIDs(program.Symbols()))
+	}
+}
+
+'''
+          test_text = test_text.replace(insertion_anchor, regression + insertion_anchor, 1)
+
+          old_deterministic_fixture = '''\t\t"go.mod": "module example.com/deterministic\\n\\ngo 1.23.0\\n",\n\t\t"z/z.go": "package z\\n\\nvar Z int\\n",\n\t\t"a/a.go": "package a\\n\\nconst A = 1\\n",\n'''
+          new_deterministic_fixture = '''\t\t"go.mod": "module example.com/deterministic\\n\\ngo 1.23.0\\n",\n\t\t"z/z.go": "package z\\n\\nvar Z int\\n",\n\t\t"a/a.go": "package a\\n\\nconst A = 1\\n",\n\t\t"broken/broken.go": "package broken\\n\\nvar Value string = 1\\n",\n'''
+          if old_deterministic_fixture not in test_text:
+              raise SystemExit('deterministic fixture anchor was not found')
+          test_text = test_text.replace(old_deterministic_fixture, new_deterministic_fixture, 1)
+
+          old_deterministic_load = '''\t\tprogram, err := Load(context.Background(), Options{Dir: dir}, "./z", "./a")\n\t\tif err != nil {\n\t\t\tt.Fatalf("Load() iteration %d error = %v", iteration, err)\n\t\t}\n\t\tsummary := deterministicSummary(program)\n'''
+          new_deterministic_load = '''\t\tprogram, err := Load(context.Background(), Options{Dir: dir}, "./z", "./a", "./broken")\n\t\tif err == nil {\n\t\t\tt.Fatalf("Load() iteration %d error = nil, want deterministic type error", iteration)\n\t\t}\n\t\tif len(program.Diagnostics()) == 0 {\n\t\t\tt.Fatalf("Load() iteration %d returned no diagnostics", iteration)\n\t\t}\n\t\tsummary := deterministicSummary(program)\n'''
+          if old_deterministic_load not in test_text:
+              raise SystemExit('deterministic load anchor was not found')
+          test_text = test_text.replace(old_deterministic_load, new_deterministic_load, 1)
+          test_path.write_text(test_text)
+
+          docs_path = Path('docs/compiler.md')
+          docs_text = docs_path.read_text()
+          docs_text = docs_text.replace(
+              'It also passes through caller-provided working directories, environments, build flags, overlays, cancellation, and the decision to include test variants.\n\nNormal application compilation keeps `Tests` disabled. This avoids duplicate in-package test variants, external test packages, and generated test binaries in the application model.',
+              'It also passes through caller-provided working directories, environments, build flags, overlays, and cancellation.\n\nThe loader always uses `Tests: false`. Test-package and generated test-binary variants are intentionally unsupported until Spice defines separate identities for production packages, in-package test variants, external test packages, and generated test binaries. This prevents duplicate stable package and symbol IDs from entering later compiler phases.',
+              1,
+          )
+          docs_path.write_text(docs_text)
+          PY
+
+          gofmt -w compiler/load/load.go compiler/load/load_test.go
+
+      - name: Execute complete verification
+        shell: bash
+        run: |
+          make verify
+          go test ./compiler/load -run '^TestLoadMultiPackageProgram$' -v
+          go test ./compiler/load -run '^TestLoadBuildConstraints$' -v
+          go test ./compiler/load -run '^TestLoadTypeErrors$' -v
+          GOPROXY=off go test -mod=vendor ./...
+          go test ./compiler/load -run '^TestLoadDeterministic$' -count=10
+          GOPROXY=off go test -mod=vendor -race ./...
+
+      - name: Commit recovered implementation
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          rm .github/workflows/agent-issue-8-recovery.yml
+          git config user.name 'Spice Primary Implementer'
+          git config user.email 'actions@users.noreply.github.com'
+          git add compiler/load/load.go compiler/load/load_test.go docs/compiler.md .github/workflows/agent-issue-8-recovery.yml
+          git commit -m 'compiler: constrain loading to application packages'
+          git fetch origin agent/issue-8-type-aware-loading
+          test "$(git rev-parse origin/agent/issue-8-type-aware-loading)" = "$EXPECTED_HEAD"
+          git push origin HEAD:agent/issue-8-type-aware-loading
+
+      - name: Package exact recovered workspace
+        shell: bash
+        run: |
+          tar --exclude=.git -czf /tmp/spice-issue-8-workspace.tar.gz .
+
+      - name: Upload exact recovered workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-issue-8-workspace
+          path: /tmp/spice-issue-8-workspace.tar.gz
+          retention-days: 2
+          if-no-files-found: error
