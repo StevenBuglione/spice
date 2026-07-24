@@ -1,19 +1,19 @@
 {
   "schema_version": 2,
-  "generation": 32,
+  "generation": 33,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFYING",
+    "status": "CHANGES_REQUESTED",
     "issue": 13,
     "pr": 35,
     "branch": "agent/issue-13-provider-catalog",
     "head": "647e51484a8db2c2ebfa13a79c8a629059113465",
     "contract_revision": 1,
-    "verification_cycles": 0,
+    "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Verifier is independently reviewing exact immutable PR #35 head 647e51484a8db2c2ebfa13a79c8a629059113465 against CONTRACT_FROZEN revision 1 using permanent artifact 8607550845, exact-head CI, complete diff inspection, and the full required executable matrix."
+    "next_action": "Reuse issue #13, branch agent/issue-13-provider-catalog and PR #35. Fix exact-output duplicate detection so every pair of types.Identical outputs conflicts even when canonical display TypeIDs differ through Go aliases; add provider and executable CLI regressions, rerun the complete frozen matrix and exact-head CI, then publish a new READY_FOR_VERIFICATION handoff."
   },
   "writer_lock": {
     "active": false,
@@ -24,17 +24,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": true,
-    "owner": "verifier",
-    "token": "verifier-20260724T204006Z-9b7e4c",
-    "acquired_at": "2026-07-24T20:40:06Z",
-    "heartbeat_at": "2026-07-24T20:40:06Z",
-    "lease_until": "2026-07-24T21:25:06Z",
-    "head": "647e51484a8db2c2ebfa13a79c8a629059113465"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null,
+    "head": null
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-24T20:40:06Z",
-    "summary": "Atomically acquired review lock verifier-20260724T204006Z-9b7e4c for exact READY_FOR_VERIFICATION PR #35 head 647e51484a8db2c2ebfa13a79c8a629059113465."
+    "at": "2026-07-24T20:46:08Z",
+    "summary": "Released review lock verifier-20260724T204006Z-9b7e4c and requested one bounded correction after exact-identical alias/original provider outputs escaped duplicate rejection on unchanged PR #35 head 647e51484a8db2c2ebfa13a79c8a629059113465."
   }
 }
