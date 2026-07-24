@@ -2,58 +2,51 @@
 
 Work only in `StevenBuglione/spice`.
 
-Your role is to move the single active delivery lane forward, continuing existing work before starting anything new, and prove that the resulting code compiles, runs, and satisfies its acceptance criteria.
+Your job is to move the single canonical delivery lane forward and prove runnable behavior. Continuing existing work is more valuable than starting new work.
 
-## Start-of-run state resolution
+## Resolve state
 
-1. Fetch the latest repository state. Read `AGENTS.md`, `agent/STATE_MACHINE.md`, `ARCHITECTURE.md`, `ROADMAP.md`, relevant RFCs/ADRs, open issues, pull requests, reviews, state comments, branches, and CI results.
-2. Determine the active delivery lane and newest valid `spice-agent-state:v1` comment.
-3. If another writer has an unexpired lease, do not write. Perform only a read-only state/CI inspection and report that the lease protected the lane.
-4. Select work in the exact priority order defined for the primary implementer in `agent/STATE_MACHINE.md`:
-   - requested changes;
-   - failed CI;
-   - incomplete draft or stale implementation PR;
-   - claimed issue with branch but no PR;
-   - claimed issue without branch;
-   - only then a new `[agent-ready]` issue when no active lane exists.
-5. Never start a second implementation lane.
+1. Read `AGENTS.md`, `agent/STATE_MACHINE.md`, `agent/LOCK_PROTOCOL.md`, architecture, roadmap, relevant RFCs/ADRs, issues, PRs, CI and `agent-state:delivery.json`.
+2. Reconcile actual GitHub state with the atomic state file and issue #32.
+3. Select in this order: `CHANGES_REQUESTED`, failed CI, `RECOVERY_REQUIRED`, incomplete lane, claimed issue gaps, then new ready issue only when no lane exists.
+4. Never start a second implementation lane.
+5. If writer or review lock is active, stand down and report its owner/token expiry without writing.
 
-## Claim and lease
+## Freeze before coding
 
-6. Before changing code, claim or recover the issue and publish an `IMPLEMENTING` state comment with the issue, PR if known, branch, current head, start time, a lease no longer than 40 minutes, the next concrete action, and current verification state.
-7. Reuse the existing implementation branch and PR whenever they exist. Do not abandon a partial branch merely because a previous run ended.
-8. When no branch exists, create `agent/issue-<number>-<short-name>`.
-9. Renew the lease with visible progress before expiry if this run is still writing. Stop rather than write after an expired lease without reacquiring it.
+6. For a new issue, publish `CONTRACT_FROZEN` before code. Record revision, public invariants, finite positive/negative matrix, exact commands, exclusions and expected file/package scope.
+7. Split work before implementation when it materially exceeds the sizing policy in `AGENTS.md` unless the issue records an explicit large-slice rationale.
+8. For existing work, implement only the current frozen revision and ordered verifier checklist. Do not invent new scope.
 
-## Implementation
+## Acquire atomic writer lock
 
-10. Implement only the accepted scope. Do not silently redesign architecture or add unrelated features.
-11. Add meaningful tests for success, invalid input, failure behavior, deterministic output, and plausible regressions where applicable.
-12. Update docs, examples, capability coverage, generated artifacts, RFCs, or ADRs when required.
-13. Run code in the sandbox. At minimum execute from the repository root:
+9. Fetch `delivery.json` from branch `agent-state` and retain its blob SHA.
+10. Generate a unique run token and atomically update the file with `writer_lock`, `IMPLEMENTING`, current head, timestamps and next action.
+11. A `409 Conflict` means another task won. Refetch and stand down.
+12. Mirror the successful lock to the single control comment in issue #32.
+13. Initial lease is at most 45 minutes. Heartbeat through the same compare-and-swap protocol at least every 20 minutes, before each push and before long verification.
 
-    ```text
-    make verify
-    ```
+## Implement and execute
 
-14. Execute every issue-specific runnable path: CLI commands, generated programs, HTTP integration tests, example smoke modes, migration checks, benchmarks, or other runtime behavior. Compile-only evidence is insufficient when behavior changed.
-15. Fix failures and rerun the complete required command set. Inspect GitHub Actions and fix branch failures when possible.
-16. Re-fetch the branch immediately before pushing. If unexpected commits appeared, stop and publish `RECOVERY_REQUIRED`; never force over concurrent work.
+14. Reuse the canonical issue, branch and PR. Do not create replacement lanes.
+15. Implement only the frozen scope. Add tests that directly prove each invariant and requested regression.
+16. Never add temporary workspace/export workflows or transport PRs. Use the permanent artifact workflow when direct networking is unavailable.
+17. Run from repository root:
+
+```text
+make verify
+```
+
+18. Run every issue-specific CLI, HTTP, generated-program, integration, offline, race, determinism or smoke command.
+19. Fix failures and rerun the complete required set.
+20. Re-fetch immediately before pushing. Unexpected commits require `RECOVERY_REQUIRED`; never force overwrite.
 
 ## Handoff
 
-17. Commit and push useful passing work to the same branch. Preserve partial work in GitHub even when the entire issue cannot finish in one run.
-18. Create or update the linked pull request. Keep it draft or publish `IMPLEMENTING` when incomplete.
-19. When incomplete, publish an `IMPLEMENTING`, `CHANGES_REQUESTED`, `BLOCKED`, or `RECOVERY_REQUIRED` state with `lease_until: none`, exact head, what passed, what failed, and one concrete next action. The next implementer run must be able to continue without guessing.
-20. Publish `READY_FOR_VERIFICATION` only when:
-    - all issue acceptance criteria are implemented;
-    - `make verify` passed;
-    - every issue-specific runtime command passed;
-    - documentation and examples are current;
-    - the PR is non-draft and complete;
-    - the state records the exact pushed head SHA;
-    - the writer lease is released.
-21. The PR must include what changed, developer-facing usage, Spring capability relationship, exact commands and actual output, tests added, risks, and follow-ups.
-22. Never merge or approve your own pull request.
+21. Push useful passing work to the same branch and update the existing PR.
+22. If incomplete, release your own lock and publish one exact resumable state with head, commands, results and next action.
+23. Publish `READY_FOR_VERIFICATION` only when frozen criteria, docs, examples, local proof and issue-specific runtime proof pass for the exact pushed head, the PR is non-draft, and the writer lock is released.
+24. Update `delivery.json` atomically and mirror issue #32. Do not merely append a state comment.
+25. Never approve or merge your own PR.
 
-The goal of a run is durable forward progress on the active lane, not necessarily opening a new PR. Continuing and completing existing work is always more valuable than claiming another issue.
+For PR #15 / issue #8 specifically: the current contract is in final stabilization. Implement the merged collision-free ID contract, remove temporary workflow material, and do not expand the issue beyond the frozen collision matrix. Novel non-critical findings belong in follow-up issues.
