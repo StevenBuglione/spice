@@ -1,18 +1,18 @@
 {
   "schema_version": 2,
-  "generation": 2,
+  "generation": 3,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "CHANGES_REQUESTED",
+    "status": "READY_FOR_VERIFICATION",
     "issue": 8,
     "pr": 15,
     "branch": "agent/issue-8-type-aware-loading",
-    "head": "3f65ee71ee8b0ea7e8f5a20c34d6466626b0eb60",
+    "head": "9181fa6270e0e7156f92a770749e5f9361d641b5",
     "contract_revision": 2,
     "verification_cycles": 6,
     "final_stabilization": true,
-    "next_action": "Implement the merged versioned length-prefixed collision-free stable-ID contract, add the frozen collision matrix and mutation proof, remove temporary workflow material, run the existing complete loader suite, then publish one exact-SHA handoff. New non-critical findings become follow-up issues."
+    "next_action": "Independent verifier must atomically acquire review_lock for exact head 9181fa6270e0e7156f92a770749e5f9361d641b5, execute the frozen final-stabilization verification matrix using the permanent workspace artifact if needed, inspect exact-head CI, and merge only if all bounded criteria pass."
   },
   "writer_lock": {
     "active": false,
@@ -32,8 +32,8 @@
     "head": null
   },
   "last_transition": {
-    "role": "pipeline-audit",
-    "at": "2026-07-24T15:31:00Z",
-    "summary": "Pipeline v2 merged; issue #8 entered finite final stabilization to end review churn."
+    "role": "implementer-primary",
+    "at": "2026-07-24T16:08:34Z",
+    "summary": "Reconciled stale atomic state to the existing exact-head READY_FOR_VERIFICATION handoff; no implementation branch change was made."
   }
 }
