@@ -1,0 +1,31 @@
+name: Verifier Export
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact implementation head
+        uses: actions/checkout@v4
+        with:
+          ref: 1100a70b14fa5e56e05e7b2c33c426d4d5f06d5e
+          fetch-depth: 1
+      - name: Prove exact head
+        run: |
+          test "$(git rev-parse HEAD)" = "1100a70b14fa5e56e05e7b2c33c426d4d5f06d5e"
+          printf '%s\n' "$(git rev-parse HEAD)" > EXACT_HEAD
+      - name: Package exact workspace
+        run: tar --exclude=.git -czf /tmp/spice-exact-head.tar.gz .
+      - name: Upload exact workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-exact-head-1100a70
+          path: /tmp/spice-exact-head.tar.gz
+          if-no-files-found: error
+          retention-days: 1
