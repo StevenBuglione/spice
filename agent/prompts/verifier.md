@@ -46,5 +46,3 @@ make verify
 19. When all proof passes, atomically record `VERIFIED` for the exact head and squash-merge in the same run using expected-head protection.
 20. After merge, set `MERGED`, release the review lock, confirm issue closure and inspect default-branch CI.
 21. Never claim execution that did not happen and never approve merely because CI is green.
-
-For PR #15 / issue #8: this is final stabilization. Review only the frozen collision-free stable-ID matrix plus existing required loader criteria. After the length-prefixed ID fix and removal of temporary workflow material, new non-critical property ideas must be follow-up issues rather than another acceptance expansion.
