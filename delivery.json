@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 37,
+  "generation": 38,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 13,
     "pr": 35,
     "branch": "agent/issue-13-provider-catalog",
-    "head": "87147bad700573a10c762be26601744ac732d60f",
+    "head": "ca2133e1da9f95b7b3070e5eeef73996856f9196",
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Wait for exact-head CI and permanent workspace artifact for 87147bad700573a10c762be26601744ac732d60f, then execute the frozen matrix against that immutable artifact and release the lane to verification."
+    "next_action": "Wait for exact-head CI and permanent workspace artifact for ca2133e1da9f95b7b3070e5eeef73996856f9196, execute the complete frozen matrix against that immutable artifact, then release the lane to verification."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "run-20260724T210635Z-a7c91e",
     "acquired_at": "2026-07-24T21:06:35Z",
-    "heartbeat_at": "2026-07-24T21:23:24Z",
-    "lease_until": "2026-07-24T22:08:24Z"
+    "heartbeat_at": "2026-07-24T21:27:40Z",
+    "lease_until": "2026-07-24T22:12:40Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T21:23:24Z",
-    "summary": "Pushed the bounded alias/original semantic duplicate correction and two focused regressions to canonical PR #35 at head 87147bad700573a10c762be26601744ac732d60f, then heartbeated while awaiting exact-head CI and artifact proof."
+    "at": "2026-07-24T21:27:40Z",
+    "summary": "Consolidated the alias/original provider and CLI regressions into the existing frozen test files, restoring PR #35 to eight handwritten files at head ca2133e1da9f95b7b3070e5eeef73996856f9196, and heartbeated while awaiting exact-head proof."
   }
 }
