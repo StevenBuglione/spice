@@ -53,7 +53,7 @@ func verify(patterns []string, stdout, stderr io.Writer, options load.Options, l
 		return 1
 	}
 
-	diagnostics := validate.Occurrences(validationOccurrences(result.Occurrences), builtin.Registry())
+	diagnostics := validationDiagnostics(result.Occurrences)
 	if len(diagnostics) > 0 {
 		for _, diagnostic := range diagnostics {
 			fmt.Fprintln(stderr, diagnostic.Error())
@@ -103,17 +103,18 @@ func resolvePatterns(patterns []string, stderr io.Writer, options load.Options, 
 	return result, true
 }
 
-func validationOccurrences(occurrences []resolve.Occurrence) []scan.Occurrence {
-	result := make([]scan.Occurrence, len(occurrences))
-	for index, occurrence := range occurrences {
-		result[index] = scan.Occurrence{
+func validationDiagnostics(occurrences []resolve.Occurrence) []validate.Diagnostic {
+	diagnostics := make([]validate.Diagnostic, 0)
+	registry := builtin.Registry()
+	for _, occurrence := range occurrences {
+		diagnostics = append(diagnostics, validate.Occurrences([]scan.Occurrence{{
 			Annotation: occurrence.Annotation,
 			Target:     occurrence.Target,
 			Name:       occurrence.Name,
 			File:       occurrence.PhysicalFile,
-		}
+		}}, registry)...)
 	}
-	return result
+	return diagnostics
 }
 
 func packagePatterns(arguments []string) []string {
