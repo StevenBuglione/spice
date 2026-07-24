@@ -18,13 +18,26 @@ Ordered record methods return copies of the package, symbol, and diagnostic slic
 
 ## Stable symbol IDs
 
-Stable IDs describe logical source declarations and do not use absolute paths or `packages.Package.ID` values:
+Stable IDs describe logical source declarations and do not use absolute paths or `packages.Package.ID` values. Spice preserves identity as the structured tuple `(version, kind, package path, receiver origin, declaration name)` and serializes it canonically as:
 
 ```text
-package                         <package-path>
-type/function/variable/constant <package-path>.<name>
-method                          <package-path>.<receiver-origin>.<name>
+spice:symbol:v1|<kind>|<package-field>|<receiver-field>|<name-field>
+field = <decimal-UTF-8-byte-length>:<exact-bytes>
 ```
+
+All three fields are always present. Package symbols use empty receiver and name fields; non-method declarations use an empty receiver; methods use the normalized defining receiver origin. Examples:
+
+```text
+spice:symbol:v1|package|19:example.com/foo.bar|0:|0:
+spice:symbol:v1|type|19:example.com/foo.bar|0:|1:T
+spice:symbol:v1|method|19:example.com/foo.bar|1:T|1:M
+```
+
+Length-prefixing makes the encoder injective even when package paths contain dots, slashes, colons, pipes, digits, or text resembling another encoded field. Components are copied exactly: the encoder does not path-clean, case-fold, Unicode-normalize, percent-decode, or otherwise rewrite identity data. `Package.ID` and the matching package `Symbol.ID` use the same canonical package key, while `Package.Path` remains the ordinary Go import path.
+
+`Symbol.DisplayLabel` is a concise dot-style human label such as `example.com/app.Service.Start`. It is useful in diagnostics and diagrams but is not a key and may legitimately be shared by a declaration and a package whose path contains the same suffix. Compiler logic should use the canonical ID or the structured `Kind`, `PackagePath`, `Receiver`, and `Name` fields.
+
+Symbols are ordered by package path, the fixed kind rank `package`, `type`, `function`, `method`, `variable`, `constant`, then receiver origin, declaration name, and physical source position. Ordering never depends on the lexical details of the serialized ID grammar.
 
 Pointer receivers normalize to the defining named type. Generic receiver declarations normalize through the `go/types.Named` origin, so receiver spelling and instantiation syntax do not change the method ID. Function and method signatures remain separate live type data because signatures can evolve independently of logical identity.
 

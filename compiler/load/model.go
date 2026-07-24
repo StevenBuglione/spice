@@ -57,10 +57,13 @@ type SourceFile struct {
 }
 
 // Symbol is a stable logical declaration record backed by live go/types and AST
-// references from one Program instance. Position is the developer-facing,
-// //line-adjusted position; PhysicalPosition identifies the loaded Go file.
+// references from one Program instance. ID is the canonical machine key;
+// DisplayLabel is a concise human label and must not be used as an identity key.
+// Position is developer-facing and //line-adjusted; PhysicalPosition identifies
+// the loaded Go file.
 type Symbol struct {
 	ID               string
+	DisplayLabel     string
 	Kind             SymbolKind
 	Name             string
 	PackagePath      string

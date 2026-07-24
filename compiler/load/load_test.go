@@ -84,8 +84,10 @@ var ExternalTestOnly int
 		if symbolByID(symbols, id) == nil {
 			t.Errorf("missing symbol %q in %v", id, symbolIDs(symbols))
 		}
-		if strings.Contains(id, dir) {
-			t.Fatalf("stable ID %q contains fixture directory %q", id, dir)
+	}
+	for _, symbol := range symbols {
+		if strings.Contains(symbol.ID, dir) {
+			t.Fatalf("stable ID %q contains fixture directory %q", symbol.ID, dir)
 		}
 	}
 	if symbolByID(symbols, "example.com/fixture/app.TestOnly") != nil || symbolByID(symbols, "example.com/fixture/app_test.ExternalTestOnly") != nil {
@@ -392,7 +394,7 @@ func packagePaths(packages []Package) []string {
 
 func symbolByID(symbols []Symbol, id string) *Symbol {
 	for i := range symbols {
-		if symbols[i].ID == id {
+		if symbols[i].ID == id || symbols[i].DisplayLabel == id {
 			return &symbols[i]
 		}
 	}

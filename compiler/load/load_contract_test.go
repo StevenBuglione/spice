@@ -86,10 +86,10 @@ type Middle struct{}
 	}
 	got := symbolIDs(program.Symbols())
 	want := []string{
-		"example.com/order/order",
-		"example.com/order/order.Alpha",
-		"example.com/order/order.Middle",
-		"example.com/order/order.Zulu",
+		stableSymbolID(SymbolPackage, "example.com/order/order", "", ""),
+		stableSymbolID(SymbolType, "example.com/order/order", "", "Middle"),
+		stableSymbolID(SymbolVariable, "example.com/order/order", "", "Zulu"),
+		stableSymbolID(SymbolConstant, "example.com/order/order", "", "Alpha"),
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("symbol IDs = %v, want exact stable order %v", got, want)
@@ -197,11 +197,11 @@ const Generated = 7
 	symbols := program.Symbols()
 	assertUniqueSymbolIDs(t, symbols)
 	if got, want := symbolIDs(symbols), []string{
-		"example.com/cgosource/catalog",
-		"example.com/cgosource/catalog.Build",
-		"example.com/cgosource/catalog.Generated",
-		"example.com/cgosource/catalog.Service",
-		"example.com/cgosource/catalog.Value",
+		stableSymbolID(SymbolPackage, "example.com/cgosource/catalog", "", ""),
+		stableSymbolID(SymbolType, "example.com/cgosource/catalog", "", "Service"),
+		stableSymbolID(SymbolFunction, "example.com/cgosource/catalog", "", "Build"),
+		stableSymbolID(SymbolVariable, "example.com/cgosource/catalog", "", "Value"),
+		stableSymbolID(SymbolConstant, "example.com/cgosource/catalog", "", "Generated"),
 	}; !reflect.DeepEqual(got, want) {
 		t.Fatalf("symbol IDs = %v, want source declarations only %v", got, want)
 	}
@@ -217,8 +217,8 @@ const Generated = 7
 	}
 	for _, symbol := range symbols {
 		filename := filepath.Clean(symbol.Position.Filename)
-		if filename != wantPosition[symbol.ID] {
-			t.Fatalf("symbol %q position = %q, want source file %q", symbol.ID, filename, wantPosition[symbol.ID])
+		if filename != wantPosition[symbol.DisplayLabel] {
+			t.Fatalf("symbol %q position = %q, want source file %q", symbol.ID, filename, wantPosition[symbol.DisplayLabel])
 		}
 		if strings.Contains(symbol.Name, "_C") || strings.HasPrefix(symbol.Name, "_cgo") || strings.HasPrefix(symbol.Name, "__cgo") {
 			t.Fatalf("cgo synthetic declaration entered symbol catalog: %q", symbol.ID)
@@ -434,13 +434,13 @@ const Second = 6
 	symbols := program.Symbols()
 	assertUniqueSymbolIDs(t, symbols)
 	if got, want := symbolIDs(symbols), []string{
-		"example.com/identity/catalog",
-		"example.com/identity/catalog.Build",
-		"example.com/identity/catalog.First",
-		"example.com/identity/catalog.FirstConstant",
-		"example.com/identity/catalog.Second",
-		"example.com/identity/catalog.Service",
-		"example.com/identity/catalog.Service.Start",
+		stableSymbolID(SymbolPackage, "example.com/identity/catalog", "", ""),
+		stableSymbolID(SymbolType, "example.com/identity/catalog", "", "Service"),
+		stableSymbolID(SymbolFunction, "example.com/identity/catalog", "", "Build"),
+		stableSymbolID(SymbolMethod, "example.com/identity/catalog", "Service", "Start"),
+		stableSymbolID(SymbolVariable, "example.com/identity/catalog", "", "First"),
+		stableSymbolID(SymbolConstant, "example.com/identity/catalog", "", "FirstConstant"),
+		stableSymbolID(SymbolConstant, "example.com/identity/catalog", "", "Second"),
 	}; !reflect.DeepEqual(got, want) {
 		t.Fatalf("symbol IDs = %v, want every non-addressable declaration omitted as %v", got, want)
 	}
@@ -448,6 +448,186 @@ const Second = 6
 		if symbol.Name == "_" || symbol.Name == "init" {
 			t.Fatalf("non-addressable %s declaration %q entered symbol catalog: %v", symbol.Kind, symbol.ID, symbolIDs(symbols))
 		}
+	}
+}
+
+func TestStableSymbolIDEncoding(t *testing.T) {
+	tests := []struct {
+		name        string
+		kind        SymbolKind
+		packagePath string
+		receiver    string
+		declaration string
+		want        string
+	}{
+		{
+			name:        "package",
+			kind:        SymbolPackage,
+			packagePath: "example.com/foo.bar",
+			want:        "spice:symbol:v1|package|19:example.com/foo.bar|0:|0:",
+		},
+		{
+			name:        "type",
+			kind:        SymbolType,
+			packagePath: "example.com/foo.bar",
+			declaration: "T",
+			want:        "spice:symbol:v1|type|19:example.com/foo.bar|0:|1:T",
+		},
+		{
+			name:        "function",
+			kind:        SymbolFunction,
+			packagePath: "example.com/foo.bar",
+			declaration: "Build",
+			want:        "spice:symbol:v1|function|19:example.com/foo.bar|0:|5:Build",
+		},
+		{
+			name:        "method",
+			kind:        SymbolMethod,
+			packagePath: "example.com/foo.bar",
+			receiver:    "T",
+			declaration: "M",
+			want:        "spice:symbol:v1|method|19:example.com/foo.bar|1:T|1:M",
+		},
+		{
+			name:        "variable",
+			kind:        SymbolVariable,
+			packagePath: "example.com/foo.bar",
+			declaration: "Value",
+			want:        "spice:symbol:v1|variable|19:example.com/foo.bar|0:|5:Value",
+		},
+		{
+			name:        "constant",
+			kind:        SymbolConstant,
+			packagePath: "example.com/foo.bar",
+			declaration: "Answer",
+			want:        "spice:symbol:v1|constant|19:example.com/foo.bar|0:|6:Answer",
+		},
+		{
+			name:        "UTF-8 byte lengths and delimiter-like text",
+			kind:        SymbolMethod,
+			packagePath: "example.com/a|b:c/9",
+			receiver:    "Δ",
+			declaration: "方法",
+			want:        "spice:symbol:v1|method|19:example.com/a|b:c/9|2:Δ|6:方法",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if got := stableSymbolID(test.kind, test.packagePath, test.receiver, test.declaration); got != test.want {
+				t.Fatalf("stableSymbolID() = %q, want %q", got, test.want)
+			}
+		})
+	}
+}
+
+func TestLoadCollisionFreeStableSymbolIDs(t *testing.T) {
+	const modulePath = "example.com/collisionmatrix"
+	dir := writeModule(t, map[string]string{
+		"go.mod": "module " + modulePath + "\n\ngo 1.23.0\n",
+		"p/p.go": `package p
+
+const C = 1
+var V = 2
+type T struct{}
+func F() {}
+func (T) M() {}
+`,
+		"p.C/c.go":   "package c\n",
+		"p.F/f.go":   "package f\n",
+		"p.T/t.go":   "package t\n",
+		"p.V/v.go":   "package v\n",
+		"p.T.M/m.go": "package m\n",
+	})
+
+	program, err := Load(context.Background(), Options{Dir: dir}, "./...")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+
+	base := modulePath + "/p"
+	wantPackagePaths := []string{base, base + ".C", base + ".F", base + ".T", base + ".T.M", base + ".V"}
+	if got := packagePaths(program.Packages()); !reflect.DeepEqual(got, wantPackagePaths) {
+		t.Fatalf("package paths = %v, want %v", got, wantPackagePaths)
+	}
+
+	symbols := program.Symbols()
+	assertUniqueSymbolIDs(t, symbols)
+	wantIDs := map[string]struct{}{
+		stableSymbolID(SymbolPackage, base, "", ""):        {},
+		stableSymbolID(SymbolConstant, base, "", "C"):      {},
+		stableSymbolID(SymbolFunction, base, "", "F"):      {},
+		stableSymbolID(SymbolType, base, "", "T"):          {},
+		stableSymbolID(SymbolVariable, base, "", "V"):      {},
+		stableSymbolID(SymbolMethod, base, "T", "M"):       {},
+		stableSymbolID(SymbolPackage, base+".C", "", ""):   {},
+		stableSymbolID(SymbolPackage, base+".F", "", ""):   {},
+		stableSymbolID(SymbolPackage, base+".T", "", ""):   {},
+		stableSymbolID(SymbolPackage, base+".T.M", "", ""): {},
+		stableSymbolID(SymbolPackage, base+".V", "", ""):   {},
+	}
+	if len(symbols) != len(wantIDs) {
+		t.Fatalf("symbol count = %d, want %d: %v", len(symbols), len(wantIDs), symbolIDs(symbols))
+	}
+	for _, symbol := range symbols {
+		if _, ok := wantIDs[symbol.ID]; !ok {
+			t.Errorf("unexpected symbol: kind=%s path=%q receiver=%q name=%q id=%q", symbol.Kind, symbol.PackagePath, symbol.Receiver, symbol.Name, symbol.ID)
+		}
+	}
+
+	packageSymbolsByPath := make(map[string]Symbol)
+	for _, symbol := range symbols {
+		if symbol.Kind == SymbolPackage {
+			packageSymbolsByPath[symbol.PackagePath] = symbol
+		}
+	}
+	for _, pkg := range program.Packages() {
+		symbol, ok := packageSymbolsByPath[pkg.Path]
+		if !ok {
+			t.Fatalf("package %q has no package symbol", pkg.Path)
+		}
+		if pkg.ID != symbol.ID {
+			t.Fatalf("package %q ID = %q, package symbol ID = %q", pkg.Path, pkg.ID, symbol.ID)
+		}
+		if symbol.DisplayLabel != pkg.Path {
+			t.Fatalf("package %q display label = %q", pkg.Path, symbol.DisplayLabel)
+		}
+	}
+
+	for _, collision := range []struct {
+		declarationKind SymbolKind
+		declarationName string
+		packagePath     string
+	}{
+		{SymbolConstant, "C", base + ".C"},
+		{SymbolFunction, "F", base + ".F"},
+		{SymbolType, "T", base + ".T"},
+		{SymbolVariable, "V", base + ".V"},
+	} {
+		declarationID := stableSymbolID(collision.declarationKind, base, "", collision.declarationName)
+		packageID := stableSymbolID(SymbolPackage, collision.packagePath, "", "")
+		if declarationID == packageID {
+			t.Fatalf("canonical IDs collide for declaration %q and package %q: %q", collision.declarationName, collision.packagePath, declarationID)
+		}
+		declaration := symbolByID(symbols, declarationID)
+		pkg := symbolByID(symbols, packageID)
+		if declaration == nil || pkg == nil {
+			t.Fatalf("missing collision-matrix records declaration=%q package=%q", declarationID, packageID)
+		}
+		if declaration.DisplayLabel != pkg.DisplayLabel {
+			t.Fatalf("display labels = %q and %q, want the readable legacy collision to remain display-only", declaration.DisplayLabel, pkg.DisplayLabel)
+		}
+	}
+
+	methodID := stableSymbolID(SymbolMethod, base, "T", "M")
+	methodPackageID := stableSymbolID(SymbolPackage, base+".T.M", "", "")
+	method := symbolByID(symbols, methodID)
+	methodPackage := symbolByID(symbols, methodPackageID)
+	if method == nil || methodPackage == nil {
+		t.Fatalf("missing method collision records method=%q package=%q", methodID, methodPackageID)
+	}
+	if method.ID == methodPackage.ID || method.DisplayLabel != methodPackage.DisplayLabel {
+		t.Fatalf("method/package identity separation failed: method=%#v package=%#v", method, methodPackage)
 	}
 }
 

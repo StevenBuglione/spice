@@ -91,11 +91,17 @@ func Load(ctx context.Context, options Options, patterns ...string) (*Program, e
 	})
 	sort.SliceStable(program.symbols, func(i, j int) bool {
 		left, right := program.symbols[i], program.symbols[j]
-		if left.ID != right.ID {
-			return left.ID < right.ID
+		if left.PackagePath != right.PackagePath {
+			return left.PackagePath < right.PackagePath
 		}
-		if left.Kind != right.Kind {
-			return left.Kind < right.Kind
+		if leftRank, rightRank := symbolKindRank(left.Kind), symbolKindRank(right.Kind); leftRank != rightRank {
+			return leftRank < rightRank
+		}
+		if left.Receiver != right.Receiver {
+			return left.Receiver < right.Receiver
+		}
+		if left.Name != right.Name {
+			return left.Name < right.Name
 		}
 		if left.PhysicalPosition.Filename != right.PhysicalPosition.Filename {
 			return left.PhysicalPosition.Filename < right.PhysicalPosition.Filename
@@ -193,7 +199,7 @@ func packageRecord(root *packages.Package) Package {
 	}
 
 	return Package{
-		ID:              root.PkgPath,
+		ID:              stableSymbolID(SymbolPackage, root.PkgPath, "", ""),
 		Path:            root.PkgPath,
 		Name:            root.Name,
 		Dir:             dir,
@@ -327,7 +333,8 @@ func packageSymbols(root *packages.Package) []Symbol {
 	symbols := make([]Symbol, 0)
 	if name := sourcePackageName(root, sourceFiles); name != nil {
 		symbols = append(symbols, Symbol{
-			ID:               root.PkgPath,
+			ID:               stableSymbolID(SymbolPackage, root.PkgPath, "", ""),
+			DisplayLabel:     root.PkgPath,
 			Kind:             SymbolPackage,
 			Name:             root.Name,
 			PackagePath:      root.PkgPath,
@@ -400,20 +407,72 @@ func packageSymbols(root *packages.Package) []Symbol {
 }
 
 func objectSymbol(root *packages.Package, object types.Object, node ast.Node, kind SymbolKind, receiver string) Symbol {
-	id := root.PkgPath + "." + object.Name()
-	if receiver != "" {
-		id = root.PkgPath + "." + receiver + "." + object.Name()
-	}
+	name := object.Name()
 	return Symbol{
-		ID:               id,
+		ID:               stableSymbolID(kind, root.PkgPath, receiver, name),
+		DisplayLabel:     symbolDisplayLabel(root.PkgPath, receiver, name),
 		Kind:             kind,
-		Name:             object.Name(),
+		Name:             name,
 		PackagePath:      root.PkgPath,
 		Receiver:         receiver,
 		Position:         root.Fset.PositionFor(object.Pos(), true),
 		PhysicalPosition: root.Fset.PositionFor(object.Pos(), false),
 		Object:           object,
 		Node:             node,
+	}
+}
+
+const stableSymbolIDPrefix = "spice:symbol:v1|"
+
+// stableSymbolID serializes the structured logical identity without relying on
+// any delimiter being absent from package paths or identifiers. Lengths count
+// UTF-8 bytes because Go strings and serialized IDs are byte sequences.
+func stableSymbolID(kind SymbolKind, packagePath, receiver, name string) string {
+	var builder strings.Builder
+	builder.Grow(len(stableSymbolIDPrefix) + len(kind) + len(packagePath) + len(receiver) + len(name) + 32)
+	builder.WriteString(stableSymbolIDPrefix)
+	builder.WriteString(string(kind))
+	builder.WriteByte('|')
+	appendStableSymbolField(&builder, packagePath)
+	builder.WriteByte('|')
+	appendStableSymbolField(&builder, receiver)
+	builder.WriteByte('|')
+	appendStableSymbolField(&builder, name)
+	return builder.String()
+}
+
+func appendStableSymbolField(builder *strings.Builder, value string) {
+	builder.WriteString(strconv.Itoa(len(value)))
+	builder.WriteByte(':')
+	builder.WriteString(value)
+}
+
+func symbolDisplayLabel(packagePath, receiver, name string) string {
+	if name == "" {
+		return packagePath
+	}
+	if receiver == "" {
+		return packagePath + "." + name
+	}
+	return packagePath + "." + receiver + "." + name
+}
+
+func symbolKindRank(kind SymbolKind) int {
+	switch kind {
+	case SymbolPackage:
+		return 0
+	case SymbolType:
+		return 1
+	case SymbolFunction:
+		return 2
+	case SymbolMethod:
+		return 3
+	case SymbolVariable:
+		return 4
+	case SymbolConstant:
+		return 5
+	default:
+		return 6
 	}
 }
 
