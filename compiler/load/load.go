@@ -141,9 +141,13 @@ func packageRecord(root *packages.Package) Package {
 func packageDiagnostics(root *packages.Package) []Diagnostic {
 	diagnostics := make([]Diagnostic, 0, len(root.Errors))
 	for _, packageError := range root.Errors {
+		position := packageError.Pos
+		if position != "" {
+			position = filepath.Clean(position)
+		}
 		diagnostics = append(diagnostics, Diagnostic{
 			PackagePath: root.PkgPath,
-			Position:    filepath.Clean(packageError.Pos),
+			Position:    position,
 			Kind:        errorKindName(packageError.Kind),
 			Message:     packageError.Msg,
 		})

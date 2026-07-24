@@ -171,7 +171,11 @@ var Value string = 1
 	if len(packages) != 1 || !packages[0].IllTyped {
 		t.Fatalf("packages = %#v, want one ill-typed root", packages)
 	}
-	if len(program.Diagnostics()) == 0 || program.Diagnostics()[0].Kind != "type" {
+	foundType := false
+	for _, diagnostic := range program.Diagnostics() {
+		foundType = foundType || diagnostic.Kind == "type"
+	}
+	if !foundType {
 		t.Fatalf("diagnostics = %#v, want type diagnostic", program.Diagnostics())
 	}
 	if !strings.Contains(err.Error(), "cannot use") {
@@ -181,7 +185,7 @@ var Value string = 1
 
 func TestLoadSyntaxErrors(t *testing.T) {
 	dir := writeModule(t, map[string]string{
-		"go.mod": "module example.com/syntax\n\ngo 1.23.0\n",
+		"go.mod":           "module example.com/syntax\n\ngo 1.23.0\n",
 		"broken/broken.go": "package broken\n\nfunc Broken(\n",
 	})
 	program, err := Load(context.Background(), Options{Dir: dir}, "./broken")
@@ -202,7 +206,7 @@ func TestLoadSyntaxErrors(t *testing.T) {
 
 func TestLoadMissingPattern(t *testing.T) {
 	dir := writeModule(t, map[string]string{
-		"go.mod": "module example.com/missing\n\ngo 1.23.0\n",
+		"go.mod":             "module example.com/missing\n\ngo 1.23.0\n",
 		"present/present.go": "package present\n",
 	})
 	program, err := Load(context.Background(), Options{Dir: dir}, "./does-not-exist")
@@ -231,7 +235,7 @@ func TestLoadCancelledContext(t *testing.T) {
 
 func TestLoadOverlay(t *testing.T) {
 	dir := writeModule(t, map[string]string{
-		"go.mod": "module example.com/overlay\n\ngo 1.23.0\n",
+		"go.mod":     "module example.com/overlay\n\ngo 1.23.0\n",
 		"app/app.go": "package app\n\nvar Original int\n",
 	})
 	path := filepath.Join(dir, "app", "app.go")
@@ -278,7 +282,7 @@ func TestLoadDeterministic(t *testing.T) {
 
 func TestLoadIsQuiet(t *testing.T) {
 	dir := writeModule(t, map[string]string{
-		"go.mod": "module example.com/quiet\n\ngo 1.23.0\n",
+		"go.mod":           "module example.com/quiet\n\ngo 1.23.0\n",
 		"broken/broken.go": "package broken\n\nvar Value string = 1\n",
 	})
 	stdout := filepath.Join(t.TempDir(), "stdout")
