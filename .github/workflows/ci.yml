@@ -25,5 +25,122 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
           cache: true
+      - name: Apply issue 8 recovery patch in workspace
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          load_path = Path('compiler/load/load.go')
+          load_text = load_path.read_text()
+          old_field = '\tTests      bool\n'
+          old_config = '\t\tTests:      options.Tests,\n'
+          if old_field not in load_text or old_config not in load_text:
+              raise SystemExit('expected test-loading API was not found')
+          load_path.write_text(load_text.replace(old_field, '', 1).replace(old_config, '\t\tTests:      false,\n', 1))
+
+          test_path = Path('compiler/load/load_test.go')
+          test_text = test_path.read_text()
+          test_text = test_text.replace('Load(context.Background(), Options{Dir: dir}, "./tagged")', 'Load(context.Background(), Options{Dir: dir}, "./...")', 1)
+          test_text = test_text.replace('Load(context.Background(), Options{Dir: dir, BuildFlags: []string{"-tags=spice_excluded"}}, "./tagged")', 'Load(context.Background(), Options{Dir: dir, BuildFlags: []string{"-tags=spice_excluded"}}, "./...")', 1)
+
+          anchor = 'func TestLoadBuildConstraints(t *testing.T) {'
+          regression = r'''func TestOptionsDoNotExposeTestVariantLoading(t *testing.T) {
+	if _, exists := reflect.TypeOf(Options{}).FieldByName("Tests"); exists {
+		t.Fatal("Options exposes unsupported test-variant loading")
+	}
+
+	dir := writeModule(t, map[string]string{
+		"go.mod": "module example.com/testvariants\n\ngo 1.23.0\n",
+		"app/app.go": `package app
+
+var Production int
+`,
+		"app/app_test.go": `package app
+
+var TestOnly int
+`,
+		"app/external_test.go": `package app_test
+
+var ExternalTestOnly int
+`,
+	})
+
+	program, err := Load(context.Background(), Options{Dir: dir}, "./...")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+
+	packageIDs := make(map[string]struct{})
+	for _, pkg := range program.Packages() {
+		if _, duplicate := packageIDs[pkg.ID]; duplicate {
+			t.Fatalf("duplicate stable package ID %q in %#v", pkg.ID, program.Packages())
+		}
+		packageIDs[pkg.ID] = struct{}{}
+		if strings.HasSuffix(pkg.Path, "_test") || strings.HasSuffix(pkg.Path, ".test") {
+			t.Fatalf("application load returned test package %q", pkg.Path)
+		}
+	}
+
+	symbolIDsSeen := make(map[string]struct{})
+	for _, symbol := range program.Symbols() {
+		if _, duplicate := symbolIDsSeen[symbol.ID]; duplicate {
+			t.Fatalf("duplicate stable symbol ID %q in %v", symbol.ID, symbolIDs(program.Symbols()))
+		}
+		symbolIDsSeen[symbol.ID] = struct{}{}
+	}
+	if symbolByID(program.Symbols(), "example.com/testvariants/app.Production") == nil {
+		t.Fatal("application load omitted production declaration")
+	}
+	if symbolByID(program.Symbols(), "example.com/testvariants/app.TestOnly") != nil ||
+		symbolByID(program.Symbols(), "example.com/testvariants/app_test.ExternalTestOnly") != nil {
+		t.Fatalf("application load returned test declarations: %v", symbolIDs(program.Symbols()))
+	}
+}
+
+'''
+          if anchor not in test_text:
+              raise SystemExit('build-constraint test anchor was not found')
+          test_text = test_text.replace(anchor, regression + anchor, 1)
+
+          old_fixture = '''\t\t"go.mod": "module example.com/deterministic\\n\\ngo 1.23.0\\n",\n\t\t"z/z.go": "package z\\n\\nvar Z int\\n",\n\t\t"a/a.go": "package a\\n\\nconst A = 1\\n",\n'''
+          new_fixture = '''\t\t"go.mod": "module example.com/deterministic\\n\\ngo 1.23.0\\n",\n\t\t"z/z.go": "package z\\n\\nvar Z int\\n",\n\t\t"a/a.go": "package a\\n\\nconst A = 1\\n",\n\t\t"broken/broken.go": "package broken\\n\\nvar Value string = 1\\n",\n'''
+          if old_fixture not in test_text:
+              raise SystemExit('deterministic fixture anchor was not found')
+          test_text = test_text.replace(old_fixture, new_fixture, 1)
+
+          old_load = '''\t\tprogram, err := Load(context.Background(), Options{Dir: dir}, "./z", "./a")\n\t\tif err != nil {\n\t\t\tt.Fatalf("Load() iteration %d error = %v", iteration, err)\n\t\t}\n\t\tsummary := deterministicSummary(program)\n'''
+          new_load = '''\t\tprogram, err := Load(context.Background(), Options{Dir: dir}, "./z", "./a", "./broken")\n\t\tif err == nil {\n\t\t\tt.Fatalf("Load() iteration %d error = nil, want deterministic type error", iteration)\n\t\t}\n\t\tif len(program.Diagnostics()) == 0 {\n\t\t\tt.Fatalf("Load() iteration %d returned no diagnostics", iteration)\n\t\t}\n\t\tsummary := deterministicSummary(program)\n'''
+          if old_load not in test_text:
+              raise SystemExit('deterministic load anchor was not found')
+          test_path.write_text(test_text.replace(old_load, new_load, 1))
+
+          docs_path = Path('docs/compiler.md')
+          docs_text = docs_path.read_text()
+          old_docs = 'It also passes through caller-provided working directories, environments, build flags, overlays, cancellation, and the decision to include test variants.\n\nNormal application compilation keeps `Tests` disabled. This avoids duplicate in-package test variants, external test packages, and generated test binaries in the application model.'
+          new_docs = 'It also passes through caller-provided working directories, environments, build flags, overlays, and cancellation.\n\nThe loader always uses `Tests: false`. Test-package and generated test-binary variants are intentionally unsupported until Spice defines separate identities for production packages, in-package test variants, external test packages, and generated test binaries. This prevents duplicate stable package and symbol IDs from entering later compiler phases.'
+          if old_docs not in docs_text:
+              raise SystemExit('compiler documentation anchor was not found')
+          docs_path.write_text(docs_text.replace(old_docs, new_docs, 1))
+          PY
+          gofmt -w compiler/load/load.go compiler/load/load_test.go
       - name: Verify
-        run: make verify
+        run: |
+          make verify
+          go test ./compiler/load -run '^TestLoadMultiPackageProgram$' -v
+          go test ./compiler/load -run '^TestLoadBuildConstraints$' -v
+          go test ./compiler/load -run '^TestLoadTypeErrors$' -v
+          GOPROXY=off go test -mod=vendor ./...
+          go test ./compiler/load -run '^TestLoadDeterministic$' -count=10
+          GOPROXY=off go test -mod=vendor -race ./...
+      - name: Package recovered workspace
+        if: matrix.go-version == '1.23.x'
+        run: tar --exclude=.git -czf /tmp/spice-issue-8-workspace.tar.gz .
+      - name: Upload recovered workspace
+        if: matrix.go-version == '1.23.x'
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-issue-8-workspace
+          path: /tmp/spice-issue-8-workspace.tar.gz
+          retention-days: 2
+          if-no-files-found: error
