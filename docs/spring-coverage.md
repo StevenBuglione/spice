@@ -37,6 +37,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Modulith | Documentation | Mermaid/PlantUML/JSON module diagrams and canvases | planned |
 | Modulith | Runtime observations | Module-aware spans and interaction metrics | planned |
 | Current bootstrap | Annotation parser, declaration scan, and target metadata | Valid comment syntax, source association, typed built-in definitions, and target diagnostics | available |
+| Compiler foundation | Type-aware package and symbol model | Standard Go package-pattern loading, one per-run type universe, deterministic package metadata, stable symbol IDs, and normalized load diagnostics | available |
 
 ## Coverage rules
 
