@@ -1,0 +1,44 @@
+name: Recovery workspace
+
+on:
+  push:
+    branches:
+      - agent/issue-8-type-aware-loading
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package-workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go 1.23
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23.x
+          cache: false
+
+      - name: Generate dependency and formatting state
+        run: |
+          go mod tidy
+          go mod vendor
+          gofmt -w compiler/load
+
+      - name: Test typed loader
+        run: go test ./compiler/load -v
+
+      - name: Package generated workspace
+        if: always()
+        run: tar -czf /tmp/spice-workspace.tgz --exclude=.git .
+
+      - name: Upload generated workspace
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-recovery-workspace
+          path: /tmp/spice-workspace.tgz
+          retention-days: 1
