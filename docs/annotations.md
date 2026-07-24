@@ -42,9 +42,24 @@ func (UserController) GetUserCompact() {}
 func (UserController) CreateUser() {}
 ```
 
-Marker annotations such as `@Application`, `@Configuration`, and `@Service` accept no arguments.
+Marker annotations such as `@Application`, `@Bean`, `@Configuration`, and `@Service` accept no arguments.
 
 The bootstrap parser supports strings, integers, booleans, identifiers, and lists. The current validator checks the outer parsed kind only; it does not yet implement defaults, aliases, composed annotations, nested annotations, enum-like identifiers, or list element schemas.
+
+## `@Bean` provider functions
+
+`@Bean` marks an ordinary package-level Go factory function for compile-time provider metadata:
+
+```go
+// @Bean
+func NewUserService(repository UserRepository) (*UserService, error) {
+    return &UserService{repository: repository}, nil
+}
+```
+
+The bootstrap catalog accepts exactly `func(dependencies...) T` and `func(dependencies...) (T, error)`. Every parameter is a required exact-type dependency for the later graph phase. Provider methods, generic or variadic functions, cleanup callbacks, annotation arguments, multiple provided values, and error results in any other shape are rejected with source-positioned diagnostics.
+
+`spice verify` validates and catalogs provider signatures but does not execute providers or generate application wiring yet. Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, lifecycle, optional values, groups, and collection injection remain explicit future capabilities.
 
 ## Argument diagnostics
 
@@ -65,6 +80,7 @@ A positional value is accepted only when exactly one definition argument is expl
 | Annotation | Allowed target | Defined arguments |
 |---|---|---|
 | `@Application` | Function | None |
+| `@Bean` | Package-level function | None |
 | `@Configuration` | Type | None |
 | `@Controller` | Type | `prefix` string, optional, named-only |
 | `@Get` | Method | `path` string, required, named or positional |
