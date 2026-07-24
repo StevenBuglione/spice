@@ -1,0 +1,33 @@
+name: Agent workspace artifact
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: workspace-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  export:
+    name: Export exact PR workspace
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact pull request head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Record exact head
+        run: printf '%s\n' '${{ github.event.pull_request.head.sha }}' > .spice-workspace-head
+      - name: Package workspace
+        run: tar --exclude=.git -czf /tmp/spice-workspace.tar.gz .
+      - name: Upload workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: spice-workspace-pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          path: /tmp/spice-workspace.tar.gz
+          retention-days: 2
+          if-no-files-found: error

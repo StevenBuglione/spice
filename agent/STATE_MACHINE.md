@@ -1,182 +1,180 @@
 # Spice Autonomous Delivery State Machine
 
-This document is the shared coordination protocol for every scheduled Spice task. GitHub is the only durable state store. A sandbox, chat transcript, or task-local memory is never authoritative.
+This document governs every scheduled Spice task. GitHub is the only durable state store.
+
+Read `agent/LOCK_PROTOCOL.md` first. `delivery.json` on branch `agent-state` is the authoritative machine state. Issue #32 is its human-readable mirror. PR comments are historical evidence, not lock authority.
 
 ## Goals
 
 The pipeline must:
 
 - finish existing work before starting new work;
-- prevent two writers from changing the same branch concurrently;
-- make incomplete work recoverable by a later run;
-- ensure every implementation is independently reviewed and executed;
+- prevent concurrent writers and overlapping final reviews;
+- make interrupted work recoverable;
+- independently execute and review every implementation;
 - merge verified work promptly;
-- avoid creating backlog faster than it can be delivered;
-- use otherwise idle runs for bounded health or preflight work rather than inventing unrelated scope.
+- avoid oversized slices and late unbounded redesign;
+- keep research from outrunning delivery;
+- use idle runs for bounded health work or a clean no-op.
 
-## One active delivery lane
+## One implementation lane
 
-Until the project deliberately raises the limit through an ADR, Spice permits at most one active implementation lane.
+Spice permits one active implementation lane until an ADR raises the limit.
 
-An active lane is any of:
+An active lane is represented in `delivery.json` and normally has an issue, branch and PR. Actual open PRs and branches override stale state. Research is not another implementation lane, but routine research must not create continuous `main` churn while the lane is active.
 
-- an issue prefixed `[agent-working]`;
-- an open `agent/issue-*` pull request;
-- an open implementation pull request linked to an agent issue;
-- a branch identified by the latest machine-readable agent state comment.
+## States
 
-Research may continue while a delivery lane is active, but no second implementation lane may be started.
+1. `BACKLOG` — bounded `[agent-ready]` issue.
+2. `CONTRACT_FROZEN` — finite public invariants, test matrix, commands and exclusions recorded.
+3. `CLAIMED` — issue is `[agent-working]`; branch may not exist.
+4. `IMPLEMENTING` — writer lock held or incomplete implementation exists.
+5. `READY_FOR_VERIFICATION` — exact head passed all implementer proof and writer lock is released.
+6. `VERIFYING` — review lock held for the exact immutable head.
+7. `CHANGES_REQUESTED` — a bounded merge blocker must be fixed on the same lane.
+8. `SPLIT_REQUIRED` — slice is too large or repeated review churn proves it is not safely bounded.
+9. `VERIFIED` — independent proof passed for exact head; merge immediately.
+10. `MERGED` — PR merged and issue/state closed.
+11. `BLOCKED` — external dependency or human decision prevents progress.
+12. `RECOVERY_REQUIRED` — expired or inconsistent work needs a writer.
 
-## Work states
+Every transition atomically updates `delivery.json`, increments `generation`, and mirrors issue #32. PR comments may record detailed evidence but do not replace the state file.
 
-The logical states are:
+## Atomic locks
 
-1. `BACKLOG` — bounded issue prefixed `[agent-ready]`.
-2. `CLAIMED` — issue prefixed `[agent-working]`; branch may not exist yet.
-3. `IMPLEMENTING` — branch or draft PR exists and a writer lease may be active.
-4. `READY_FOR_VERIFICATION` — implementation reports all required local commands passed, PR is reviewable, and writer lease is released.
-5. `VERIFYING` — verifier has acquired the immutable PR head for review.
-6. `CHANGES_REQUESTED` — verifier or CI found work that must be addressed on the same branch.
-7. `VERIFIED` — verifier recorded evidence against an exact head SHA; merge should happen in the same run when possible.
-8. `MERGED` — PR merged and linked issue closed.
-9. `BLOCKED` — an external dependency or human decision prevents safe progress.
-10. `RECOVERY_REQUIRED` — work exists but its prior writer lease expired or state became inconsistent.
+### Writer
 
-## Machine-readable state comments
+Only primary and recovery implementers may acquire `writer_lock`.
 
-Each task that changes delivery state must add a GitHub issue or PR comment containing this block:
+- Acquire through compare-and-swap using the fetched `delivery.json` blob SHA.
+- Refuse while writer or review lock is active.
+- Initial lease: at most 45 minutes.
+- Heartbeat at least every 20 minutes, before a push, and before a long verification phase.
+- A later scheduled run must use a new token and cannot inherit another run's lock.
+- Release using the same token.
+- Re-fetch before branch push; unexpected commits require `RECOVERY_REQUIRED`.
 
-```text
-<!-- spice-agent-state:v1
-role: implementer-primary|implementer-recovery|verifier|watchdog
-status: CLAIMED|IMPLEMENTING|READY_FOR_VERIFICATION|VERIFYING|CHANGES_REQUESTED|VERIFIED|BLOCKED|RECOVERY_REQUIRED|MERGED
-issue: <number-or-none>
-pr: <number-or-none>
-branch: <branch-or-none>
-head: <commit-sha-or-none>
-started_at: <RFC3339>
-lease_until: <RFC3339-or-none>
-next_action: <single concrete action>
-verification: <not-run|running|passed|failed|blocked>
--->
-```
+### Reviewer
 
-The newest valid state comment on the active PR takes precedence. Before a PR exists, the newest valid state comment on the issue takes precedence. Human GitHub actions and actual repository state always override stale comments.
+Only the verifier may acquire `review_lock`.
 
-## Writer lease
+- Lane must be `READY_FOR_VERIFICATION`.
+- Writer lock must be released.
+- PR must be non-draft and current head must equal the ready head.
+- Lock records the exact reviewed head.
+- Any head change invalidates review.
+- Release using the same token.
 
-Only the primary implementer and recovery implementer may hold a writer lease.
+### Stale locks
 
-A writer must:
+The watchdog may clear a lock only after lease expiry plus 15 minutes and only when no recent heartbeat, state generation, branch push, PR update or CI progress exists. It atomically changes the lane to `RECOVERY_REQUIRED`.
 
-1. Inspect the latest state comment, issue, PR, branch head, reviews, and CI.
-2. Refuse to write when another unexpired writer lease exists.
-3. Publish an `IMPLEMENTING` state with a lease before changing the branch.
-4. Use a lease no longer than 40 minutes.
-5. Renew the lease with a new state comment before it expires if the same run is still actively writing.
-6. Release the lease by publishing `READY_FOR_VERIFICATION`, `CHANGES_REQUESTED`, `BLOCKED`, or `RECOVERY_REQUIRED` with `lease_until: none`.
+## Contract freeze
 
-A lease is stale when its time expired and no branch push or newer state comment shows progress during the last 15 minutes. A stale lease may be recovered by the recovery implementer or normalized by the watchdog.
+Before first implementation, the issue or PR must contain `CONTRACT_FROZEN` with:
 
-A writer must re-fetch the branch immediately before pushing and must not overwrite commits it did not create. Unexpected concurrent commits require stopping and recording `RECOVERY_REQUIRED`.
+- `contract_revision`;
+- exact public invariants;
+- positive and negative regression matrix;
+- runnable commands;
+- explicit exclusions;
+- expected package/file scope.
 
-## Stable review handoff
+A factual correction may revise the contract only when it proves a safety, correctness, identity, data-integrity or build blocker. Increment the revision, return the PR to draft, update the matrix, and then resume implementation.
 
-A PR is ready for final verification only when all are true:
-
-- the latest state is `READY_FOR_VERIFICATION`;
-- no writer lease is active;
-- the PR is not draft;
-- the state comment records the exact head SHA;
-- required local commands are reported as passed;
-- the PR description contains runnable verification evidence;
-- the head has not changed since the ready state was published.
-
-The verifier records `VERIFYING` against that exact head SHA. If the head changes during review, the verification result is invalid and the verifier must stop without merging.
+Research and verifier roles cannot casually append acceptance criteria during implementation.
 
 ## Selection priority
 
 ### Primary implementer
 
-Always select work in this order:
+1. `CHANGES_REQUESTED` lane.
+2. Failed CI lane.
+3. `RECOVERY_REQUIRED` lane.
+4. Incomplete `IMPLEMENTING` lane without active lock.
+5. Claimed issue with branch/PR gaps.
+6. New highest-priority `[agent-ready]` issue only when no lane exists.
 
-1. Oldest open agent PR with `CHANGES_REQUESTED`.
-2. Oldest open agent PR with failed CI.
-3. Oldest incomplete draft or `IMPLEMENTING` agent PR without a valid writer lease.
-4. Oldest `[agent-working]` issue with a known branch but no PR.
-5. Oldest `[agent-working]` issue with no branch.
-6. Highest-priority `[agent-ready]` issue, but only when no active lane exists.
-
-Never start a new issue while an earlier lane can be recovered.
+Before a new issue, freeze its contract. Never start a second lane.
 
 ### Recovery implementer
 
-Use the same order, but act only when:
+Act only when:
 
-- no valid writer lease exists; and
-- the active lane is incomplete, failed, changes-requested, or stale; or
-- no lane exists because the primary implementer did not claim available work.
+- no writer or review lock is active; and
+- lane is `RECOVERY_REQUIRED`, failed CI, `CHANGES_REQUESTED` with no primary progress for at least 75 minutes, or incomplete without progress for at least 75 minutes.
 
-Do not modify a `READY_FOR_VERIFICATION` PR. Do not create a second implementation lane.
+Do not claim fresh backlog merely because a scheduled run fired. Do not modify `READY_FOR_VERIFICATION`, `VERIFYING`, or `VERIFIED` work.
 
 ### Verifier
 
-Use this order:
+1. Stable `READY_FOR_VERIFICATION` lane.
+2. Readiness claim missing evidence: one consolidated checklist.
+3. Active incomplete lane: at most one preflight contract/testability comment per contract revision.
+4. No lane: default-branch health and next-issue contract audit.
 
-1. Oldest `READY_FOR_VERIFICATION` PR with stable head.
-2. Oldest PR claiming readiness but missing required evidence; mark `CHANGES_REQUESTED` with an exact checklist.
-3. Active incomplete PR: perform read-only pre-review and leave only immediately actionable findings; do not merge or rewrite the branch.
-4. No PR: run default-branch health verification and audit the next `[agent-ready]` issue for testability. Create a follow-up only for a real defect.
+The verifier blocks only for the blocker classes in `AGENTS.md`. New non-blocking hardening becomes follow-up work.
+
+### Researcher
+
+- If a lane exists or at least two `[agent-ready]` issues exist, default to read-only research and no repository write.
+- A durable research correction during an active lane is allowed only when it resolves an explicit current blocker.
+- Do not create a routine research PR every run.
+- At most two ready issues normally; three only when explicitly justified.
 
 ### Watchdog
 
-Use this order:
+1. Retry a transient merge only for current exact-head `VERIFIED` state.
+2. Reconcile actual state, atomic file and issue #32 mirror.
+3. Clear stale locks under the strict stale-lock rules.
+4. Mark stalled lanes `RECOVERY_REQUIRED`.
+5. After two `CHANGES_REQUESTED` cycles, evaluate issue size:
+   - publish one final bounded stabilization matrix; or
+   - set `SPLIT_REQUIRED` and require decomposition.
+6. Repair duplicate lanes and linkage without overwriting work.
+7. Check default-branch health when idle.
+8. Request backlog replenishment only when no lane and fewer than two ready issues exist.
 
-1. Retry a merge only when a verifier recorded `VERIFIED` for the current head and the previous merge failed transiently.
-2. Normalize stale or contradictory state.
-3. Mark expired abandoned work `RECOVERY_REQUIRED`.
-4. Return an orphaned `[agent-working]` issue to `[agent-ready]` only when no branch, PR, or progress exists for at least two hours.
-5. Detect open PRs with requested changes, failed CI, or no progress and publish a precise recovery instruction.
-6. Verify default-branch CI and `make verify` when the delivery lane is empty.
-7. Request backlog replenishment only when no active lane and no `[agent-ready]` issue exist.
+## Verification-cycle budget
 
-The watchdog does not implement product features and does not independently approve unverified code.
+`delivery.json.lane.verification_cycles` increments on every `CHANGES_REQUESTED` decision.
 
-## Meaningful idle behavior
+- Cycle 1: normal correction.
+- Cycle 2: verifier must consolidate all known blockers into one frozen matrix.
+- Cycle 3+: watchdog must set `SPLIT_REQUIRED` unless a final stabilization exception is explicitly recorded with a finite checklist.
 
-Standing down to protect an active lease is correct behavior, not a failure. A task that cannot take its primary action may do only the safe fallback assigned to its role:
+A final stabilization exception forbids new acceptance expansion. Further novel non-critical findings become follow-up issues.
 
-- Researcher: improve current research, RFCs, ADRs, or coverage status without creating excess ready issues.
-- Primary implementer: inspect CI or prepare a continuation plan; do not touch another lane.
-- Recovery implementer: inspect state and leave a recovery plan; do not write under another lease.
-- Verifier: perform read-only pre-review or default-branch health verification.
-- Watchdog: normalize state and test pipeline health.
+## PR scope flow control
 
-No task creates unrelated work merely to appear productive.
+Before claiming work, estimate reviewed non-generated scope. Split by default when the issue exceeds roughly eight non-generated files, 800 reviewed non-generated lines, or one coherent package capability. Generated vendor trees may be isolated mechanically, but must not hide an oversized handwritten change.
 
-## Backlog flow control
+A PR that grows beyond its frozen scope returns to draft. Do not allow a long-lived branch to accumulate unrelated research, temporary workflows or transport utilities.
 
-The researcher must keep at most three `[agent-ready]` issues. When three already exist, it may update research or refine existing issues but must not create another ready issue. It must not alter an active implementation issue's acceptance criteria unless a blocking factual error is found; such a change requires a clearly documented comment.
+## Permanent workspace artifact
+
+Use the repository's persistent PR workspace artifact workflow when direct GitHub networking is unavailable. Never create temporary workflow files or transport PRs. Confirm artifact SHA before executing it.
 
 ## Merge guarantees
 
-A PR may merge only when:
+Merge only when:
 
-- the linked issue and acceptance criteria are unambiguous;
-- the verifier independently ran `make verify` and issue-specific runtime commands;
-- GitHub Actions passed for the exact reviewed head;
-- the verifier recorded `VERIFIED` for the exact current head;
-- no review thread or blocking risk remains;
-- the PR still targets the intended default branch.
+- frozen contract is satisfied;
+- verifier independently ran `make verify` and required runtime commands;
+- CI passed for exact reviewed head;
+- review lock targets unchanged head;
+- no blocker remains;
+- verifier records `VERIFIED` and merges in the same run.
 
-The verifier should merge in the same run. The watchdog may retry only a transiently failed merge of an already `VERIFIED` unchanged head.
+The watchdog may retry only a transiently failed merge of the same verified head.
 
-## Recovery deadlines
+## Recovery thresholds
 
-- Active writer lease: maximum 40 minutes, renewable only with visible progress.
-- Ready PR awaiting verification: should be reviewed at the next verifier run.
-- Changes-requested or failed-CI PR: should be picked up by the next available writer run.
-- No progress on active lane for 90 minutes: watchdog marks `RECOVERY_REQUIRED`.
-- Orphan claim with no branch or PR for two hours: watchdog may return it to `[agent-ready]`.
+- Lock lease: 45 minutes, renewable with heartbeat.
+- Stale-lock grace: 15 minutes.
+- Primary progress timeout before recovery eligibility: 75 minutes.
+- Ready PR: next verifier run.
+- No visible lane progress: 90 minutes triggers watchdog reconciliation.
+- Orphan claim without branch/PR: two hours.
 
-These are coordination thresholds, not permission to bypass correctness or force a merge.
+Standing down because another atomic lock is active is correct. A no-op is better than duplicate work.
