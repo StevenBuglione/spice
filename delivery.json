@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 43,
+  "generation": 44,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFIED",
+    "status": "MERGED",
     "issue": 13,
     "pr": 35,
     "branch": "agent/issue-13-provider-catalog",
@@ -12,8 +12,8 @@
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
-    "merge_commit": null,
-    "next_action": "Squash-merge PR #35 using expected head ca2133e1da9f95b7b3070e5eeef73996856f9196, then record MERGED, release the review lock and reconcile issue closure and default-branch health."
+    "merge_commit": "807e7c4f2093aec808b82bc2a8ce153af66f496e",
+    "next_action": "Confirm issue #13 is closed and default-branch CI is healthy; the next Primary Implementer may select the highest-priority dependency-ready backlog issue after reconciliation."
   },
   "writer_lock": {
     "active": false,
@@ -24,17 +24,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": true,
-    "owner": "verifier",
-    "token": "verifier-20260724T234200Z-a91c7e",
-    "acquired_at": "2026-07-24T23:42:00Z",
-    "heartbeat_at": "2026-07-24T23:47:14Z",
-    "lease_until": "2026-07-25T00:32:14Z",
-    "head": "ca2133e1da9f95b7b3070e5eeef73996856f9196"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null,
+    "head": null
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-24T23:47:14Z",
-    "summary": "Independently verified the complete frozen provider-catalog contract and alias-duplicate correction against exact unchanged head ca2133e1da9f95b7b3070e5eeef73996856f9196; local proof, executable fixtures, mutation proof, CI and artifact provenance all passed."
+    "at": "2026-07-24T23:48:21Z",
+    "summary": "Squash-merged independently verified PR #35 at exact head ca2133e1da9f95b7b3070e5eeef73996856f9196 as merge commit 807e7c4f2093aec808b82bc2a8ce153af66f496e, released the review lock and completed issue #13 delivery."
   }
 }
