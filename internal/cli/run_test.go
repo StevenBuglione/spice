@@ -158,6 +158,38 @@ func TestRunUsesDisplayPositionAndStableOutput(t *testing.T) {
 	}
 }
 
+func TestRunVerifyPreservesPhysicalDiagnosticOrderAcrossLineDirectives(t *testing.T) {
+	t.Parallel()
+	root := writeGoSource(t, `package sample
+
+//line z.go:100
+// @UnknownA
+var First int
+
+//line a.go:1
+// @UnknownB
+var Second int
+`)
+	var first string
+	for run := 0; run < 10; run++ {
+		code, stdout, stderr := runModule(root, "verify", ".")
+		if code != 1 || stdout != "" {
+			t.Fatalf("run=%d code=%d stdout=%q stderr=%q", run, code, stdout, stderr)
+		}
+		normalized := filepath.ToSlash(stderr)
+		zIndex := strings.Index(normalized, "z.go:100:1: unknown annotation @UnknownA")
+		aIndex := strings.Index(normalized, "a.go:1:1: unknown annotation @UnknownB")
+		if zIndex < 0 || aIndex < 0 || zIndex >= aIndex {
+			t.Fatalf("run=%d diagnostics not in physical order: %q", run, stderr)
+		}
+		if run == 0 {
+			first = stderr
+		} else if stderr != first {
+			t.Fatalf("run=%d output changed: first=%q next=%q", run, first, stderr)
+		}
+	}
+}
+
 func TestRunFailsBeforeValidationForBrokenOrMissingPackage(t *testing.T) {
 	t.Parallel()
 	root := writeGoSource(t, "package sample\n\n// @UnknownAnnotation\nvar Value string = 1\n")
