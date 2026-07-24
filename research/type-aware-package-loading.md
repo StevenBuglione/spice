@@ -83,20 +83,18 @@ The live `types.Object` must never be serialized or reused across `packages.Load
 
 `packages.Package.ID` is unique within a load result, but test variants can produce IDs such as `pkg [pkg.test]`. It is not an appropriate public or serialized Spice identity.
 
-Recommended IDs:
+The original flat dot-concatenated examples in this document were proven ambiguous because valid package paths can end in the same dotted suffix as a declaration or method. They are superseded by `research/collision-free-stable-symbol-identities.md`.
+
+Spice now models a structured key containing version, declaration kind, exact package path, normalized receiver origin, and declaration name. Version 1 serializes that tuple canonically as:
 
 ```text
-package:   <package-path>
-type:      <package-path>.<type-name>
-function:  <package-path>.<function-name>
-method:    <package-path>.<receiver-origin-name>.<method-name>
-variable:  <package-path>.<variable-name>
-constant:  <package-path>.<constant-name>
+spice:symbol:v1|<kind>|<package-field>|<receiver-field>|<name-field>
+field = <decimal-UTF-8-byte-length>:<exact-bytes>
 ```
 
-For method IDs, erase pointer indirection and normalize an instantiated generic receiver to the origin named receiver type. Go does not overload package functions or methods, so this identity is sufficient for declaration targets in the bootstrap compiler.
+All three fields are emitted, including empty receiver/name fields. Length-prefixing is injective without assuming that any delimiter is absent from package-driver data. Package records and package symbols share the canonical package key; the ordinary package path and a concise display label remain separate structured data.
 
-Keep the signature separate from the stable ID. A signature change should be detectable without changing the declaration's logical identity.
+For method IDs, erase pointer indirection and normalize an instantiated generic receiver to the origin named receiver type. Keep the signature separate from the stable ID so a signature change is detectable without redefining the declaration's logical identity.
 
 ### 5. Production analysis should exclude test package variants by default
 
