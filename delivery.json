@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "generation": 1,
+  "control_issue": 32,
+  "control_comment_id": 5071450791,
+  "lane": {
+    "status": "CHANGES_REQUESTED",
+    "issue": 8,
+    "pr": 15,
+    "branch": "agent/issue-8-type-aware-loading",
+    "head": "3f65ee71ee8b0ea7e8f5a20c34d6466626b0eb60",
+    "contract_revision": 1,
+    "verification_cycles": 6,
+    "next_action": "Implement the frozen collision-free stable-ID contract, remove temporary workflow material, run the complete required suite, and publish an exact-SHA handoff."
+  },
+  "writer_lock": {
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null
+  },
+  "review_lock": {
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null,
+    "head": null
+  },
+  "last_transition": {
+    "role": "pipeline-audit",
+    "at": "2026-07-24T15:19:30Z",
+    "summary": "Initialized pipeline v2 state after repeated comment-lock races and verification churn."
+  }
+}
