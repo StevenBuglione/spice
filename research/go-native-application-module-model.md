@@ -10,8 +10,8 @@ After Spice has one typed Go program and annotations resolved to stable symbols,
 
 At the time of this research:
 
-- issue #8 / PR #15 is the single active delivery lane for typed package loading and stable symbols;
-- the current PR head is `1639d55b37a4b7706fb347bc3d37ae60cd7e7137` and is in `CHANGES_REQUESTED` because blank-identifier type, function, and method declarations can still collide in the stable symbol catalog;
+- issue #8 / PR #15 is the single active delivery lane for typed package loading and stable symbols and is being recovered from verifier-requested stable-symbol identity gaps;
+- this research does not pin or modify that mutable implementation branch; actual GitHub branch, lease, state-comment, and CI state remain authoritative;
 - issue #11 is the next ready slice for resolving annotations against typed Go symbols and migrating CLI loading;
 - issue #13 follows with `@Bean` provider signature analysis and a deterministic provider catalog;
 - issue #17 follows with deterministic provider dependency graph validation;
