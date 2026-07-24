@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 40,
+  "generation": 41,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "IMPLEMENTING",
+    "status": "READY_FOR_VERIFICATION",
     "issue": 13,
     "pr": 35,
     "branch": "agent/issue-13-provider-catalog",
@@ -13,15 +13,15 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Download the permanent exact-head workspace artifact for ca2133e1da9f95b7b3070e5eeef73996856f9196, execute the complete frozen provider-catalog and alias-duplicate matrix, update the existing PR evidence, then release this writer lock to READY_FOR_VERIFICATION without changing lanes."
+    "next_action": "The Verifier must atomically acquire review_lock for exact head ca2133e1da9f95b7b3070e5eeef73996856f9196, confirm the permanent artifact and complete frozen provider-catalog plus alias-duplicate matrix independently, then merge only if the head remains unchanged."
   },
   "writer_lock": {
-    "active": true,
-    "owner": "primary-implementer",
-    "token": "implementer-primary-20260724T231636Z-1ff6d9",
-    "acquired_at": "2026-07-24T23:16:36Z",
-    "heartbeat_at": "2026-07-24T23:16:36Z",
-    "lease_until": "2026-07-25T00:01:36Z"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-24T23:16:36Z",
-    "summary": "Acquired a fresh atomic writer lock to recover issue #13 on the unchanged canonical PR #35 head and execute the frozen alias-duplicate verification matrix."
+    "at": "2026-07-24T23:19:48Z",
+    "summary": "Recovered the unchanged issue #13 head, independently reran the full frozen local, offline, race, determinism and executable alias-duplicate matrix, confirmed exact-head CI and workspace artifact success, updated PR evidence, released the writer lock and handed the lane to verification."
   }
 }
