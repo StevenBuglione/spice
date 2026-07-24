@@ -20,6 +20,9 @@ func TestTargetSetValuesAreDeterministic(t *testing.T) {
 	if got := set.Values(); !reflect.DeepEqual(got, want) {
 		t.Fatalf("Values() = %#v, want %#v", got, want)
 	}
+	if got := set.String(); got != "package, type, method" {
+		t.Fatalf("String() = %q", got)
+	}
 }
 
 func TestRegistryRejectsInvalidDefinitions(t *testing.T) {
