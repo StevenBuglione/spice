@@ -1,15 +1,14 @@
 name: Issue 8 Recovery Patch
 
 on:
-  pull_request:
-    types: [synchronize]
+  push:
+    branches: [agent/issue-8-type-aware-loading]
 
 permissions:
   contents: write
 
 jobs:
   recover:
-    if: github.event.pull_request.head.ref == 'agent/issue-8-type-aware-loading'
     runs-on: ubuntu-latest
     steps:
       - name: Check out implementation branch
@@ -150,7 +149,7 @@ var ExternalTestOnly int
 
       - name: Commit recovered implementation
         env:
-          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+          EXPECTED_HEAD: ${{ github.sha }}
         shell: bash
         run: |
           rm .github/workflows/agent-issue-8-recovery.yml
