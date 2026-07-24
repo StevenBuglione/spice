@@ -2,14 +2,40 @@ package load
 
 import (
 	"context"
+	"errors"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"reflect"
+	"runtime"
 	"sort"
+	"strconv"
 	"strings"
 	"testing"
+	"time"
 )
+
+const blockingDriverMode = "SPICE_TEST_PACKAGES_DRIVER_BLOCK"
+
+func TestMain(m *testing.M) {
+	if os.Getenv(blockingDriverMode) == "1" {
+		started := os.Getenv("SPICE_TEST_DRIVER_STARTED")
+		pidFile := os.Getenv("SPICE_TEST_DRIVER_PID")
+		if started == "" || pidFile == "" {
+			os.Exit(2)
+		}
+		if err := os.WriteFile(pidFile, []byte(strconv.Itoa(os.Getpid())), 0o644); err != nil {
+			os.Exit(2)
+		}
+		if err := os.WriteFile(started, []byte("started"), 0o644); err != nil {
+			os.Exit(2)
+		}
+		for {
+			time.Sleep(time.Hour)
+		}
+	}
+	os.Exit(m.Run())
+}
 
 func TestLoadHonorsEnvironment(t *testing.T) {
 	dir := writeModule(t, map[string]string{
@@ -143,6 +169,20 @@ const Generated = 7
 	if !sort.StringsAreSorted(pkg.CompiledGoFiles) {
 		t.Fatalf("compiled Go files are not sorted: %v", pkg.CompiledGoFiles)
 	}
+	if len(pkg.Files) != len(pkg.CompiledGoFiles) || len(pkg.Syntax) != len(pkg.CompiledGoFiles) {
+		t.Fatalf("file model lengths: files=%d compiled=%d syntax=%d", len(pkg.Files), len(pkg.CompiledGoFiles), len(pkg.Syntax))
+	}
+	for i, file := range pkg.Files {
+		if file.PhysicalPath != pkg.CompiledGoFiles[i] || file.Syntax != pkg.Syntax[i] {
+			t.Fatalf("file association %d = %#v, compiled=%q syntax=%p", i, file, pkg.CompiledGoFiles[i], pkg.Syntax[i])
+		}
+		if file.Syntax != nil {
+			physical := filepath.Clean(pkg.Raw.Fset.PositionFor(file.Syntax.Pos(), false).Filename)
+			if physical != file.PhysicalPath {
+				t.Fatalf("file association %d physical syntax path = %q, want %q", i, physical, file.PhysicalPath)
+			}
+		}
+	}
 	hasCacheBackedInput := false
 	for _, file := range pkg.CompiledGoFiles {
 		if filepath.Dir(file) != sourceDir {
@@ -183,6 +223,149 @@ const Generated = 7
 		if strings.Contains(symbol.Name, "_C") || strings.HasPrefix(symbol.Name, "_cgo") || strings.HasPrefix(symbol.Name, "__cgo") {
 			t.Fatalf("cgo synthetic declaration entered symbol catalog: %q", symbol.ID)
 		}
+	}
+}
+
+func TestLoadRetainsLineMappedSourceWithPhysicalAndDisplayPositions(t *testing.T) {
+	dir := writeModule(t, map[string]string{
+		"go.mod": "module example.com/linemapped\n\ngo 1.23.0\n",
+		"app/app.go": `package app
+
+//line generated/schema.proto:40
+var Value int
+`,
+	})
+
+	program, err := Load(context.Background(), Options{Dir: dir}, "./app")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	value := symbolByID(program.Symbols(), "example.com/linemapped/app.Value")
+	if value == nil {
+		t.Fatalf("line-mapped declaration missing: %v", symbolIDs(program.Symbols()))
+	}
+	physical := filepath.Join(dir, "app", "app.go")
+	if got := filepath.Clean(value.PhysicalPosition.Filename); got != physical {
+		t.Fatalf("physical filename = %q, want %q", got, physical)
+	}
+	display := filepath.Join(dir, "app", "generated", "schema.proto")
+	if got := filepath.Clean(value.Position.Filename); got != display || value.Position.Line != 40 {
+		t.Fatalf("display position = %s, want %s:40", value.Position, display)
+	}
+}
+
+func TestLoadReturnsDiagnosticsByNumericPosition(t *testing.T) {
+	dir := writeModule(t, map[string]string{
+		"go.mod": "module example.com/numericdiagnostics\n\ngo 1.23.0\n",
+		"broken/broken.go": `package broken
+var Early string = 1
+
+
+
+
+
+
+
+var Late string = 2
+`,
+	})
+
+	program, err := Load(context.Background(), Options{Dir: dir}, "./broken")
+	if err == nil {
+		t.Fatal("Load() error = nil, want type errors")
+	}
+	var lines []int
+	for _, diagnostic := range program.Diagnostics() {
+		if diagnostic.Kind == "type" {
+			lines = append(lines, diagnostic.Line)
+		}
+	}
+	if got, want := lines, []int{2, 10}; !reflect.DeepEqual(got, want) {
+		t.Fatalf("type diagnostic lines = %v, want numeric order %v; diagnostics=%#v", got, want, program.Diagnostics())
+	}
+}
+
+func TestLoadCancelsActivePackageDriver(t *testing.T) {
+	executable, err := os.Executable()
+	if err != nil {
+		t.Fatalf("os.Executable(): %v", err)
+	}
+	dir := writeModule(t, map[string]string{
+		"go.mod":     "module example.com/cancelactive\n\ngo 1.23.0\n",
+		"app/app.go": "package app\n",
+	})
+	signalDir := t.TempDir()
+	started := filepath.Join(signalDir, "started")
+	pidFile := filepath.Join(signalDir, "pid")
+	environment := os.Environ()
+	environment = replaceEnvironmentValue(environment, "GOPACKAGESDRIVER", executable)
+	environment = replaceEnvironmentValue(environment, blockingDriverMode, "1")
+	environment = replaceEnvironmentValue(environment, "SPICE_TEST_DRIVER_STARTED", started)
+	environment = replaceEnvironmentValue(environment, "SPICE_TEST_DRIVER_PID", pidFile)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	result := make(chan struct {
+		program *Program
+		err     error
+	}, 1)
+	go func() {
+		program, loadErr := Load(ctx, Options{Dir: dir, Env: environment}, "./...")
+		result <- struct {
+			program *Program
+			err     error
+		}{program: program, err: loadErr}
+	}()
+
+	waitForPath(t, started, 5*time.Second)
+	cancel()
+	select {
+	case loaded := <-result:
+		if !errors.Is(loaded.err, context.Canceled) {
+			t.Fatalf("Load() error = %v, want context.Canceled", loaded.err)
+		}
+		if loaded.program != nil {
+			t.Fatalf("Load() program = %#v, want nil", loaded.program)
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("Load() did not return after cancelling an active package driver")
+	}
+
+	if runtime.GOOS == "linux" {
+		pidBytes, err := os.ReadFile(pidFile)
+		if err != nil {
+			t.Fatalf("ReadFile(pid): %v", err)
+		}
+		pid, err := strconv.Atoi(strings.TrimSpace(string(pidBytes)))
+		if err != nil {
+			t.Fatalf("driver pid = %q: %v", pidBytes, err)
+		}
+		deadline := time.Now().Add(2 * time.Second)
+		for {
+			_, statErr := os.Stat(filepath.Join("/proc", strconv.Itoa(pid)))
+			if os.IsNotExist(statErr) {
+				break
+			}
+			if time.Now().After(deadline) {
+				t.Fatalf("package driver process %d still exists after Load returned", pid)
+			}
+			time.Sleep(10 * time.Millisecond)
+		}
+	}
+}
+
+func waitForPath(t *testing.T, path string, timeout time.Duration) {
+	t.Helper()
+	deadline := time.Now().Add(timeout)
+	for {
+		if _, err := os.Stat(path); err == nil {
+			return
+		} else if !os.IsNotExist(err) {
+			t.Fatalf("Stat(%q): %v", path, err)
+		}
+		if time.Now().After(deadline) {
+			t.Fatalf("timed out waiting for %q", path)
+		}
+		time.Sleep(10 * time.Millisecond)
 	}
 }
 
