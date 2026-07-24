@@ -17,7 +17,10 @@ type Options struct {
 	Env        []string
 	BuildFlags []string
 	Overlay    map[string][]byte
-	Tests      bool
+	// Tests is reserved for a future test-package model. The bootstrap loader
+	// rejects true because go/packages test variants can duplicate logical
+	// package and symbol identities.
+	Tests bool
 }
 
 // Load asks the standard Go package driver to load the requested root package
@@ -35,6 +38,14 @@ func Load(ctx context.Context, options Options, patterns ...string) (*Program, e
 		program := &Program{diagnostics: []Diagnostic{diagnostic}}
 		return program, &LoadError{Diagnostics: program.Diagnostics()}
 	}
+	if options.Tests {
+		diagnostic := Diagnostic{
+			Kind:    "configuration",
+			Message: "test-variant loading is unsupported; load application packages with Tests disabled",
+		}
+		program := &Program{diagnostics: []Diagnostic{diagnostic}}
+		return program, &LoadError{Diagnostics: program.Diagnostics()}
+	}
 
 	config := &packages.Config{
 		Context:    ctx,
@@ -43,7 +54,7 @@ func Load(ctx context.Context, options Options, patterns ...string) (*Program, e
 		Env:        append([]string(nil), options.Env...),
 		BuildFlags: append([]string(nil), options.BuildFlags...),
 		Overlay:    cloneOverlay(options.Overlay),
-		Tests:      options.Tests,
+		Tests:      false,
 	}
 
 	roots, loadErr := packages.Load(config, patterns...)
