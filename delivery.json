@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 110,
+  "generation": 111,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,12 +8,12 @@
     "issue": 39,
     "pr": 40,
     "branch": "agent/issue-39-lifecycle-hooks",
-    "head": "e98d3a940065827f6cebe80a384d67ba0c3c9dad",
+    "head": "373f29e258cabd0f2fe9d59c9b3e69b002d5f141",
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "All local frozen commands, full vendor-only race proof, fresh executable fixtures and path/name-only mutation proof pass. Primary Implementer re-fetched unchanged PR #40 head and is pushing the focused three-file correction to the canonical branch."
+    "next_action": "Canonical context.Context shape validation is pushed on the same PR branch. Primary Implementer is adding the focused lifecycle and CLI overlay regressions, then will rerun proof for the final exact head."
   },
   "writer_lock": {
     "active": true,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T15:18:58Z",
-    "summary": "Heartbeat writer_lock token implementer-primary-20260725T150927Z-281cfc immediately before pushing the verified three-file overlay-shape correction; PR #40 remained unchanged at e98d3a940065827f6cebe80a384d67ba0c3c9dad."
+    "at": "2026-07-25T15:20:40Z",
+    "summary": "Recorded pushed canonical branch head 373f29e258cabd0f2fe9d59c9b3e69b002d5f141 after adding fail-closed canonical context.Context shape validation."
   }
 }
