@@ -26,6 +26,7 @@ The repository currently provides:
 - Import-path application modules with root APIs, named interfaces, explicit dependencies, internal-boundary checks, unassigned-package reporting, and deterministic cycle detection.
 - Module-aware synchronous lifecycle observations that generated applications expose without a global tracer or telemetry dependency.
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
+- Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, and synchronous observations.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
@@ -89,6 +90,9 @@ health, liveness, readiness, and caller-owned info endpoints; see
 Outbound integrations can use the base-scoped, bounded typed JSON client in
 [`docs/http-client.md`](docs/http-client.md).
 
+SQL repositories and generated transaction decorators can use the explicit
+contracts in [`docs/data.md`](docs/data.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
@@ -137,6 +141,7 @@ Generated source and OpenAPI are committed under
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
+- `data/`: public `database/sql` executor, transaction manager, and observation contracts.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
 - `starter/`: reviewed opt-in third-party integrations, including OpenTelemetry.
 - `tools/`: isolated, pinned development tools module.

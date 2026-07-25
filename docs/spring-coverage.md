@@ -17,7 +17,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Web | WebSocket, GraphQL, gRPC | Go-native integrations and starters | planned |
 | Security | Authentication and authorization | Middleware, generated method guards, OAuth2/OIDC starters | planned |
 | Security | Resource server and client | Standards-based Go integrations | planned |
-| Data | JDBC and transaction management | `database/sql`/driver integrations and generated transaction decorators | planned |
+| Data | JDBC and transaction management | Standard-library executor and transaction manager contracts provide caller-owned pools, module/boundary metadata, commit/rollback ownership, joined failures, panic rollback, and observations; generated decorators and driver starters follow | in-progress |
 | Data | Repository abstractions | Optional generated repositories and query integration | planned |
 | Data | JPA/Hibernate | Go-native persistence patterns; no transparent entity runtime | planned |
 | Data | Redis, MongoDB, Elasticsearch, Cassandra, Neo4j | Curated starters around mature Go clients | planned |

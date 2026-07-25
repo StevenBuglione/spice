@@ -65,6 +65,12 @@ filesystem or network mutation.
 
 The runtime should stay small. Its responsibilities are application lifecycle, generated registry execution, request scopes, shutdown, and integrations that cannot be resolved at compile time.
 
+SQL access remains based on `database/sql`. Repositories accept the common
+executor contract implemented by both pools and transactions. Instance-owned
+transaction managers retain commit/rollback ownership and consume
+compiler-generated boundary and module identities; there is no ambient
+transaction, global pool, or retry hidden in a context.
+
 ### Starters
 
 Third-party integrations live under `starter/` and remain opt-in at the package
