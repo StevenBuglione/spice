@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 64,
+  "generation": 65,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,7 +13,7 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": "b5d0186c73745dbacb28d9d331387483e45cddb5",
-    "next_action": "Issue #17 and PR #36 are closed consistently and main contains the verified graph blobs. No post-merge workflow run is visible yet for b5d0186c73745dbacb28d9d331387483e45cddb5; watchdog should reconcile it when available, while Primary Implementer may select the next dependency-ready bounded issue because no active lane or lock remains."
+    "next_action": "No implementation lane, open pull request, or [agent-ready] issue exists. Research Planner should create or refine one bounded dependency-ready issue now and replenish toward the normal two-item ready backlog; Primary Implementer must stand down until a ready issue exists. Post-merge CI for b5d0186c73745dbacb28d9d331387483e45cddb5 is still not visible through the available commit-run query, while main remains at that exact merge commit and the reviewed head passed CI and independent execution before merge."
   },
   "writer_lock": {
     "active": false,
@@ -33,8 +33,8 @@
     "head": null
   },
   "last_transition": {
-    "role": "verifier",
-    "at": "2026-07-25T01:51:10Z",
-    "summary": "Confirmed PR #36 merged as b5d0186c73745dbacb28d9d331387483e45cddb5, issue #17 closed completed, and main exposes the exact verified compiler/graph blob; post-merge CI was not yet visible."
+    "role": "watchdog",
+    "at": "2026-07-25T01:55:58Z",
+    "summary": "Confirmed issue #17 and PR #36 remain closed and merged, main remains at b5d0186c73745dbacb28d9d331387483e45cddb5, no open PR or ready issue exists, and requested bounded backlog replenishment while preserving released locks."
   }
 }
