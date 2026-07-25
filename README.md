@@ -63,10 +63,10 @@ Install Go 1.26.5 and GNU Make, then run:
 ```bash
 make verify
 go run ./cmd/spice version
-go run ./cmd/spice annotations ./examples/hello-world/app
+go run ./cmd/spice annotations ./examples/commerce/...
 go run ./cmd/spice verify ./...
-go run ./cmd/spice generate --check --target Hello ./examples/hello-world/app
-go run ./examples/hello-world -check
+go run ./cmd/spice generate --check --target Commerce ./examples/commerce/bootstrap ./examples/commerce/inventory ./examples/commerce/orders ./examples/commerce/payments ./examples/commerce/platform
+go run ./examples/commerce -check
 ```
 
 In an application module containing one typed `@Application` marker:
@@ -110,14 +110,19 @@ markers. Generation writes only manifest-owned files under
 To start the example HTTP server:
 
 ```bash
-go run ./examples/hello-world
-curl http://localhost:8080/users/42
+go run ./examples/commerce
+curl -H "Content-Type: application/json" -d "{\"quantity\":2}" http://localhost:8081/orders
+curl http://localhost:8081/actuator/health/readiness
+curl http://localhost:8081/actuator/metrics
 ```
 
-The example command owns `SIGINT`/`SIGTERM` handling and supplies a fresh
-ten-second shutdown context to the generated application's `Run` method. Its
-generated source is committed under `internal/spicegen/hello`; the matching
-ownership manifest is `.spice/hello.manifest.json`.
+The modular commerce command owns `SIGINT`/`SIGTERM` handling and supplies a
+fresh ten-second shutdown context to the generated application's `Run` method.
+It explicitly opts into environment configuration and mounts isolated
+management health, readiness, info, and generated-route metrics endpoints.
+Generated source and OpenAPI are committed under
+`internal/spicegen/commerce`; the matching ownership manifest is
+`.spice/commerce.manifest.json`.
 
 ## Repository map
 

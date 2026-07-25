@@ -183,12 +183,14 @@ committed program so commands importing generated applications remain valid.
 Targeted regeneration can therefore exclude stale output, while ordinary Go
 commands omit the tag and compile committed output.
 
-The committed hello-world target is an executable reference for this contract:
-`examples/hello-world/app` declares exact providers and lifecycle hooks,
-`internal/spicegen/hello` contains the generated direct-call application, and
-the command owns process signals plus the shutdown deadline. Repository
-verification runs generation freshness, generated construction, live HTTP, and
-graceful-drain checks.
+The committed commerce target is the executable reference for this contract.
+`examples/commerce` declares four modules, typed configuration, generated
+controllers, explicit providers, and lifecycle hooks.
+`internal/spicegen/commerce` contains the generated direct-call application and
+OpenAPI document; the command owns environment opt-in, process signals,
+management endpoints, metrics, and the shutdown deadline. Repository
+verification runs generation freshness, generated construction, live typed
+HTTP, failure mapping, metrics, and graceful-drain checks.
 
 ## Module discovery
 
