@@ -19,7 +19,7 @@ type UserResponse struct {
 // GetUser returns a user-shaped example response.
 //
 // @Get(path="/{id}")
-func (UserController) GetUser(writer http.ResponseWriter, request *http.Request) {
+func (*UserController) GetUser(writer http.ResponseWriter, request *http.Request) {
 	payload, err := json.Marshal(UserResponse{
 		ID:      request.PathValue("id"),
 		Message: "hello from Spice",

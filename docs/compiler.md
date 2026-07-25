@@ -106,9 +106,9 @@ Each participating provider contributes one deterministic component with an opti
 
 `compiler/application` is the authoritative generation input assembled from the
 same loaded program and resolved annotations. It runs the provider, graph, and
-lifecycle stages once, retains dependency-first provider order and cleanup
-flags, reorders lifecycle components by that construction order, and validates
-typed `@Application` roots.
+controller, and lifecycle stages once, retains dependency-first provider order
+and cleanup flags, reorders lifecycle components by that construction order,
+and validates typed `@Application` roots.
 
 An `@Application` marker is an argument-free package-level function with no type
 parameters, variadic parameter, or results. Its ordinary parameter types are
