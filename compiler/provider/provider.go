@@ -202,16 +202,16 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 		third := results.At(2).Type()
 		errorResults := 0
 		cleanupResults := 0
-		for _, result := range []types.Type{first, second, third} {
-			if isError(result) {
+		for _, metadata := range []types.Type{second, third} {
+			if isError(metadata) {
 				errorResults++
 			}
-			if isCleanup(result) {
+			if isCleanup(metadata) {
 				cleanupResults++
 			}
 		}
 		if cleanupResults > 1 {
-			return fail("too-many-results", invalidSignatureMessage(label, "provider functions may return at most one lifecycle.Cleanup result"))
+			return fail("too-many-results", invalidSignatureMessage(label, "provider functions may return at most one lifecycle.Cleanup metadata result"))
 		}
 		if errorResults > 1 {
 			return fail("too-many-results", invalidSignatureMessage(label, "provider functions may return at most one error result"))
@@ -229,7 +229,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 		if !isError(third) {
 			reason := "the third result must be error"
 			if isCleanup(third) {
-				reason = "only one lifecycle.Cleanup result is allowed and it must be second"
+				reason = "only one lifecycle.Cleanup metadata result is allowed and it must be second"
 			}
 			return fail("error-position", invalidSignatureMessage(label, reason))
 		}
