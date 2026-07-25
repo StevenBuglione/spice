@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 50,
+  "generation": 51,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 17,
     "pr": 36,
     "branch": "agent/issue-17-provider-graph",
-    "head": "7ee9fb3504564db80398cff0de511b8ddd7089bc",
+    "head": "4570992b8571efa17fc75ab7d959bad26d712287",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Download the successful permanent workspace artifact for exact head 7ee9fb3504564db80398cff0de511b8ddd7089bc, rerun the frozen matrix against it, then update PR evidence and release the writer lock for verification."
+    "next_action": "Download the successful permanent workspace artifact for exact head 4570992b8571efa17fc75ab7d959bad26d712287, rerun the complete frozen matrix, then publish evidence and release the writer lock."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T000824Z-6c9f2a",
     "acquired_at": "2026-07-25T00:08:24Z",
-    "heartbeat_at": "2026-07-25T00:35:55Z",
-    "lease_until": "2026-07-25T01:20:55Z"
+    "heartbeat_at": "2026-07-25T00:40:44Z",
+    "lease_until": "2026-07-25T01:25:44Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T00:35:55Z",
-    "summary": "Recorded exact pushed head 7ee9fb3504564db80398cff0de511b8ddd7089bc after confirming all seven GitHub blobs match the locally tested files; exact-head CI and permanent workspace runs both succeeded."
+    "at": "2026-07-25T00:40:44Z",
+    "summary": "Removed the quadratic missing-dependency fallback so exact provider lookup remains key-indexed, reran the full local verification matrix successfully, and recorded the new exact head after both CI and workspace runs passed."
   }
 }
