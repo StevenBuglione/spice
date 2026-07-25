@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"math/bits"
 	"os"
 	"path/filepath"
 	"sort"
@@ -265,6 +266,39 @@ func CProvider() C { panic("must not execute") }
 	sort.Strings(want)
 	if strings.Join(ids, "\n") != strings.Join(want, "\n") {
 		t.Fatalf("ready order IDs = %v, want %v", ids, want)
+	}
+}
+
+func TestConstructionOrderFanOutUsesBoundedReadyComparisons(t *testing.T) {
+	const consumerCount = 2048
+	providers := make([]provider.Provider, consumerCount+1)
+	providers[0].SymbolID = "spice:symbol:v1|function|4:root|0:|4:Root"
+	adjacency := make([][]int, len(providers))
+	for index := 1; index < len(providers); index++ {
+		providers[index].SymbolID = fmt.Sprintf("spice:symbol:v1|function|8:consumer|0:|8:P%06d", index)
+		adjacency[index] = []int{0}
+	}
+
+	order, stats := constructionOrderWithStats(adjacency, providers)
+	if len(order) != len(providers) {
+		t.Fatalf("order length = %d, want %d", len(order), len(providers))
+	}
+	if order[0].SymbolID != providers[0].SymbolID {
+		t.Fatalf("first provider = %q, want root %q", order[0].SymbolID, providers[0].SymbolID)
+	}
+	for index := 2; index < len(order); index++ {
+		if order[index-1].SymbolID >= order[index].SymbolID {
+			t.Fatalf("ready providers are not ordered at %d: %q >= %q", index, order[index-1].SymbolID, order[index].SymbolID)
+		}
+	}
+
+	// A binary priority queue uses O(N log N) comparisons across pushes and
+	// pops. The deliberately generous bound is deterministic and still fails
+	// the former implementation, which sorted the growing ready slice after
+	// every fan-out insertion and therefore used O(N^2) comparisons.
+	limit := 4 * len(providers) * bits.Len(uint(len(providers)))
+	if stats.readyComparisons > limit {
+		t.Fatalf("ready comparisons = %d, want <= %d for %d providers", stats.readyComparisons, limit, len(providers))
 	}
 }
 
