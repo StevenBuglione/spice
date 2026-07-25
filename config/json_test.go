@@ -4,10 +4,37 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"reflect"
 	"slices"
 	"strings"
 	"testing"
 )
+
+func FuzzDecodeJSONObject(f *testing.F) {
+	for _, seed := range []string{
+		`{}`,
+		`{"server":{"port":8080,"enabled":true}}`,
+		`{"database.password":"secret"}`,
+		`{"duplicate":1,"duplicate":2}`,
+		`[]`,
+		`{"array":[]}`,
+	} {
+		f.Add([]byte(seed))
+	}
+	f.Fuzz(func(t *testing.T, content []byte) {
+		if len(content) > 64<<10 {
+			t.Skip()
+		}
+		first, firstErr := decodeJSONObject(content)
+		second, secondErr := decodeJSONObject(content)
+		if (firstErr == nil) != (secondErr == nil) {
+			t.Fatalf("decode error stability = %v, %v", firstErr, secondErr)
+		}
+		if firstErr == nil && !reflect.DeepEqual(first, second) {
+			t.Fatalf("decode output changed: %v, %v", first, second)
+		}
+	})
+}
 
 func TestJSONSourceLoadsBaseAndProfilesInOrder(t *testing.T) {
 	t.Parallel()

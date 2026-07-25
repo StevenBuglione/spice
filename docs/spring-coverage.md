@@ -8,7 +8,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Core | Dependency injection | Exact-type catalog/graph, deterministic direct-call constructor/rollback, and guarded generated-file application | available |
 | Core | Auto-configuration | Explicit starter manifests with compile-time conditions | planned |
 | Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |
-| Configuration | External properties and profiles | Reflection-free schema/snapshot runtime, rooted JSON/profile files, environment mapping, provenance, validation, redaction, and compile-time typed/module-owned declaration metadata are available; generated binders follow | in-progress |
+| Configuration | External properties and profiles | Typed/module-owned declarations become exact provider nodes with deterministic generated schema/binders; explicit rooted JSON/profile and environment sources provide precedence, provenance, validation, redaction, and caller-owned loading | available |
 | Web | MVC/REST controllers | Generated `net/http` adapters from controller annotations | planned |
 | Web | Request binding and validation | Typed path, query, header, and body binding | planned |
 | Web | Error handling and content negotiation | Standard policy interfaces and generated adapters | planned |

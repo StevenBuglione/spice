@@ -9,6 +9,48 @@ import (
 	"time"
 )
 
+func FuzzResolveScalars(f *testing.F) {
+	for _, seed := range []struct {
+		kind  byte
+		value string
+	}{
+		{kind: 0, value: "text"},
+		{kind: 1, value: "true"},
+		{kind: 2, value: "42"},
+		{kind: 3, value: "5s"},
+		{kind: 2, value: "not-an-integer"},
+	} {
+		f.Add(seed.kind, seed.value)
+	}
+	f.Fuzz(func(t *testing.T, selector byte, value string) {
+		kinds := []Kind{KindString, KindBoolean, KindInteger, KindDuration}
+		kind := kinds[int(selector)%len(kinds)]
+		schema := MustSchema(Property{Key: "value", Kind: kind, Required: true})
+		source, err := NewMapSource("fuzz", map[string]string{"value": value})
+		if err != nil {
+			t.Fatal(err)
+		}
+		snapshot, resolveErr := Resolve(context.Background(), schema, Options{}, source)
+		if resolveErr != nil {
+			return
+		}
+		var decodeErr error
+		switch kind {
+		case KindString:
+			_, decodeErr = snapshot.RequiredString("value")
+		case KindBoolean:
+			_, decodeErr = snapshot.Boolean("value")
+		case KindInteger:
+			_, decodeErr = snapshot.Integer("value")
+		case KindDuration:
+			_, decodeErr = snapshot.Duration("value")
+		}
+		if decodeErr != nil {
+			t.Fatalf("validated scalar failed typed decoding: %v", decodeErr)
+		}
+	})
+}
+
 func TestResolveAppliesDeterministicPrecedenceProvenanceAndRedaction(t *testing.T) {
 	t.Parallel()
 	schema := MustSchema(

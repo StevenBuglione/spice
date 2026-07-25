@@ -18,14 +18,14 @@ The repository currently provides:
 
 - A typed Go package-loading pipeline with stable declaration identities.
 - Annotation parsing, resolution, and source-positioned validation.
-- Exact-type provider catalog and deterministic dependency graph validation.
+- Exact-type bean/configuration provider catalog and deterministic dependency graph validation.
 - Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
 - Exact-type `@Application` roots assembled with provider and lifecycle data in one immutable application IR.
 - A pure deterministic renderer for direct provider/lifecycle calls and SHA-256 ownership manifests.
 - Guarded generated-file ownership with manual-edit refusal, freshness checks, bounded diffs, and unchanged-file preservation.
 - Import-path application modules with root APIs, named interfaces, explicit dependencies, internal-boundary checks, unassigned-package reporting, and deterministic cycle detection.
 - Module-aware synchronous lifecycle observations that generated applications expose without a global tracer or telemetry dependency.
-- A reflection-free typed configuration runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
+- Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
 - A committed generated HTTP application with real provider, lifecycle, route, and graceful-drain tests.
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.

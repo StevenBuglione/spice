@@ -129,10 +129,29 @@ server, err := config.Decode(ctx, snapshot, func(snapshot config.Snapshot) (Serv
 })
 ```
 
-The hand-written decoder above demonstrates the generated contract. The
-compiler already retains the exact field types and property metadata in the
-immutable application IR; emitting and injecting these binders is the next
-configuration slice.
+The compiler retains exact field types and property metadata in the immutable
+application IR. Each configuration struct becomes an exact-type provider node,
+so ordinary `@Bean` parameters and `@Application` roots can consume it.
+Generated binders emit direct scalar access, named-type conversion, and
+integer-width checks before constructing the struct.
+
+Configured generated applications expose:
+
+```go
+type ApplicationOptions struct {
+    Profiles                  []string
+    Sources                   []config.Source
+    AllowUnknownConfiguration bool
+    Observers                 []lifecycle.Observer
+}
+```
+
+`NewApplicationWithOptions` resolves all configuration once, then constructs
+providers in dependency order. `NewApplication(ctx, observers...)` remains the
+concise compatibility entrypoint and uses schema defaults only. Neither
+constructor reads files, environment variables, signals, or the network unless
+the caller explicitly supplies a source that does so. `ConfigurationSchema`
+returns fresh, validated generated metadata without a mutable global registry.
 
 ## Environment and secrets
 
