@@ -93,14 +93,6 @@ func (index typeIndex) lookup(required types.Type, providers []provider.Provider
 			return providerIndex, true
 		}
 	}
-	// Unusual nested aliases or future go/types forms may render a different
-	// acceleration key. Preserve exact semantics with a bounded fallback; the
-	// ordinary named/composite path remains constant-time.
-	for providerIndex := range providers {
-		if types.Identical(required, providers[providerIndex].Output) {
-			return providerIndex, true
-		}
-	}
 	return 0, false
 }
 
