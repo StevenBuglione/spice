@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 60,
+  "generation": 61,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "READY_FOR_VERIFICATION",
+    "status": "VERIFYING",
     "issue": 17,
     "pr": 36,
     "branch": "agent/issue-17-provider-graph",
@@ -13,7 +13,7 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Independent verifier should atomically acquire review_lock for exact head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382, execute the frozen matrix from artifact 8613689086, and merge only if the head remains unchanged."
+    "next_action": "Verifier is independently executing the frozen issue #17 matrix against exact head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382 and artifact 8613689086; any head change invalidates review."
   },
   "writer_lock": {
     "active": false,
@@ -24,17 +24,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null,
-    "head": null
+    "active": true,
+    "owner": "verifier",
+    "token": "verifier-20260725T013812Z-5a7c91",
+    "acquired_at": "2026-07-25T01:38:12Z",
+    "heartbeat_at": "2026-07-25T01:38:12Z",
+    "lease_until": "2026-07-25T02:23:12Z",
+    "head": "54a8d1d4e004e9ec5092caaf33cd8d6ad8861382"
   },
   "last_transition": {
-    "role": "primary-implementer",
-    "at": "2026-07-25T01:35:05Z",
-    "summary": "Released writer lock implementer-primary-20260725T011000Z-a84f31 and handed exact head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382 to verification after local and artifact execution, mutation proof, CI run 30138657654, and workspace run 30138657652 all passed."
+    "role": "verifier",
+    "at": "2026-07-25T01:38:12Z",
+    "summary": "Atomically acquired review lock verifier-20260725T013812Z-5a7c91 for exact PR #36 head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382."
   }
 }
