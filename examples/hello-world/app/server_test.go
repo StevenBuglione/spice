@@ -12,7 +12,9 @@ func TestGeneratedComponentGraphServesAndDrainsHTTP(t *testing.T) {
 	t.Parallel()
 	config := HTTPConfigProvider()
 	config.Address = "127.0.0.1:0"
-	server := ServerProvider(config, HandlerProvider(ControllerProvider()))
+	handler := MuxProvider()
+	handler.HandleFunc("GET /users/{id}", ControllerProvider().GetUser)
+	server := ServerProvider(config, handler)
 	if err := server.Start(context.Background()); err != nil {
 		t.Fatalf("Start() error = %v", err)
 	}

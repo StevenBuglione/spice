@@ -42,11 +42,9 @@ func ControllerProvider() *UserController {
 	return &UserController{}
 }
 
-// HandlerProvider adapts the annotated controller to an explicit Go HTTP handler.
+// MuxProvider supplies the exact route table populated by generated adapters.
 //
 // @Bean
-func HandlerProvider(controller *UserController) http.Handler {
-	mux := http.NewServeMux()
-	mux.HandleFunc("GET /users/{id}", controller.GetUser)
-	return mux
+func MuxProvider() *http.ServeMux {
+	return http.NewServeMux()
 }

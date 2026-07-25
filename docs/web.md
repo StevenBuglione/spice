@@ -28,6 +28,13 @@ response status selection, and error-handler calls. Applications remain free to
 provide raw `http.Handler` beans when generated controller semantics are not
 appropriate.
 
+When the provider graph contains an exact `*http.ServeMux`, Spice registers all
+generated routes on that instance; HTTP server beans can depend on the same mux.
+Otherwise the generated application creates an internal mux. In both cases
+`Application.Handler()` exposes the final handler. Registration uses
+`web.Register`, which converts ServeMux pattern/conflict panics into
+construction errors so lifecycle cleanup rollback remains available.
+
 ## Controller contract
 
 `compiler/controller` validates controller metadata from the same typed program

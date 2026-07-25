@@ -9,9 +9,9 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Core | Auto-configuration | Explicit starter manifests with compile-time conditions | planned |
 | Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |
 | Configuration | External properties and profiles | Typed/module-owned declarations become exact provider nodes with deterministic generated schema/binders; explicit rooted JSON/profile and environment sources provide precedence, provenance, validation, redaction, and caller-owned loading | available |
-| Web | MVC/REST controllers | Exact provider-owned controller/route IR, typed and raw method contracts, ServeMux pattern validation, and deterministic diagnostics are available; adapter emission follows | in-progress |
-| Web | Request binding and validation | Strict bounded JSON decoding and safe scalar binding runtime are available; generated typed DTO adapters follow | in-progress |
-| Web | Error handling and content negotiation | RFC 9457 problems, secure mapping, JSON negotiation, and response writers are available; generated adapters follow | in-progress |
+| Web | MVC/REST controllers | Exact provider-owned controller/route IR plus deterministic generated typed/raw `net/http` adapters and panic-safe ServeMux registration | available |
+| Web | Request binding and validation | Generated path/query/header/body DTO binding uses strict bounded JSON and safe scalar conversion; typed post-bind validation follows | in-progress |
+| Web | Error handling and content negotiation | Generated adapters apply RFC 9457 secure error mapping, JSON negotiation, explicit 204 responses, and caller-selected error policy | available |
 | Web | OpenAPI and REST documentation | Generated contracts and examples | planned |
 | Web | WebSocket, GraphQL, gRPC | Go-native integrations and starters | planned |
 | Security | Authentication and authorization | Middleware, generated method guards, OAuth2/OIDC starters | planned |

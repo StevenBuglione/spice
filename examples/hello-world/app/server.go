@@ -48,7 +48,7 @@ type Server struct {
 // ServerProvider constructs the lifecycle-managed HTTP server.
 //
 // @Bean
-func ServerProvider(config HTTPConfig, handler http.Handler) *Server {
+func ServerProvider(config HTTPConfig, handler *http.ServeMux) *Server {
 	return &Server{
 		httpServer: &http.Server{
 			Addr:              config.Address,

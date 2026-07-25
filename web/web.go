@@ -180,6 +180,25 @@ func (e *BindingError) Problem() Problem {
 // ErrorMapper converts an application error into a safe problem document.
 type ErrorMapper func(context.Context, error) Problem
 
+// Register safely registers one generated route. ServeMux reports invalid or
+// conflicting patterns by panic; Spice converts that programmer/configuration
+// fault into an application-construction error so cleanup rollback still runs.
+func Register(mux *http.ServeMux, pattern string, handler http.Handler) (err error) {
+	if mux == nil {
+		return errors.New("register HTTP route: mux is nil")
+	}
+	if handler == nil {
+		return errors.New("register HTTP route: handler is nil")
+	}
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			err = fmt.Errorf("register HTTP route %q: %v", pattern, recovered)
+		}
+	}()
+	mux.Handle(pattern, handler)
+	return nil
+}
+
 // DefaultErrorMapper preserves valid explicit problems and otherwise returns a
 // generic 500 response without leaking internal error text.
 func DefaultErrorMapper(_ context.Context, err error) Problem {

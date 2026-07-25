@@ -86,6 +86,27 @@ func TestProblemMappingAndWriters(t *testing.T) {
 	}
 }
 
+func TestRegisterConvertsServeMuxPanicsToErrors(t *testing.T) {
+	mux := http.NewServeMux()
+	handler := http.HandlerFunc(func(http.ResponseWriter, *http.Request) {})
+	if err := Register(mux, "GET /items/{id}", handler); err != nil {
+		t.Fatalf("Register() error = %v", err)
+	}
+	if err := Register(mux, "GET /items/{id}", handler); err == nil ||
+		!strings.Contains(err.Error(), "conflicts") {
+		t.Fatalf("Register(duplicate) error = %v", err)
+	}
+	if err := Register(mux, "invalid pattern", handler); err == nil {
+		t.Fatal("Register(invalid) error = nil")
+	}
+	if err := Register(nil, "GET /", handler); err == nil {
+		t.Fatal("Register(nil mux) error = nil")
+	}
+	if err := Register(http.NewServeMux(), "GET /", nil); err == nil {
+		t.Fatal("Register(nil handler) error = nil")
+	}
+}
+
 func TestProblemValidationAndFallbacks(t *testing.T) {
 	tests := []Problem{
 		{Status: 399},
