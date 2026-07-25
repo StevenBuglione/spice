@@ -57,9 +57,20 @@ func NewUserService(repository UserRepository) (*UserService, error) {
 }
 ```
 
-The bootstrap catalog accepts exactly `func(dependencies...) T` and `func(dependencies...) (T, error)`. Every parameter is a required exact-type dependency for the later graph phase. Provider methods, generic or variadic functions, cleanup callbacks, annotation arguments, multiple provided values, and error results in any other shape are rejected with source-positioned diagnostics.
+The catalog accepts these exact forms:
 
-`spice verify` validates and catalogs provider signatures but does not execute providers or generate application wiring yet. Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, lifecycle, optional values, groups, and collection injection remain explicit future capabilities.
+```go
+func(dependencies...) T
+func(dependencies...) (T, error)
+func(dependencies...) (T, lifecycle.Cleanup)
+func(dependencies...) (T, lifecycle.Cleanup, error)
+```
+
+`lifecycle.Cleanup` is the named context-aware callback `func(context.Context) error`. An alias to that exact type is accepted; unnamed or distinct defined function types are rejected even when their underlying signatures match. Cleanup is metadata only in this release: it must be the second result, `error` must be final, and the first result remains the sole provided value. A one-result provider whose value itself has type `lifecycle.Cleanup` is an ordinary provider of that value.
+
+Every parameter is a required exact-type dependency for the graph phase. Provider methods, generic or variadic functions, annotation arguments, malformed result ordering, multiple cleanup or error results, and extra values are rejected with source-positioned diagnostics.
+
+`spice verify` validates catalog and graph metadata but does not execute providers or cleanup callbacks and does not generate application wiring yet. Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, cleanup invocation, startup/shutdown hooks, optional values, groups, and collection injection remain explicit future capabilities.
 
 ## Argument diagnostics
 

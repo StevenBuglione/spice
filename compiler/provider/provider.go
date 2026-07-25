@@ -12,7 +12,11 @@ import (
 	"github.com/StevenBuglione/spice/compiler/resolve"
 )
 
-const acceptedSignature = "func(dependencies...) T or func(dependencies...) (T, error)"
+const (
+	acceptedSignature  = "func(dependencies...) T, func(dependencies...) (T, error), func(dependencies...) (T, lifecycle.Cleanup), or func(dependencies...) (T, lifecycle.Cleanup, error)"
+	cleanupPackagePath = "github.com/StevenBuglione/spice/lifecycle"
+	cleanupTypeName    = "Cleanup"
+)
 
 var errorType = types.Universe.Lookup("error").Type()
 
@@ -39,6 +43,7 @@ type Provider struct {
 	Output           types.Type
 	OutputTypeID     string
 	Dependencies     []Dependency
+	ReturnsCleanup   bool
 	ReturnsError     bool
 }
 
@@ -166,6 +171,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 
 	results := signature.Results()
 	var output types.Type
+	returnsCleanup := false
 	returnsError := false
 	switch results.Len() {
 	case 0:
@@ -181,20 +187,71 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 		if isError(first) {
 			return fail("error-position", invalidSignatureMessage(label, "error must be the final and only additional result"))
 		}
-		if !isError(second) {
-			return fail("multiple-values", invalidSignatureMessage(label, "provider functions may return only one provided value"))
+		output = first
+		switch {
+		case isError(second):
+			returnsError = true
+		case isCleanup(second):
+			returnsCleanup = true
+		default:
+			return fail("invalid-second-result", invalidSignatureMessage(label, "provider functions may return only one provided value; the second result must be lifecycle.Cleanup or error"))
+		}
+	case 3:
+		first := results.At(0).Type()
+		second := results.At(1).Type()
+		third := results.At(2).Type()
+		errorResults := 0
+		cleanupResults := 0
+		for _, result := range []types.Type{first, second, third} {
+			if isError(result) {
+				errorResults++
+			}
+			if isCleanup(result) {
+				cleanupResults++
+			}
+		}
+		if cleanupResults > 1 {
+			return fail("too-many-results", invalidSignatureMessage(label, "provider functions may return at most one lifecycle.Cleanup result"))
+		}
+		if errorResults > 1 {
+			return fail("too-many-results", invalidSignatureMessage(label, "provider functions may return at most one error result"))
+		}
+		if isError(first) {
+			return fail("error-position", invalidSignatureMessage(label, "error must be the final and only additional result"))
+		}
+		if !isCleanup(second) {
+			reason := "the second result must be lifecycle.Cleanup"
+			if isError(second) {
+				reason = "error must follow lifecycle.Cleanup as the final result"
+			}
+			return fail("cleanup-position", invalidSignatureMessage(label, reason))
+		}
+		if !isError(third) {
+			reason := "the third result must be error"
+			if isCleanup(third) {
+				reason = "only one lifecycle.Cleanup result is allowed and it must be second"
+			}
+			return fail("error-position", invalidSignatureMessage(label, reason))
 		}
 		output = first
+		returnsCleanup = true
 		returnsError = true
 	default:
 		errorResults := 0
+		cleanupResults := 0
 		for i := 0; i < results.Len(); i++ {
-			if isError(results.At(i).Type()) {
+			result := results.At(i).Type()
+			if isError(result) {
 				errorResults++
 			}
+			if isCleanup(result) {
+				cleanupResults++
+			}
 		}
-		reason := "provider functions may return only one provided value and one final error"
-		if errorResults > 1 {
+		reason := "provider functions may return only one provided value, one optional lifecycle.Cleanup, and one optional final error"
+		if cleanupResults > 1 {
+			reason = "provider functions may return at most one lifecycle.Cleanup result"
+		} else if errorResults > 1 {
 			reason = "provider functions may return at most one error result"
 		}
 		return fail("too-many-results", invalidSignatureMessage(label, reason))
@@ -226,6 +283,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 		Output:           output,
 		OutputTypeID:     TypeID(output),
 		Dependencies:     dependencies,
+		ReturnsCleanup:   returnsCleanup,
 		ReturnsError:     returnsError,
 	}, nil
 }
@@ -236,6 +294,17 @@ func invalidSignatureMessage(label, reason string) string {
 
 func isError(value types.Type) bool {
 	return value != nil && types.Identical(value, errorType)
+}
+
+func isCleanup(value types.Type) bool {
+	if value == nil {
+		return false
+	}
+	named, ok := types.Unalias(value).(*types.Named)
+	if !ok || named.Obj() == nil || named.Obj().Pkg() == nil {
+		return false
+	}
+	return named.Obj().Pkg().Path() == cleanupPackagePath && named.Obj().Name() == cleanupTypeName
 }
 
 // TypeID returns a deterministic readable Go type string using package import
