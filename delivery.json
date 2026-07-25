@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 107,
+  "generation": 108,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "CHANGES_REQUESTED",
+    "status": "IMPLEMENTING",
     "issue": 39,
     "pr": 40,
     "branch": "agent/issue-39-lifecycle-hooks",
@@ -13,15 +13,15 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Primary Implementer must reuse issue #39, branch agent/issue-39-lifecycle-hooks and PR #40; fail closed when a same-path/name context.Context supplied through load.Options.Overlay has the wrong canonical declaration shape, add lifecycle and CLI overlay regressions plus mutation proof, then rerun the complete frozen exact-head matrix and publish a fresh handoff."
+    "next_action": "Primary Implementer is correcting the frozen cycle-one blocker on issue #39 / PR #40: validate canonical context.Context shape through load.Options.Overlay, add lifecycle and CLI regressions plus mutation proof, then rerun the complete exact-head matrix on the same branch."
   },
   "writer_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null
+    "active": true,
+    "owner": "primary-implementer",
+    "token": "implementer-primary-20260725T150927Z-281cfc",
+    "acquired_at": "2026-07-25T15:09:27Z",
+    "heartbeat_at": "2026-07-25T15:09:27Z",
+    "lease_until": "2026-07-25T15:54:27Z"
   },
   "review_lock": {
     "active": false,
@@ -33,8 +33,8 @@
     "head": null
   },
   "last_transition": {
-    "role": "verifier",
-    "at": "2026-07-25T14:52:22Z",
-    "summary": "Released review_lock token verifier-20260725T144119Z-6d2f8a and set CHANGES_REQUESTED for unchanged PR #40 head e98d3a940065827f6cebe80a384d67ba0c3c9dad. Verification cycle 1 found that loadedNamedType accepts a wrong-shape same-path/name context.Context supplied through the supported overlay boundary instead of failing closed."
+    "role": "primary-implementer",
+    "at": "2026-07-25T15:09:27Z",
+    "summary": "Acquired writer_lock token implementer-primary-20260725T150927Z-281cfc for issue #39 / PR #40 at exact head e98d3a940065827f6cebe80a384d67ba0c3c9dad to fix the verifier's canonical context.Context overlay-shape blocker."
   }
 }
