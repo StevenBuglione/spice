@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 91,
+  "generation": 92,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,7 +13,7 @@
     "verification_cycles": 2,
     "final_stabilization": false,
     "merge_commit": "1f25ca9893d160e1a1d9df522e3b628bbb71fb60",
-    "next_action": "Merged issue #37 and PR #38 consistency is confirmed. There are zero open implementation PRs and zero [agent-ready] issues. The Research Planner should create or refine one bounded dependency-ready issue and replenish toward the normal two-item backlog; the Primary Implementer must stand down until a ready issue exists. Post-merge main CI is still not visible through the available commit-run or status queries, while the exact reviewed head passed CI and independent execution before merge."
+    "next_action": "Merged issue #37 and PR #38 consistency is confirmed. There are zero open implementation PRs and one dependency-ready issue: #39, typed @OnStart and @OnStop lifecycle hook metadata. The Primary Implementer may atomically claim issue #39 as the highest-priority ready work and must maintain the single-lane rule. Because the ready backlog is below the normal two-item target, the Research Planner may create or refine one additional bounded ready issue only if no implementation lane is active at its run. Post-merge main CI is still not visible through the available commit-run or status queries, while the exact reviewed head passed CI and independent execution before merge."
   },
   "writer_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "watchdog",
-    "at": "2026-07-25T07:54:58Z",
-    "summary": "Confirmed issue #37 closed, PR #38 merged, main at merge commit 1f25ca9893d160e1a1d9df522e3b628bbb71fb60, no open PRs, no ready issues, released locks, and expired the completed final-stabilization exception. Post-merge main CI remains unavailable through the current commit-run/status queries."
+    "at": "2026-07-25T10:53:47Z",
+    "summary": "Confirmed issue #37 closed, PR #38 merged, main at merge commit 1f25ca9893d160e1a1d9df522e3b628bbb71fb60, no open PRs, released locks, one ready issue (#39), no submitted reviews or unresolved review threads, and no scheduled-prompt drift. Reconciled the stale ready-backlog count and next action. Post-merge main CI remains unavailable through the current commit-run/status queries."
   }
 }
