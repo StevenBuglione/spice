@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 93,
+  "generation": 94,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,15 +13,15 @@
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Primary Implementer owns issue #39 under the frozen revision-1 contract. Create the canonical branch and draft PR, implement only typed @OnStart/@OnStop lifecycle hook metadata, run the complete frozen verification and mutation matrix, push exact passing work, wait for exact-head CI and the permanent workspace artifact, then release the writer lock to READY_FOR_VERIFICATION."
+    "next_action": "Implementation and focused tests for frozen issue #39 are present in the exact local workspace. Run the complete frozen verification, offline, race, determinism, executable-fixture and mutation matrix; then atomically heartbeat before pushing the canonical branch."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T110804Z-fa97ba",
     "acquired_at": "2026-07-25T11:08:04Z",
-    "heartbeat_at": "2026-07-25T11:08:04Z",
-    "lease_until": "2026-07-25T11:53:04Z"
+    "heartbeat_at": "2026-07-25T11:16:05Z",
+    "lease_until": "2026-07-25T12:01:05Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T11:08:04Z",
-    "summary": "Atomically claimed issue #39 as the sole implementation lane from main commit 1f25ca9893d160e1a1d9df522e3b628bbb71fb60 under CONTRACT_FROZEN revision 1."
+    "at": "2026-07-25T11:16:05Z",
+    "summary": "Heartbeat before the full frozen verification matrix for issue #39. Focused implementation tests and make verify already pass locally."
   }
 }
