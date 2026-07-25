@@ -28,10 +28,19 @@ An isolated handler serves:
 | `GET /actuator/health/liveness` | process liveness report |
 | `GET /actuator/health/readiness` | traffic readiness report |
 | `GET /actuator/info` | caller-owned copied string metadata |
+| `GET /actuator/metrics` | generated-route HTTP metrics when a collector is supplied |
 
 Down reports use HTTP 503; up reports and info use HTTP 200. Responses use the
 same secure JSON writer as generated controllers. The default base path is
 `/actuator`; a custom path must be a clean absolute path below `/`.
+
+`management.HTTPMetrics` implements `web.HTTPObserver`. It records requests,
+in-flight work, status counts, bytes, total/max duration, and panics per stable
+generated route. Route labels contain only compiler-generated symbol, module,
+method, and pattern values—never raw paths or other client-controlled
+cardinality. The zero value is usable, snapshots are immutable and sorted, and
+completion is idempotent. A hard 4,096-route cap bounds memory; excess
+observations are counted in `dropped_observations`.
 
 Mount the handler explicitly on the application's mux:
 
@@ -50,6 +59,7 @@ if err != nil {
 }
 handler, err := management.NewHandler(management.HandlerOptions{
     Manager: manager,
+    Metrics: metrics,
     Info: map[string]string{
         "name":    "commerce",
         "version": buildVersion,
@@ -59,6 +69,14 @@ if err != nil {
     return err
 }
 mux.Handle(handler.Pattern(), handler)
+```
+
+Pass the same collector to the generated application:
+
+```go
+application, err := spicegen.NewApplicationWithOptions(ctx, spicegen.ApplicationOptions{
+    HTTPObservers: []web.HTTPObserver{metrics},
+})
 ```
 
 External dependency checks normally belong to both `health` and `readiness`,

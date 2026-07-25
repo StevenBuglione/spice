@@ -195,6 +195,7 @@ type HandlerOptions struct {
 	BasePath string
 	Manager  *Manager
 	Info     map[string]string
+	Metrics  *HTTPMetrics
 }
 
 // Handler serves one isolated set of management endpoints.
@@ -202,6 +203,7 @@ type Handler struct {
 	basePath string
 	manager  *Manager
 	info     map[string]string
+	metrics  *HTTPMetrics
 	mux      *http.ServeMux
 }
 
@@ -221,12 +223,16 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 		basePath: basePath,
 		manager:  options.Manager,
 		info:     cloneInfo(options.Info),
+		metrics:  options.Metrics,
 		mux:      http.NewServeMux(),
 	}
 	handler.mux.HandleFunc("GET "+basePath+"/health", handler.serveReport(GroupHealth))
 	handler.mux.HandleFunc("GET "+basePath+"/health/liveness", handler.serveReport(GroupLiveness))
 	handler.mux.HandleFunc("GET "+basePath+"/health/readiness", handler.serveReport(GroupReadiness))
 	handler.mux.HandleFunc("GET "+basePath+"/info", handler.serveInfo)
+	if handler.metrics != nil {
+		handler.mux.HandleFunc("GET "+basePath+"/metrics", handler.serveMetrics)
+	}
 	return handler, nil
 }
 
@@ -268,6 +274,12 @@ func (handler *Handler) serveReport(group Group) http.HandlerFunc {
 
 func (handler *Handler) serveInfo(writer http.ResponseWriter, _ *http.Request) {
 	if writeErr := web.WriteJSON(writer, http.StatusOK, handler.info); writeErr != nil {
+		return
+	}
+}
+
+func (handler *Handler) serveMetrics(writer http.ResponseWriter, _ *http.Request) {
+	if writeErr := web.WriteJSON(writer, http.StatusOK, handler.metrics.Snapshot()); writeErr != nil {
 		return
 	}
 }

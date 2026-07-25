@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/StevenBuglione/spice/lifecycle"
+	"github.com/StevenBuglione/spice/web"
 )
 
 func TestManagerReportsDeterministicallyWithoutLeakingErrors(t *testing.T) {
@@ -185,17 +186,39 @@ func TestHandlerServesIsolatedManagementEndpoints(t *testing.T) {
 	if response.Header().Get("X-Content-Type-Options") != "nosniff" {
 		t.Fatalf("info headers = %#v", response.Header())
 	}
-	if response := serve(handler, http.MethodPost, "/actuator/health"); response.Code != http.StatusMethodNotAllowed {
+	response = serve(handler, http.MethodPost, "/actuator/health")
+	if response.Code != http.StatusMethodNotAllowed {
 		t.Fatalf("POST status = %d", response.Code)
 	}
-	if response := serve(handler, http.MethodGet, "/other"); response.Code != http.StatusNotFound {
+	response = serve(handler, http.MethodGet, "/other")
+	if response.Code != http.StatusNotFound {
 		t.Fatalf("unowned path status = %d", response.Code)
+	}
+	response = serve(handler, http.MethodGet, "/actuator/metrics")
+	if response.Code != http.StatusNotFound {
+		t.Fatalf("disabled metrics status = %d", response.Code)
 	}
 
 	root := http.NewServeMux()
 	root.Handle(handler.Pattern(), handler)
-	if response := serve(root, http.MethodGet, "/actuator/health/liveness"); response.Code != http.StatusOK {
+	response = serve(root, http.MethodGet, "/actuator/health/liveness")
+	if response.Code != http.StatusOK {
 		t.Fatalf("mounted liveness status = %d", response.Code)
+	}
+
+	metrics := NewHTTPMetrics()
+	route := web.RouteMetadata{ID: "route", Module: "example.com/app", Method: http.MethodGet, Pattern: "/items"}
+	_, finish := metrics.BeginHTTP(context.Background(), route)
+	finish(web.HTTPResult{Status: http.StatusOK, Bytes: 7})
+	handler, err = NewHandler(HandlerOptions{Manager: manager, Metrics: metrics})
+	if err != nil {
+		t.Fatal(err)
+	}
+	response = serve(handler, http.MethodGet, "/actuator/metrics")
+	if response.Code != http.StatusOK ||
+		!strings.Contains(response.Body.String(), `"requests":1`) ||
+		!strings.Contains(response.Body.String(), `"example.com/app"`) {
+		t.Fatalf("metrics response = %d %s", response.Code, response.Body.String())
 	}
 }
 

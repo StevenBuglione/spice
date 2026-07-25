@@ -26,8 +26,8 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Scheduling | Scheduled and asynchronous work | Generated scheduler registration and lifecycle | planned |
 | Batch | Batch jobs | Job/step abstraction with restart and observability support | planned |
 | Cache | Cache abstraction | Typed cache interfaces and generated decorators | planned |
-| Observability | Actuator endpoints | Opt-in deterministic health/liveness/readiness/info management endpoints and lifecycle-state probes are available; metrics, routes, modules, and config metadata follow | in-progress |
-| Observability | Metrics and tracing | Generated module-aware HTTP observation metadata/results provide a dependency-free OpenTelemetry/metrics adapter seam; concrete exporters and instrumentation follow | in-progress |
+| Observability | Actuator endpoints | Opt-in deterministic health/liveness/readiness/info endpoints, lifecycle-state probes, and generated-route HTTP metrics are available; routes, modules, and config metadata follow | in-progress |
+| Observability | Metrics and tracing | Generated module-aware HTTP observations plus an instance-owned bounded-cardinality collector are available; OpenTelemetry exporters and broader instrumentation follow | in-progress |
 | Testing | Application context and test slices | Generated test application graphs and focused module/web/data tests | planned |
 | Development | Devtools and reload | Fast generate/test loop and optional reload integration | planned |
 | Modulith | Module discovery | Import-path roots, longest-root package ownership, root APIs, named interfaces, and unassigned-package metadata | available |
