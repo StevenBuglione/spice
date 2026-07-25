@@ -23,6 +23,8 @@ func Registry() annotation.Registry {
 				{Name: "path", Kinds: []annotation.Kind{annotation.KindString}, Required: true, Positional: true},
 			},
 		},
+		annotation.Definition{Name: "OnStart", Targets: annotation.Targets(annotation.TargetMethod)},
+		annotation.Definition{Name: "OnStop", Targets: annotation.Targets(annotation.TargetMethod)},
 		annotation.Definition{
 			Name:    "Post",
 			Targets: annotation.Targets(annotation.TargetMethod),

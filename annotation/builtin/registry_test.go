@@ -22,6 +22,8 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		{name: "Configuration", targets: []annotation.Target{annotation.TargetType}},
 		{name: "Controller", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix"},
 		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true, positional: true},
+		{name: "OnStart", targets: []annotation.Target{annotation.TargetMethod}},
+		{name: "OnStop", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true, positional: true},
 		{name: "Service", targets: []annotation.Target{annotation.TargetType}},
 	}
@@ -83,5 +85,14 @@ func TestRegistryCallsAreIndependent(t *testing.T) {
 	}
 	if fresh.Arguments[0].Name != "prefix" {
 		t.Fatalf("fresh registry was affected by previous mutation: %#v", fresh)
+	}
+}
+
+func TestRegistryLifecycleHooks(t *testing.T) {
+	for _, name := range []string{"OnStart", "OnStop"} {
+		definition, ok := Registry().Lookup(name)
+		if !ok || !reflect.DeepEqual(definition.Targets.Values(), []annotation.Target{annotation.TargetMethod}) || definition.Repeatable || len(definition.Arguments) != 0 {
+			t.Fatalf("%s definition = %#v, want argument-free non-repeatable method marker", name, definition)
+		}
 	}
 }
