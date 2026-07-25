@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 76,
+  "generation": 77,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "IMPLEMENTING",
+    "status": "READY_FOR_VERIFICATION",
     "issue": 37,
     "pr": 38,
     "branch": "agent/issue-37-cleanup-metadata",
@@ -13,15 +13,15 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Wait for exact-head CI and permanent workspace artifact for 155e415fbd2a54b7090341a81c3175c97856fea7, confirm artifact head and file parity, then release the writer lock and publish READY_FOR_VERIFICATION."
+    "next_action": "Independently verify exact head 155e415fbd2a54b7090341a81c3175c97856fea7 using CI run 30145743385 and permanent workspace artifact 8615929483, rerun the frozen matrix including the exact full race command, inspect the positional cleanup correction and mutation proof, then merge only if the head remains unchanged."
   },
   "writer_lock": {
-    "active": true,
-    "owner": "primary-implementer",
-    "token": "implementer-primary-20260725T050900Z-7d4c2a",
-    "acquired_at": "2026-07-25T05:09:00Z",
-    "heartbeat_at": "2026-07-25T05:26:00Z",
-    "lease_until": "2026-07-25T06:11:00Z"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T05:26:00Z",
-    "summary": "Pushed the positional cleanup correction and focused provider/CLI regressions to exact head 155e415fbd2a54b7090341a81c3175c97856fea7 after the full frozen local matrix passed."
+    "at": "2026-07-25T05:28:00Z",
+    "summary": "Released writer lock implementer-primary-20260725T050900Z-7d4c2a and published exact head 155e415fbd2a54b7090341a81c3175c97856fea7 READY_FOR_VERIFICATION after the full local, executable, mutation, CI and permanent-artifact proof passed."
   }
 }
