@@ -4,8 +4,8 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 
 | Area | Spring capability | Spice direction | Status |
 |---|---|---|---|
-| Core | Application bootstrap and lifecycle | Generated application graph plus small lifecycle runtime | planned |
-| Core | Dependency injection | Exact-type provider catalog and dependency-graph validation; generated constructor wiring follows | in-progress |
+| Core | Application bootstrap and lifecycle | Context-aware provider cleanup metadata is available; generated invocation and lifecycle runtime follow | in-progress |
+| Core | Dependency injection | Exact-type provider catalog, cleanup metadata, and dependency-graph validation; generated constructor wiring follows | in-progress |
 | Core | Auto-configuration | Explicit starter manifests with compile-time conditions | planned |
 | Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |
 | Configuration | External properties and profiles | Typed configuration binding, sources, profiles, validation | planned |
@@ -38,6 +38,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Modulith | Runtime observations | Module-aware spans and interaction metrics | planned |
 | Current bootstrap | Annotation parser, declaration scan, and target metadata | Valid comment syntax, source association, typed built-in definitions, and target diagnostics | available |
 | Current bootstrap | Provider dependency validation | Exact-type missing-dependency diagnostics, cycle detection, and deterministic dependency-first metadata | available |
+| Current bootstrap | Provider cleanup metadata | Named context-aware cleanup result validation retained for future generated rollback and shutdown | available |
 
 ## Coverage rules
 
