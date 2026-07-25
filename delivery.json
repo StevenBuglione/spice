@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 69,
+  "generation": 70,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "IMPLEMENTING",
+    "status": "READY_FOR_VERIFICATION",
     "issue": 37,
     "pr": 38,
     "branch": "agent/issue-37-cleanup-metadata",
@@ -13,15 +13,15 @@
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Confirm exact-head GitHub Actions and the permanent PR workspace artifact for 64861716cf11be59d600761b29ee5c6ce87dfb87, verify artifact/file parity, then make PR #38 non-draft, release the writer lock, and publish READY_FOR_VERIFICATION."
+    "next_action": "Independent Verifier should atomically acquire the review lock for exact head 64861716cf11be59d600761b29ee5c6ce87dfb87, inspect the complete eight-file diff, download artifact 8615414679, rerun the frozen matrix and executable fixtures, recheck CI and head, then request bounded changes or verify and squash-merge."
   },
   "writer_lock": {
-    "active": true,
-    "owner": "primary-implementer",
-    "token": "implementer-primary-20260725T040800Z-4e8a1c",
-    "acquired_at": "2026-07-25T04:08:00Z",
-    "heartbeat_at": "2026-07-25T04:36:00Z",
-    "lease_until": "2026-07-25T05:21:00Z"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T04:36:00Z",
-    "summary": "Pushed the exact locally proven eight-file issue #37 implementation to canonical PR #38 at 64861716cf11be59d600761b29ee5c6ce87dfb87 and recorded the head before waiting for CI and artifact proof."
+    "at": "2026-07-25T04:45:00Z",
+    "summary": "Released writer lock implementer-primary-20260725T040800Z-4e8a1c and handed non-draft PR #38 to verification after exact-head local execution, CI, permanent artifact, file parity, executable fixture and mutation proof all passed."
   }
 }
