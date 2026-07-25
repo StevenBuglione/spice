@@ -3,6 +3,7 @@
 package web
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -10,8 +11,10 @@ import (
 	"fmt"
 	"io"
 	"mime"
+	"net"
 	"net/http"
 	"net/url"
+	"reflect"
 	"slices"
 	"strconv"
 	"strings"
@@ -188,6 +191,39 @@ type ErrorMapper func(context.Context, error) Problem
 // last.
 type Middleware func(http.Handler) http.Handler
 
+// RouteMetadata is the stable generated identity of one HTTP route.
+type RouteMetadata struct {
+	ID      string
+	Module  string
+	Method  string
+	Pattern string
+}
+
+// HTTPResult describes one completed generated route request.
+type HTTPResult struct {
+	Status   int
+	Bytes    int64
+	Duration time.Duration
+	Panicked bool
+}
+
+// HTTPObserver is the dependency-free adapter point for route metrics and
+// traces. Observers begin in declaration order and finish in reverse order.
+type HTTPObserver interface {
+	BeginHTTP(context.Context, RouteMetadata) (context.Context, func(HTTPResult))
+}
+
+// HTTPObserverFunc adapts a function to HTTPObserver.
+type HTTPObserverFunc func(context.Context, RouteMetadata) (context.Context, func(HTTPResult))
+
+// BeginHTTP implements HTTPObserver.
+func (observer HTTPObserverFunc) BeginHTTP(
+	ctx context.Context,
+	route RouteMetadata,
+) (context.Context, func(HTTPResult)) {
+	return observer(ctx, route)
+}
+
 // Chain applies a deterministic middleware list around handler. Nil
 // middleware and nil returned handlers are rejected during construction.
 func Chain(handler http.Handler, middleware ...Middleware) (http.Handler, error) {
@@ -205,6 +241,155 @@ func Chain(handler http.Handler, middleware ...Middleware) (http.Handler, error)
 		}
 	}
 	return result, nil
+}
+
+// ObservationMiddleware creates one route-aware middleware after validating
+// generated metadata and every observer.
+func ObservationMiddleware(
+	route RouteMetadata,
+	observers ...HTTPObserver,
+) (Middleware, error) {
+	if route.ID == "" {
+		return nil, errors.New("observe HTTP route: route ID is empty")
+	}
+	if route.Method == "" || route.Method != strings.ToUpper(route.Method) {
+		return nil, errors.New("observe HTTP route: method must be uppercase")
+	}
+	if route.Pattern == "" || route.Pattern[0] != '/' {
+		return nil, errors.New("observe HTTP route: pattern must be absolute")
+	}
+	for index, observer := range observers {
+		if nilHTTPObserver(observer) {
+			return nil, fmt.Errorf("observe HTTP route: observer %d is nil", index)
+		}
+	}
+	copied := append([]HTTPObserver(nil), observers...)
+	return func(next http.Handler) http.Handler {
+		if len(copied) == 0 {
+			return next
+		}
+		return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+			observeRequest(writer, request, next, route, copied)
+		})
+	}, nil
+}
+
+func nilHTTPObserver(observer HTTPObserver) bool {
+	if observer == nil {
+		return true
+	}
+	value := reflect.ValueOf(observer)
+	return (value.Kind() == reflect.Func || value.Kind() == reflect.Pointer) && value.IsNil()
+}
+
+type observedResponseWriter struct {
+	http.ResponseWriter
+	status int
+	bytes  int64
+}
+
+func (writer *observedResponseWriter) WriteHeader(status int) {
+	if writer.status != 0 {
+		return
+	}
+	writer.ResponseWriter.WriteHeader(status)
+	writer.status = status
+}
+
+func (writer *observedResponseWriter) Write(content []byte) (int, error) {
+	if writer.status == 0 {
+		writer.WriteHeader(http.StatusOK)
+	}
+	written, err := writer.ResponseWriter.Write(content)
+	writer.bytes += int64(written)
+	return written, err
+}
+
+func (writer *observedResponseWriter) Unwrap() http.ResponseWriter {
+	return writer.ResponseWriter
+}
+
+func (writer *observedResponseWriter) Flush() {
+	if writer.status == 0 {
+		writer.WriteHeader(http.StatusOK)
+	}
+	if flusher, ok := writer.ResponseWriter.(http.Flusher); ok {
+		flusher.Flush()
+	}
+}
+
+func (writer *observedResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	hijacker, ok := writer.ResponseWriter.(http.Hijacker)
+	if !ok {
+		return nil, nil, http.ErrNotSupported
+	}
+	return hijacker.Hijack()
+}
+
+func (writer *observedResponseWriter) Push(target string, options *http.PushOptions) error {
+	pusher, ok := writer.ResponseWriter.(http.Pusher)
+	if !ok {
+		return http.ErrNotSupported
+	}
+	return pusher.Push(target, options)
+}
+
+func (writer *observedResponseWriter) ReadFrom(reader io.Reader) (int64, error) {
+	if writer.status == 0 {
+		writer.WriteHeader(http.StatusOK)
+	}
+	if readerFrom, ok := writer.ResponseWriter.(io.ReaderFrom); ok {
+		written, err := readerFrom.ReadFrom(reader)
+		writer.bytes += written
+		return written, err
+	}
+	written, err := io.Copy(struct{ io.Writer }{writer}, reader)
+	return written, err
+}
+
+func observeRequest(
+	responseWriter http.ResponseWriter,
+	request *http.Request,
+	next http.Handler,
+	route RouteMetadata,
+	observers []HTTPObserver,
+) {
+	started := time.Now()
+	writer := &observedResponseWriter{ResponseWriter: responseWriter}
+	ctx := request.Context()
+	finishers := make([]func(HTTPResult), 0, len(observers))
+	for _, observer := range observers {
+		observedContext, finish := observer.BeginHTTP(ctx, route)
+		if observedContext != nil {
+			ctx = observedContext //nolint:fatcontext // Ordered observers intentionally compose request-scoped trace contexts.
+		}
+		if finish != nil {
+			finishers = append(finishers, finish)
+		}
+	}
+	defer func() {
+		recovered := recover()
+		status := writer.status
+		if status == 0 {
+			status = http.StatusOK
+		}
+		if recovered != nil && writer.status == 0 {
+			status = http.StatusInternalServerError
+		}
+		result := HTTPResult{
+			Status:   status,
+			Bytes:    writer.bytes,
+			Duration: time.Since(started),
+			Panicked: recovered != nil,
+		}
+		for _, finish := range slices.Backward(finishers) {
+			finish(result)
+		}
+		if recovered != nil {
+			panic(recovered)
+		}
+	}()
+	next.ServeHTTP(writer, request.WithContext(ctx))
 }
 
 // Validate invokes one generated request validator. Explicit problem errors
@@ -251,6 +436,31 @@ func Register(
 	}
 	mux.Handle(pattern, routeHandler)
 	return nil
+}
+
+// RegisterObserved applies caller middleware inside one generated observation
+// middleware, then safely registers the route. Caller middleware errors retain
+// their original list indexes.
+func RegisterObserved(
+	mux *http.ServeMux,
+	pattern string,
+	handler http.Handler,
+	observation Middleware,
+	middleware ...Middleware,
+) (err error) {
+	if mux == nil {
+		return errors.New("register observed HTTP route: mux is nil")
+	}
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			err = fmt.Errorf("register observed HTTP route %q: %v", pattern, recovered)
+		}
+	}()
+	routeHandler, chainErr := Chain(handler, middleware...)
+	if chainErr != nil {
+		return fmt.Errorf("register observed HTTP route %q: %w", pattern, chainErr)
+	}
+	return Register(mux, pattern, routeHandler, observation)
 }
 
 // DefaultErrorMapper preserves valid explicit problems and otherwise returns a

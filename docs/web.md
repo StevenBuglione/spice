@@ -41,6 +41,19 @@ typed and raw route, including routes registered on an application-provided
 response last. Nil middleware and middleware that returns a nil handler fail
 application construction with the route pattern and list index.
 
+`ApplicationOptions.HTTPObservers` is the dependency-free metrics/tracing
+adapter seam. Every generated route supplies its stable symbol ID, module
+import path, HTTP method, and route pattern. Observers begin in list order,
+share a derived request context, and finish in reverse order with response
+status, bytes, duration, and panic state. Observation wraps caller middleware,
+so authentication rejections and other short circuits are still measured.
+Typed-nil observers fail application construction.
+
+The response wrapper preserves flushing, hijacking, HTTP/2 push, streaming
+`io.ReaderFrom`, and `http.ResponseController` unwrapping. This lets
+OpenTelemetry or a metrics package adapt the seam without changing generated
+controller signatures or requiring a telemetry dependency in core.
+
 ## Controller contract
 
 `compiler/controller` validates controller metadata from the same typed program

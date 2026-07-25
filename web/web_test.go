@@ -133,6 +133,181 @@ func TestRegisterConvertsServeMuxPanicsToErrors(t *testing.T) {
 	}
 }
 
+func TestObservationMiddlewarePreservesContextOrderAndResult(t *testing.T) {
+	type contextKey struct{}
+	route := RouteMetadata{
+		ID:      "route-id",
+		Module:  "example.com/orders",
+		Method:  http.MethodPost,
+		Pattern: "/orders",
+	}
+	var events []string
+	var firstResult, secondResult HTTPResult
+	first := HTTPObserverFunc(func(ctx context.Context, got RouteMetadata) (context.Context, func(HTTPResult)) {
+		if got != route {
+			t.Fatalf("first route = %#v", got)
+		}
+		events = append(events, "first:begin")
+		return context.WithValue(ctx, contextKey{}, "observed"), func(result HTTPResult) {
+			firstResult = result
+			events = append(events, "first:finish")
+		}
+	})
+	second := HTTPObserverFunc(func(ctx context.Context, got RouteMetadata) (context.Context, func(HTTPResult)) {
+		if got != route || ctx.Value(contextKey{}) != "observed" {
+			t.Fatalf("second begin = %#v, context=%v", got, ctx.Value(contextKey{}))
+		}
+		events = append(events, "second:begin")
+		return nil, func(result HTTPResult) {
+			secondResult = result
+			events = append(events, "second:finish")
+		}
+	})
+	middleware, err := ObservationMiddleware(route, first, second)
+	if err != nil {
+		t.Fatalf("ObservationMiddleware() error = %v", err)
+	}
+	handler := middleware(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		if request.Context().Value(contextKey{}) != "observed" {
+			t.Fatal("handler did not receive observed context")
+		}
+		writer.WriteHeader(http.StatusCreated)
+		if _, err := writer.Write([]byte("body")); err != nil {
+			t.Fatal(err)
+		}
+	}))
+	response := httptest.NewRecorder()
+	handler.ServeHTTP(response, httptest.NewRequest(http.MethodPost, "/orders", nil))
+	if response.Code != http.StatusCreated || response.Body.String() != "body" {
+		t.Fatalf("response = %d %q", response.Code, response.Body.String())
+	}
+	if got, want := events, []string{"first:begin", "second:begin", "second:finish", "first:finish"}; !slices.Equal(got, want) {
+		t.Fatalf("events = %v, want %v", got, want)
+	}
+	for _, result := range []HTTPResult{firstResult, secondResult} {
+		if result.Status != http.StatusCreated || result.Bytes != 4 ||
+			result.Duration < 0 || result.Panicked {
+			t.Fatalf("HTTPResult = %#v", result)
+		}
+	}
+}
+
+func TestObservationMiddlewareReportsPanicsAndValidatesInputs(t *testing.T) {
+	route := RouteMetadata{ID: "route", Method: http.MethodGet, Pattern: "/"}
+	var result HTTPResult
+	observer := HTTPObserverFunc(func(ctx context.Context, _ RouteMetadata) (context.Context, func(HTTPResult)) {
+		return ctx, func(got HTTPResult) { result = got }
+	})
+	middleware, err := ObservationMiddleware(route, observer)
+	if err != nil {
+		t.Fatal(err)
+	}
+	func() {
+		defer func() {
+			if recover() == nil {
+				t.Fatal("observed handler did not panic")
+			}
+		}()
+		middleware(http.HandlerFunc(func(http.ResponseWriter, *http.Request) {
+			panic("broken")
+		})).ServeHTTP(
+			httptest.NewRecorder(),
+			httptest.NewRequest(http.MethodGet, "/", nil),
+		)
+	}()
+	if result.Status != http.StatusInternalServerError || !result.Panicked ||
+		result.Bytes != 0 {
+		t.Fatalf("panic result = %#v", result)
+	}
+
+	var nilObserver HTTPObserverFunc
+	tests := []struct {
+		name      string
+		route     RouteMetadata
+		observers []HTTPObserver
+	}{
+		{name: "missing ID", route: RouteMetadata{Method: http.MethodGet, Pattern: "/"}},
+		{name: "lowercase method", route: RouteMetadata{ID: "id", Method: "get", Pattern: "/"}},
+		{name: "relative pattern", route: RouteMetadata{ID: "id", Method: http.MethodGet, Pattern: "relative"}},
+		{name: "nil observer", route: route, observers: []HTTPObserver{nil}},
+		{name: "typed nil observer", route: route, observers: []HTTPObserver{nilObserver}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if _, err := ObservationMiddleware(test.route, test.observers...); err == nil {
+				t.Fatal("ObservationMiddleware() error = nil")
+			}
+		})
+	}
+}
+
+func TestObservedResponseWriterSupportsHTTPInterfaces(t *testing.T) {
+	response := httptest.NewRecorder()
+	writer := &observedResponseWriter{ResponseWriter: response}
+	if writer.Unwrap() != response {
+		t.Fatal("Unwrap() did not return the underlying writer")
+	}
+	if _, _, err := writer.Hijack(); !errors.Is(err, http.ErrNotSupported) {
+		t.Fatalf("Hijack() error = %v", err)
+	}
+	if err := writer.Push("/asset", nil); !errors.Is(err, http.ErrNotSupported) {
+		t.Fatalf("Push() error = %v", err)
+	}
+	written, err := writer.ReadFrom(io.LimitReader(strings.NewReader("stream"), 6))
+	if err != nil || written != 6 || writer.bytes != 6 ||
+		writer.status != http.StatusOK {
+		t.Fatalf("ReadFrom() = %d, %v; writer=%#v", written, err, writer)
+	}
+	writer.Flush()
+	if !response.Flushed {
+		t.Fatal("Flush() did not flush the underlying writer")
+	}
+}
+
+func TestRegisterObservedMeasuresMiddlewareShortCircuits(t *testing.T) {
+	var result HTTPResult
+	observation, err := ObservationMiddleware(
+		RouteMetadata{ID: "route", Method: http.MethodGet, Pattern: "/secure"},
+		HTTPObserverFunc(func(ctx context.Context, _ RouteMetadata) (context.Context, func(HTTPResult)) {
+			return ctx, func(got HTTPResult) { result = got }
+		}),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	called := false
+	handler := http.HandlerFunc(func(http.ResponseWriter, *http.Request) {
+		called = true
+	})
+	reject := func(http.Handler) http.Handler {
+		return http.HandlerFunc(func(writer http.ResponseWriter, _ *http.Request) {
+			writer.WriteHeader(http.StatusUnauthorized)
+		})
+	}
+	mux := http.NewServeMux()
+	if err := RegisterObserved(mux, "GET /secure", handler, observation, reject); err != nil {
+		t.Fatalf("RegisterObserved() error = %v", err)
+	}
+	response := httptest.NewRecorder()
+	mux.ServeHTTP(response, httptest.NewRequest(http.MethodGet, "/secure", nil))
+	if called || response.Code != http.StatusUnauthorized ||
+		result.Status != http.StatusUnauthorized {
+		t.Fatalf("observed short circuit: called=%t response=%d result=%#v", called, response.Code, result)
+	}
+	if err := RegisterObserved(http.NewServeMux(), "GET /", handler, observation, nil); err == nil ||
+		!strings.Contains(err.Error(), "middleware 0 is nil") {
+		t.Fatalf("nil caller middleware error = %v", err)
+	}
+	panics := func(http.Handler) http.Handler { panic("construction panic") }
+	if err := RegisterObserved(http.NewServeMux(), "GET /", handler, observation, panics); err == nil ||
+		!strings.Contains(err.Error(), "construction panic") {
+		t.Fatalf("panicking caller middleware error = %v", err)
+	}
+	if err := RegisterObserved(nil, "GET /", handler, observation); err == nil {
+		t.Fatal("nil mux error = nil")
+	}
+}
+
 func TestValidateMapsOrdinaryErrorsAndPreservesProblems(t *testing.T) {
 	cause := errors.New("secret validator detail")
 	err := Validate(context.Background(), func(context.Context) error {
