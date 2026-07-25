@@ -100,7 +100,7 @@ Graph construction returns stable provider nodes, parameter edges, and a depende
 
 Each participating provider contributes one deterministic component with an optional start hook and optional stop hook. A stop hook requires a start hook, and duplicate roles fail with source-positioned diagnostics. Components are sorted by stable provider symbol ID, diagnostics by physical source identity, and accessors return defensive copies. Provider cleanup metadata remains separate, and hooks do not become providers, outputs, dependencies, graph nodes, or edges.
 
-`spice verify` runs lifecycle validation after provider-graph validation. The compiler stage is quiet and never executes methods, providers, or cleanup callbacks. It records metadata only; generated calls, dependency-ordered startup, rollback, reverse shutdown, signals, and application runtime state remain later slices.
+`spice verify` runs lifecycle validation after provider-graph validation. The compiler stage is quiet and never executes methods, providers, or cleanup callbacks. It records metadata only. The public `lifecycle.Coordinator` implements caller-context state transitions, dependency-order start, reverse successful-start stop, reverse construction cleanup, startup rollback, deterministic joined errors, and idempotent stop. Generated concrete provider and hook calls, signals, and command policy remain later slices.
 
 ## Immutable application model
 

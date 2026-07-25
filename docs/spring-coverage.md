@@ -4,7 +4,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 
 | Area | Spring capability | Spice direction | Status |
 |---|---|---|---|
-| Core | Application bootstrap and lifecycle | Exact typed application roots, `@OnStart`/`@OnStop`, cleanup metadata, and immutable application IR are available; generated invocation and lifecycle runtime follow | in-progress |
+| Core | Application bootstrap and lifecycle | Exact typed roots/hooks/cleanup, immutable IR, and the rollback/shutdown coordinator are available; generated concrete invocation follows | in-progress |
 | Core | Dependency injection | Exact-type provider catalog, cleanup metadata, and dependency-graph validation; generated constructor wiring follows | in-progress |
 | Core | Auto-configuration | Explicit starter manifests with compile-time conditions | planned |
 | Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |
@@ -41,6 +41,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Current bootstrap | Provider cleanup metadata | Named context-aware cleanup result validation retained for future generated rollback and shutdown | available |
 | Current bootstrap | Lifecycle hook metadata | Exact provider-owned `@OnStart`/`@OnStop` method validation with deterministic typed metadata; execution remains future work | available |
 | Current bootstrap | Application roots and immutable IR | Exact `@Application` parameter roots plus ordered provider, graph, cleanup, and lifecycle metadata without executing marker bodies | available |
+| Current bootstrap | Lifecycle runtime coordination | Explicit callback state machine with dependency-order start, reverse stop/cleanup, startup rollback, idempotency, and caller-owned contexts | available |
 | Current bootstrap | Engineering quality and reproducible builds | Go-owned cross-platform verification with pinned formatting, lint, nil-safety, security, fuzz, race, coverage, vendor, and executable checks | available |
 
 ## Coverage rules

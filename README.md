@@ -19,7 +19,7 @@ The repository currently provides:
 - A typed Go package-loading pipeline with stable declaration identities.
 - Annotation parsing, resolution, and source-positioned validation.
 - Exact-type provider catalog and deterministic dependency graph validation.
-- Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata.
+- Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
 - Exact-type `@Application` roots assembled with provider and lifecycle data in one immutable application IR.
 - A runnable `spice` CLI with `version`, `annotations`, and `verify` commands.
 - A runnable HTTP example with tests.

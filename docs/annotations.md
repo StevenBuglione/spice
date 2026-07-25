@@ -100,7 +100,7 @@ Every parameter is a required exact-type dependency for the graph phase. Provide
 Argument-free, method-only `@OnStart` and `@OnStop` select explicit methods for future generated lifecycle orchestration. A hook must have the exact non-variadic form `func(receiver)(context.Context) error`, and its receiver must be semantically identical to exactly one valid `@Bean` output.
 
 Aliases to the exact receiver, `context.Context`, and `error` types are accepted. Pointer/value convenience, assignability, interface implementation, structural context lookalikes, method promotion, duplicate roles, and stop-only components are rejected.
-This release records deterministic typed metadata only. `spice verify` never invokes providers, cleanup callbacks, or lifecycle methods and does not yet compute or run startup/shutdown order.
+The compiler records deterministic typed metadata only. `spice verify` never invokes providers, cleanup callbacks, or lifecycle methods. The public `lifecycle.Coordinator` now supplies the state machine, dependency-order start, reverse stop/cleanup, startup rollback, deterministic error joining, and idempotent stop that generated applications will call; concrete generated hook invocation remains the next layer.
 
 ## Argument diagnostics
 
