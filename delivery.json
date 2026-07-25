@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 112,
+  "generation": 113,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 39,
     "pr": 40,
     "branch": "agent/issue-39-lifecycle-hooks",
-    "head": "7e6da2f239b4feab27ad5f2aae5bd390dcf93bf2",
+    "head": "ff8747401f404ce5920e05d8255ada10a876e6fe",
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Canonical validation and the lifecycle overlay regression are pushed. Primary Implementer is adding the CLI overlay regression, then will verify the final exact head."
+    "next_action": "The complete focused correction is pushed at ff8747401f404ce5920e05d8255ada10a876e6fe with exact source-file parity. Primary Implementer is running the full frozen matrix and exact-head CI/artifact proof."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T150927Z-281cfc",
     "acquired_at": "2026-07-25T15:09:27Z",
-    "heartbeat_at": "2026-07-25T15:23:55Z",
-    "lease_until": "2026-07-25T16:08:55Z"
+    "heartbeat_at": "2026-07-25T15:26:20Z",
+    "lease_until": "2026-07-25T16:11:20Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T15:23:55Z",
-    "summary": "Recorded pushed head 7e6da2f239b4feab27ad5f2aae5bd390dcf93bf2 and heartbeated writer_lock before pushing the CLI overlay regression."
+    "at": "2026-07-25T15:26:20Z",
+    "summary": "Recorded final pushed correction head ff8747401f404ce5920e05d8255ada10a876e6fe and heartbeated writer_lock before long exact-head verification."
   }
 }
