@@ -13,7 +13,7 @@
   "files": [
     {
       "path": "internal/spicegen/hello/zz_spice_gen.go",
-      "sha256": "sha256:26bdbae61f9014db4ff6066b5fdfb845db48d1e201daab2e5628a776a4f64f95"
+      "sha256": "sha256:b54a23e3d510b2b591a9c3d69c8180ffcbaa5ce8469875c3b9388cad58b437fb"
     }
   ]
 }

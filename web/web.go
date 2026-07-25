@@ -12,6 +12,7 @@ import (
 	"mime"
 	"net/http"
 	"net/url"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -182,6 +183,30 @@ func (e *BindingError) Problem() Problem {
 // ErrorMapper converts an application error into a safe problem document.
 type ErrorMapper func(context.Context, error) Problem
 
+// Middleware wraps an HTTP handler. Generated applications apply middleware in
+// caller order: the first item observes the request first and the response
+// last.
+type Middleware func(http.Handler) http.Handler
+
+// Chain applies a deterministic middleware list around handler. Nil
+// middleware and nil returned handlers are rejected during construction.
+func Chain(handler http.Handler, middleware ...Middleware) (http.Handler, error) {
+	if handler == nil {
+		return nil, errors.New("chain HTTP middleware: handler is nil")
+	}
+	result := handler
+	for index, item := range slices.Backward(middleware) {
+		if item == nil {
+			return nil, fmt.Errorf("chain HTTP middleware: middleware %d is nil", index)
+		}
+		result = item(result)
+		if result == nil {
+			return nil, fmt.Errorf("chain HTTP middleware: middleware %d returned nil", index)
+		}
+	}
+	return result, nil
+}
+
 // Validate invokes one generated request validator. Explicit problem errors
 // retain their policy; ordinary validator errors become a safe 400 without
 // exposing their text.
@@ -206,19 +231,25 @@ func Validate(ctx context.Context, validator func(context.Context) error) error 
 // Register safely registers one generated route. ServeMux reports invalid or
 // conflicting patterns by panic; Spice converts that programmer/configuration
 // fault into an application-construction error so cleanup rollback still runs.
-func Register(mux *http.ServeMux, pattern string, handler http.Handler) (err error) {
+func Register(
+	mux *http.ServeMux,
+	pattern string,
+	handler http.Handler,
+	middleware ...Middleware,
+) (err error) {
 	if mux == nil {
 		return errors.New("register HTTP route: mux is nil")
-	}
-	if handler == nil {
-		return errors.New("register HTTP route: handler is nil")
 	}
 	defer func() {
 		if recovered := recover(); recovered != nil {
 			err = fmt.Errorf("register HTTP route %q: %v", pattern, recovered)
 		}
 	}()
-	mux.Handle(pattern, handler)
+	routeHandler, chainErr := Chain(handler, middleware...)
+	if chainErr != nil {
+		return fmt.Errorf("register HTTP route %q: %w", pattern, chainErr)
+	}
+	mux.Handle(pattern, routeHandler)
 	return nil
 }
 

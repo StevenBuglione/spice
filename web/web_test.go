@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -88,9 +89,25 @@ func TestProblemMappingAndWriters(t *testing.T) {
 
 func TestRegisterConvertsServeMuxPanicsToErrors(t *testing.T) {
 	mux := http.NewServeMux()
-	handler := http.HandlerFunc(func(http.ResponseWriter, *http.Request) {})
-	if err := Register(mux, "GET /items/{id}", handler); err != nil {
+	var order []string
+	named := func(name string) Middleware {
+		return func(next http.Handler) http.Handler {
+			return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+				order = append(order, name+":before")
+				next.ServeHTTP(writer, request)
+				order = append(order, name+":after")
+			})
+		}
+	}
+	handler := http.HandlerFunc(func(http.ResponseWriter, *http.Request) {
+		order = append(order, "handler")
+	})
+	if err := Register(mux, "GET /items/{id}", handler, named("first"), named("second")); err != nil {
 		t.Fatalf("Register() error = %v", err)
+	}
+	mux.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/items/42", nil))
+	if got, want := order, []string{"first:before", "second:before", "handler", "second:after", "first:after"}; !slices.Equal(got, want) {
+		t.Fatalf("middleware order = %v, want %v", got, want)
 	}
 	if err := Register(mux, "GET /items/{id}", handler); err == nil ||
 		!strings.Contains(err.Error(), "conflicts") {
@@ -104,6 +121,15 @@ func TestRegisterConvertsServeMuxPanicsToErrors(t *testing.T) {
 	}
 	if err := Register(http.NewServeMux(), "GET /", nil); err == nil {
 		t.Fatal("Register(nil handler) error = nil")
+	}
+	if err := Register(http.NewServeMux(), "GET /", handler, nil); err == nil ||
+		!strings.Contains(err.Error(), "middleware 0 is nil") {
+		t.Fatalf("Register(nil middleware) error = %v", err)
+	}
+	returnsNil := func(http.Handler) http.Handler { return nil }
+	if err := Register(http.NewServeMux(), "GET /", handler, returnsNil); err == nil ||
+		!strings.Contains(err.Error(), "middleware 0 returned nil") {
+		t.Fatalf("Register(nil middleware result) error = %v", err)
 	}
 }
 

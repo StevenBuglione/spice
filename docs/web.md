@@ -35,6 +35,12 @@ Otherwise the generated application creates an internal mux. In both cases
 `web.Register`, which converts ServeMux pattern/conflict panics into
 construction errors so lifecycle cleanup rollback remains available.
 
+`ApplicationOptions.Middleware` applies one ordered list to every generated
+typed and raw route, including routes registered on an application-provided
+`*http.ServeMux`. The first middleware observes the request first and the
+response last. Nil middleware and middleware that returns a nil handler fail
+application construction with the route pattern and list index.
+
 ## Controller contract
 
 `compiler/controller` validates controller metadata from the same typed program
