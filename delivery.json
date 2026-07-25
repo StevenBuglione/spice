@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 77,
+  "generation": 78,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "READY_FOR_VERIFICATION",
+    "status": "VERIFYING",
     "issue": 37,
     "pr": 38,
     "branch": "agent/issue-37-cleanup-metadata",
@@ -13,7 +13,7 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Independently verify exact head 155e415fbd2a54b7090341a81c3175c97856fea7 using CI run 30145743385 and permanent workspace artifact 8615929483, rerun the frozen matrix including the exact full race command, inspect the positional cleanup correction and mutation proof, then merge only if the head remains unchanged."
+    "next_action": "Independently inspect and execute the complete frozen issue #37 matrix for exact head 155e415fbd2a54b7090341a81c3175c97856fea7, confirm CI and permanent artifact provenance, recheck the head, then either publish one bounded correction checklist or record VERIFIED and squash-merge with expected-head protection."
   },
   "writer_lock": {
     "active": false,
@@ -24,17 +24,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null,
-    "head": null
+    "active": true,
+    "owner": "verifier",
+    "token": "verifier-20260725T054021Z-c3a84e",
+    "acquired_at": "2026-07-25T05:40:21Z",
+    "heartbeat_at": "2026-07-25T05:40:21Z",
+    "lease_until": "2026-07-25T06:25:21Z",
+    "head": "155e415fbd2a54b7090341a81c3175c97856fea7"
   },
   "last_transition": {
-    "role": "primary-implementer",
-    "at": "2026-07-25T05:28:00Z",
-    "summary": "Released writer lock implementer-primary-20260725T050900Z-7d4c2a and published exact head 155e415fbd2a54b7090341a81c3175c97856fea7 READY_FOR_VERIFICATION after the full local, executable, mutation, CI and permanent-artifact proof passed."
+    "role": "verifier",
+    "at": "2026-07-25T05:40:21Z",
+    "summary": "Acquired review lock verifier-20260725T054021Z-c3a84e and began exact-head verification of issue #37 / PR #38 at 155e415fbd2a54b7090341a81c3175c97856fea7."
   }
 }
