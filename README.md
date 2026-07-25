@@ -86,6 +86,9 @@ Production services can mount the opt-in `management` handler for deterministic
 health, liveness, readiness, and caller-owned info endpoints; see
 [`docs/management.md`](docs/management.md).
 
+Outbound integrations can use the base-scoped, bounded typed JSON client in
+[`docs/http-client.md`](docs/http-client.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
