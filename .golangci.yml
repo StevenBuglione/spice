@@ -142,7 +142,7 @@ linters:
         text: 'use of `os\.Exit`'
         linters:
           - forbidigo
-      - path: "^examples/hello-world/main\\.go$"
+      - path: "^examples/(hello-world|commerce)/main\\.go$"
         text: 'use of `os\.Exit`'
         linters:
           - forbidigo
