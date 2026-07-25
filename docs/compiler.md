@@ -207,5 +207,12 @@ as internal at the import position. The projected module graph is decomposed
 into strongly connected components; every multi-module component produces a
 stable member set and representative closed cycle path. This metadata and its
 diagnostics are part of the immutable application IR, so `spice verify`
-enforces the same boundaries before generation. Command documentation formats
-and focused module test graphs build on this result.
+enforces the same boundaries before generation.
+
+`spice modules` loads `./...` by default and is read-only. `--format=json`
+emits schema `spice.modules/v1` with a canvas for every module: owned packages,
+the root default API, named interfaces, declared dependencies, observed
+dependencies, exact package edges, cycle metadata, and unassigned packages.
+`--format=mermaid` and `--format=plantuml` render the same sorted graph with
+stable synthetic node IDs and aggregated API labels. Invalid module
+architecture blocks output. Focused module test graphs build on this result.

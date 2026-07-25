@@ -34,7 +34,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Modulith | Module dependency verification | Real Go import edges, explicit allowed APIs, internal rejection, and deterministic strongly connected cycle paths | available |
 | Modulith | Module tests | Module-specific generated test harnesses | planned |
 | Modulith | Event publication registry | Durable event publication and completion tracking | planned |
-| Modulith | Documentation | Mermaid/PlantUML/JSON module diagrams and canvases | planned |
+| Modulith | Documentation | Read-only JSON canvases plus deterministic Mermaid and PlantUML module diagrams | available |
 | Modulith | Runtime observations | Module-aware spans and interaction metrics | planned |
 | Current bootstrap | Annotation parser, declaration scan, and target metadata | Valid comment syntax, source association, typed built-in definitions, and target diagnostics | available |
 | Current bootstrap | Provider dependency validation | Exact-type missing-dependency diagnostics, cycle detection, and deterministic dependency-first metadata | available |

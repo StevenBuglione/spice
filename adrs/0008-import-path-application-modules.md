@@ -47,7 +47,10 @@ interface require an exact allowed-dependency entry. Other descendant imports
 are rejected as internal. Strongly connected module components produce stable
 member sets and representative closed paths.
 
-CLI documentation formats and focused test graphs build on this model.
+`spice modules --format=json|mermaid|plantuml` renders this model without
+writing files. JSON contains complete portable canvases; diagram formats use
+stable synthetic node IDs and aggregate repeated package imports by module API.
+Focused test graphs build on this model.
 
 ## Consequences
 
