@@ -63,6 +63,7 @@ linters:
             - "annotation/**/*.go"
             - "config/**/*.go"
             - "data/**/*.go"
+            - "event/**/*.go"
             - "httpclient/**/*.go"
             - "lifecycle/**/*.go"
             - "management/**/*.go"

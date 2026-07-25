@@ -71,6 +71,12 @@ transaction managers retain commit/rollback ownership and consume
 compiler-generated boundary and module identities; there is no ambient
 transaction, global pool, or retry hidden in a context.
 
+Application events use immutable generic topics assembled by generated code.
+Payloads retain exact Go types, subscriber order is stable, and delivery is
+synchronous unless an explicit asynchronous or durable adapter is injected.
+Publisher/subscriber module identities feed architecture-aware observations
+without a global event bus.
+
 ### Starters
 
 Third-party integrations live under `starter/` and remain opt-in at the package

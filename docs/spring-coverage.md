@@ -23,7 +23,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Data | Redis, MongoDB, Elasticsearch, Cassandra, Neo4j | Curated starters around mature Go clients | planned |
 | Migration | Flyway/Liquibase | Migration-tool starters and module ownership checks | planned |
 | Messaging | Kafka, RabbitMQ, JMS-like APIs, Pulsar | Typed publishers/listeners with client-specific starters | planned |
-| Events | Application events | Typed in-process and durable event publication | planned |
+| Events | Application events | Immutable generic topics provide exact payload types, deterministic fail-fast subscribers, caller-owned cancellation, and module interactions; compiler generation and durable publication follow | in-progress |
 | Scheduling | Scheduled and asynchronous work | Generated scheduler registration and lifecycle | planned |
 | Batch | Batch jobs | Job/step abstraction with restart and observability support | planned |
 | Cache | Cache abstraction | Typed cache interfaces and generated decorators | planned |
@@ -37,7 +37,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Modulith | Module tests | Focused transitive dependency graphs and dependency-first composition are available; generated test harnesses follow | in-progress |
 | Modulith | Event publication registry | Durable event publication and completion tracking | planned |
 | Modulith | Documentation | Read-only JSON canvases plus deterministic Mermaid and PlantUML module diagrams | available |
-| Modulith | Runtime observations | Generated module ownership and synchronous lifecycle observation seam are available; OpenTelemetry spans and interaction metrics follow | in-progress |
+| Modulith | Runtime observations | Generated module ownership plus synchronous lifecycle and typed publisher-to-subscriber interaction seams are available; broader OpenTelemetry interactions follow | in-progress |
 | Current bootstrap | Annotation parser, declaration scan, and target metadata | Valid comment syntax, source association, typed built-in definitions, and target diagnostics | available |
 | Current bootstrap | Provider dependency validation | Exact-type missing-dependency diagnostics, cycle detection, and deterministic dependency-first metadata | available |
 | Current bootstrap | Provider cleanup metadata | Named context-aware cleanup result validation retained for future generated rollback and shutdown | available |
