@@ -21,6 +21,7 @@ The repository currently provides:
 - Exact-type provider catalog and deterministic dependency graph validation.
 - Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
 - Exact-type `@Application` roots assembled with provider and lifecycle data in one immutable application IR.
+- A pure deterministic renderer for direct provider/lifecycle calls and SHA-256 ownership manifests.
 - A runnable `spice` CLI with `version`, `annotations`, and `verify` commands.
 - A runnable HTTP example with tests.
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
@@ -74,6 +75,7 @@ curl http://localhost:8080/users/42
 - `compiler/parser/`: annotation parser.
 - `compiler/load/` and `compiler/resolve/`: the authoritative typed-program front end.
 - `compiler/provider/`, `compiler/graph/`, `compiler/lifecycle/`, and `compiler/application/`: application dependency, lifecycle, root, and immutable IR metadata.
+- `compiler/generate/`: pure generated Go and ownership-manifest planning.
 - `compiler/scan/`: compatibility source-tree scanner.
 - `cmd/spice/`: CLI entry point.
 - `internal/cli/`: CLI implementation.

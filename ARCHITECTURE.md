@@ -56,6 +56,11 @@ Valid Go source
 - Configuration binders.
 - Metadata and documentation.
 
+Generation is split into a pure in-memory plan and a guarded filesystem
+application. The pure renderer consumes the immutable application IR, emits
+canonical target-scoped Go plus SHA-256 ownership metadata, and performs no
+filesystem or network mutation.
+
 ### Runtime
 
 The runtime should stay small. Its responsibilities are application lifecycle, generated registry execution, request scopes, shutdown, and integrations that cannot be resolved at compile time.

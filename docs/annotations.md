@@ -93,7 +93,9 @@ func(dependencies...) (T, lifecycle.Cleanup, error)
 
 Every parameter is a required exact-type dependency for the graph phase. Provider methods, generic or variadic functions, annotation arguments, malformed result ordering, multiple cleanup or error results, and extra values are rejected with source-positioned diagnostics.
 
-`spice verify` validates catalog and graph metadata but does not execute providers or cleanup callbacks and does not generate application wiring yet. Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, cleanup invocation, lifecycle execution, optional values, groups, and collection injection remain explicit future capabilities.
+`spice verify` validates catalog and graph metadata but does not execute providers or cleanup callbacks. The pure generator now renders exported providers as direct calls in graph order and registers cleanup immediately; filesystem application is still a separate explicit command layer. A dedicated generated package cannot import `package main` or call unexported declarations, so render validation requires providers and lifecycle hooks to be exported and declared in importable packages.
+
+Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, optional values, groups, and collection injection remain explicit future capabilities.
 
 ## Lifecycle hook metadata
 
