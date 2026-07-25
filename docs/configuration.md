@@ -47,6 +47,45 @@ Profiles match `^[a-z0-9][a-z0-9-]*$`, retain caller order, and are passed to
 every source. File/profile expansion is implemented by the file source rather
 than hidden in the resolver.
 
+## JSON files and profiles
+
+`config.NewJSONSource` uses `os.Root` to constrain all reads to one explicit
+directory. With base name `application` and active profiles `production`,
+`us-east`, it applies:
+
+1. `application.json`;
+2. `application-production.json`;
+3. `application-us-east.json`.
+
+The base file can be required or optional; profile files are always optional.
+Each file is limited to 1 MiB by default and can set a different positive
+`MaxBytes`.
+
+```go
+files, err := config.NewJSONSource(
+    "files",
+    configurationDirectory,
+    "application",
+    config.JSONOptions{Required: true},
+)
+if err != nil {
+    return err
+}
+snapshot, err := config.Resolve(
+    ctx,
+    schema,
+    config.Options{Profiles: []string{"production"}},
+    files,
+    environment, // later source: environment wins over files
+)
+```
+
+Nested objects flatten to dotted keys. Strings, Booleans, and JSON numbers are
+supported scalar inputs. Spice rejects duplicate object keys, collisions
+between nested and dotted keys, arrays, nulls, invalid configuration-key
+identities, non-object roots, trailing JSON values, oversized files, and
+rooted-path escapes.
+
 ## Generated decoding
 
 Generated binders call `RequiredString`, `Boolean`, `Integer`, `Duration`, or

@@ -25,6 +25,13 @@ decode. Typed validators execute afterward in declaration order.
 Active profile identities are validated, deduplicated, order-preserving, and
 passed to every source. Sources decide how profiles affect their own values.
 
+The standard JSON source opens one caller-selected directory through `os.Root`.
+It reads `<base>.json`, then optional `<base>-<profile>.json` files in active
+profile order. Each file has a caller-configurable size bound (1 MiB by
+default). Objects flatten to dotted keys; strings, Booleans, and JSON numbers
+become scalar text. Duplicate object keys, flattened collisions, arrays, nulls,
+invalid keys, non-object roots, and trailing values fail closed.
+
 The environment source reads only schema-declared variables. Explicit
 environment names win over deterministic prefix plus upper-snake key mapping,
 and collisions fail rather than silently alias.
@@ -40,7 +47,7 @@ errors identify keys and sources without including raw values.
 - Runtime schema and snapshots are immutable by convention and return
   defensive copies.
 - Generated binders, not reflection, own struct construction.
-- File/profile sources and compiler generation build on this runtime contract.
+- Compiler generation builds on this runtime contract.
 
 ## Consequences
 
