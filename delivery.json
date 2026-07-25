@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 105,
+  "generation": 106,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,7 +13,7 @@
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Independent Verifier holds review_lock for exact head e98d3a940065827f6cebe80a384d67ba0c3c9dad and is executing the frozen issue #39 verification matrix before an exact-head merge decision."
+    "next_action": "Independent Verifier holds review_lock for exact head e98d3a940065827f6cebe80a384d67ba0c3c9dad and is executing the complete frozen issue #39 local, fixture, mutation, offline, race, determinism and CI matrix."
   },
   "writer_lock": {
     "active": false,
@@ -28,13 +28,13 @@
     "owner": "verifier",
     "token": "verifier-20260725T144119Z-6d2f8a",
     "acquired_at": "2026-07-25T14:41:19Z",
-    "heartbeat_at": "2026-07-25T14:41:19Z",
-    "lease_until": "2026-07-25T15:26:19Z",
+    "heartbeat_at": "2026-07-25T14:44:42Z",
+    "lease_until": "2026-07-25T15:29:42Z",
     "head": "e98d3a940065827f6cebe80a384d67ba0c3c9dad"
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-25T14:41:19Z",
-    "summary": "Atomically acquired review_lock token verifier-20260725T144119Z-6d2f8a for non-draft PR #40 at exact READY_FOR_VERIFICATION head e98d3a940065827f6cebe80a384d67ba0c3c9dad."
+    "at": "2026-07-25T14:44:42Z",
+    "summary": "Heartbeated review_lock token verifier-20260725T144119Z-6d2f8a before long independent verification of exact PR #40 head e98d3a940065827f6cebe80a384d67ba0c3c9dad."
   }
 }
