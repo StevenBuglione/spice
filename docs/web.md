@@ -102,3 +102,18 @@ func (*Users) Stream(http.ResponseWriter, *http.Request)
 
 Raw methods own their complete response and error policy. Typed methods use the
 generated Spice binding and RFC 9457 policy.
+
+## OpenAPI
+
+Every target with controllers emits a deterministic OpenAPI 3.1 document at
+`internal/spicegen/<target>/openapi.json`. Typed operations include path, query,
+and header parameters; JSON request bodies; JSON or 204 success responses; and
+the shared RFC 9457 problem schema. Component schemas preserve JSON field
+names, omission rules, arrays, maps, pointers, recursive references,
+`time.Time`, and `time.Duration`.
+
+Raw `net/http` routes remain visible with an explicitly unconstrained response
+because Spice cannot safely infer a handler-owned wire contract. Module import
+paths become operation tags and stable Spice symbol/module extensions preserve
+compiler ownership. The ownership manifest makes `spice generate --check` and
+`--diff` detect stale or manually changed API documents.

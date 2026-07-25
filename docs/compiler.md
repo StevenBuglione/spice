@@ -133,6 +133,9 @@ aliases, generated configuration schema/binders, generated typed/raw
 `net/http` adapters, direct exported provider calls in dependency-first order,
 existing graph-edge arguments, immediate cleanup registration, wrapped stable
 errors, and direct lifecycle method values.
+Targets with controllers also emit
+`internal/spicegen/<target>/openapi.json`; it is deterministic, manifest-owned,
+and protected by the same safe apply/check/diff protocol as generated Go.
 Configured targets add `ApplicationOptions`, `ConfigurationSchema`, and
 `NewApplicationWithOptions`; sources and profiles remain caller-owned.
 Generated `NewApplication`, `State`, `Start`, `Stop`, and `Run` methods delegate

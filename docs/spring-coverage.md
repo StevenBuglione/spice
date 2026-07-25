@@ -12,7 +12,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Web | MVC/REST controllers | Exact provider-owned controller/route IR plus deterministic generated typed/raw `net/http` adapters, ordered middleware, and panic-safe ServeMux registration | available |
 | Web | Request binding and validation | Generated path/query/header/body DTO binding uses strict bounded JSON, safe scalar conversion, and exact compile-time validated post-bind request validation | available |
 | Web | Error handling and content negotiation | Generated adapters apply RFC 9457 secure error mapping, JSON negotiation, explicit 204 responses, and caller-selected error policy | available |
-| Web | OpenAPI and REST documentation | Generated contracts and examples | planned |
+| Web | OpenAPI and REST documentation | Deterministic manifest-owned OpenAPI 3.1 contracts cover typed parameters, JSON bodies/schemas, success/problem responses, raw-route limits, and module ownership | available |
 | Web | WebSocket, GraphQL, gRPC | Go-native integrations and starters | planned |
 | Security | Authentication and authorization | Middleware, generated method guards, OAuth2/OIDC starters | planned |
 | Security | Resource server and client | Standards-based Go integrations | planned |

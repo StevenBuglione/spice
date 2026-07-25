@@ -12,6 +12,10 @@
   "input_sha256": "sha256:acb28c056230bd0184a945c48447263ec3516e89dc7241c679e993e8e98cbb74",
   "files": [
     {
+      "path": "internal/spicegen/hello/openapi.json",
+      "sha256": "sha256:3bae286927a2d716a522fc082fe58277b966c2651df1846165ec7647059ffb46"
+    },
+    {
       "path": "internal/spicegen/hello/zz_spice_gen.go",
       "sha256": "sha256:b54a23e3d510b2b591a9c3d69c8180ffcbaa5ce8469875c3b9388cad58b437fb"
     }

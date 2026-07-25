@@ -78,6 +78,10 @@ spice generate --diff ./...
 spice build ./...
 ```
 
+Controller targets also own
+`internal/spicegen/<target>/openapi.json`; generation check/diff verifies it
+alongside the generated application.
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
