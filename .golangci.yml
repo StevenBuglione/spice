@@ -68,6 +68,7 @@ linters:
             - "lifecycle/**/*.go"
             - "management/**/*.go"
             - "observability/**/*.go"
+            - "retry/**/*.go"
             - "web/**/*.go"
           deny:
             - pkg: "github.com/StevenBuglione/spice/compiler"
