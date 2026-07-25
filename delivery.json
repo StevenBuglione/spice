@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 73,
+  "generation": 74,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,15 +13,15 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Correct positional cleanup classification, add regressions, and rerun the frozen verification matrix on PR #38."
+    "next_action": "Run the complete frozen verification matrix and mutation proof for the positional cleanup correction, then re-fetch before pushing the three-file change to PR #38."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T050900Z-7d4c2a",
     "acquired_at": "2026-07-25T05:09:00Z",
-    "heartbeat_at": "2026-07-25T05:09:00Z",
-    "lease_until": "2026-07-25T05:54:00Z"
+    "heartbeat_at": "2026-07-25T05:12:00Z",
+    "lease_until": "2026-07-25T05:57:00Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T05:09:00Z",
-    "summary": "Acquired writer lock for the issue #37 verifier correction."
+    "at": "2026-07-25T05:12:00Z",
+    "summary": "Heartbeated writer lock before the full local, offline, race, deterministic, executable and mutation verification matrix."
   }
 }
