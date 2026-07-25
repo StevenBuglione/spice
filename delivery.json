@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 84,
+  "generation": 85,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 37,
     "pr": 38,
     "branch": "agent/issue-37-cleanup-metadata",
-    "head": "155e415fbd2a54b7090341a81c3175c97856fea7",
+    "head": "a813d5bc295dc033b77417067129bb3c89e2b2a3",
     "contract_revision": 1,
     "verification_cycles": 2,
     "final_stabilization": true,
     "merge_commit": null,
-    "next_action": "FINAL STABILIZATION under writer token implementer-primary-20260725T060857Z-8d4f1c: all local frozen commands, full race execution, repeated suites, isolated executable fixtures, and path/name-only mutation proof pass. Atomically push the four corrected files to the unchanged canonical branch, then wait for exact-head CI and workspace artifact proof."
+    "next_action": "FINAL STABILIZATION under writer token implementer-primary-20260725T060857Z-8d4f1c: pushed canonical live Cleanup declaration validation and wrong-shape provider/CLI regressions to exact head a813d5bc295dc033b77417067129bb3c89e2b2a3. Confirm exact-head CI, permanent workspace artifact, embedded head, and GitHub/local blob parity before releasing READY_FOR_VERIFICATION."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T060857Z-8d4f1c",
     "acquired_at": "2026-07-25T06:08:57Z",
-    "heartbeat_at": "2026-07-25T06:19:57Z",
-    "lease_until": "2026-07-25T07:04:57Z"
+    "heartbeat_at": "2026-07-25T06:27:02Z",
+    "lease_until": "2026-07-25T07:12:02Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T06:19:57Z",
-    "summary": "Heartbeated the issue #37 writer lock immediately before the atomic branch push. Full local proof passed, including exact vendor-only race execution, repeated suites, executable replacements, and mutation detection of the old path/name-only predicate."
+    "at": "2026-07-25T06:27:02Z",
+    "summary": "Recorded pushed issue #37 head a813d5bc295dc033b77417067129bb3c89e2b2a3 after verifying the branch advanced only through this writer's three scoped file updates. Local Git blob hashes match the returned GitHub content SHAs."
   }
 }
