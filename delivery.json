@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 57,
+  "generation": 58,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 17,
     "pr": 36,
     "branch": "agent/issue-17-provider-graph",
-    "head": "4570992b8571efa17fc75ab7d959bad26d712287",
+    "head": "0f50edf08bb96bbe463ae20d53bc35d0d3c18fc4",
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Push the fully passing priority-queue correction and fan-out comparison regression to the unchanged canonical PR #36 branch, then wait for exact-head CI and workspace artifact proof."
+    "next_action": "Confirm exact-head GitHub file parity, CI and permanent workspace artifact for 0f50edf08bb96bbe463ae20d53bc35d0d3c18fc4, then rerun or inspect any failing proof before releasing the writer lock."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T011000Z-a84f31",
     "acquired_at": "2026-07-25T01:10:00Z",
-    "heartbeat_at": "2026-07-25T01:16:20Z",
-    "lease_until": "2026-07-25T02:01:20Z"
+    "heartbeat_at": "2026-07-25T01:26:00Z",
+    "lease_until": "2026-07-25T02:11:00Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T01:16:20Z",
-    "summary": "Heartbeated writer lock implementer-primary-20260725T011000Z-a84f31 before pushing; the full frozen matrix, isolated CLI fixtures, offline/race suites, repeated determinism, and priority-queue mutation proof pass locally."
+    "at": "2026-07-25T01:26:00Z",
+    "summary": "Pushed commit 0f50edf08bb96bbe463ae20d53bc35d0d3c18fc4 with the deterministic priority queue and bounded fan-out comparison regression; awaiting exact-head GitHub Actions and permanent artifact proof."
   }
 }
