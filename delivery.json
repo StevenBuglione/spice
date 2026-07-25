@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 58,
+  "generation": 59,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 17,
     "pr": 36,
     "branch": "agent/issue-17-provider-graph",
-    "head": "0f50edf08bb96bbe463ae20d53bc35d0d3c18fc4",
+    "head": "54a8d1d4e004e9ec5092caaf33cd8d6ad8861382",
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Confirm exact-head GitHub file parity, CI and permanent workspace artifact for 0f50edf08bb96bbe463ae20d53bc35d0d3c18fc4, then rerun or inspect any failing proof before releasing the writer lock."
+    "next_action": "Confirm exact-head CI and permanent workspace artifact for 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382, execute the complete frozen matrix against that artifact, and release the writer lock only after all proof passes."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T011000Z-a84f31",
     "acquired_at": "2026-07-25T01:10:00Z",
-    "heartbeat_at": "2026-07-25T01:26:00Z",
-    "lease_until": "2026-07-25T02:11:00Z"
+    "heartbeat_at": "2026-07-25T01:31:30Z",
+    "lease_until": "2026-07-25T02:16:30Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T01:26:00Z",
-    "summary": "Pushed commit 0f50edf08bb96bbe463ae20d53bc35d0d3c18fc4 with the deterministic priority queue and bounded fan-out comparison regression; awaiting exact-head GitHub Actions and permanent artifact proof."
+    "at": "2026-07-25T01:31:30Z",
+    "summary": "Corrected the GitHub transport mismatch and pushed exact locally tested source at 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382; build.go blob now matches local Git object 0578553dcc8a07c9f4cefa7dd3cd0a02f50b501f."
   }
 }
