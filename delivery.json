@@ -1,27 +1,27 @@
 {
   "schema_version": 2,
-  "generation": 92,
+  "generation": 93,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "MERGED",
-    "issue": 37,
-    "pr": 38,
-    "branch": "agent/issue-37-cleanup-metadata",
-    "head": "a813d5bc295dc033b77417067129bb3c89e2b2a3",
+    "status": "IMPLEMENTING",
+    "issue": 39,
+    "pr": null,
+    "branch": "agent/issue-39-lifecycle-hooks",
+    "head": "1f25ca9893d160e1a1d9df522e3b628bbb71fb60",
     "contract_revision": 1,
-    "verification_cycles": 2,
+    "verification_cycles": 0,
     "final_stabilization": false,
-    "merge_commit": "1f25ca9893d160e1a1d9df522e3b628bbb71fb60",
-    "next_action": "Merged issue #37 and PR #38 consistency is confirmed. There are zero open implementation PRs and one dependency-ready issue: #39, typed @OnStart and @OnStop lifecycle hook metadata. The Primary Implementer may atomically claim issue #39 as the highest-priority ready work and must maintain the single-lane rule. Because the ready backlog is below the normal two-item target, the Research Planner may create or refine one additional bounded ready issue only if no implementation lane is active at its run. Post-merge main CI is still not visible through the available commit-run or status queries, while the exact reviewed head passed CI and independent execution before merge."
+    "merge_commit": null,
+    "next_action": "Primary Implementer owns issue #39 under the frozen revision-1 contract. Create the canonical branch and draft PR, implement only typed @OnStart/@OnStop lifecycle hook metadata, run the complete frozen verification and mutation matrix, push exact passing work, wait for exact-head CI and the permanent workspace artifact, then release the writer lock to READY_FOR_VERIFICATION."
   },
   "writer_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null
+    "active": true,
+    "owner": "primary-implementer",
+    "token": "implementer-primary-20260725T110804Z-fa97ba",
+    "acquired_at": "2026-07-25T11:08:04Z",
+    "heartbeat_at": "2026-07-25T11:08:04Z",
+    "lease_until": "2026-07-25T11:53:04Z"
   },
   "review_lock": {
     "active": false,
@@ -33,8 +33,8 @@
     "head": null
   },
   "last_transition": {
-    "role": "watchdog",
-    "at": "2026-07-25T10:53:47Z",
-    "summary": "Confirmed issue #37 closed, PR #38 merged, main at merge commit 1f25ca9893d160e1a1d9df522e3b628bbb71fb60, no open PRs, released locks, one ready issue (#39), no submitted reviews or unresolved review threads, and no scheduled-prompt drift. Reconciled the stale ready-backlog count and next action. Post-merge main CI remains unavailable through the current commit-run/status queries."
+    "role": "primary-implementer",
+    "at": "2026-07-25T11:08:04Z",
+    "summary": "Atomically claimed issue #39 as the sole implementation lane from main commit 1f25ca9893d160e1a1d9df522e3b628bbb71fb60 under CONTRACT_FROZEN revision 1."
   }
 }
