@@ -63,6 +63,11 @@ type Hook struct {
 	Stop  Cleanup
 }
 
+// ContextFactory creates a caller-owned context and release function when
+// shutdown begins. It allows Run to obtain a fresh shutdown deadline only after
+// the run context is canceled.
+type ContextFactory func() (context.Context, context.CancelFunc)
+
 type callback struct {
 	id string
 	fn Cleanup
@@ -229,6 +234,29 @@ func (c *Coordinator) Stop(ctx context.Context) error {
 	state := c.state
 	c.mu.Unlock()
 	return &TransitionError{Operation: "stop application", State: state}
+}
+
+// Run starts the application, waits for ctx cancellation, obtains a fresh
+// caller-owned shutdown context, and stops the application. Cancellation of the
+// run context is the normal shutdown signal and is not returned as an error.
+func (c *Coordinator) Run(ctx context.Context, hooks []Hook, shutdown ContextFactory) error {
+	if ctx == nil {
+		return errors.New("run application: context is nil")
+	}
+	if shutdown == nil {
+		return errors.New("run application: shutdown context factory is nil")
+	}
+	if err := c.Start(ctx, hooks); err != nil {
+		return err
+	}
+	<-ctx.Done()
+	shutdownContext, cancel := shutdown()
+	if shutdownContext == nil || cancel == nil {
+		factoryErr := errors.New("run application: shutdown context factory returned a nil context or cancel function")
+		return errors.Join(factoryErr, c.Stop(ctx))
+	}
+	defer cancel()
+	return c.Stop(shutdownContext)
 }
 
 func (c *Coordinator) beginTerminal(operation string, allowed State) error {

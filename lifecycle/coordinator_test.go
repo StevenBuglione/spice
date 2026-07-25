@@ -362,3 +362,100 @@ func TestCoordinatorStopBeforeStartRunsCleanup(t *testing.T) {
 		t.Fatalf("State() = %q, want %q", got, StateStopped)
 	}
 }
+
+func TestCoordinatorRunUsesFreshCallerOwnedShutdownContext(t *testing.T) {
+	t.Parallel()
+	type contextKey struct{}
+	coordinator := NewCoordinator()
+	started := make(chan struct{})
+	var trace []string
+	if err := coordinator.RegisterCleanup("service", func(ctx context.Context) error {
+		if ctx.Value(contextKey{}) != "shutdown" {
+			t.Errorf("cleanup context value = %v", ctx.Value(contextKey{}))
+		}
+		trace = append(trace, "cleanup")
+		return nil
+	}); err != nil {
+		t.Fatalf("RegisterCleanup() error = %v", err)
+	}
+	runContext, cancelRun := context.WithCancel(context.Background())
+	shutdownParent := context.WithValue(context.Background(), contextKey{}, "shutdown")
+	shutdownContext, cancelShutdown := context.WithCancel(shutdownParent)
+	shutdownCreated := false
+	runResult := make(chan error, 1)
+	go func() {
+		runResult <- coordinator.Run(runContext, []Hook{{
+			ID: "service",
+			Start: func(context.Context) error {
+				trace = append(trace, "start")
+				close(started)
+				return nil
+			},
+			Stop: func(ctx context.Context) error {
+				if ctx.Value(contextKey{}) != "shutdown" {
+					t.Errorf("stop context value = %v", ctx.Value(contextKey{}))
+				}
+				trace = append(trace, "stop")
+				return nil
+			},
+		}}, func() (context.Context, context.CancelFunc) {
+			shutdownCreated = true
+			return shutdownContext, cancelShutdown
+		})
+	}()
+	<-started
+	cancelRun()
+	if err := <-runResult; err != nil {
+		t.Fatalf("Run() error = %v", err)
+	}
+	if !shutdownCreated {
+		t.Fatal("Run did not create a shutdown context")
+	}
+	if !errors.Is(shutdownContext.Err(), context.Canceled) {
+		t.Fatalf("shutdown context error = %v", shutdownContext.Err())
+	}
+	if !slices.Equal(trace, []string{"start", "stop", "cleanup"}) {
+		t.Fatalf("trace = %v", trace)
+	}
+}
+
+func TestCoordinatorRunRejectsInvalidContextFactories(t *testing.T) {
+	t.Parallel()
+	//nolint:staticcheck // Explicitly verifies the defensive nil-context contract.
+	if err := NewCoordinator().Run(nil, nil, func() (context.Context, context.CancelFunc) {
+		return context.WithCancel(context.Background())
+	}); err == nil {
+		t.Fatal("Run(nil context) error = nil")
+	}
+	coordinator := NewCoordinator()
+	if err := coordinator.Run(context.Background(), nil, nil); err == nil {
+		t.Fatal("Run(nil factory) error = nil")
+	}
+	if got := coordinator.State(); got != StateConstructed {
+		t.Fatalf("State() = %q, want %q", got, StateConstructed)
+	}
+
+	coordinator = NewCoordinator()
+	started := make(chan struct{})
+	ctx, cancel := context.WithCancel(context.Background())
+	result := make(chan error, 1)
+	go func() {
+		result <- coordinator.Run(ctx, []Hook{{
+			ID: "service",
+			Start: func(context.Context) error {
+				close(started)
+				return nil
+			},
+		}}, func() (context.Context, context.CancelFunc) {
+			return nil, nil
+		})
+	}()
+	<-started
+	cancel()
+	if err := <-result; err == nil || !strings.Contains(err.Error(), "returned a nil context") {
+		t.Fatalf("Run(invalid factory) error = %v", err)
+	}
+	if got := coordinator.State(); got != StateStopped {
+		t.Fatalf("State() = %q, want %q", got, StateStopped)
+	}
+}

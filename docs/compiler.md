@@ -100,7 +100,7 @@ Graph construction returns stable provider nodes, parameter edges, and a depende
 
 Each participating provider contributes one deterministic component with an optional start hook and optional stop hook. A stop hook requires a start hook, and duplicate roles fail with source-positioned diagnostics. Components are sorted by stable provider symbol ID, diagnostics by physical source identity, and accessors return defensive copies. Provider cleanup metadata remains separate, and hooks do not become providers, outputs, dependencies, graph nodes, or edges.
 
-`spice verify` runs lifecycle validation after provider-graph validation. The compiler stage is quiet and never executes methods, providers, or cleanup callbacks. It records metadata only. The public `lifecycle.Coordinator` implements caller-context state transitions, dependency-order start, reverse successful-start stop, reverse construction cleanup, startup rollback, deterministic joined errors, and idempotent stop. Generated concrete provider and hook calls, signals, and command policy remain later slices.
+`spice verify` runs lifecycle validation after provider-graph validation. The compiler stage is quiet and never executes methods, providers, or cleanup callbacks. It records metadata only. The public `lifecycle.Coordinator` implements caller-context state transitions, dependency-order start, reverse successful-start stop, reverse construction cleanup, startup rollback, deterministic joined errors, idempotent stop, and run/wait/shutdown composition. Generated code supplies direct hook method values; signals, shutdown deadlines, logging, and command exit remain caller policy.
 
 ## Immutable application model
 
@@ -132,10 +132,12 @@ The renderer emits the standard generated-code marker, sorted explicit import
 aliases, direct exported provider calls in dependency-first order, existing
 graph-edge arguments, immediate cleanup registration, wrapped stable errors,
 and direct lifecycle method values. Generated `NewApplication`, `State`,
-`Start`, and `Stop` methods delegate only generic state and rollback mechanics
-to the small public lifecycle coordinator. Generated code imports no compiler
-package and uses no reflection, package scan, service locator, or global
-registry.
+`Start`, `Stop`, and `Run` methods delegate only generic state and rollback
+mechanics to the small public lifecycle coordinator. `Run` accepts the caller's
+run context and shutdown-context factory, so the reusable application never
+registers signals or creates hidden deadline/background contexts. Generated
+code imports no compiler package and uses no reflection, package scan, service
+locator, or global registry.
 
 Each plan includes canonical JSON ownership metadata with schema, target,
 generator/formatter compatibility, a canonical model-input SHA-256, and exact

@@ -102,7 +102,9 @@ Exact output types must have one provider; Spice rejects duplicates rather than 
 Argument-free, method-only `@OnStart` and `@OnStop` select explicit methods for future generated lifecycle orchestration. A hook must have the exact non-variadic form `func(receiver)(context.Context) error`, and its receiver must be semantically identical to exactly one valid `@Bean` output.
 
 Aliases to the exact receiver, `context.Context`, and `error` types are accepted. Pointer/value convenience, assignability, interface implementation, structural context lookalikes, method promotion, duplicate roles, and stop-only components are rejected.
-The compiler records deterministic typed metadata only. `spice verify` never invokes providers, cleanup callbacks, or lifecycle methods. The public `lifecycle.Coordinator` now supplies the state machine, dependency-order start, reverse stop/cleanup, startup rollback, deterministic error joining, and idempotent stop that generated applications will call; concrete generated hook invocation remains the next layer.
+The compiler records deterministic typed metadata only. `spice verify` never invokes providers, cleanup callbacks, or lifecycle methods. Generated applications use the public `lifecycle.Coordinator` for the state machine, dependency-order start, reverse stop/cleanup, startup rollback, deterministic error joining, idempotent stop, and run/wait/shutdown composition. Concrete hook calls remain direct generated method values.
+
+Generated `Run` accepts the caller's run context and a caller-supplied shutdown-context factory. This keeps operating-system signals and fresh shutdown deadlines in the command while allowing the framework to stop gracefully after cancellation without inventing a hidden background context.
 
 ## Argument diagnostics
 

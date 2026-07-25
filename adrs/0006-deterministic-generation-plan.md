@@ -33,7 +33,7 @@ The generated package:
 - registers cleanup immediately after each successful provider call;
 - aborts construction through `lifecycle.Coordinator` on failure;
 - stores explicit exported start/stop method values in construction order;
-- exposes `NewApplication`, `State`, `Start`, and `Stop`;
+- exposes `NewApplication`, `State`, `Start`, `Stop`, and caller-policy `Run`;
 - uses no reflection, service locator, runtime scanning, or global registry.
 
 Because a dedicated generated package cannot import a `main` package or access

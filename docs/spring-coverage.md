@@ -4,7 +4,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 
 | Area | Spring capability | Spice direction | Status |
 |---|---|---|---|
-| Core | Application bootstrap and lifecycle | Exact typed roots/hooks/cleanup, immutable IR, and the rollback/shutdown coordinator are available; generated concrete invocation follows | in-progress |
+| Core | Application bootstrap and lifecycle | Exact roots/hooks/cleanup, immutable IR, generated construction/start/stop/run, rollback, idempotency, and caller-owned context policy | available |
 | Core | Dependency injection | Exact-type catalog/graph, deterministic direct-call constructor/rollback, and guarded generated-file application | available |
 | Core | Auto-configuration | Explicit starter manifests with compile-time conditions | planned |
 | Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |

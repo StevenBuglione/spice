@@ -24,6 +24,12 @@ The coordinator accepts only explicit typed callbacks:
   error;
 - caller-owned contexts are passed unchanged to callbacks.
 
+`Run` accepts a run context and a caller-supplied `ContextFactory`. After
+successful startup it waits for run-context cancellation, invokes the factory
+to obtain a fresh shutdown context and release function, stops, and releases
+that context. Run-context cancellation is the normal shutdown signal and is not
+returned as an application error.
+
 The observable states are constructed, starting, ready, stopping, stopped, and
 failed. Construction abort and startup rollback end in failed; normal stop ends
 in stopped.
@@ -36,7 +42,7 @@ The coordinator does not:
 - resolve types or dependency order;
 - scan packages or use reflection;
 - own process signals, timeouts, logging, or exit behavior;
-- create background contexts;
+- create background, timeout, or signal contexts;
 - recover panics;
 - store a global registry or application singleton.
 
