@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 104,
+  "generation": 105,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "READY_FOR_VERIFICATION",
+    "status": "VERIFYING",
     "issue": 39,
     "pr": 40,
     "branch": "agent/issue-39-lifecycle-hooks",
@@ -13,7 +13,7 @@
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Independent Verifier may atomically acquire review_lock for non-draft PR #40 at exact head e98d3a940065827f6cebe80a384d67ba0c3c9dad, inspect the complete frozen 9-file diff, and rerun the issue #39 matrix against permanent artifact 8620142662."
+    "next_action": "Independent Verifier holds review_lock for exact head e98d3a940065827f6cebe80a384d67ba0c3c9dad and is executing the frozen issue #39 verification matrix before an exact-head merge decision."
   },
   "writer_lock": {
     "active": false,
@@ -24,17 +24,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": false,
-    "owner": null,
-    "token": null,
-    "acquired_at": null,
-    "heartbeat_at": null,
-    "lease_until": null,
-    "head": null
+    "active": true,
+    "owner": "verifier",
+    "token": "verifier-20260725T144119Z-6d2f8a",
+    "acquired_at": "2026-07-25T14:41:19Z",
+    "heartbeat_at": "2026-07-25T14:41:19Z",
+    "lease_until": "2026-07-25T15:26:19Z",
+    "head": "e98d3a940065827f6cebe80a384d67ba0c3c9dad"
   },
   "last_transition": {
-    "role": "primary-implementer",
-    "at": "2026-07-25T14:00:02Z",
-    "summary": "Released writer token implementer-primary-20260725T130847Z-9c4e72 and published READY_FOR_VERIFICATION for unchanged head e98d3a940065827f6cebe80a384d67ba0c3c9dad. PR #40 is open, non-draft and mergeable; CI 30160657303 and workspace 30160657311 passed; artifact 8620142662 digest sha256:b7efd6820ed887a01e9f3f92b3af8169bd607764c3eb9cdecfd13274c70945df matched the embedded head and all 170 source files; the full frozen artifact matrix and executable fixtures passed."
+    "role": "verifier",
+    "at": "2026-07-25T14:41:19Z",
+    "summary": "Atomically acquired review_lock token verifier-20260725T144119Z-6d2f8a for non-draft PR #40 at exact READY_FOR_VERIFICATION head e98d3a940065827f6cebe80a384d67ba0c3c9dad."
   }
 }
