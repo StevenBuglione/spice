@@ -183,3 +183,20 @@ The committed hello-world target is an executable reference for this contract:
 the command owns process signals plus the shutdown deadline. Repository
 verification runs generation freshness, generated construction, live HTTP, and
 graceful-drain checks.
+
+## Module discovery
+
+`compiler/modulith` consumes the same typed program and resolved annotation
+result as the application compiler. Package-documentation `@Module` markers
+create full-import-path module identities. Each selected package is assigned to
+the longest matching root in its Go module; nested roots therefore take
+deterministic ownership, while packages outside every root are retained as
+sorted unassigned metadata.
+
+The root package is the default API. Repeatable package-level
+`@NamedInterface` markers expose explicitly named descendant packages.
+`allowedDependencies` entries identify an exact root API or
+`module::interface`; discovery rejects malformed, duplicate, self, unknown
+module, and unknown-interface references. Model accessors return defensive
+copies. Cross-module import-edge validation and command output build on this
+immutable discovery result.

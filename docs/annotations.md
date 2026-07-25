@@ -106,6 +106,38 @@ The compiler records deterministic typed metadata only. `spice verify` never inv
 
 Generated `Run` accepts the caller's run context and a caller-supplied shutdown-context factory. This keeps operating-system signals and fresh shutdown deadlines in the command while allowing the framework to stop gracefully after cancellation without inventing a hidden background context.
 
+## Application modules
+
+`@Module` is a package-documentation annotation. The annotated package's full
+Go import path is the module identity and its root package is the default
+public API. Descendant packages belong to the longest matching root and remain
+internal unless exposed by a package-level named interface.
+
+```go
+// Package orders owns order processing.
+//
+// @Module(allowedDependencies=["example.com/shop/inventory", "example.com/shop/payments::spi"])
+package orders
+```
+
+Allowed dependencies use exact module-root import paths. A plain path selects
+the root default API; `module::interface` selects a named interface.
+
+`@NamedInterface` is repeatable and accepts one positional or named string.
+Names must match `^[a-z][a-z0-9-]*$`.
+
+```go
+// Package spi exposes payment contracts.
+//
+// @NamedInterface("spi")
+package spi
+```
+
+Spice reports packages in the same Go module that are not owned by any
+annotated module root. Short module names, implicit descendant APIs, self
+dependencies, duplicate references, and unknown modules/interfaces are
+rejected.
+
 ## Argument diagnostics
 
 Invalid invocations fail before generation with deterministic source-positioned diagnostics:

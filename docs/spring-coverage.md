@@ -30,8 +30,8 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Observability | Metrics and tracing | OpenTelemetry-first integrations | planned |
 | Testing | Application context and test slices | Generated test application graphs and focused module/web/data tests | planned |
 | Development | Devtools and reload | Fast generate/test loop and optional reload integration | planned |
-| Modulith | Module discovery | Package and declaration-derived module model | planned |
-| Modulith | Module dependency verification | Cycles, internals, allowed dependencies, named interfaces | planned |
+| Modulith | Module discovery | Import-path roots, longest-root package ownership, root APIs, named interfaces, and unassigned-package metadata | in-progress |
+| Modulith | Module dependency verification | Exact allowed dependency identities are validated; import edges, internals, and cycles follow | in-progress |
 | Modulith | Module tests | Module-specific generated test harnesses | planned |
 | Modulith | Event publication registry | Durable event publication and completion tracking | planned |
 | Modulith | Documentation | Mermaid/PlantUML/JSON module diagrams and canvases | planned |

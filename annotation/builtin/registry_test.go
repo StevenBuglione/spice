@@ -14,17 +14,21 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		name         string
 		targets      []annotation.Target
 		argumentName string
+		kinds        []annotation.Kind
 		required     bool
 		positional   bool
+		repeatable   bool
 	}{
 		{name: "Application", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Bean", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Configuration", targets: []annotation.Target{annotation.TargetType}},
-		{name: "Controller", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix"},
-		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true, positional: true},
+		{name: "Controller", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix", kinds: []annotation.Kind{annotation.KindString}},
+		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
+		{name: "Module", targets: []annotation.Target{annotation.TargetPackage}, argumentName: "allowedDependencies", kinds: []annotation.Kind{annotation.KindList}},
+		{name: "NamedInterface", targets: []annotation.Target{annotation.TargetPackage}, argumentName: "name", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true, repeatable: true},
 		{name: "OnStart", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "OnStop", targets: []annotation.Target{annotation.TargetMethod}},
-		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", required: true, positional: true},
+		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
 		{name: "Service", targets: []annotation.Target{annotation.TargetType}},
 	}
 
@@ -44,8 +48,8 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 			if got := definition.Targets.Values(); !reflect.DeepEqual(got, test.targets) {
 				t.Fatalf("%s targets = %#v, want %#v", test.name, got, test.targets)
 			}
-			if definition.Repeatable {
-				t.Fatalf("%s unexpectedly repeatable", test.name)
+			if definition.Repeatable != test.repeatable {
+				t.Fatalf("%s repeatable = %t, want %t", test.name, definition.Repeatable, test.repeatable)
 			}
 			if test.argumentName == "" {
 				if len(definition.Arguments) != 0 {
@@ -60,8 +64,8 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 			if argument.Name != test.argumentName || argument.Required != test.required || argument.Positional != test.positional {
 				t.Fatalf("%s argument = %#v", test.name, argument)
 			}
-			if !reflect.DeepEqual(argument.Kinds, []annotation.Kind{annotation.KindString}) {
-				t.Fatalf("%s argument kinds = %#v", test.name, argument.Kinds)
+			if !reflect.DeepEqual(argument.Kinds, test.kinds) {
+				t.Fatalf("%s argument kinds = %#v, want %#v", test.name, argument.Kinds, test.kinds)
 			}
 		})
 	}

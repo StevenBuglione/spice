@@ -23,6 +23,21 @@ func Registry() annotation.Registry {
 				{Name: "path", Kinds: []annotation.Kind{annotation.KindString}, Required: true, Positional: true},
 			},
 		},
+		annotation.Definition{
+			Name:    "Module",
+			Targets: annotation.Targets(annotation.TargetPackage),
+			Arguments: []annotation.ArgumentDefinition{
+				{Name: "allowedDependencies", Kinds: []annotation.Kind{annotation.KindList}},
+			},
+		},
+		annotation.Definition{
+			Name:       "NamedInterface",
+			Targets:    annotation.Targets(annotation.TargetPackage),
+			Repeatable: true,
+			Arguments: []annotation.ArgumentDefinition{
+				{Name: "name", Kinds: []annotation.Kind{annotation.KindString}, Required: true, Positional: true},
+			},
+		},
 		annotation.Definition{Name: "OnStart", Targets: annotation.Targets(annotation.TargetMethod)},
 		annotation.Definition{Name: "OnStop", Targets: annotation.Targets(annotation.TargetMethod)},
 		annotation.Definition{
