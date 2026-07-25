@@ -3,6 +3,29 @@
 Spice configuration is generated and reflection-free. The runtime resolves raw
 values and provenance; generated Go performs typed struct construction.
 
+## Declaration contract
+
+`@Configuration` targets a defined, non-generic named struct and accepts an
+optional named `prefix` string. Every exported field must declare an explicit
+`spice` tag or opt out with `spice:"-"`. Untagged private fields are ignored;
+embedded fields and tagged private fields are rejected because generated code
+cannot initialize them safely.
+
+```go
+// @Configuration(prefix="server")
+type Server struct {
+    Port     int           `spice:"port,default=8080,env=SERVER_PORT"`
+    Timeout time.Duration `spice:"timeout,default=5s"`
+    Token   string        `spice:"token,required,secret,env=SERVER_TOKEN"`
+}
+```
+
+Tag options are `default=<value>`, `env=<NAME>`, `required`, and `secret`.
+Strings, Booleans, signed integers (including named forms and aliases), and
+`time.Duration` are supported. The compiler validates keys, scalar defaults,
+integer widths, environment names, duplicate properties, duplicate environment
+variables, and module ownership before provider-graph construction.
+
 ## Resolution contract
 
 `config.Resolve` applies:
@@ -106,8 +129,10 @@ server, err := config.Decode(ctx, snapshot, func(snapshot config.Snapshot) (Serv
 })
 ```
 
-The hand-written decoder above demonstrates the generated contract; application
-code will consume generated binders.
+The hand-written decoder above demonstrates the generated contract. The
+compiler already retains the exact field types and property metadata in the
+immutable application IR; emitting and injecting these binders is the next
+configuration slice.
 
 ## Environment and secrets
 

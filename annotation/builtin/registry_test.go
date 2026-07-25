@@ -21,7 +21,7 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 	}{
 		{name: "Application", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Bean", targets: []annotation.Target{annotation.TargetFunction}},
-		{name: "Configuration", targets: []annotation.Target{annotation.TargetType}},
+		{name: "Configuration", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix", kinds: []annotation.Kind{annotation.KindString}},
 		{name: "Controller", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix", kinds: []annotation.Kind{annotation.KindString}},
 		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
 		{name: "Module", targets: []annotation.Target{annotation.TargetPackage}, argumentName: "allowedDependencies", kinds: []annotation.Kind{annotation.KindList}},

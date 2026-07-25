@@ -42,7 +42,7 @@ func (UserController) GetUserCompact() {}
 func (UserController) CreateUser() {}
 ```
 
-Marker annotations such as `@Application`, `@Bean`, `@Configuration`, `@Service`, `@OnStart`, and `@OnStop` accept no arguments.
+Marker annotations such as `@Application`, `@Bean`, `@Service`, `@OnStart`, and `@OnStop` accept no arguments. `@Configuration` accepts an optional named `prefix` string.
 
 The bootstrap parser supports strings, integers, booleans, identifiers, and lists. The current validator checks the outer parsed kind only; it does not yet implement defaults, aliases, composed annotations, nested annotations, enum-like identifiers, or list element schemas.
 
@@ -158,7 +158,7 @@ A positional value is accepted only when exactly one definition argument is expl
 |---|---|---|
 | `@Application` | Package-level function | None |
 | `@Bean` | Package-level function | None |
-| `@Configuration` | Type | None |
+| `@Configuration` | Type | `prefix` string, optional, named-only |
 | `@Controller` | Type | `prefix` string, optional, named-only |
 | `@Get` | Method | `path` string, required, named or positional |
 | `@OnStart` | Method | None |
