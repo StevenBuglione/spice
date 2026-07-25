@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 99,
+  "generation": 100,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,12 +8,12 @@
     "issue": 39,
     "pr": null,
     "branch": "agent/issue-39-lifecycle-hooks",
-    "head": "1f25ca9893d160e1a1d9df522e3b628bbb71fb60",
+    "head": "f0c082feb1b2921c2bbce54a6cbbd6d225bce88c",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "All frozen local, focused, deterministic, offline, race, repeated, executable-fixture and mutation proof passes are complete. Push the 9-file exact implementation to the canonical branch, create the single draft PR, and record its exact head before waiting for CI."
+    "next_action": "The first durable recovery commit is pushed on the canonical branch with the exact lifecycle catalog, registry, and focused tests. Add the remaining frozen CLI integration and documentation files without changing scope, then record the new exact head and create the single draft PR."
   },
   "writer_lock": {
     "active": true,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T13:33:53Z",
-    "summary": "Heartbeat immediately before the first canonical push. The exact reconstructed implementation passed make verify, every frozen focused command, vendor-only tests, the complete race suite, repeated suites, five executable fixtures, and both required semantic mutation proofs."
+    "at": "2026-07-25T13:49:59Z",
+    "summary": "Recorded the first canonical branch push for issue #39 at f0c082feb1b2921c2bbce54a6cbbd6d225bce88c. This durable commit contains the exact typed lifecycle catalog, built-in markers, and focused package/CLI tests; the remaining frozen CLI wiring and documentation updates are next."
   }
 }
