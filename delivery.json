@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 63,
+  "generation": 64,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,7 +13,7 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": "b5d0186c73745dbacb28d9d331387483e45cddb5",
-    "next_action": "Confirm issue #17 closure and default-branch health for merge commit b5d0186c73745dbacb28d9d331387483e45cddb5; with no active lane, Primary Implementer may select the next dependency-ready bounded issue after backlog reconciliation."
+    "next_action": "Issue #17 and PR #36 are closed consistently and main contains the verified graph blobs. No post-merge workflow run is visible yet for b5d0186c73745dbacb28d9d331387483e45cddb5; watchdog should reconcile it when available, while Primary Implementer may select the next dependency-ready bounded issue because no active lane or lock remains."
   },
   "writer_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-25T01:49:16Z",
-    "summary": "Squash-merged exact verified PR #36 head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382 as b5d0186c73745dbacb28d9d331387483e45cddb5 and released review lock verifier-20260725T013812Z-5a7c91."
+    "at": "2026-07-25T01:51:10Z",
+    "summary": "Confirmed PR #36 merged as b5d0186c73745dbacb28d9d331387483e45cddb5, issue #17 closed completed, and main exposes the exact verified compiler/graph blob; post-merge CI was not yet visible."
   }
 }
