@@ -58,10 +58,47 @@ func (e *TransitionError) Unwrap() error {
 // Hook contains explicit generated start and optional stop callbacks for one
 // provider-owned component.
 type Hook struct {
-	ID    string
-	Start Cleanup
-	Stop  Cleanup
+	ID     string
+	Module string
+	Start  Cleanup
+	Stop   Cleanup
 }
+
+// Operation identifies the lifecycle callback being observed.
+type Operation string
+
+const (
+	// OperationStart identifies a component start hook.
+	OperationStart Operation = "start"
+	// OperationStop identifies a component stop hook.
+	OperationStop Operation = "stop"
+	// OperationCleanup identifies a provider construction cleanup.
+	OperationCleanup Operation = "cleanup"
+)
+
+// Phase identifies whether a callback is about to run or has completed.
+type Phase string
+
+const (
+	// PhaseBegin is emitted immediately before callback invocation.
+	PhaseBegin Phase = "begin"
+	// PhaseEnd is emitted immediately after callback invocation.
+	PhaseEnd Phase = "end"
+)
+
+// Observation is one synchronous lifecycle callback observation. Err is set
+// only on an end event when the callback failed.
+type Observation struct {
+	Module    string
+	Component string
+	Operation Operation
+	Phase     Phase
+	Err       error
+}
+
+// Observer receives lifecycle observations on the callback-executing
+// goroutine. It has no error return and must not panic or block indefinitely.
+type Observer func(context.Context, Observation)
 
 // ContextFactory creates a caller-owned context and release function when
 // shutdown begins. It allows Run to obtain a fresh shutdown deadline only after
@@ -69,19 +106,21 @@ type Hook struct {
 type ContextFactory func() (context.Context, context.CancelFunc)
 
 type callback struct {
-	id string
-	fn Cleanup
+	id     string
+	module string
+	fn     Cleanup
 }
 
 // Coordinator implements generic lifecycle state and callback ordering for one
 // generated application. It performs no discovery or dependency resolution.
 type Coordinator struct {
-	mu       sync.Mutex
-	state    State
-	cleanups []callback
-	started  []Hook
-	done     chan struct{}
-	stopErr  error
+	mu        sync.Mutex
+	state     State
+	cleanups  []callback
+	started   []Hook
+	observers []Observer
+	done      chan struct{}
+	stopErr   error
 }
 
 // NewCoordinator returns a coordinator ready to accept construction cleanups.
@@ -106,6 +145,12 @@ func (c *Coordinator) State() State {
 // immediately after the corresponding provider succeeds. A nil cleanup is a
 // valid no-op.
 func (c *Coordinator) RegisterCleanup(id string, cleanup Cleanup) error {
+	return c.RegisterModuleCleanup("", id, cleanup)
+}
+
+// RegisterModuleCleanup arms one provider cleanup with optional module
+// ownership metadata. Generated constructors use this form.
+func (c *Coordinator) RegisterModuleCleanup(module, id string, cleanup Cleanup) error {
 	if c == nil {
 		return &TransitionError{Operation: "register cleanup", State: StateInvalid}
 	}
@@ -120,7 +165,24 @@ func (c *Coordinator) RegisterCleanup(id string, cleanup Cleanup) error {
 	if id == "" {
 		return errors.New("register cleanup: callback ID is required")
 	}
-	c.cleanups = append(c.cleanups, callback{id: id, fn: cleanup})
+	c.cleanups = append(c.cleanups, callback{id: id, module: module, fn: cleanup})
+	return nil
+}
+
+// RegisterObserver adds a synchronous observer before lifecycle execution.
+func (c *Coordinator) RegisterObserver(observer Observer) error {
+	if c == nil {
+		return &TransitionError{Operation: "register lifecycle observer", State: StateInvalid}
+	}
+	if observer == nil {
+		return errors.New("register lifecycle observer: observer is nil")
+	}
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.state != StateConstructed {
+		return &TransitionError{Operation: "register lifecycle observer", State: c.state}
+	}
+	c.observers = append(c.observers, observer)
 	return nil
 }
 
@@ -176,7 +238,10 @@ func (c *Coordinator) Start(ctx context.Context, hooks []Hook) error {
 		if cause := context.Cause(ctx); cause != nil {
 			return c.failStart(ctx, fmt.Errorf("start component %s: %w", hook.ID, cause))
 		}
-		if err := hook.Start(ctx); err != nil {
+		c.observe(ctx, hook.Module, hook.ID, OperationStart, PhaseBegin, nil)
+		err := hook.Start(ctx)
+		c.observe(ctx, hook.Module, hook.ID, OperationStart, PhaseEnd, err)
+		if err != nil {
 			return c.failStart(ctx, fmt.Errorf("start component %s: %w", hook.ID, err))
 		}
 		c.mu.Lock()
@@ -296,7 +361,10 @@ func (c *Coordinator) runCallbacks(ctx context.Context, started []Hook) error {
 		if hook.Stop == nil {
 			continue
 		}
-		if err := hook.Stop(ctx); err != nil {
+		c.observe(ctx, hook.Module, hook.ID, OperationStop, PhaseBegin, nil)
+		err := hook.Stop(ctx)
+		c.observe(ctx, hook.Module, hook.ID, OperationStop, PhaseEnd, err)
+		if err != nil {
 			failures = append(failures, fmt.Errorf("stop component %s: %w", hook.ID, err))
 		}
 	}
@@ -306,11 +374,37 @@ func (c *Coordinator) runCallbacks(ctx context.Context, started []Hook) error {
 	c.cleanups = nil
 	c.mu.Unlock()
 	for _, item := range slices.Backward(cleanups) {
-		if err := item.fn(ctx); err != nil {
+		c.observe(ctx, item.module, item.id, OperationCleanup, PhaseBegin, nil)
+		err := item.fn(ctx)
+		c.observe(ctx, item.module, item.id, OperationCleanup, PhaseEnd, err)
+		if err != nil {
 			failures = append(failures, fmt.Errorf("cleanup provider %s: %w", item.id, err))
 		}
 	}
 	return errors.Join(failures...)
+}
+
+func (c *Coordinator) observe(
+	ctx context.Context,
+	module string,
+	component string,
+	operation Operation,
+	phase Phase,
+	err error,
+) {
+	c.mu.Lock()
+	observers := append([]Observer(nil), c.observers...)
+	c.mu.Unlock()
+	observation := Observation{
+		Module:    module,
+		Component: component,
+		Operation: operation,
+		Phase:     phase,
+		Err:       err,
+	}
+	for _, observer := range observers {
+		observer(ctx, observation)
+	}
 }
 
 func (c *Coordinator) completeTerminal(state State, result error) error {

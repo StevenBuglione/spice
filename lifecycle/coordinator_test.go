@@ -69,6 +69,93 @@ func TestCoordinatorStartsAndStopsInDeterministicOrder(t *testing.T) {
 	}
 }
 
+func TestCoordinatorEmitsModuleAwareLifecycleObservations(t *testing.T) {
+	t.Parallel()
+	type contextKey struct{}
+	stopFailure := errors.New("stop failed")
+	cleanupFailure := errors.New("cleanup failed")
+	coordinator := NewCoordinator()
+	var observations []string
+	if err := coordinator.RegisterObserver(func(ctx context.Context, observation Observation) {
+		if ctx.Value(contextKey{}) != "request" {
+			t.Errorf("observer context value = %v", ctx.Value(contextKey{}))
+		}
+		outcome := "ok"
+		if observation.Err != nil {
+			outcome = observation.Err.Error()
+		}
+		observations = append(observations, strings.Join([]string{
+			observation.Module,
+			observation.Component,
+			string(observation.Operation),
+			string(observation.Phase),
+			outcome,
+		}, ":"))
+	}); err != nil {
+		t.Fatalf("RegisterObserver() error = %v", err)
+	}
+	if err := coordinator.RegisterModuleCleanup(
+		"example.com/shop/orders",
+		"repository",
+		func(context.Context) error {
+			return cleanupFailure
+		},
+	); err != nil {
+		t.Fatalf("RegisterModuleCleanup() error = %v", err)
+	}
+	ctx := context.WithValue(context.Background(), contextKey{}, "request")
+	if err := coordinator.Start(ctx, []Hook{{
+		ID:     "server",
+		Module: "example.com/shop/orders",
+		Start:  func(context.Context) error { return nil },
+		Stop:   func(context.Context) error { return stopFailure },
+	}}); err != nil {
+		t.Fatalf("Start() error = %v", err)
+	}
+	stopErr := coordinator.Stop(ctx)
+	if !errors.Is(stopErr, stopFailure) || !errors.Is(stopErr, cleanupFailure) {
+		t.Fatalf("Stop() error = %v", stopErr)
+	}
+	want := []string{
+		"example.com/shop/orders:server:start:begin:ok",
+		"example.com/shop/orders:server:start:end:ok",
+		"example.com/shop/orders:server:stop:begin:ok",
+		"example.com/shop/orders:server:stop:end:stop failed",
+		"example.com/shop/orders:repository:cleanup:begin:ok",
+		"example.com/shop/orders:repository:cleanup:end:cleanup failed",
+	}
+	if !slices.Equal(observations, want) {
+		t.Fatalf("observations = %v, want %v", observations, want)
+	}
+}
+
+func TestCoordinatorRejectsInvalidObserverRegistration(t *testing.T) {
+	t.Parallel()
+	var missing *Coordinator
+	if err := missing.RegisterObserver(func(context.Context, Observation) {}); !errors.Is(
+		err,
+		ErrInvalidTransition,
+	) {
+		t.Fatalf("nil RegisterObserver() error = %v", err)
+	}
+	coordinator := NewCoordinator()
+	if err := coordinator.RegisterObserver(nil); err == nil {
+		t.Fatal("RegisterObserver(nil) error = nil")
+	}
+	if err := coordinator.Start(context.Background(), nil); err != nil {
+		t.Fatalf("Start() error = %v", err)
+	}
+	if err := coordinator.RegisterObserver(func(context.Context, Observation) {}); !errors.Is(
+		err,
+		ErrInvalidTransition,
+	) {
+		t.Fatalf("late RegisterObserver() error = %v", err)
+	}
+	if err := coordinator.Stop(context.Background()); err != nil {
+		t.Fatalf("Stop() error = %v", err)
+	}
+}
+
 func TestCoordinatorStartupFailureRollsBackAndJoinsErrors(t *testing.T) {
 	t.Parallel()
 	startFailure := errors.New("start failed")

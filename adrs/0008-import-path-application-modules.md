@@ -55,6 +55,11 @@ observed dependencies, excluding dependents, unrelated modules, unassigned
 packages, and allowed-but-unused dependencies. JSON records dependency-first
 composition order, and diagrams highlight the selected module.
 
+The same ownership model labels generated provider cleanup and lifecycle-hook
+metadata. The runtime coordinator emits synchronous module-aware callback
+observations through explicitly registered observers; it does not choose or
+initialize a tracing/metrics implementation.
+
 ## Consequences
 
 - Module identities remain unique wherever Go import paths are unique.

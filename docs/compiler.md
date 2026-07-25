@@ -222,3 +222,13 @@ selected module plus only transitively observed dependencies. It excludes
 dependents, unrelated modules, unassigned packages, and declared-but-unused
 dependencies. JSON includes the focus identity and dependency-first composition
 order; Mermaid and PlantUML highlight the selected module.
+
+Generation maps each provider package back to its discovered owning module.
+Generated cleanup registration and lifecycle hooks carry that full import-path
+identity, and module ownership participates in the canonical manifest input
+hash. `NewApplication` accepts optional lifecycle observers before provider
+construction; generated applications also expose registration while still in
+the constructed state. The coordinator emits synchronous begin/end events for
+start, stop, and cleanup with stable component ID, module ID, operation, phase,
+and callback outcome. Core selects no global observer, tracer, meter, or
+exporter.

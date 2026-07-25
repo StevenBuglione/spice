@@ -30,6 +30,12 @@ to obtain a fresh shutdown context and release function, stops, and releases
 that context. Run-context cancellation is the normal shutdown signal and is not
 returned as an application error.
 
+Generated hooks and cleanups carry optional owning-module import paths.
+Observers register while the coordinator is constructed and synchronously
+receive begin/end events for start, stop, and cleanup callbacks. Events contain
+module ID, stable component/provider ID, operation, phase, and callback error.
+Observers have no error return and must not panic or block indefinitely.
+
 The observable states are constructed, starting, ready, stopping, stopped, and
 failed. Construction abort and startup rollback end in failed; normal stop ends
 in stopped.
@@ -42,6 +48,7 @@ The coordinator does not:
 - resolve types or dependency order;
 - scan packages or use reflection;
 - own process signals, timeouts, logging, or exit behavior;
+- own a tracer, meter, exporter, or global observer registry;
 - create background, timeout, or signal contexts;
 - recover panics;
 - store a global registry or application singleton.

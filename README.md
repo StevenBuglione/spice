@@ -24,6 +24,7 @@ The repository currently provides:
 - A pure deterministic renderer for direct provider/lifecycle calls and SHA-256 ownership manifests.
 - Guarded generated-file ownership with manual-edit refusal, freshness checks, bounded diffs, and unchanged-file preservation.
 - Import-path application modules with root APIs, named interfaces, explicit dependencies, internal-boundary checks, unassigned-package reporting, and deterministic cycle detection.
+- Module-aware synchronous lifecycle observations that generated applications expose without a global tracer or telemetry dependency.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
 - A committed generated HTTP application with real provider, lifecycle, route, and graceful-drain tests.
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
