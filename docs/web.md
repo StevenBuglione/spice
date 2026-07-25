@@ -27,3 +27,53 @@ Generated adapters own routing, DTO construction, controller invocation,
 response status selection, and error-handler calls. Applications remain free to
 provide raw `http.Handler` beans when generated controller semantics are not
 appropriate.
+
+## Controller contract
+
+`compiler/controller` validates controller metadata from the same typed program
+used for dependency injection. An exported, non-generic named struct marked
+`@Controller` does not create an instance: an exact `@Bean` provider must
+produce the receiver type used by every route.
+
+Typed route methods use:
+
+```go
+// @Controller(prefix="/users")
+type Users struct{}
+
+type GetUserRequest struct {
+    ID      UserID `path:"id"`
+    Verbose bool   `query:"verbose"`
+    TraceID string `header:"X-Trace-ID"`
+}
+
+// @Get("/{id}")
+func (*Users) Get(
+    context.Context,
+    GetUserRequest,
+) (UserResponse, error)
+```
+
+The exact typed signature is
+`func(context.Context, RequestDTO) (Response, error)`. Request DTOs are exported
+named struct values. Every exported field declares exactly one `path`, `query`,
+`header`, or `body` tag, or opts out with `web:"-"`. Query and header tags may
+add `,required`; path values and the single JSON body are always required.
+Supported scalar bindings are strings, Booleans, signed integers, and
+`time.Duration`, including exported named forms.
+
+Only simple full-segment `{name}` path wildcards are supported. The compiler
+rejects missing/extra wildcard fields, duplicate bindings, duplicate routes,
+GET bodies, unsupported scalar types, invalid headers and paths, and mismatched
+receiver providers.
+
+For endpoints that deliberately own `net/http` details, this exact raw escape
+hatch is supported:
+
+```go
+// @Get("/stream")
+func (*Users) Stream(http.ResponseWriter, *http.Request)
+```
+
+Raw methods own their complete response and error policy. Typed methods use the
+generated Spice binding and RFC 9457 policy.
