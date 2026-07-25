@@ -82,6 +82,10 @@ Controller targets also own
 `internal/spicegen/<target>/openapi.json`; generation check/diff verifies it
 alongside the generated application.
 
+Production services can mount the opt-in `management` handler for deterministic
+health, liveness, readiness, and caller-owned info endpoints; see
+[`docs/management.md`](docs/management.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
