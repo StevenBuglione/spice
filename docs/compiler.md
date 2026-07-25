@@ -82,3 +82,12 @@ After ordinary annotation target and argument validation, each valid package-lev
 Catalog output is sorted by stable provider symbol ID. Exact output conflicts use `types.Identical` and fail closed with one deterministic diagnostic naming every conflicting declaration. Distinct named types remain distinct even when their underlying representations match. The catalog does not perform assignability-based interface selection, dependency graph construction, provider invocation, scopes, lifecycle, or code generation.
 
 `spice verify` runs this catalog stage only after loading, typed annotation resolution, target validation, and argument validation have succeeded. Library code remains quiet; the CLI owns rendering and exit status.
+
+
+## Deterministic provider dependency graph
+
+`compiler/graph` consumes one already validated `provider.Catalog` from the owning typed compiler run. Every bootstrap provider is currently active. Each parameter resolves only to the one provider whose live output type is semantically identical under `go/types.Identical`; readable type IDs remain diagnostics and serialization data, not semantic lookup authority. Spice does not implicitly project concrete values to interfaces, equate distinct named types, convert pointers and values, or supply framework-specific defaults.
+
+Graph construction returns stable provider nodes, parameter edges, and a dependency-first order with stable provider IDs breaking ties. Missing inputs accumulate as source-positioned diagnostics. Tarjan strongly connected component analysis reports every self-cycle and multi-provider cycle with a deterministic closed path. Any missing input or cycle suppresses construction order. The library is quiet and never executes provider bodies.
+
+`spice verify` runs graph validation after provider-catalog validation. This stage validates bootstrap-wide singleton metadata only: application roots, reachable-provider pruning, generated constructor calls, cleanup, lifecycle, scopes, conditions, interface bindings, qualifiers, overrides, and module rules remain explicit later phases.
