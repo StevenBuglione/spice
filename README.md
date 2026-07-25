@@ -80,10 +80,13 @@ For a repository containing package-level `@Module` roots:
 spice modules --format=json ./...
 spice modules --format=mermaid ./...
 spice modules --format=plantuml ./...
+spice modules --focus=example.com/shop/orders --format=json ./...
 ```
 
 JSON contains complete portable module canvases. Mermaid and PlantUML aggregate
 the same verified package-import edges into deterministic module diagrams.
+`--focus` retains one module and only its transitively observed dependencies,
+with dependency-first composition order for module test slices.
 
 Use `--target Name` when the selected packages contain multiple application
 markers. Generation writes only manifest-owned files under

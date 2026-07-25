@@ -215,4 +215,10 @@ the root default API, named interfaces, declared dependencies, observed
 dependencies, exact package edges, cycle metadata, and unassigned packages.
 `--format=mermaid` and `--format=plantuml` render the same sorted graph with
 stable synthetic node IDs and aggregated API labels. Invalid module
-architecture blocks output. Focused module test graphs build on this result.
+architecture blocks output.
+
+`--focus=<full-module-import-path>` produces a module test graph containing the
+selected module plus only transitively observed dependencies. It excludes
+dependents, unrelated modules, unassigned packages, and declared-but-unused
+dependencies. JSON includes the focus identity and dependency-first composition
+order; Mermaid and PlantUML highlight the selected module.

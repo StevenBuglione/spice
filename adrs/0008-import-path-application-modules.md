@@ -50,7 +50,10 @@ member sets and representative closed paths.
 `spice modules --format=json|mermaid|plantuml` renders this model without
 writing files. JSON contains complete portable canvases; diagram formats use
 stable synthetic node IDs and aggregate repeated package imports by module API.
-Focused test graphs build on this model.
+`--focus=<module-import-path>` retains the selected module and its transitively
+observed dependencies, excluding dependents, unrelated modules, unassigned
+packages, and allowed-but-unused dependencies. JSON records dependency-first
+composition order, and diagrams highlight the selected module.
 
 ## Consequences
 
