@@ -10,8 +10,8 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |
 | Configuration | External properties and profiles | Typed/module-owned declarations become exact provider nodes with deterministic generated schema/binders; explicit rooted JSON/profile and environment sources provide precedence, provenance, validation, redaction, and caller-owned loading | available |
 | Web | MVC/REST controllers | Generated `net/http` adapters from controller annotations | planned |
-| Web | Request binding and validation | Typed path, query, header, and body binding | planned |
-| Web | Error handling and content negotiation | Standard policy interfaces and generated adapters | planned |
+| Web | Request binding and validation | Strict bounded JSON decoding and safe scalar binding runtime are available; generated typed DTO adapters follow | in-progress |
+| Web | Error handling and content negotiation | RFC 9457 problems, secure mapping, JSON negotiation, and response writers are available; generated adapters follow | in-progress |
 | Web | OpenAPI and REST documentation | Generated contracts and examples | planned |
 | Web | WebSocket, GraphQL, gRPC | Go-native integrations and starters | planned |
 | Security | Authentication and authorization | Middleware, generated method guards, OAuth2/OIDC starters | planned |
