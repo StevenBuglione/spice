@@ -107,6 +107,36 @@ func TestRegisterConvertsServeMuxPanicsToErrors(t *testing.T) {
 	}
 }
 
+func TestValidateMapsOrdinaryErrorsAndPreservesProblems(t *testing.T) {
+	cause := errors.New("secret validator detail")
+	err := Validate(context.Background(), func(context.Context) error {
+		return cause
+	})
+	var binding *BindingError
+	if !errors.As(err, &binding) || !errors.Is(err, cause) ||
+		strings.Contains(binding.Error(), cause.Error()) ||
+		binding.Location != LocationRequest {
+		t.Fatalf("Validate() error = %T %v", err, err)
+	}
+	explicit := NewError(Problem{Title: "Conflict", Status: http.StatusConflict}, cause)
+	if got := Validate(context.Background(), func(context.Context) error {
+		return explicit
+	}); !errors.Is(got, explicit) {
+		t.Fatalf("Validate(problem) = %v, want same error", got)
+	}
+	if err := Validate(context.Background(), func(context.Context) error {
+		return nil
+	}); err != nil {
+		t.Fatalf("Validate(success) error = %v", err)
+	}
+	if err := Validate(nil, func(context.Context) error { return nil }); err == nil { //nolint:staticcheck // Verify the defensive public API.
+		t.Fatal("Validate(nil context) error = nil")
+	}
+	if err := Validate(context.Background(), nil); err == nil {
+		t.Fatal("Validate(nil validator) error = nil")
+	}
+}
+
 func TestProblemValidationAndFallbacks(t *testing.T) {
 	tests := []Problem{
 		{Status: 399},

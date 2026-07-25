@@ -69,6 +69,18 @@ add `,required`; path values and the single JSON body are always required.
 Supported scalar bindings are strings, Booleans, signed integers, and
 `time.Duration`, including exported named forms.
 
+After every field is bound, generated adapters invoke an optional exact
+value-receiver method:
+
+```go
+func (GetUserRequest) Validate(context.Context) error
+```
+
+The compiler rejects pointer receivers and lookalike signatures. Explicit
+`ProblemCarrier` errors retain their response policy; ordinary validator errors
+produce a safe 400 response without exposing their text. Validation always
+runs before the controller method.
+
 Only simple full-segment `{name}` path wildcards are supported. The compiler
 rejects missing/extra wildcard fields, duplicate bindings, duplicate routes,
 GET bodies, unsupported scalar types, invalid headers and paths, and mismatched

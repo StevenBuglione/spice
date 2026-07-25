@@ -117,6 +117,8 @@ const (
 	LocationHeader Location = "header"
 	// LocationBody identifies the request body.
 	LocationBody Location = "body"
+	// LocationRequest identifies whole-request typed validation.
+	LocationRequest Location = "request"
 )
 
 // BindingError is a safe source-specific bad-request error. It intentionally
@@ -179,6 +181,27 @@ func (e *BindingError) Problem() Problem {
 
 // ErrorMapper converts an application error into a safe problem document.
 type ErrorMapper func(context.Context, error) Problem
+
+// Validate invokes one generated request validator. Explicit problem errors
+// retain their policy; ordinary validator errors become a safe 400 without
+// exposing their text.
+func Validate(ctx context.Context, validator func(context.Context) error) error {
+	if ctx == nil {
+		return errors.New("validate request: context is nil")
+	}
+	if validator == nil {
+		return errors.New("validate request: validator is nil")
+	}
+	err := validator(ctx)
+	if err == nil {
+		return nil
+	}
+	var carrier ProblemCarrier
+	if errors.As(err, &carrier) {
+		return err
+	}
+	return NewBindingError(LocationRequest, "request", "failed validation", err)
+}
 
 // Register safely registers one generated route. ServeMux reports invalid or
 // conflicting patterns by panic; Spice converts that programmer/configuration
