@@ -198,5 +198,14 @@ The root package is the default API. Repeatable package-level
 `allowedDependencies` entries identify an exact root API or
 `module::interface`; discovery rejects malformed, duplicate, self, unknown
 module, and unknown-interface references. Model accessors return defensive
-copies. Cross-module import-edge validation and command output build on this
-immutable discovery result.
+copies.
+
+Spice projects the selected program's real Go imports into distinct
+cross-module package edges. Imports of a root API or named interface must match
+an exact `allowedDependencies` entry. Any other descendant import is rejected
+as internal at the import position. The projected module graph is decomposed
+into strongly connected components; every multi-module component produces a
+stable member set and representative closed cycle path. This metadata and its
+diagnostics are part of the immutable application IR, so `spice verify`
+enforces the same boundaries before generation. Command documentation formats
+and focused module test graphs build on this result.

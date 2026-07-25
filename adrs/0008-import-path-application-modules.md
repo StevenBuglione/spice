@@ -41,10 +41,13 @@ Discovery consumes the existing loaded program and resolved annotations. It
 does not reload source, execute code, inspect the filesystem, or infer modules
 from directory names alone.
 
-This ADR establishes discovery and dependency-identity validation. Import-edge
-validation, internal-access rejection, allowed-dependency enforcement, cycle
-detection, CLI documentation formats, and focused test graphs build on this
-model.
+Every selected Go import between different discovered modules becomes one
+distinct architecture edge. Imports of another module's root API or named
+interface require an exact allowed-dependency entry. Other descendant imports
+are rejected as internal. Strongly connected module components produce stable
+member sets and representative closed paths.
+
+CLI documentation formats and focused test graphs build on this model.
 
 ## Consequences
 
