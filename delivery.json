@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 102,
+  "generation": 103,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,15 +13,15 @@
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "PR #40 is the single canonical draft PR at the exact implementation head. Reconcile GitHub Actions and the permanent exact-head workspace artifact; if all proof passes, mark the PR non-draft, atomically release this writer lock, and publish READY_FOR_VERIFICATION for the unchanged SHA."
+    "next_action": "Exact-head CI and workspace workflows are green. Execute the frozen proof matrix once against permanent artifact 8620142662, confirm source parity and immutable head, then mark PR #40 non-draft and release the writer lock as READY_FOR_VERIFICATION."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T130847Z-9c4e72",
     "acquired_at": "2026-07-25T13:08:47Z",
-    "heartbeat_at": "2026-07-25T13:54:40Z",
-    "lease_until": "2026-07-25T14:39:40Z"
+    "heartbeat_at": "2026-07-25T13:57:13Z",
+    "lease_until": "2026-07-25T14:42:13Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T13:56:15Z",
-    "summary": "Created canonical draft PR #40 for issue #39 at exact head e98d3a940065827f6cebe80a384d67ba0c3c9dad. GitHub reports 9 changed files, 799 additions, 3 deletions, and the expected main base."
+    "at": "2026-07-25T13:57:13Z",
+    "summary": "Heartbeat before exact-artifact verification. CI run 30160657303 passed Go 1.23.x and stable; workspace run 30160657311 succeeded; artifact 8620142662 has digest sha256:b7efd6820ed887a01e9f3f92b3af8169bd607764c3eb9cdecfd13274c70945df, embedded exact head, and 170-of-170 source-file parity."
   }
 }
