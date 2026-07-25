@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generation": 61,
+  "generation": 62,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFYING",
+    "status": "VERIFIED",
     "issue": 17,
     "pr": 36,
     "branch": "agent/issue-17-provider-graph",
@@ -13,7 +13,7 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Verifier is independently executing the frozen issue #17 matrix against exact head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382 and artifact 8613689086; any head change invalidates review."
+    "next_action": "Squash-merge PR #36 only if expected head remains 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382, then record MERGED and release review_lock."
   },
   "writer_lock": {
     "active": false,
@@ -28,13 +28,13 @@
     "owner": "verifier",
     "token": "verifier-20260725T013812Z-5a7c91",
     "acquired_at": "2026-07-25T01:38:12Z",
-    "heartbeat_at": "2026-07-25T01:38:12Z",
-    "lease_until": "2026-07-25T02:23:12Z",
+    "heartbeat_at": "2026-07-25T01:48:07Z",
+    "lease_until": "2026-07-25T02:33:07Z",
     "head": "54a8d1d4e004e9ec5092caaf33cd8d6ad8861382"
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-25T01:38:12Z",
-    "summary": "Atomically acquired review lock verifier-20260725T013812Z-5a7c91 for exact PR #36 head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382."
+    "at": "2026-07-25T01:48:07Z",
+    "summary": "Recorded VERIFIED for exact PR #36 head 54a8d1d4e004e9ec5092caaf33cd8d6ad8861382 after independent artifact execution, complete frozen matrix, CLI fixtures, mutation proof, diff review, and exact-head CI all passed."
   }
 }
