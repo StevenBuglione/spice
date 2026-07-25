@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 78,
+  "generation": 79,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -13,7 +13,7 @@
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Independently inspect and execute the complete frozen issue #37 matrix for exact head 155e415fbd2a54b7090341a81c3175c97856fea7, confirm CI and permanent artifact provenance, recheck the head, then either publish one bounded correction checklist or record VERIFIED and squash-merge with expected-head protection."
+    "next_action": "Complete the remaining exact frozen repeated-suite and executable-fixture checks for head 155e415fbd2a54b7090341a81c3175c97856fea7, assess the independently reproduced canonical-cleanup identity defect, recheck the head, and publish the bounded verifier decision."
   },
   "writer_lock": {
     "active": false,
@@ -28,13 +28,13 @@
     "owner": "verifier",
     "token": "verifier-20260725T054021Z-c3a84e",
     "acquired_at": "2026-07-25T05:40:21Z",
-    "heartbeat_at": "2026-07-25T05:40:21Z",
-    "lease_until": "2026-07-25T06:25:21Z",
+    "heartbeat_at": "2026-07-25T05:45:30Z",
+    "lease_until": "2026-07-25T06:30:30Z",
     "head": "155e415fbd2a54b7090341a81c3175c97856fea7"
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-25T05:40:21Z",
-    "summary": "Acquired review lock verifier-20260725T054021Z-c3a84e and began exact-head verification of issue #37 / PR #38 at 155e415fbd2a54b7090341a81c3175c97856fea7."
+    "at": "2026-07-25T05:45:30Z",
+    "summary": "Heartbeated review lock verifier-20260725T054021Z-c3a84e after exact artifact validation, full diff inspection, make verify, focused cleanup tests, offline tests and the complete race command passed; continuing bounded executable and repeated-suite proof."
   }
 }
