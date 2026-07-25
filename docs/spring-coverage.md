@@ -39,11 +39,12 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Current bootstrap | Annotation parser, declaration scan, and target metadata | Valid comment syntax, source association, typed built-in definitions, and target diagnostics | available |
 | Current bootstrap | Provider dependency validation | Exact-type missing-dependency diagnostics, cycle detection, and deterministic dependency-first metadata | available |
 | Current bootstrap | Provider cleanup metadata | Named context-aware cleanup result validation retained for future generated rollback and shutdown | available |
-| Current bootstrap | Lifecycle hook metadata | Exact provider-owned `@OnStart`/`@OnStop` method validation with deterministic typed metadata; execution remains future work | available |
+| Current bootstrap | Lifecycle hook metadata | Exact provider-owned `@OnStart`/`@OnStop` validation plus direct generated execution through the lifecycle coordinator | available |
 | Current bootstrap | Application roots and immutable IR | Exact `@Application` parameter roots plus ordered provider, graph, cleanup, and lifecycle metadata without executing marker bodies | available |
 | Current bootstrap | Lifecycle runtime coordination | Explicit callback state machine with dependency-order start, reverse stop/cleanup, startup rollback, idempotency, and caller-owned contexts | available |
 | Current bootstrap | Deterministic generation plan | Pure target-scoped Go rendering with direct calls, stable imports, canonical SHA-256 manifest metadata, and executable generated fixtures | available |
 | Current bootstrap | Safe generation and build commands | Rooted ownership checks, manual-edit refusal, no-op preservation, check/diff, stale recovery, target locks, and trimpath build | available |
+| Current bootstrap | Executable generated reference | Committed provider graph, generated application, live HTTP behavior, process-signal ownership, freshness checks, and graceful drain | available |
 | Current bootstrap | Engineering quality and reproducible builds | Go-owned cross-platform verification with pinned formatting, lint, nil-safety, security, fuzz, race, coverage, vendor, and executable checks | available |
 
 ## Coverage rules

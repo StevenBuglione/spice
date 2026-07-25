@@ -171,6 +171,15 @@ the guarded generation operation and then runs `go build -trimpath ./...` in the
 selected module.
 
 Generated files include `//go:build !spice_generate`. Spice reserves and adds
-the `spice_generate` tag only to its analysis load, merging existing explicit
-and `GOFLAGS` tags. This prevents stale generated code from blocking its own
-regeneration; ordinary Go commands omit the tag and compile committed output.
+the `spice_generate` tag only to generation analysis, merging existing explicit
+and `GOFLAGS` tags. Verification and annotation listing load the ordinary
+committed program so commands importing generated applications remain valid.
+Targeted regeneration can therefore exclude stale output, while ordinary Go
+commands omit the tag and compile committed output.
+
+The committed hello-world target is an executable reference for this contract:
+`examples/hello-world/app` declares exact providers and lifecycle hooks,
+`internal/spicegen/hello` contains the generated direct-call application, and
+the command owns process signals plus the shutdown deadline. Repository
+verification runs generation freshness, generated construction, live HTTP, and
+graceful-drain checks.

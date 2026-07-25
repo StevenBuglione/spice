@@ -24,7 +24,7 @@ The repository currently provides:
 - A pure deterministic renderer for direct provider/lifecycle calls and SHA-256 ownership manifests.
 - Guarded generated-file ownership with manual-edit refusal, freshness checks, bounded diffs, and unchanged-file preservation.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `generate`, and `build` commands.
-- A runnable HTTP example with tests.
+- A committed generated HTTP application with real provider, lifecycle, route, and graceful-drain tests.
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
 - Product, architecture, annotation, and Spring-coverage documents.
 
@@ -58,8 +58,9 @@ Install Go 1.26.5 and GNU Make, then run:
 ```bash
 make verify
 go run ./cmd/spice version
-go run ./cmd/spice annotations ./examples/hello-world
+go run ./cmd/spice annotations ./examples/hello-world/app
 go run ./cmd/spice verify ./...
+go run ./cmd/spice generate --check --target Hello ./examples/hello-world/app
 go run ./examples/hello-world -check
 ```
 
@@ -79,9 +80,14 @@ markers. Generation writes only manifest-owned files under
 To start the example HTTP server:
 
 ```bash
-go run ./examples/hello-world -listen :8080
+go run ./examples/hello-world
 curl http://localhost:8080/users/42
 ```
+
+The example command owns `SIGINT`/`SIGTERM` handling and supplies a fresh
+ten-second shutdown context to the generated application's `Run` method. Its
+generated source is committed under `internal/spicegen/hello`; the matching
+ownership manifest is `.spice/hello.manifest.json`.
 
 ## Repository map
 

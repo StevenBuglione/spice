@@ -45,6 +45,7 @@ atomic multi-file transaction.
   selected module.
 
 Generated files use `//go:build !spice_generate`. Spice reserves the
-`spice_generate` analysis tag and merges it with caller/`GOFLAGS` tags so stale
-or broken generated packages cannot prevent their own regeneration. Normal Go
-commands do not set that tag and compile the committed generated package.
+`spice_generate` tag for generation analysis and merges it with
+caller/`GOFLAGS` tags so targeted regeneration can exclude stale output.
+Verification and annotation listing load the ordinary committed program,
+including generated dependencies imported by commands.
