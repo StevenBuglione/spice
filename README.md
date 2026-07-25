@@ -12,18 +12,18 @@ Spice is designed around five commitments:
 4. **Compile-time enforcement.** Wiring, annotation validation, and module rules should fail before deployment whenever possible.
 5. **Runnable software, not paper architecture.** Every implementation change must compile, execute its relevant smoke path, and pass tests before it is considered complete.
 
-## Current bootstrap
+## Current foundation
 
 The repository currently provides:
 
-- A parser for Spice annotations.
-- A source scanner that associates annotations with Go declarations.
-- Typed built-in annotation definitions and source-positioned target validation.
+- A typed Go package-loading pipeline with stable declaration identities.
+- Annotation parsing, resolution, and source-positioned validation.
+- Exact-type provider catalog and deterministic dependency graph validation.
+- Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata.
 - A runnable `spice` CLI with `version`, `annotations`, and `verify` commands.
 - A runnable HTTP example with tests.
-- A deterministic verification script and GitHub Actions workflow.
+- A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
 - Product, architecture, annotation, and Spring-coverage documents.
-- Three autonomous-agent prompts for research, implementation, and independent verification.
 
 ## Annotation syntax
 
@@ -50,6 +50,8 @@ Qualified annotations are available for collisions:
 
 ## Run it
 
+Install Go 1.26.5 and GNU Make, then run:
+
 ```bash
 make verify
 go run ./cmd/spice version
@@ -69,15 +71,19 @@ curl http://localhost:8080/users/42
 
 - `annotation/`: public annotation model.
 - `compiler/parser/`: annotation parser.
-- `compiler/scan/`: Go source scanning and declaration association.
+- `compiler/load/` and `compiler/resolve/`: the authoritative typed-program front end.
+- `compiler/provider/`, `compiler/graph/`, and `compiler/lifecycle/`: application dependency and lifecycle metadata.
+- `compiler/scan/`: compatibility source-tree scanner.
 - `cmd/spice/`: CLI entry point.
 - `internal/cli/`: CLI implementation.
+- `internal/qualitygate/`: cross-platform repository verification.
+- `tools/`: isolated, pinned development tools module.
 - `examples/`: executable reference applications.
 - `docs/`: user and product documentation.
+- `docs/quality.md`: exact verification, tool, linter, and suppression policy.
 - `rfcs/`: proposed designs.
 - `adrs/`: accepted architectural decisions.
-- `agent/prompts/`: scheduled-agent operating prompts.
 
 ## Status
 
-Spice is pre-alpha. The immediate goal is to prove the compiler and modular architecture foundations before expanding into the larger Spring Boot capability surface.
+Spice is pre-alpha. The active program is completing deterministic application generation and lifecycle, Modulith-style architecture enforcement, the production web/configuration platform, and reviewed opt-in enterprise starters before freezing a v1.0 compatibility policy.

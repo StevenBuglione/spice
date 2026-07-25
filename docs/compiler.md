@@ -53,15 +53,15 @@ CLI layers decide how diagnostics are rendered. The caller context is forwarded 
 
 ## Dependency and offline policy
 
-Spice pins `golang.org/x/tools v0.36.0`, the adjacent release whose module still declares Go 1.23. The dependency is BSD-3-Clause licensed and is isolated behind `compiler/load` so upgrades remain controlled.
+Spice requires Go 1.26.5 and pins `golang.org/x/tools v0.48.0`. The dependency is BSD-3-Clause licensed and remains isolated behind `compiler/load` so upgrades stay controlled.
 
-The repository commits the standard output of `go mod vendor`. CI and scheduled sandboxes must be able to run:
+The repository commits the standard output of `go mod vendor`. The local quality gate proves offline product execution with:
 
 ```text
-GOPROXY=off go test -mod=vendor ./...
+make offline
 ```
 
-The loader never enables network access itself. The Go command continues to honor the caller's `GOPROXY`, `GOPRIVATE`, `GOSUMDB`, and `GOVCS` policies.
+Development tools are pinned separately in `tools/go.mod`; they do not enter the product module or runtime dependency graph. The loader never enables network access itself. The Go command continues to honor the caller's `GOPROXY`, `GOPRIVATE`, `GOSUMDB`, and `GOVCS` policies.
 
 ## Typed annotation resolution
 

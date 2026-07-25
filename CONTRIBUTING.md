@@ -1,27 +1,32 @@
 # Contributing
 
-Spice welcomes focused contributions that advance the active roadmap without sacrificing Go interoperability or developer ergonomics.
+Spice welcomes focused contributions that advance the roadmap without sacrificing Go interoperability, deterministic behavior, or developer ergonomics.
 
-## Workflow
+## Maintainer workflow
 
-1. Open or select a bounded issue.
-2. Discuss architecture through an RFC when the change alters public contracts or compiler behavior.
-3. Create a branch.
-4. Implement tests and documentation with the code.
-5. Run `make verify`.
-6. Open a pull request using the template.
+The active completion program uses one local writer directly on `main`:
 
-## Pull request expectations
+1. Define a bounded developer outcome and public invariants.
+2. Record an RFC or ADR when public contracts or architecture change.
+3. Implement tests and documentation with the code.
+4. Run issue-specific executable and integration paths.
+5. Run `make verify` on the exact tree.
+6. Fetch `origin/main`, commit the green slice, and push without overwriting unexpected work.
 
-Every pull request must state:
+External contributors should open an issue or pull request in the conventional GitHub workflow. The maintainer will reconcile accepted work into the single-writer mainline and run the same local gate.
 
-- The issue and user outcome.
-- The design choice and alternatives considered.
-- Exact verification commands run.
-- Actual results.
-- Relevant runnable smoke behavior.
-- Any known limitation or follow-up.
+## Change expectations
 
-## Generated code
+Every change should state:
 
-Generated output must be deterministic and committed only when the owning RFC requires committed output. Never hand-edit generated files.
+- The developer outcome and exact scope.
+- The design choice and important alternatives.
+- Public compatibility, security, and operational implications.
+- Exact verification commands actually run and their outcomes.
+- Runnable smoke or integration evidence.
+- Documentation, example, coverage-map, and benchmark effects.
+- Known limitations and separately scoped follow-up work.
+
+## Generated and vendored code
+
+Generated output must be deterministic, ownership-tracked, and mechanically reproducible. Never hand-edit generated files or `vendor/`. Tool dependencies belong in the isolated `tools` module.

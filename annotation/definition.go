@@ -175,8 +175,9 @@ func (registry Registry) Lookup(name string) (Definition, bool) {
 func (registry Registry) Definitions() []Definition {
 	result := make([]Definition, 0, len(registry.names))
 	for _, name := range registry.names {
-		definition, _ := registry.Lookup(name)
-		result = append(result, definition)
+		if definition, ok := registry.Lookup(name); ok {
+			result = append(result, definition)
+		}
 	}
 	return result
 }

@@ -40,6 +40,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Current bootstrap | Provider dependency validation | Exact-type missing-dependency diagnostics, cycle detection, and deterministic dependency-first metadata | available |
 | Current bootstrap | Provider cleanup metadata | Named context-aware cleanup result validation retained for future generated rollback and shutdown | available |
 | Current bootstrap | Lifecycle hook metadata | Exact provider-owned `@OnStart`/`@OnStop` method validation with deterministic typed metadata; execution remains future work | available |
+| Current bootstrap | Engineering quality and reproducible builds | Go-owned cross-platform verification with pinned formatting, lint, nil-safety, security, fuzz, race, coverage, vendor, and executable checks | available |
 
 ## Coverage rules
 

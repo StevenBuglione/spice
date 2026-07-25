@@ -1,18 +1,28 @@
-.PHONY: fmt test vet verify smoke
+.PHONY: fmt fuzz lint offline security smoke test vet verify
 
 fmt:
-	gofmt -w $$(find . -type f -name '*.go' -not -path './vendor/*' -not -path './.git/*')
+	go run ./internal/qualitygate -mode=fmt
 
-test:
-	go test ./...
+fuzz:
+	go run ./internal/qualitygate -mode=fuzz
 
-vet:
-	go vet ./...
+lint:
+	go run ./internal/qualitygate -mode=lint
+
+offline:
+	go run ./internal/qualitygate -mode=offline
+
+security:
+	go run ./internal/qualitygate -mode=security
 
 smoke:
-	go run ./cmd/spice version
-	go run ./cmd/spice verify ./...
-	go run ./examples/hello-world -check
+	go run ./internal/qualitygate -mode=smoke
+
+test:
+	go run ./internal/qualitygate -mode=test
+
+vet:
+	go run ./internal/qualitygate -mode=vet
 
 verify:
-	./scripts/verify.sh
+	go run ./internal/qualitygate -mode=verify

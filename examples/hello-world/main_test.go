@@ -10,7 +10,7 @@ import (
 func TestGetUser(t *testing.T) {
 	t.Parallel()
 
-	request := httptest.NewRequest(http.MethodGet, "/users/42", nil)
+	request := httptest.NewRequest(http.MethodGet, "/users/42", http.NoBody)
 	recorder := httptest.NewRecorder()
 	newHandler().ServeHTTP(recorder, request)
 

@@ -45,7 +45,6 @@ func TestRegistryRejectsInvalidDefinitions(t *testing.T) {
 		}}},
 	}
 	for _, test := range tests {
-		test := test
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 			_, err := NewRegistry(test.definitions...)
@@ -65,10 +64,16 @@ func TestRegistryReturnsDefensiveCopies(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	first, _ := registry.Lookup("Controller")
+	first, ok := registry.Lookup("Controller")
+	if !ok {
+		t.Fatal(`Lookup("Controller") did not find definition`)
+	}
 	first.Arguments[0].Name = "changed"
 	first.Arguments[0].Kinds[0] = KindInteger
-	second, _ := registry.Lookup("Controller")
+	second, ok := registry.Lookup("Controller")
+	if !ok {
+		t.Fatal(`Lookup("Controller") did not find definition`)
+	}
 	if second.Arguments[0].Name != "prefix" || second.Arguments[0].Kinds[0] != KindString {
 		t.Fatalf("registry state mutated: %#v", second)
 	}
@@ -81,6 +86,9 @@ func TestRegistryDefinitionsAreSorted(t *testing.T) {
 		t.Fatal(err)
 	}
 	definitions := registry.Definitions()
+	if len(definitions) != 2 {
+		t.Fatalf("len(Definitions()) = %d, want 2", len(definitions))
+	}
 	if got := []string{definitions[0].Name, definitions[1].Name}; !reflect.DeepEqual(got, []string{"Controller", "Service"}) {
 		t.Fatalf("Definitions() names = %#v", got)
 	}
