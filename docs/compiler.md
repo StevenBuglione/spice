@@ -92,7 +92,7 @@ Catalog output is sorted by stable provider symbol ID. Exact output conflicts us
 
 Graph construction returns stable provider nodes, parameter edges, and a dependency-first order with stable provider IDs breaking ties. Missing inputs accumulate as source-positioned diagnostics. Tarjan strongly connected component analysis reports every self-cycle and multi-provider cycle with a deterministic closed path. Any missing input or cycle suppresses construction order. The library is quiet and never executes provider bodies.
 
-`spice verify` runs graph validation after provider-catalog validation. This stage validates bootstrap-wide singleton metadata only: application roots, reachable-provider pruning, generated constructor calls, cleanup invocation, lifecycle orchestration, scopes, conditions, interface bindings, qualifiers, overrides, and module rules remain explicit later phases. Provider cleanup flags are preserved on graph nodes but do not change nodes, edges, missing-dependency analysis, cycles, or construction order.
+`spice verify` runs graph validation after provider-catalog validation. This stage validates bootstrap-wide singleton metadata only. Provider cleanup flags are preserved on graph nodes but do not change nodes, edges, missing-dependency analysis, cycles, or construction order. Reachable-provider pruning, generated constructor calls, cleanup invocation, lifecycle execution, scopes, conditions, interface bindings, qualifiers, overrides, and module rules remain explicit later phases.
 
 ## Typed lifecycle-hook catalog
 
@@ -101,3 +101,21 @@ Graph construction returns stable provider nodes, parameter edges, and a depende
 Each participating provider contributes one deterministic component with an optional start hook and optional stop hook. A stop hook requires a start hook, and duplicate roles fail with source-positioned diagnostics. Components are sorted by stable provider symbol ID, diagnostics by physical source identity, and accessors return defensive copies. Provider cleanup metadata remains separate, and hooks do not become providers, outputs, dependencies, graph nodes, or edges.
 
 `spice verify` runs lifecycle validation after provider-graph validation. The compiler stage is quiet and never executes methods, providers, or cleanup callbacks. It records metadata only; generated calls, dependency-ordered startup, rollback, reverse shutdown, signals, and application runtime state remain later slices.
+
+## Immutable application model
+
+`compiler/application` is the authoritative generation input assembled from the
+same loaded program and resolved annotations. It runs the provider, graph, and
+lifecycle stages once, retains dependency-first provider order and cleanup
+flags, reorders lifecycle components by that construction order, and validates
+typed `@Application` roots.
+
+An `@Application` marker is an argument-free package-level function with no type
+parameters, variadic parameter, or results. Its ordinary parameter types are
+roots and must be exactly identical to one `@Bean` output. The marker function
+is never invoked. Zero markers are valid for library verification; multiple
+markers become stable application targets.
+
+The model returns defensive metadata copies and stops at the first invalid
+compiler stage. Generation must reject any model with diagnostics and must not
+reload packages, rebuild the graph, or inspect declaration bodies.

@@ -46,6 +46,29 @@ Marker annotations such as `@Application`, `@Bean`, `@Configuration`, `@Service`
 
 The bootstrap parser supports strings, integers, booleans, identifiers, and lists. The current validator checks the outer parsed kind only; it does not yet implement defaults, aliases, composed annotations, nested annotations, enum-like identifiers, or list element schemas.
 
+## `@Application` marker functions
+
+`@Application` marks an ordinary package-level function whose parameter types
+are application roots:
+
+```go
+// @Application
+func Commerce(server *HTTPServer, worker Worker) {
+	panic("compile-time marker; Spice never executes this body")
+}
+```
+
+The annotation takes no arguments. The function must be non-generic,
+non-variadic, and return no results. Every parameter must be the exact Go type
+produced by one `@Bean`; aliases preserve exact identity, while implicit
+interface implementation, assignability, pointer/value conversion, and
+underlying-type equality do not select a provider.
+
+The marker body has no framework semantics and is never executed during
+analysis. Packages without a marker remain valid for library verification.
+Multiple markers are represented as distinct deterministic application targets;
+generation requires an unambiguous selected target before it may write files.
+
 ## `@Bean` provider functions
 
 `@Bean` marks an ordinary package-level Go factory function for compile-time provider metadata:
@@ -97,7 +120,7 @@ A positional value is accepted only when exactly one definition argument is expl
 
 | Annotation | Allowed target | Defined arguments |
 |---|---|---|
-| `@Application` | Function | None |
+| `@Application` | Package-level function | None |
 | `@Bean` | Package-level function | None |
 | `@Configuration` | Type | None |
 | `@Controller` | Type | `prefix` string, optional, named-only |
