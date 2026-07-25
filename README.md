@@ -138,6 +138,7 @@ Generated source and OpenAPI are committed under
 - `internal/qualitygate/`: cross-platform repository verification.
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
+- `starter/`: reviewed opt-in third-party integrations, including OpenTelemetry.
 - `tools/`: isolated, pinned development tools module.
 - `examples/`: executable reference applications.
 - `docs/`: user and product documentation.

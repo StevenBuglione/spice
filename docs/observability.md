@@ -34,3 +34,33 @@ Lifecycle records contain compiler-generated component/module ownership,
 operation, phase, and an internal error on failure. No global logger or
 registry is installed. Applications choose handlers, levels, redaction, and
 export destinations explicitly.
+
+## OpenTelemetry starter
+
+`starter/otel` adapts the same generated route seam to the stable OpenTelemetry
+Go trace and metric APIs. Applications must pass their own tracer and meter
+providers:
+
+```go
+telemetry, err := spiceotel.NewHTTPObserver(spiceotel.Options{
+    TracerProvider: tracerProvider,
+    MeterProvider:  meterProvider,
+})
+if err != nil {
+    return err
+}
+
+application, err := generated.NewApplicationWithOptions(ctx, generated.ApplicationOptions{
+    HTTPObservers: []web.HTTPObserver{telemetry},
+})
+```
+
+Every request creates a server span named from the method and route template.
+Spans include stable route ID, module, method, template, response status, and
+panic state. The starter records request count, active requests, duration, and
+response body size with the same bounded generated labels.
+
+The starter does not install global OpenTelemetry providers, select an
+exporter, read environment variables, or contact a collector. Applications own
+provider/exporter construction and shutdown deadlines. See the
+[dependency review](dependency-reviews/opentelemetry-go.md).

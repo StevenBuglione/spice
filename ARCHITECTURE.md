@@ -65,6 +65,15 @@ filesystem or network mutation.
 
 The runtime should stay small. Its responsibilities are application lifecycle, generated registry execution, request scopes, shutdown, and integrations that cannot be resolved at compile time.
 
+### Starters
+
+Third-party integrations live under `starter/` and remain opt-in at the package
+boundary. Each dependency requires a recorded maintenance, license, security,
+cancellation, observability, and configuration review. Starters accept
+caller-owned clients/providers, install no global state, and must not make
+network calls during construction unless their documented contract explicitly
+requires it.
+
 ### Verification
 
 `spice verify` will eventually enforce:

@@ -61,7 +61,12 @@ linters:
           list-mode: lax
           files:
             - "annotation/**/*.go"
+            - "config/**/*.go"
+            - "httpclient/**/*.go"
             - "lifecycle/**/*.go"
+            - "management/**/*.go"
+            - "observability/**/*.go"
+            - "web/**/*.go"
           deny:
             - pkg: "github.com/StevenBuglione/spice/compiler"
               desc: "public API packages must not depend on compiler packages"
@@ -69,6 +74,8 @@ linters:
               desc: "public API packages must not depend on internal implementation packages"
             - pkg: "github.com/StevenBuglione/spice/cmd"
               desc: "public API packages must not depend on CLI packages"
+            - pkg: "github.com/StevenBuglione/spice/starter"
+              desc: "core runtime packages must not depend on opt-in starters"
         compiler:
           list-mode: lax
           files:
@@ -78,6 +85,8 @@ linters:
               desc: "compiler packages must not depend on the CLI"
             - pkg: "github.com/StevenBuglione/spice/cmd"
               desc: "compiler packages must not depend on command entrypoints"
+            - pkg: "github.com/StevenBuglione/spice/starter"
+              desc: "compiler packages must not depend on opt-in starters"
         cli:
           list-mode: lax
           files:
@@ -86,6 +95,8 @@ linters:
           deny:
             - pkg: "github.com/StevenBuglione/spice/examples"
               desc: "the CLI must not depend on example applications"
+            - pkg: "github.com/StevenBuglione/spice/starter"
+              desc: "the CLI must not depend on opt-in starters"
     errcheck:
       check-type-assertions: true
       check-blank: true
