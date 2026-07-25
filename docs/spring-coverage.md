@@ -5,7 +5,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Area | Spring capability | Spice direction | Status |
 |---|---|---|---|
 | Core | Application bootstrap and lifecycle | Exact typed roots/hooks/cleanup, immutable IR, and the rollback/shutdown coordinator are available; generated concrete invocation follows | in-progress |
-| Core | Dependency injection | Exact-type catalog/graph plus deterministic direct-call constructor and rollback rendering; guarded filesystem application follows | in-progress |
+| Core | Dependency injection | Exact-type catalog/graph, deterministic direct-call constructor/rollback, and guarded generated-file application | available |
 | Core | Auto-configuration | Explicit starter manifests with compile-time conditions | planned |
 | Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |
 | Configuration | External properties and profiles | Typed configuration binding, sources, profiles, validation | planned |
@@ -43,6 +43,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Current bootstrap | Application roots and immutable IR | Exact `@Application` parameter roots plus ordered provider, graph, cleanup, and lifecycle metadata without executing marker bodies | available |
 | Current bootstrap | Lifecycle runtime coordination | Explicit callback state machine with dependency-order start, reverse stop/cleanup, startup rollback, idempotency, and caller-owned contexts | available |
 | Current bootstrap | Deterministic generation plan | Pure target-scoped Go rendering with direct calls, stable imports, canonical SHA-256 manifest metadata, and executable generated fixtures | available |
+| Current bootstrap | Safe generation and build commands | Rooted ownership checks, manual-edit refusal, no-op preservation, check/diff, stale recovery, target locks, and trimpath build | available |
 | Current bootstrap | Engineering quality and reproducible builds | Go-owned cross-platform verification with pinned formatting, lint, nil-safety, security, fuzz, race, coverage, vendor, and executable checks | available |
 
 ## Coverage rules

@@ -147,3 +147,28 @@ Those source shapes fail with actionable render diagnostics, as do an
 application package importing its own generated output and a generated package
 that would import itself. Guarded filesystem application, check/diff mode, safe
 stale removal, and collision handling consume this plan in the next layer.
+
+## Guarded filesystem application and commands
+
+`internal/genfs` validates every plan through Go's rooted filesystem boundary.
+It rejects traversal, portable Windows device names, case collisions, output
+symlinks, foreign manifest targets/schemas, unowned path collisions, manual
+edits, and unexpected unowned Spice generated markers before writing.
+
+`spice generate` exclusively locks one target, rechecks ownership, writes
+same-directory temporary files, syncs and parses generated Go, verifies exact
+hashes, replaces recoverably, removes only unchanged manifest-owned stale files,
+and replaces the manifest last. Byte-identical source and manifest files are
+not rewritten, preserving mtimes and Go build cache inputs. This is a guarded
+multi-file protocol, not a claim of global filesystem atomicity.
+
+`spice generate --check` and `--diff` are read-only. Check mode reports every
+deterministically sorted difference and returns nonzero; diff mode additionally
+prints bounded unified-style expected/current content. `spice build` performs
+the guarded generation operation and then runs `go build -trimpath ./...` in the
+selected module.
+
+Generated files include `//go:build !spice_generate`. Spice reserves and adds
+the `spice_generate` tag only to its analysis load, merging existing explicit
+and `GOFLAGS` tags. This prevents stale generated code from blocking its own
+regeneration; ordinary Go commands omit the tag and compile committed output.

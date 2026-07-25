@@ -22,7 +22,8 @@ The repository currently provides:
 - Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
 - Exact-type `@Application` roots assembled with provider and lifecycle data in one immutable application IR.
 - A pure deterministic renderer for direct provider/lifecycle calls and SHA-256 ownership manifests.
-- A runnable `spice` CLI with `version`, `annotations`, and `verify` commands.
+- Guarded generated-file ownership with manual-edit refusal, freshness checks, bounded diffs, and unchanged-file preservation.
+- A runnable `spice` CLI with `version`, `annotations`, `verify`, `generate`, and `build` commands.
 - A runnable HTTP example with tests.
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
 - Product, architecture, annotation, and Spring-coverage documents.
@@ -62,6 +63,19 @@ go run ./cmd/spice verify ./...
 go run ./examples/hello-world -check
 ```
 
+In an application module containing one typed `@Application` marker:
+
+```bash
+spice generate ./...
+spice generate --check ./...
+spice generate --diff ./...
+spice build ./...
+```
+
+Use `--target Name` when the selected packages contain multiple application
+markers. Generation writes only manifest-owned files under
+`internal/spicegen/<target>` and `.spice/<target>.manifest.json`.
+
 To start the example HTTP server:
 
 ```bash
@@ -79,6 +93,7 @@ curl http://localhost:8080/users/42
 - `compiler/scan/`: compatibility source-tree scanner.
 - `cmd/spice/`: CLI entry point.
 - `internal/cli/`: CLI implementation.
+- `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
 - `tools/`: isolated, pinned development tools module.
 - `examples/`: executable reference applications.
