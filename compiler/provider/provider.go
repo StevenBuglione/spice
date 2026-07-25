@@ -107,6 +107,7 @@ func Build(program *load.Program, resolution resolve.Result) Catalog {
 	for _, symbol := range program.Symbols() {
 		symbols[symbol.ID] = symbol
 	}
+	cleanupType := canonicalCleanupType(program)
 	fileSets := make(map[string]*token.FileSet)
 	for _, pkg := range program.Packages() {
 		if pkg.Raw != nil && pkg.Raw.Fset != nil {
@@ -127,7 +128,7 @@ func Build(program *load.Program, resolution resolve.Result) Catalog {
 			))
 			continue
 		}
-		provider, diagnostic := analyzeProvider(occurrence, symbol, fileSets[symbol.PackagePath])
+		provider, diagnostic := analyzeProvider(occurrence, symbol, fileSets[symbol.PackagePath], cleanupType)
 		if diagnostic != nil {
 			catalog.diagnostics = append(catalog.diagnostics, *diagnostic)
 			continue
@@ -143,7 +144,7 @@ func Build(program *load.Program, resolution resolve.Result) Catalog {
 	return catalog
 }
 
-func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet *token.FileSet) (Provider, *Diagnostic) {
+func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet *token.FileSet, cleanupType types.Type) (Provider, *Diagnostic) {
 	fail := func(kind, message string) (Provider, *Diagnostic) {
 		diagnostic := symbolDiagnostic(occurrence, symbol, kind, message)
 		return Provider{}, &diagnostic
@@ -191,7 +192,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 		switch {
 		case isError(second):
 			returnsError = true
-		case isCleanup(second):
+		case isCleanup(second, cleanupType):
 			returnsCleanup = true
 		default:
 			return fail("invalid-second-result", invalidSignatureMessage(label, "provider functions may return only one provided value; the second result must be lifecycle.Cleanup or error"))
@@ -206,7 +207,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 			if isError(metadata) {
 				errorResults++
 			}
-			if isCleanup(metadata) {
+			if isCleanup(metadata, cleanupType) {
 				cleanupResults++
 			}
 		}
@@ -219,7 +220,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 		if isError(first) {
 			return fail("error-position", invalidSignatureMessage(label, "error must be the final and only additional result"))
 		}
-		if !isCleanup(second) {
+		if !isCleanup(second, cleanupType) {
 			reason := "the second result must be lifecycle.Cleanup"
 			if isError(second) {
 				reason = "error must follow lifecycle.Cleanup as the final result"
@@ -228,7 +229,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 		}
 		if !isError(third) {
 			reason := "the third result must be error"
-			if isCleanup(third) {
+			if isCleanup(third, cleanupType) {
 				reason = "only one lifecycle.Cleanup metadata result is allowed and it must be second"
 			}
 			return fail("error-position", invalidSignatureMessage(label, reason))
@@ -244,7 +245,7 @@ func analyzeProvider(occurrence resolve.Occurrence, symbol load.Symbol, fileSet 
 			if isError(result) {
 				errorResults++
 			}
-			if isCleanup(result) {
+			if isCleanup(result, cleanupType) {
 				cleanupResults++
 			}
 		}
@@ -296,15 +297,71 @@ func isError(value types.Type) bool {
 	return value != nil && types.Identical(value, errorType)
 }
 
-func isCleanup(value types.Type) bool {
-	if value == nil {
-		return false
+func canonicalCleanupType(program *load.Program) types.Type {
+	cleanup := loadedNamedType(program, cleanupPackagePath, cleanupTypeName)
+	contextType := loadedNamedType(program, "context", "Context")
+	if cleanup == nil || contextType == nil {
+		return nil
 	}
-	named, ok := types.Unalias(value).(*types.Named)
-	if !ok || named.Obj() == nil || named.Obj().Pkg() == nil {
-		return false
+	signature, ok := cleanup.Underlying().(*types.Signature)
+	if !ok || signature.Variadic() ||
+		(signature.TypeParams() != nil && signature.TypeParams().Len() > 0) ||
+		signature.Params().Len() != 1 || signature.Results().Len() != 1 {
+		return nil
 	}
-	return named.Obj().Pkg().Path() == cleanupPackagePath && named.Obj().Name() == cleanupTypeName
+	if !types.Identical(signature.Params().At(0).Type(), contextType) ||
+		!isError(signature.Results().At(0).Type()) {
+		return nil
+	}
+	return cleanup
+}
+
+func loadedNamedType(program *load.Program, packagePath, typeName string) *types.Named {
+	if program == nil {
+		return nil
+	}
+	seen := make(map[*types.Package]struct{})
+	var found *types.Named
+	valid := true
+	var visit func(*types.Package)
+	visit = func(pkg *types.Package) {
+		if pkg == nil {
+			return
+		}
+		if _, ok := seen[pkg]; ok {
+			return
+		}
+		seen[pkg] = struct{}{}
+		if pkg.Path() == packagePath {
+			object, ok := pkg.Scope().Lookup(typeName).(*types.TypeName)
+			if !ok || object.IsAlias() {
+				valid = false
+			} else {
+				named, ok := object.Type().(*types.Named)
+				if !ok || named.Obj() != object {
+					valid = false
+				} else if found == nil {
+					found = named
+				} else if !types.Identical(found, named) {
+					valid = false
+				}
+			}
+		}
+		for _, imported := range pkg.Imports() {
+			visit(imported)
+		}
+	}
+	for _, pkg := range program.Packages() {
+		visit(pkg.Types)
+	}
+	if !valid {
+		return nil
+	}
+	return found
+}
+
+func isCleanup(value, cleanupType types.Type) bool {
+	return value != nil && cleanupType != nil && types.Identical(value, cleanupType)
 }
 
 // TypeID returns a deterministic readable Go type string using package import
