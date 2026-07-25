@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generation": 111,
+  "generation": 112,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
@@ -8,20 +8,20 @@
     "issue": 39,
     "pr": 40,
     "branch": "agent/issue-39-lifecycle-hooks",
-    "head": "373f29e258cabd0f2fe9d59c9b3e69b002d5f141",
+    "head": "7e6da2f239b4feab27ad5f2aae5bd390dcf93bf2",
     "contract_revision": 1,
     "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Canonical context.Context shape validation is pushed on the same PR branch. Primary Implementer is adding the focused lifecycle and CLI overlay regressions, then will rerun proof for the final exact head."
+    "next_action": "Canonical validation and the lifecycle overlay regression are pushed. Primary Implementer is adding the CLI overlay regression, then will verify the final exact head."
   },
   "writer_lock": {
     "active": true,
     "owner": "primary-implementer",
     "token": "implementer-primary-20260725T150927Z-281cfc",
     "acquired_at": "2026-07-25T15:09:27Z",
-    "heartbeat_at": "2026-07-25T15:18:58Z",
-    "lease_until": "2026-07-25T16:03:58Z"
+    "heartbeat_at": "2026-07-25T15:23:55Z",
+    "lease_until": "2026-07-25T16:08:55Z"
   },
   "review_lock": {
     "active": false,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T15:20:40Z",
-    "summary": "Recorded pushed canonical branch head 373f29e258cabd0f2fe9d59c9b3e69b002d5f141 after adding fail-closed canonical context.Context shape validation."
+    "at": "2026-07-25T15:23:55Z",
+    "summary": "Recorded pushed head 7e6da2f239b4feab27ad5f2aae5bd390dcf93bf2 and heartbeated writer_lock before pushing the CLI overlay regression."
   }
 }
