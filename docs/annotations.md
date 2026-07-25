@@ -42,7 +42,7 @@ func (UserController) GetUserCompact() {}
 func (UserController) CreateUser() {}
 ```
 
-Marker annotations such as `@Application`, `@Bean`, `@Configuration`, and `@Service` accept no arguments.
+Marker annotations such as `@Application`, `@Bean`, `@Configuration`, `@Service`, `@OnStart`, and `@OnStop` accept no arguments.
 
 The bootstrap parser supports strings, integers, booleans, identifiers, and lists. The current validator checks the outer parsed kind only; it does not yet implement defaults, aliases, composed annotations, nested annotations, enum-like identifiers, or list element schemas.
 
@@ -70,7 +70,14 @@ func(dependencies...) (T, lifecycle.Cleanup, error)
 
 Every parameter is a required exact-type dependency for the graph phase. Provider methods, generic or variadic functions, annotation arguments, malformed result ordering, multiple cleanup or error results, and extra values are rejected with source-positioned diagnostics.
 
-`spice verify` validates catalog and graph metadata but does not execute providers or cleanup callbacks and does not generate application wiring yet. Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, cleanup invocation, startup/shutdown hooks, optional values, groups, and collection injection remain explicit future capabilities.
+`spice verify` validates catalog and graph metadata but does not execute providers or cleanup callbacks and does not generate application wiring yet. Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, cleanup invocation, lifecycle execution, optional values, groups, and collection injection remain explicit future capabilities.
+
+## Lifecycle hook metadata
+
+Argument-free, method-only `@OnStart` and `@OnStop` select explicit methods for future generated lifecycle orchestration. A hook must have the exact non-variadic form `func(receiver)(context.Context) error`, and its receiver must be semantically identical to exactly one valid `@Bean` output.
+
+Aliases to the exact receiver, `context.Context`, and `error` types are accepted. Pointer/value convenience, assignability, interface implementation, structural context lookalikes, method promotion, duplicate roles, and stop-only components are rejected.
+This release records deterministic typed metadata only. `spice verify` never invokes providers, cleanup callbacks, or lifecycle methods and does not yet compute or run startup/shutdown order.
 
 ## Argument diagnostics
 
@@ -95,6 +102,8 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@Configuration` | Type | None |
 | `@Controller` | Type | `prefix` string, optional, named-only |
 | `@Get` | Method | `path` string, required, named or positional |
+| `@OnStart` | Method | None |
+| `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |
 | `@Service` | Type | None |
 
