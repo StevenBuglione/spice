@@ -1,19 +1,19 @@
 {
   "schema_version": 2,
-  "generation": 101,
+  "generation": 102,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
     "status": "IMPLEMENTING",
     "issue": 39,
-    "pr": null,
+    "pr": 40,
     "branch": "agent/issue-39-lifecycle-hooks",
     "head": "e98d3a940065827f6cebe80a384d67ba0c3c9dad",
     "contract_revision": 1,
     "verification_cycles": 0,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "The complete exact 9-file implementation is durable on the canonical branch at e98d3a940065827f6cebe80a384d67ba0c3c9dad with 799 additions and 3 deletions. Create the single draft PR, then reconcile exact-head CI and the permanent workspace artifact before releasing the writer lock."
+    "next_action": "PR #40 is the single canonical draft PR at the exact implementation head. Reconcile GitHub Actions and the permanent exact-head workspace artifact; if all proof passes, mark the PR non-draft, atomically release this writer lock, and publish READY_FOR_VERIFICATION for the unchanged SHA."
   },
   "writer_lock": {
     "active": true,
@@ -34,7 +34,7 @@
   },
   "last_transition": {
     "role": "primary-implementer",
-    "at": "2026-07-25T13:54:40Z",
-    "summary": "Recorded the complete canonical issue #39 implementation head e98d3a940065827f6cebe80a384d67ba0c3c9dad and renewed the writer lease. GitHub compare confirms exactly 9 frozen files, 799 additions, 3 deletions, no vendor/generated/workflow changes, and no divergence from main."
+    "at": "2026-07-25T13:56:15Z",
+    "summary": "Created canonical draft PR #40 for issue #39 at exact head e98d3a940065827f6cebe80a384d67ba0c3c9dad. GitHub reports 9 changed files, 799 additions, 3 deletions, and the expected main base."
   }
 }
