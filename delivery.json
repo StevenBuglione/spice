@@ -1,19 +1,19 @@
 {
   "schema_version": 2,
-  "generation": 71,
+  "generation": 72,
   "control_issue": 32,
   "control_comment_id": 5071450791,
   "lane": {
-    "status": "VERIFYING",
+    "status": "CHANGES_REQUESTED",
     "issue": 37,
     "pr": 38,
     "branch": "agent/issue-37-cleanup-metadata",
     "head": "64861716cf11be59d600761b29ee5c6ce87dfb87",
     "contract_revision": 1,
-    "verification_cycles": 0,
+    "verification_cycles": 1,
     "final_stabilization": false,
     "merge_commit": null,
-    "next_action": "Independent Verifier is reviewing exact head 64861716cf11be59d600761b29ee5c6ce87dfb87 against CONTRACT_FROZEN revision 1 using permanent artifact 8615414679, full local proof, executable fixtures and exact-head CI."
+    "next_action": "On the same issue, branch and PR, fix three-result classification so the first result is always the provided output even when its type is lifecycle.Cleanup. Accept (lifecycle.Cleanup, lifecycle.Cleanup, error), count cleanup metadata only in the second result position, add provider and executable CLI regressions including aliases, mutation-test the old all-result cleanup count, then rerun the complete frozen matrix, exact-head CI and permanent artifact proof."
   },
   "writer_lock": {
     "active": false,
@@ -24,17 +24,17 @@
     "lease_until": null
   },
   "review_lock": {
-    "active": true,
-    "owner": "verifier",
-    "token": "verifier-20260725T044700Z-3c8e21",
-    "acquired_at": "2026-07-25T04:47:00Z",
-    "heartbeat_at": "2026-07-25T04:47:00Z",
-    "lease_until": "2026-07-25T05:32:00Z",
-    "head": "64861716cf11be59d600761b29ee5c6ce87dfb87"
+    "active": false,
+    "owner": null,
+    "token": null,
+    "acquired_at": null,
+    "heartbeat_at": null,
+    "lease_until": null,
+    "head": null
   },
   "last_transition": {
     "role": "verifier",
-    "at": "2026-07-25T04:47:00Z",
-    "summary": "Acquired review lock verifier-20260725T044700Z-3c8e21 for exact non-draft PR #38 head 64861716cf11be59d600761b29ee5c6ce87dfb87 and began bounded independent verification."
+    "at": "2026-07-25T04:58:00Z",
+    "summary": "Released review lock verifier-20260725T044700Z-3c8e21 and requested one bounded correction: exact form (T, lifecycle.Cleanup, error) incorrectly rejects valid T=lifecycle.Cleanup because the implementation counts the first output as cleanup metadata."
   }
 }
