@@ -86,6 +86,7 @@ type OptionSpec struct {
 type FeatureSpec struct {
 	Annotation   string       `json:"annotation"`
 	Capability   string       `json:"capability"`
+	EntryPoints  []EntryPoint `json:"entry_points"`
 	Options      []OptionSpec `json:"options,omitempty"`
 	Requirements []string     `json:"requirements,omitempty"`
 }
@@ -456,6 +457,11 @@ func validateFeatures(spec Spec, definitions []annotation.Definition) error {
 	}
 	seenAnnotations := make(map[string]struct{}, len(spec.ApplicationFeatures))
 	seenCapabilities := make(map[string]struct{}, len(spec.ApplicationFeatures))
+	declaredEntryPoints := make(map[string]struct{}, len(spec.Activation.EntryPoints))
+	for _, entryPoint := range spec.Activation.EntryPoints {
+		declaredEntryPoints[entryPointKey(entryPoint)] = struct{}{}
+	}
+	referencedEntryPoints := make(map[string]struct{}, len(spec.Activation.EntryPoints))
 	for _, feature := range spec.ApplicationFeatures {
 		definition, found := definitionIndex[feature.Annotation]
 		if !found {
@@ -475,6 +481,13 @@ func validateFeatures(spec Spec, definitions []annotation.Definition) error {
 		}
 		seenAnnotations[feature.Annotation] = struct{}{}
 		seenCapabilities[feature.Capability] = struct{}{}
+		if err := validateFeatureEntryPoints(
+			feature,
+			declaredEntryPoints,
+			referencedEntryPoints,
+		); err != nil {
+			return err
+		}
 		if err := validateFeatureOptions(feature, definition); err != nil {
 			return err
 		}
@@ -482,7 +495,64 @@ func validateFeatures(spec Spec, definitions []annotation.Definition) error {
 			return fmt.Errorf("feature @%s: %w", feature.Annotation, err)
 		}
 	}
+	return validateActivationCoverage(spec, referencedEntryPoints)
+}
+
+func validateActivationCoverage(spec Spec, referenced map[string]struct{}) error {
+	if spec.Activation.Mode != ActivationExplicitAnnotation {
+		return nil
+	}
+	for _, entryPoint := range spec.Activation.EntryPoints {
+		if _, found := referenced[entryPointKey(entryPoint)]; found {
+			continue
+		}
+		return fmt.Errorf(
+			"activation entrypoint %s.%s is not selected by any application feature",
+			entryPoint.Package,
+			entryPoint.Symbol,
+		)
+	}
 	return nil
+}
+
+func validateFeatureEntryPoints(
+	feature FeatureSpec,
+	declared map[string]struct{},
+	referenced map[string]struct{},
+) error {
+	if len(feature.EntryPoints) == 0 {
+		return fmt.Errorf(
+			"feature @%s requires at least one activation entrypoint",
+			feature.Annotation,
+		)
+	}
+	seen := make(map[string]struct{}, len(feature.EntryPoints))
+	for _, entryPoint := range feature.EntryPoints {
+		key := entryPointKey(entryPoint)
+		if _, duplicate := seen[key]; duplicate {
+			return fmt.Errorf(
+				"feature @%s entrypoint %s.%s is duplicated",
+				feature.Annotation,
+				entryPoint.Package,
+				entryPoint.Symbol,
+			)
+		}
+		if _, found := declared[key]; !found {
+			return fmt.Errorf(
+				"feature @%s entrypoint %s.%s is not declared by activation",
+				feature.Annotation,
+				entryPoint.Package,
+				entryPoint.Symbol,
+			)
+		}
+		seen[key] = struct{}{}
+		referenced[key] = struct{}{}
+	}
+	return nil
+}
+
+func entryPointKey(entryPoint EntryPoint) string {
+	return entryPoint.Package + "\x00" + entryPoint.Symbol
 }
 
 func validateFeatureOptions(feature FeatureSpec, definition annotation.Definition) error {
@@ -662,6 +732,13 @@ func normalizeAnnotation(spec *AnnotationSpec) {
 
 func normalizeFeature(spec *FeatureSpec) {
 	sort.Strings(spec.Requirements)
+	sort.SliceStable(spec.EntryPoints, func(i, j int) bool {
+		left, right := spec.EntryPoints[i], spec.EntryPoints[j]
+		if left.Package != right.Package {
+			return left.Package < right.Package
+		}
+		return left.Symbol < right.Symbol
+	})
 	for index := range spec.Options {
 		sort.SliceStable(spec.Options[index].ListItemKinds, func(i, j int) bool {
 			return spec.Options[index].ListItemKinds[i] < spec.Options[index].ListItemKinds[j]
@@ -698,6 +775,10 @@ func cloneSpec(spec Spec) Spec {
 	result.ApplicationFeatures = make([]FeatureSpec, len(spec.ApplicationFeatures))
 	for index, feature := range spec.ApplicationFeatures {
 		result.ApplicationFeatures[index] = feature
+		result.ApplicationFeatures[index].EntryPoints = append(
+			[]EntryPoint(nil),
+			feature.EntryPoints...,
+		)
 		result.ApplicationFeatures[index].Requirements = append(
 			[]string(nil),
 			feature.Requirements...,

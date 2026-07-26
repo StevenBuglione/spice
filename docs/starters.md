@@ -76,6 +76,12 @@ ApplicationFeatures: []starter.FeatureSpec{
     {
         Annotation: "search.Enable",
         Capability: "search.client",
+        EntryPoints: []starter.EntryPoint{
+            {
+                Package: "example.com/acme/starter/search",
+                Symbol:  "New",
+            },
+        },
         Options: []starter.OptionSpec{
             {
                 Name:         "indexes",
@@ -92,7 +98,10 @@ ApplicationFeatures: []starter.FeatureSpec{
 `Manifest.Definitions` returns fresh `annotation.Definition` values for an
 explicitly composed compiler registry. The SDK validates qualified names,
 targets, arguments, option relationships, unique capabilities, and runtime
-requirement identities before those definitions can reach compilation.
+requirement identities before those definitions can reach compilation. Every
+explicit-annotation feature names the exact subset of activation entrypoints it
+selects; missing, duplicated, undeclared, and never-selected entrypoints fail
+manifest validation.
 
 `compiler/starter.New` is the explicit compiler adapter. It accepts
 application-selected manifests, verifies their exact Spice API and minimum Go contracts,
@@ -156,6 +165,12 @@ manifests:
         {
           "annotation": "search.Enable",
           "capability": "search.client",
+          "entry_points": [
+            {
+              "package": "example.com/acme/starter/search",
+              "symbol": "New"
+            }
+          ],
           "options": [
             {
               "name": "indexes",

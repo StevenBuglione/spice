@@ -37,6 +37,10 @@ func TestManifestNormalizesAndDefensivelyCopiesMetadata(t *testing.T) {
 	) {
 		t.Fatalf("AllowedStrings = %#v", got)
 	}
+	if got := spec.ApplicationFeatures[0].EntryPoints; got[0].Symbol != "New" ||
+		got[1].Symbol != "Start" {
+		t.Fatalf("feature EntryPoints = %#v", got)
+	}
 
 	definitions := manifest.Definitions()
 	if len(definitions) != 1 ||
@@ -46,11 +50,13 @@ func TestManifestNormalizesAndDefensivelyCopiesMetadata(t *testing.T) {
 	}
 	spec.Capabilities[0] = "mutated"
 	spec.Annotations[0].Arguments[0].Kinds[0] = annotation.KindBoolean
+	spec.ApplicationFeatures[0].EntryPoints[0].Symbol = "Mutated"
 	definitions[0].Arguments[0].Kinds[0] = annotation.KindBoolean
 	second := manifest.Spec()
 	secondDefinitions := manifest.Definitions()
 	if second.Capabilities[0] != "http.management" ||
 		second.Annotations[0].Arguments[0].Kinds[0] != annotation.KindList ||
+		second.ApplicationFeatures[0].EntryPoints[0].Symbol != "New" ||
 		secondDefinitions[0].Arguments[0].Kinds[0] != annotation.KindList {
 		t.Fatal("manifest accessors returned mutable storage")
 	}
@@ -264,6 +270,30 @@ func TestNewRejectsInvalidSpecs(t *testing.T) {
 			},
 		},
 		{
+			name: "feature-entrypoints-empty",
+			mutate: func(spec *Spec) {
+				spec.ApplicationFeatures[0].EntryPoints = nil
+			},
+		},
+		{
+			name: "feature-entrypoint-undeclared",
+			mutate: func(spec *Spec) {
+				spec.ApplicationFeatures[0].EntryPoints[0].Symbol = "Missing"
+			},
+		},
+		{
+			name: "feature-entrypoint-duplicate",
+			mutate: func(spec *Spec) {
+				spec.ApplicationFeatures[0].EntryPoints[1] = spec.ApplicationFeatures[0].EntryPoints[0]
+			},
+		},
+		{
+			name: "activation-entrypoint-unreferenced",
+			mutate: func(spec *Spec) {
+				spec.ApplicationFeatures[0].EntryPoints = spec.ApplicationFeatures[0].EntryPoints[:1]
+			},
+		},
+		{
 			name: "feature-option",
 			mutate: func(spec *Spec) {
 				spec.ApplicationFeatures[0].Options[0].Name = "missing"
@@ -432,6 +462,10 @@ func validAnnotationSpec() Spec {
 			{
 				Annotation: "acme.Enable",
 				Capability: "http.management",
+				EntryPoints: []EntryPoint{
+					{Package: "example.com/acme/starter/http", Symbol: "Start"},
+					{Package: "example.com/acme/starter/http", Symbol: "New"},
+				},
 				Options: []OptionSpec{
 					{
 						Name:           "expose",
