@@ -68,6 +68,9 @@ The repository currently provides:
 - Typed stateless HTTP sessions with AES-256-GCM confidentiality/integrity,
   bounded key rotation, embedded expiry, strict decoding, secure host-only
   cookie defaults, and concurrent-use verification.
+- Deterministic server-side HTML templates with contextual escaping, strict
+  missing-key execution, duplicate-definition rejection, bounded atomic
+  responses, cancellation, and concurrent rendering.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.

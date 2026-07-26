@@ -104,6 +104,13 @@ session registry and does not imply server-side revocation, mutable clustering,
 or CSRF protection. Applications that require those properties compose an
 explicit store or request defense.
 
+Server-side views compile from caller-owned filesystems through
+`html/template`. Source paths, definitions, function maps, and output are
+bounded and validated; parsing and name order are deterministic. Execution
+uses a private buffer so template or cancellation failures do not partially
+commit HTTP state. Contextual escaping remains mandatory unless an application
+explicitly supplies a trusted-content template type.
+
 Database migrations form one immutable application-global version sequence
 while retaining module ownership. Core normalizes and checksums SQL, reconciles
 the durable registry as an exact plan prefix, and delegates advisory locking,
