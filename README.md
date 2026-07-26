@@ -52,6 +52,10 @@ The repository currently provides:
   caller-owned lifetime contexts and observers, deterministic failure
   aggregation, panic containment, snapshots, and lifecycle-owned shutdown.
 - Compile-time `@schedule.FixedDelay` jobs with exact provider ownership, direct generated method calls, non-overlap, explicit failure continuation, graceful drain, panic containment, observations, and virtual-time test seams.
+- Restartable ordered batch jobs with atomic attempt/checkpoint contracts, exact
+  completed-prefix validation, fresh failure contexts, panic containment,
+  bounded observations, and a concurrency-safe capacity-bounded in-process
+  store.
 - An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric
   starter with exact generated observer-role validation and
   application-owned providers/exporters.
@@ -172,6 +176,9 @@ Bounded asynchronous task execution is documented in
 
 Fixed-delay job registration and lifecycle are documented in
 [`docs/schedule.md`](docs/schedule.md).
+
+Restartable batch jobs and persistence contracts are documented in
+[`docs/batch.md`](docs/batch.md).
 
 Authentication boundaries and generated authorization policies are documented
 in [`docs/security.md`](docs/security.md).

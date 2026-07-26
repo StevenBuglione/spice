@@ -17,8 +17,20 @@ const (
 	maxSteps         = 10_000
 )
 
-// ErrPanicked identifies a contained batch step panic.
-var ErrPanicked = errors.New("batch step panicked")
+var (
+	// ErrPanicked identifies a contained batch step panic.
+	ErrPanicked = errors.New("batch step panicked")
+	// ErrAlreadyRunning identifies an active attempt for the same job instance.
+	ErrAlreadyRunning = errors.New("batch instance is already running")
+	// ErrStaleAttempt identifies a transition for an inactive or old attempt.
+	ErrStaleAttempt = errors.New("batch attempt is stale")
+	// ErrDefinitionChanged identifies a persisted instance whose ordered steps
+	// differ from the current job definition.
+	ErrDefinitionChanged = errors.New("batch definition changed")
+	// ErrCapacity identifies an in-process store at its configured instance
+	// limit.
+	ErrCapacity = errors.New("batch store capacity reached")
+)
 
 // Definition identifies one module-owned batch job.
 type Definition struct {
@@ -213,7 +225,8 @@ type Failure struct {
 	Kind    FailureKind
 }
 
-// Store owns durable, atomic attempt and checkpoint transitions.
+// Store owns atomic attempt and checkpoint transitions. An implementation
+// defines whether that state survives process restarts.
 type Store interface {
 	Begin(context.Context, BeginRequest) (Attempt, error)
 	Checkpoint(context.Context, Attempt, string) error
