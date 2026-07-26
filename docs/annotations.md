@@ -15,10 +15,11 @@ The parser also accepts `//@Controller`, but `gofmt` inserts a space after `//`,
 
 Core declaration names are unqualified. Bootstrap features use qualified
 built-in names such as `@management.Enable` and
-`@observability.Logging`; the same explicit typed definition model is reserved
-for future starters and third-party definitions. During bootstrap, `spice
-verify` fails closed on unknown annotations. Package imports and `go.mod`
-entries do not register or activate definitions.
+`@observability.Logging`. Third-party qualified definitions use the same model
+when their complete manifests are explicitly selected in
+`.spice/starters.json`. During bootstrap, `spice verify` fails closed on
+unknown annotations. Package imports and `go.mod` entries do not register or
+activate definitions.
 
 ## Arguments
 

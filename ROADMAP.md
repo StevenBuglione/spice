@@ -12,9 +12,10 @@ and rendered without runtime discovery.
 
 The next starter slices must reuse this deterministic feature pipeline. The
 public third-party annotation/manifest SDK now defines the portable metadata
-boundary; repository discovery, compiler composition, generated entrypoint
-selection, dependency alignment, and richer compile-time conditions remain
-future work and must not be represented by dependency-presence activation.
+boundary. A committed `.spice/starters.json` selection now drives fail-closed
+CLI/compiler composition without dependency-presence activation. Generated
+entrypoint selection, dependency alignment, module-cache discovery, and richer
+compile-time conditions remain future work.
 
 ## M0 — Product and compiler proof
 

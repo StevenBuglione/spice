@@ -119,9 +119,11 @@ requires it.
 Built-in bootstrap features use the same qualified, typed definition model
 available to the public starter manifest SDK. Manifests provide strict,
 deterministic compatibility, dependency, entrypoint, annotation, feature, and
-review metadata without registering global behavior. Repository discovery and
-compiler composition remain explicit adapter work; importing a starter alone
-has no activation semantics.
+review metadata without registering global behavior. An application-owned
+`.spice/starters.json` document explicitly selects embedded manifests for CLI
+and compiler composition. Spice does not scan dependencies or execute manifest
+functions; importing a starter alone has no activation semantics, and generated
+entrypoint selection remains separate.
 
 Outbound OAuth2 service clients receive separate caller-owned token and
 resource clients plus an application-lifetime context. Token endpoints are

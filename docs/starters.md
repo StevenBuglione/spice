@@ -106,10 +106,86 @@ the generated ownership hash, so changing a selected starter invalidates
 `spice generate --check`.
 
 The adapter performs no repository scan and never treats an imported or
-downloaded module as active. CLI manifest composition, generated entrypoint
-selection, and starter dependency alignment are subsequent slices. Until
-entrypoint selection is implemented, an explicit-annotation feature is
-validated and represented in IR but does not emit a constructor call.
+downloaded module as active.
+
+## Repository selection
+
+An application opts into third-party compiler metadata by committing
+`.spice/starters.json` at the CLI invocation root. The strict
+`spice.starters/v1` document embeds one or more complete `spice.starter/v1`
+manifests:
+
+```json
+{
+  "schema": "spice.starters/v1",
+  "manifests": [
+    {
+      "schema": "spice.starter/v1",
+      "id": "example.com/acme/starter/search",
+      "version": "1.2.0",
+      "module": "example.com/acme",
+      "spice_api": "v1alpha1",
+      "minimum_go": "1.26.0",
+      "license": "Apache-2.0",
+      "review": "docs/dependency-review.md",
+      "activation": {
+        "mode": "explicit-annotation",
+        "entry_points": [
+          {
+            "package": "example.com/acme/starter/search",
+            "symbol": "New"
+          }
+        ]
+      },
+      "capabilities": ["search.client"],
+      "annotations": [
+        {
+          "name": "search.Enable",
+          "targets": ["function"],
+          "arguments": [
+            {
+              "name": "indexes",
+              "kinds": ["list"],
+              "list_element_kinds": ["string"],
+              "required": true
+            }
+          ]
+        }
+      ],
+      "application_features": [
+        {
+          "annotation": "search.Enable",
+          "capability": "search.client",
+          "options": [
+            {
+              "name": "indexes",
+              "kind": "list",
+              "list_item_kinds": ["string"],
+              "required": true,
+              "unique_items": true,
+              "minimum_items": 1,
+              "sort_items": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+`spice verify`, `spice modules`, `spice test --module`, `spice generate`, and
+`spice build` strictly parse the selection, compose its annotation registry,
+and carry application features into generation freshness. The file is bounded
+to 4 MiB, must be a regular file, rejects unknown fields and trailing values,
+and fails before filesystem generation on any invalid or incompatible manifest.
+
+Selection is explicit repository configuration, not dependency discovery.
+Spice does not search module caches, call `Manifest()` functions, load plugins,
+or infer activation from imports. Generated entrypoint selection and starter
+dependency alignment are subsequent slices. Until entrypoint selection is
+implemented, an explicit-annotation feature is validated and represented in IR
+but does not emit a constructor call.
 
 ## Shipped starter metadata
 

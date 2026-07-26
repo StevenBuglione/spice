@@ -137,7 +137,9 @@ the Spice API and Go version, composes its annotation registry, and maps
 application features into `application.BuildWithOptions`. Source identity,
 version, normalized options, requirements, and exported entrypoints survive in
 immutable IR and the generation input hash. Definitions and manifests must be
-deliberately supplied: repository discovery, CLI composition, and generated
+deliberately supplied. The CLI strictly composes manifests embedded in the
+application-owned `.spice/starters.json` selection for verification, module
+checks, generation, and build. Dependency/module-cache discovery and generated
 entrypoint selection remain separate slices, and imports or `go.mod` entries
 have no activation effect.
 
