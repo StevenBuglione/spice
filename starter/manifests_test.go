@@ -85,13 +85,18 @@ func TestShippedStarterManifests(t *testing.T) {
 			},
 		},
 		{
-			name:        "postgres",
-			manifest:    postgres.Manifest,
-			entrypoints: []any{postgres.Open, postgres.NewBatchStore},
+			name:     "postgres",
+			manifest: postgres.Manifest,
+			entrypoints: []any{
+				postgres.Open,
+				postgres.NewBatchStore,
+				postgres.NewOutboxStore,
+			},
 			capabilities: []string{
 				"batch.postgresql",
 				"data.postgresql",
 				"data.sql",
+				"event.outbox.postgresql",
 				"migration.postgresql",
 			},
 			dependencies: []starter.Dependency{

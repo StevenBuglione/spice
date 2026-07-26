@@ -62,5 +62,34 @@ construction.
 The claim statement must atomically select and lease rows in occurrence-time/ID
 order. Spice reconstructs and validates every message, rejects duplicate or
 unordered results, closes and checks rows, and requires completion/release to
-affect exactly one row. Locking syntax and migrations remain dialect-owned;
-the PostgreSQL starter will supply reviewed statements and schema.
+affect exactly one row. Locking syntax and migrations remain dialect-owned.
+
+## PostgreSQL
+
+`starter/postgres` supplies reviewed SQL and deterministic initial DDL:
+
+```go
+schemaSQL, err := postgres.OutboxSchemaSQL(postgres.OutboxOptions{
+    Schema: "orders",
+})
+if err != nil {
+    return err
+}
+// Commit schemaSQL through an application-owned migration.
+
+store, err := postgres.NewOutboxStore(database, postgres.OutboxOptions{
+    Schema: "orders",
+})
+```
+
+Empty options select `public.spice_event_outbox`. Identifiers are validated
+PostgreSQL identifiers and are always quoted. Construction never connects or
+applies schema. Enqueue uses the executor supplied by the application
+transaction; claims use `FOR UPDATE SKIP LOCKED`, stable occurrence-time/ID
+ordering, unique receipts, bounded leases, and one-based attempts. Release
+clears ownership and sets the explicit next availability time. Completion and
+release reject stale owner/receipt pairs by requiring exactly one affected row.
+
+The tagged PostgreSQL race integration proves transaction rollback, committed
+visibility, deterministic ordering, delayed retry with a fresh receipt,
+stale-receipt rejection, and exclusive concurrent claims.

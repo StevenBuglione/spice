@@ -250,7 +250,7 @@ Every current integration exposes a package-level `Manifest()`:
 
 | Package | Capabilities | Reviewed dependency |
 |---|---|---|
-| `starter/postgres` | `data.postgresql`, `data.sql` | `github.com/jackc/pgx/v5` v5.10.0 |
+| `starter/postgres` | `batch.postgresql`, `data.postgresql`, `data.sql`, `event.outbox.postgresql`, `migration.postgresql` | `github.com/jackc/pgx/v5` v5.10.0 |
 | `starter/redis` | `cache.redis`, `data.redis` | `github.com/redis/go-redis/v9` v9.21.0 |
 | `starter/oidc` | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |

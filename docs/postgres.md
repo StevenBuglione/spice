@@ -34,6 +34,12 @@ using atomic upsert/checkpoint statements and explicit attempt leases.
 an application-owned migration; construction never applies schema implicitly.
 See [`batch.md`](batch.md) for restart, idempotency, and lease semantics.
 
+`postgres.NewOutboxStore` supplies atomic transaction-owned enqueue and
+`FOR UPDATE SKIP LOCKED` publication leasing. `postgres.OutboxSchemaSQL`
+returns deterministic initial DDL for an application-owned migration; neither
+constructor connects or mutates schema. See [`outbox.md`](outbox.md) for
+at-least-once delivery and stale-receipt semantics.
+
 Connection configuration must be a complete `postgres://` or
 `postgresql://` URL containing user, non-empty password, host, explicit port,
 and database. This prevents pgx from silently completing connection identity
@@ -76,4 +82,5 @@ multi-statement migration, prove transactional rollback, verify that a canceled
 lock wait returns its context error, and exercise durable batch restart,
 concurrent ownership, definition drift, lease takeover, and stale-owner
 rejection. It also verifies that `spicetest.NewSQL` exposes transaction-local
-data and always rolls it back.
+data and always rolls it back, and proves transactional outbox rollback,
+ordered delivery, retry, stale-receipt rejection, and concurrent leasing.
