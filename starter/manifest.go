@@ -314,6 +314,14 @@ func validateActivation(spec Spec) error {
 		if !validModulePath(entrypoint.Package) {
 			return fmt.Errorf("activation entrypoint package %q is invalid", entrypoint.Package)
 		}
+		if entrypoint.Package != spec.Module &&
+			!strings.HasPrefix(entrypoint.Package, spec.Module+"/") {
+			return fmt.Errorf(
+				"activation entrypoint package %q must belong to starter module %q",
+				entrypoint.Package,
+				spec.Module,
+			)
+		}
 		if !symbolPattern.MatchString(entrypoint.Symbol) {
 			return fmt.Errorf("activation entrypoint symbol %q must be exported", entrypoint.Symbol)
 		}

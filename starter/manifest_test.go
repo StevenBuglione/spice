@@ -174,6 +174,12 @@ func TestNewRejectsInvalidSpecs(t *testing.T) {
 			},
 		},
 		{
+			name: "entrypoint-module-ownership",
+			mutate: func(spec *Spec) {
+				spec.Activation.EntryPoints[0].Package = "example.com/other/starter"
+			},
+		},
+		{
 			name: "entrypoint-symbol",
 			mutate: func(spec *Spec) {
 				spec.Activation.EntryPoints[0].Symbol = "new"

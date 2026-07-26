@@ -23,6 +23,8 @@ Every manifest declares:
 trailing values, and applies the same validation. Accessors return defensive
 copies; `Manifest.JSON` sorts unordered metadata and emits stable bytes without
 timestamps, absolute paths, environment data, or host information.
+Every entrypoint package must belong to the declared starter module; a manifest
+cannot redirect construction to unrelated application or dependency code.
 
 ```go
 manifest, err := starter.New(starter.Spec{
@@ -127,6 +129,14 @@ generated ownership hash even though it adds no runtime registry or reflection.
 
 These adapters perform no repository scan and never treat an imported or
 downloaded module as active.
+
+`Catalog.Dependencies` exposes the exact reviewed module version and SPDX
+license contracts retained from every selected manifest.
+`Catalog.ValidateModuleVersions` compares those contracts with an explicitly
+supplied Go module graph. Missing modules, MVS upgrades or downgrades, ambiguous
+graph records, and replacements that do not resolve to the same reviewed module
+identity and version fail deterministically. Selected manifests cannot publish
+conflicting version or license reviews for the same dependency.
 
 ## Repository selection
 
