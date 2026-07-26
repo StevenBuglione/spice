@@ -50,7 +50,7 @@ For every product change:
 - the allowlisted golangci-lint policy in `.golangci.yml`;
 - NilAway, gosec, and govulncheck;
 - shuffled and race-enabled tests;
-- parser and validation fuzz smoke;
+- parser, decoder, and validation fuzz smoke;
 - an 85% whole-repository coverage floor;
 - offline vendor-only tests;
 - Spice CLI verification and executable example smoke tests.

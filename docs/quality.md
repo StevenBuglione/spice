@@ -9,7 +9,7 @@ make fmt       # apply goimports and gofumpt
 make lint      # golangci-lint plus NilAway
 make security  # gosec plus govulncheck
 make test      # shuffled and race-enabled tests
-make fuzz      # bounded parser and validation fuzz smoke
+make fuzz      # bounded parser, decoder, and validation fuzz smoke
 make offline   # product tests with GOPROXY=off and vendor only
 make smoke     # Spice CLI and executable example checks
 make verify    # every required gate

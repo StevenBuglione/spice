@@ -65,6 +65,9 @@ The repository currently provides:
   module/policy identities, and bounded authorization observations.
 - An opt-in OIDC JWT resource server with strict bearer parsing, signature/issuer/audience/expiry verification, exact claim mapping, required or route-guard-compatible optional authentication, bounded discovery/JWK transport, and safe authentication failures.
 - An opt-in OAuth2 client-credentials integration with separate timed transports, HTTPS-only bounded token acquisition, safe failures, and cached Bearer authorization.
+- Typed stateless HTTP sessions with AES-256-GCM confidentiality/integrity,
+  bounded key rotation, embedded expiry, strict decoding, secure host-only
+  cookie defaults, and concurrent-use verification.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.

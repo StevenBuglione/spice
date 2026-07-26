@@ -97,6 +97,13 @@ operation identities, explicit dialect SQL, caller-supplied row decoders, and
 mandatory list bounds. Single-result cardinality and row lifecycle errors fail
 closed without logging SQL or argument values.
 
+HTTP sessions are typed, stateless, and instance-owned. The runtime seals
+bounded JSON with AES-256-GCM, authenticates the cookie identity and key ID,
+and applies explicit expiry and bounded key rotation. It installs no global
+session registry and does not imply server-side revocation, mutable clustering,
+or CSRF protection. Applications that require those properties compose an
+explicit store or request defense.
+
 Database migrations form one immutable application-global version sequence
 while retaining module ownership. Core normalizes and checksums SQL, reconciles
 the durable registry as an exact plan prefix, and delegates advisory locking,

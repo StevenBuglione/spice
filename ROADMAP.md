@@ -78,7 +78,7 @@ compile-time conditions remain future work.
 - Kafka, RabbitMQ, and additional messaging starters.
 - Redis, MongoDB, Elasticsearch/OpenSearch, and selected data starters.
 - gRPC, GraphQL, WebSocket, and outbound HTTP clients.
-- Sessions, mail, templates, and development tooling.
+- Mail, templates, and development tooling.
 - Starter SDK and third-party annotation SDK.
 - Language server and editor extensions.
 
