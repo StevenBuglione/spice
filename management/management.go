@@ -196,7 +196,24 @@ type HandlerOptions struct {
 	Manager  *Manager
 	Info     map[string]string
 	Metrics  *HTTPMetrics
+	Expose   []Endpoint
 }
+
+// Endpoint identifies one explicitly exposed management HTTP endpoint.
+type Endpoint string
+
+const (
+	// EndpointHealth exposes the aggregate health report.
+	EndpointHealth Endpoint = "health"
+	// EndpointLiveness exposes the process liveness report.
+	EndpointLiveness Endpoint = "liveness"
+	// EndpointReadiness exposes the traffic readiness report.
+	EndpointReadiness Endpoint = "readiness"
+	// EndpointInfo exposes caller-owned static application metadata.
+	EndpointInfo Endpoint = "info"
+	// EndpointMetrics exposes generated-route HTTP metrics.
+	EndpointMetrics Endpoint = "metrics"
+)
 
 // Handler serves one isolated set of management endpoints.
 type Handler struct {
@@ -204,6 +221,7 @@ type Handler struct {
 	manager  *Manager
 	info     map[string]string
 	metrics  *HTTPMetrics
+	exposed  map[Endpoint]struct{}
 	mux      *http.ServeMux
 }
 
@@ -219,21 +237,83 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 	if !validBasePath(basePath) {
 		return nil, fmt.Errorf("construct management handler: base path %q must be a clean absolute path below root", basePath)
 	}
+	exposed, err := exposedEndpoints(options.Expose, options.Metrics != nil)
+	if err != nil {
+		return nil, err
+	}
 	handler := &Handler{
 		basePath: basePath,
 		manager:  options.Manager,
 		info:     cloneInfo(options.Info),
 		metrics:  options.Metrics,
+		exposed:  exposed,
 		mux:      http.NewServeMux(),
 	}
-	handler.mux.HandleFunc("GET "+basePath+"/health", handler.serveReport(GroupHealth))
-	handler.mux.HandleFunc("GET "+basePath+"/health/liveness", handler.serveReport(GroupLiveness))
-	handler.mux.HandleFunc("GET "+basePath+"/health/readiness", handler.serveReport(GroupReadiness))
-	handler.mux.HandleFunc("GET "+basePath+"/info", handler.serveInfo)
-	if handler.metrics != nil {
+	if handler.exposes(EndpointHealth) {
+		handler.mux.HandleFunc("GET "+basePath+"/health", handler.serveReport(GroupHealth))
+	}
+	if handler.exposes(EndpointLiveness) {
+		handler.mux.HandleFunc("GET "+basePath+"/health/liveness", handler.serveReport(GroupLiveness))
+	}
+	if handler.exposes(EndpointReadiness) {
+		handler.mux.HandleFunc("GET "+basePath+"/health/readiness", handler.serveReport(GroupReadiness))
+	}
+	if handler.exposes(EndpointInfo) {
+		handler.mux.HandleFunc("GET "+basePath+"/info", handler.serveInfo)
+	}
+	if handler.exposes(EndpointMetrics) {
 		handler.mux.HandleFunc("GET "+basePath+"/metrics", handler.serveMetrics)
 	}
 	return handler, nil
+}
+
+func exposedEndpoints(configured []Endpoint, metrics bool) (map[Endpoint]struct{}, error) {
+	if configured == nil {
+		configured = []Endpoint{
+			EndpointHealth,
+			EndpointLiveness,
+			EndpointReadiness,
+			EndpointInfo,
+		}
+		if metrics {
+			configured = append(configured, EndpointMetrics)
+		}
+	}
+	if len(configured) == 0 {
+		return nil, errors.New("construct management handler: at least one endpoint must be exposed")
+	}
+	result := make(map[Endpoint]struct{}, len(configured))
+	for index, endpoint := range configured {
+		switch endpoint {
+		case EndpointHealth, EndpointLiveness, EndpointReadiness, EndpointInfo:
+		case EndpointMetrics:
+			if !metrics {
+				return nil, errors.New("construct management handler: metrics endpoint requires an HTTP metrics collector")
+			}
+		default:
+			return nil, fmt.Errorf(
+				"construct management handler: endpoint %d %q is unsupported",
+				index,
+				endpoint,
+			)
+		}
+		if _, duplicate := result[endpoint]; duplicate {
+			return nil, fmt.Errorf(
+				"construct management handler: endpoint %q is exposed more than once",
+				endpoint,
+			)
+		}
+		result[endpoint] = struct{}{}
+	}
+	return result, nil
+}
+
+func (handler *Handler) exposes(endpoint Endpoint) bool {
+	if handler == nil {
+		return false
+	}
+	_, exposed := handler.exposed[endpoint]
+	return exposed
 }
 
 // Pattern returns the ServeMux subtree pattern used to mount this handler.

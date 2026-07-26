@@ -235,6 +235,26 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 	if _, err := NewHandler(HandlerOptions{}); err == nil {
 		t.Fatal("NewHandler(nil manager) error = nil")
 	}
+	for _, test := range []struct {
+		name    string
+		expose  []Endpoint
+		metrics *HTTPMetrics
+	}{
+		{name: "empty allowlist", expose: []Endpoint{}},
+		{name: "unsupported endpoint", expose: []Endpoint{"environment"}},
+		{name: "duplicate endpoint", expose: []Endpoint{EndpointHealth, EndpointHealth}},
+		{name: "metrics without collector", expose: []Endpoint{EndpointMetrics}},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			if _, err := NewHandler(HandlerOptions{
+				Manager: manager,
+				Expose:  test.expose,
+				Metrics: test.metrics,
+			}); err == nil {
+				t.Fatal("NewHandler() error = nil")
+			}
+		})
+	}
 	var handler *Handler
 	if handler.Pattern() != "" {
 		t.Fatalf("nil Pattern() = %q", handler.Pattern())
@@ -243,6 +263,47 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 	handler.ServeHTTP(response, httptest.NewRequest(http.MethodGet, "/", nil))
 	if response.Code != http.StatusServiceUnavailable {
 		t.Fatalf("nil handler status = %d", response.Code)
+	}
+}
+
+func TestHandlerExposesExactlyTheConfiguredEndpointAllowlist(t *testing.T) {
+	t.Parallel()
+	manager, err := New(Check{
+		Name:   "application",
+		Groups: []Group{GroupHealth, GroupLiveness, GroupReadiness},
+		Probe:  func(context.Context) error { return nil },
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	metrics := NewHTTPMetrics()
+	handler, err := NewHandler(HandlerOptions{
+		Manager: manager,
+		Metrics: metrics,
+		Info:    map[string]string{"secret": "must-not-be-served"},
+		Expose:  []Endpoint{EndpointMetrics, EndpointHealth},
+	})
+	if err != nil {
+		t.Fatalf("NewHandler() error = %v", err)
+	}
+	tests := []struct {
+		target string
+		status int
+	}{
+		{target: "/actuator/health", status: http.StatusOK},
+		{target: "/actuator/metrics", status: http.StatusOK},
+		{target: "/actuator/health/liveness", status: http.StatusNotFound},
+		{target: "/actuator/health/readiness", status: http.StatusNotFound},
+		{target: "/actuator/info", status: http.StatusNotFound},
+	}
+	for _, test := range tests {
+		response := serve(handler, http.MethodGet, test.target)
+		if response.Code != test.status {
+			t.Fatalf("%s status = %d, want %d", test.target, response.Code, test.status)
+		}
+		if strings.Contains(response.Body.String(), "must-not-be-served") {
+			t.Fatalf("%s exposed unrequested info: %s", test.target, response.Body.String())
+		}
 	}
 }
 
