@@ -153,6 +153,20 @@ constructor reads files, environment variables, signals, or the network unless
 the caller explicitly supplies a source that does so. `ConfigurationSchema`
 returns fresh, validated generated metadata without a mutable global registry.
 
+## Generated command convention
+
+An `@Application` target always includes the typed
+`spice.shutdown-timeout` property. Its default is `10s`, and its explicit
+environment name is `SPICE_SHUTDOWN_TIMEOUT`.
+
+The generated `Main` helper opts into `config.OSEnvironment("SPICE_")` and
+passes that source to construction. Reusable `NewApplication` and
+`NewApplicationWithOptions` do not read the process environment: callers can
+provide their own ordered sources, profiles, and unknown-key policy.
+`RunCommand` also exposes the `ApplicationOptions` seam for tests and embedded
+commands. Ports, credentials, database URLs, secrets, and environment-specific
+timeouts remain configuration properties rather than annotation arguments.
+
 ## Environment and secrets
 
 The environment source checks only keys present in the generated schema. With

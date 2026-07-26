@@ -1,5 +1,20 @@
 # Spice Roadmap
 
+## Current bootstrap priority
+
+The annotation-driven application bootstrap is the foundation for subsequent
+starter work. `@Application` now composes generated command construction,
+conventional environment loading, structured command logging, signal handling,
+stable exit codes, and typed bounded shutdown. Explicit
+`@management.Enable(expose=[...])` and `@observability.Logging` companions are
+resolved through typed definitions, preserved in the immutable application IR,
+and rendered without runtime discovery.
+
+The next starter slices must reuse this deterministic feature pipeline. The
+third-party annotation SDK, starter compatibility manifest, and compile-time
+starter conditions remain future work and must not be represented by
+dependency-presence activation.
+
 ## M0 — Product and compiler proof
 
 - Annotation syntax and parser.
@@ -14,6 +29,7 @@
 
 - Constructor provider graph.
 - Lifecycle and shutdown.
+- Typed bootstrap-feature metadata and generated command composition.
 - Application module discovery.
 - API/internal boundary rules.
 - Allowed dependency declarations.

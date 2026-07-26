@@ -3,6 +3,23 @@
 The public `management` package provides an opt-in, standard-library-first
 health subsystem. It has no global registry and mounts no hidden routes.
 
+For generated applications, exposure must be declared explicitly on the
+application marker:
+
+```go
+// @Application
+// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics"])
+func Application(*Server) {}
+```
+
+Valid names are `health`, `liveness`, `readiness`, `info`, and `metrics`.
+The compiler rejects unknown or duplicate names with source positions,
+normalizes order deterministically, and verifies that the selected application
+graph owns the required `*http.ServeMux`. The generated handler registers
+exactly the requested routes directly on that mux. Metrics are constructed
+only when `metrics` is exposed. Importing `management` or listing it in
+`go.mod` never enables endpoints.
+
 Each `management.Check` has a stable name, optional module import path, one or
 more explicit groups, and a caller-owned `func(context.Context) error` probe.
 `management.New` rejects invalid names, nil probes, missing or unknown groups,
@@ -60,6 +77,11 @@ if err != nil {
 handler, err := management.NewHandler(management.HandlerOptions{
     Manager: manager,
     Metrics: metrics,
+    Expose: []management.Endpoint{
+        management.EndpointHealth,
+        management.EndpointReadiness,
+        management.EndpointMetrics,
+    },
     Info: map[string]string{
         "name":    "commerce",
         "version": buildVersion,
@@ -82,3 +104,8 @@ application, err := spicegen.NewApplicationWithOptions(ctx, spicegen.Application
 External dependency checks normally belong to both `health` and `readiness`,
 not `liveness`; a database outage should stop traffic without asking an
 orchestrator to restart an otherwise healthy process.
+
+The explicit runtime API remains available for custom base paths, checks,
+metadata, mux ownership, and embedding. A nil `HandlerOptions.Expose` preserves
+the runtime package's full default set for handwritten integrations; generated
+applications always pass their compile-time allowlist.

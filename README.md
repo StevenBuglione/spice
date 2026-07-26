@@ -20,7 +20,12 @@ The repository currently provides:
 - Annotation parsing, resolution, and source-positioned validation.
 - Exact-type bean/configuration provider catalog and deterministic dependency graph validation.
 - Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
-- Exact-type `@Application` roots assembled with provider and lifecycle data in one immutable application IR.
+- Exact-type `@Application` roots assembled with provider, lifecycle, and typed
+  bootstrap-feature data in one immutable application IR.
+- Annotation-driven generated commands with conventional environment
+  configuration, structured command logging, explicit management/logging
+  companions, stable exit codes, signal ownership, and bounded graceful
+  shutdown.
 - A pure deterministic renderer for direct provider/lifecycle calls and SHA-256 ownership manifests.
 - Guarded generated-file ownership with manual-edit refusal, freshness checks, bounded diffs, and unchanged-file preservation.
 - Import-path application modules with root APIs, named interfaces, explicit dependencies, internal-boundary checks, unassigned-package reporting, and deterministic cycle detection.
@@ -91,12 +96,40 @@ spice generate --diff ./...
 spice build ./...
 ```
 
+Application-platform conventions are declared on that marker and compiled into
+ordinary direct-call Go:
+
+```go
+// @Application
+// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics"])
+// @observability.Logging
+func Commerce(*platform.Server, *orders.Service) {
+    panic("Spice application marker bodies are never executed")
+}
+```
+
+The handwritten process boundary stays small:
+
+```go
+func main() {
+    os.Exit(commerce.Main(os.Args[1:]))
+}
+```
+
+Generated `Main` returns an exit code; it does not call `os.Exit`. It resolves
+the generated schema from the `SPICE_` environment convention, logs command
+startup and failures, owns `SIGINT`/`SIGTERM`, and creates a fresh bounded
+shutdown context. `spice.shutdown-timeout` defaults to `10s` and can be set
+with `SPICE_SHUTDOWN_TIMEOUT`.
+
 Controller targets also own
 `internal/spicegen/<target>/openapi.json`; generation check/diff verifies it
 alongside the generated application.
 
-Production services can mount the opt-in `management` handler for deterministic
-health, liveness, readiness, and caller-owned info endpoints; see
+Production services opt into only the management routes they intend to expose
+with `@management.Enable(expose=[...])`. The endpoint allowlist is exact and
+validated at compile time; package presence or a `go.mod` dependency never
+activates it. See
 [`docs/management.md`](docs/management.md).
 
 Outbound integrations can use the base-scoped, bounded typed JSON client in
@@ -165,13 +198,19 @@ curl http://localhost:8081/actuator/health/readiness
 curl http://localhost:8081/actuator/metrics
 ```
 
-The modular commerce command owns `SIGINT`/`SIGTERM` handling and supplies a
-fresh ten-second shutdown context to the generated application's `Run` method.
-It explicitly opts into environment configuration and mounts isolated
-management health, readiness, info, and generated-route metrics endpoints.
-Generated source and OpenAPI are committed under
+The modular commerce declaration enables structured request/lifecycle logging
+and exactly five management endpoints. Its generated command owns
+`SIGINT`/`SIGTERM`, conventional environment loading, check mode, stable exit
+codes, and fresh bounded shutdown. The generated `Application` itself never
+captures process signals. Generated source and OpenAPI are committed under
 `internal/spicegen/commerce`; the matching ownership manifest is
 `.spice/commerce.manifest.json`.
+
+For embedding and specialized policies, generated packages retain
+`NewApplication`, `NewApplicationWithOptions`, `Application.Start`,
+`Application.Stop`, `Application.Run`, and `RunCommand`. These seams support
+caller-owned contexts, signals, configuration sources, middleware, error
+mapping, lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 
 ## Repository map
 

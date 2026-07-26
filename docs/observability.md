@@ -35,6 +35,22 @@ operation, phase, and an internal error on failure. No global logger or
 registry is installed. Applications choose handlers, levels, redaction, and
 export destinations explicitly.
 
+Generated applications can request these adapters on their application marker:
+
+```go
+// @Application
+// @observability.Logging
+func Application(*Server) {}
+```
+
+The compiler records the opt-in as typed bootstrap metadata and generated
+construction installs both lifecycle and HTTP logging observers in stable
+order. Generated command construction/start/failure messages remain baseline
+command behavior; the companion controls component lifecycle and request
+records. Importing the package alone never activates logging. Callers that need
+another handler or observer set can omit the annotation and use
+`NewApplicationWithOptions` or `RunCommand`.
+
 ## OpenTelemetry starter
 
 `starter/otel` adapts the same generated route seam to the stable OpenTelemetry

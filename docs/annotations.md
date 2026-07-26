@@ -13,7 +13,12 @@ The parser also accepts `//@Controller`, but `gofmt` inserts a space after `//`,
 
 ## Names
 
-Built-in names are unqualified. Qualified names are reserved for future starters and third-party definitions. During bootstrap, `spice verify` fails closed on unknown annotations.
+Core declaration names are unqualified. Bootstrap features use qualified
+built-in names such as `@management.Enable` and
+`@observability.Logging`; the same explicit typed definition model is reserved
+for future starters and third-party definitions. During bootstrap, `spice
+verify` fails closed on unknown annotations. Package imports and `go.mod`
+entries do not register or activate definitions.
 
 ## Arguments
 
@@ -42,9 +47,16 @@ func (UserController) GetUserCompact() {}
 func (UserController) CreateUser() {}
 ```
 
-Marker annotations such as `@Application`, `@Bean`, `@Service`, `@OnStart`, and `@OnStop` accept no arguments. `@Configuration` accepts an optional named `prefix` string.
+Marker annotations such as `@Application`, `@Bean`, `@Service`, `@OnStart`,
+`@OnStop`, and `@observability.Logging` accept no arguments.
+`@Configuration` accepts an optional named `prefix` string.
+`@management.Enable` requires the named `expose` list.
 
-The bootstrap parser supports strings, integers, booleans, identifiers, and lists. The current validator checks the outer parsed kind only; it does not yet implement defaults, aliases, composed annotations, nested annotations, enum-like identifiers, or list element schemas.
+The bootstrap parser supports strings, integers, booleans, identifiers, and
+lists. Definitions can constrain list element kinds; management exposure, for
+example, requires strings and then applies its endpoint enum validation. The
+validator does not yet implement defaults, aliases, composed annotations, or
+nested annotations.
 
 ## `@Application` marker functions
 
@@ -68,6 +80,20 @@ The marker body has no framework semantics and is never executed during
 analysis. Packages without a marker remain valid for library verification.
 Multiple markers are represented as distinct deterministic application targets;
 generation requires an unambiguous selected target before it may write files.
+
+`@Application` also composes safe generated-command conventions. Qualified
+companions opt into behavior with exposure or operational consequences:
+
+```go
+// @Application
+// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics"])
+// @observability.Logging
+func Commerce(*Server) {}
+```
+
+Both companions are valid only on an `@Application` function. Endpoint names
+are exact, duplicates and unknown names fail at their source positions, and
+the normalized metadata becomes part of the immutable application IR.
 
 ## `@Bean` provider functions
 
@@ -99,7 +125,10 @@ Exact output types must have one provider; Spice rejects duplicates rather than 
 
 ## Lifecycle hook metadata
 
-Argument-free, method-only `@OnStart` and `@OnStop` select explicit methods for future generated lifecycle orchestration. A hook must have the exact non-variadic form `func(receiver)(context.Context) error`, and its receiver must be semantically identical to exactly one valid `@Bean` output.
+Argument-free, method-only `@OnStart` and `@OnStop` select explicit methods for
+generated lifecycle orchestration. A hook must have the exact non-variadic form
+`func(receiver)(context.Context) error`, and its receiver must be semantically
+identical to exactly one valid `@Bean` output.
 
 Aliases to the exact receiver, `context.Context`, and `error` types are accepted. Pointer/value convenience, assignability, interface implementation, structural context lookalikes, method promotion, duplicate roles, and stop-only components are rejected.
 The compiler records deterministic typed metadata only. `spice verify` never invokes providers, cleanup callbacks, or lifecycle methods. Generated applications use the public `lifecycle.Coordinator` for the state machine, dependency-order start, reverse stop/cleanup, startup rollback, deterministic error joining, idempotent stop, and run/wait/shutdown composition. Concrete hook calls remain direct generated method values.
@@ -161,6 +190,8 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@Configuration` | Type | `prefix` string, optional, named-only |
 | `@Controller` | Type | `prefix` string, optional, named-only |
 | `@Get` | Method | `path` string, required, named or positional |
+| `@management.Enable` | `@Application` package-level function | `expose` string list, required, named-only |
+| `@observability.Logging` | `@Application` package-level function | None |
 | `@OnStart` | Method | None |
 | `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |

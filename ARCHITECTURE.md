@@ -11,6 +11,7 @@ Valid Go source
   -> Go AST and type information
   -> Spice annotation parser
   -> typed Spice intermediate representation
+  -> typed application-bootstrap feature metadata
   -> module and dependency graphs
   -> static validation
   -> deterministic generated Go
@@ -44,6 +45,7 @@ Valid Go source
 
 - Components and providers.
 - Dependency graph and lifecycle.
+- Application roots and explicit qualified bootstrap features.
 - Application modules and named interfaces.
 - Configuration ownership.
 - Routes, event contracts, and transaction boundaries.
@@ -51,6 +53,7 @@ Valid Go source
 ### Code generation
 
 - Dependency wiring.
+- Command bootstrap and explicit feature composition.
 - HTTP adapters.
 - Cross-cutting decorators.
 - Configuration binders.
@@ -61,9 +64,21 @@ application. The pure renderer consumes the immutable application IR, emits
 canonical target-scoped Go plus SHA-256 ownership metadata, and performs no
 filesystem or network mutation.
 
+`@Application` supplies safe command conventions. Qualified companion
+annotations opt into behavior with exposure or operational consequences. The
+compiler resolves and validates those annotations once, carries normalized
+typed metadata in the immutable application IR, and renders direct
+construction. Rendering does not rescan comments. Feature activation never
+depends on classpath-style scanning, `go.mod`, `init`, or a mutable registry.
+
 ### Runtime
 
-The runtime should stay small. Its responsibilities are application lifecycle, generated registry execution, request scopes, shutdown, and integrations that cannot be resolved at compile time.
+The runtime should stay small. Its responsibilities are application lifecycle,
+generated registry execution, request scopes, shutdown, and integrations that
+cannot be resolved at compile time. A generated reusable `Application` never
+captures process signals. Only its explicitly invoked command helper owns
+`SIGINT`/`SIGTERM`, while lower-level APIs preserve caller-owned signal and
+context policy.
 
 SQL access remains based on `database/sql`. Repositories accept the common
 executor contract implemented by both pools and transactions. Instance-owned
@@ -100,6 +115,11 @@ cancellation, observability, and configuration review. Starters accept
 caller-owned clients/providers, install no global state, and must not make
 network calls during construction unless their documented contract explicitly
 requires it.
+
+Built-in bootstrap features use the same qualified, typed definition model
+intended for future starter annotations. The public third-party annotation SDK
+and compatibility manifest remain roadmap work; until they exist, importing a
+starter alone has no activation semantics.
 
 Outbound OAuth2 service clients receive separate caller-owned token and
 resource clients plus an application-lifetime context. Token endpoints are

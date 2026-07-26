@@ -4,10 +4,10 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 
 | Area | Spring capability | Spice direction | Status |
 |---|---|---|---|
-| Core | Application bootstrap and lifecycle | Exact roots/hooks/cleanup, immutable IR, generated construction/start/stop/run, rollback, idempotency, and caller-owned context policy | available |
+| Core | Application bootstrap and lifecycle | Exact roots/hooks/cleanup, immutable IR, generated construction/start/stop/run plus command bootstrap, rollback, idempotency, stable exit codes, process-boundary signals, and caller-owned low-level context policy | available |
 | Core | Dependency injection | Exact-type catalog/graph, deterministic direct-call constructor/rollback, and guarded generated-file application | available |
-| Core | Auto-configuration | Explicit starter manifests with compile-time conditions | planned |
-| Core | Starters and dependency alignment | Versioned Go starter modules and compatibility manifest | planned |
+| Core | Auto-configuration | `@Application` provides safe generated command conventions; explicit typed `@management.Enable` and `@observability.Logging` companions are compile-time validated, carried in immutable IR, and deterministically composed without dependency-presence activation; broader conditions follow | in-progress |
+| Core | Starters and dependency alignment | Built-in qualified features share an explicit typed definition/compiler seam; a public third-party annotation SDK, versioned starter modules, and compatibility manifest remain planned | in-progress |
 | Configuration | External properties and profiles | Typed/module-owned declarations become exact provider nodes with deterministic generated schema/binders; explicit rooted JSON/profile and environment sources provide precedence, provenance, validation, redaction, and caller-owned loading | available |
 | Web | MVC/REST controllers | Exact provider-owned controller/route IR plus deterministic generated typed/raw `net/http` adapters, ordered middleware, and panic-safe ServeMux registration | available |
 | Web | Request binding and validation | Generated path/query/header/body DTO binding uses strict bounded JSON, safe scalar conversion, and exact compile-time validated post-bind request validation | available |
@@ -28,8 +28,8 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Batch | Batch jobs | Job/step abstraction with restart and observability support | planned |
 | Cache | Cache abstraction | Generic stores and a bounded concurrent LRU/TTL implementation provide explicit expiration, caller-owned time, key-free observations, and aggregate metrics; generated decorators and distributed starters follow | in-progress |
 | Resilience | Retry | Explicit finite policies provide opt-in error classification, capped deterministic backoff, context cancellation, typed exhaustion, testable waiting, and attempt observations | available |
-| Observability | Actuator endpoints | Opt-in deterministic health/liveness/readiness/info endpoints, lifecycle-state probes, and generated-route HTTP metrics are available; routes, modules, and config metadata follow | in-progress |
-| Observability | Structured logging | Instance-owned `log/slog` adapters emit safe compiler-owned route/module and lifecycle metadata without global logger state | available |
+| Observability | Actuator endpoints | Explicit `@management.Enable` allowlists deterministically generate exactly selected health/liveness/readiness/info/metrics routes, lifecycle-state probes, and bounded route metrics; broader module/config metadata follows | in-progress |
+| Observability | Structured logging | Explicit `@observability.Logging` composition installs instance-owned `log/slog` adapters with safe compiler-owned route/module and lifecycle metadata without global logger state | available |
 | Observability | Metrics and tracing | Generated module-aware observations, bounded in-process metrics, and an opt-in OpenTelemetry v1.43 trace/metric starter; applications own providers and exporters | integration |
 | Testing | Application context and test slices | Generated test application graphs and focused module/web/data tests | planned |
 | Development | Devtools and reload | Fast generate/test loop and optional reload integration | planned |
@@ -43,11 +43,11 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Current bootstrap | Provider dependency validation | Exact-type missing-dependency diagnostics, cycle detection, and deterministic dependency-first metadata | available |
 | Current bootstrap | Provider cleanup metadata | Named context-aware cleanup result validation retained for future generated rollback and shutdown | available |
 | Current bootstrap | Lifecycle hook metadata | Exact provider-owned `@OnStart`/`@OnStop` validation plus direct generated execution through the lifecycle coordinator | available |
-| Current bootstrap | Application roots and immutable IR | Exact `@Application` parameter roots plus ordered provider, graph, cleanup, and lifecycle metadata without executing marker bodies | available |
+| Current bootstrap | Application roots and immutable IR | Exact `@Application` parameter roots plus ordered provider, graph, cleanup, lifecycle, and normalized qualified bootstrap metadata without executing marker bodies | available |
 | Current bootstrap | Lifecycle runtime coordination | Explicit callback state machine with dependency-order start, reverse stop/cleanup, startup rollback, idempotency, and caller-owned contexts | available |
 | Current bootstrap | Deterministic generation plan | Pure target-scoped Go rendering with direct calls, stable imports, canonical SHA-256 manifest metadata, and executable generated fixtures | available |
 | Current bootstrap | Safe generation and build commands | Rooted ownership checks, manual-edit refusal, no-op preservation, check/diff, stale recovery, target locks, and trimpath build | available |
-| Current bootstrap | Executable generated reference | Committed provider graph, generated application, live HTTP behavior, process-signal ownership, freshness checks, and graceful drain | available |
+| Current bootstrap | Executable generated reference | Committed provider graph and tiny process entrypoint backed by generated environment/configuration, structured logging, explicit management/metrics, check mode, stable exit codes, process-signal ownership, freshness checks, and fresh bounded graceful drain | available |
 | Current bootstrap | Engineering quality and reproducible builds | Go-owned cross-platform verification with pinned formatting, lint, nil-safety, security, fuzz, race, coverage, vendor, and executable checks | available |
 
 ## Coverage rules
