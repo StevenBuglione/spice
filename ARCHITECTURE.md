@@ -100,6 +100,10 @@ backends.
 The PostgreSQL starter adapts pgx to the standard SQL contracts. Applications
 provide complete URLs, own pool lifetimes, and explicitly ping during startup;
 TLS hostname verification is the default and construction never connects.
+Its migration backend pins the underlying pgx connection while holding a
+session advisory lock, runs each parameter-free migration script and
+parameterized registry insert in one transaction, and closes the physical
+connection whenever unlock ownership cannot be confirmed.
 
 Application events use immutable generic topics assembled by generated code.
 Payloads retain exact Go types, subscriber order is stable, and delivery is

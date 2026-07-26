@@ -22,6 +22,12 @@ cleanup := func(context.Context) error { return database.Close() }
 Use `postgres.Ping` with a startup-owned timeout when readiness requires a live
 database. The application owns pool shutdown.
 
+`postgres.NewMigrationBackend` adapts the same pool to Spice's migration
+runner. It pins one pgx connection for a PostgreSQL advisory lock, creates a
+fixed registry table in a validated existing schema, and applies each
+multi-statement migration plus its metadata in one transaction. See
+[`migrations.md`](migrations.md) for the durability and lock contract.
+
 Connection configuration must be a complete `postgres://` or
 `postgresql://` URL containing user, non-empty password, host, explicit port,
 and database. This prevents pgx from silently completing connection identity
@@ -57,6 +63,8 @@ go test -tags=integration ./starter/postgres
 Remove-Item Env:SPICE_POSTGRES_TEST_URL
 ```
 
-The tagged test fails, rather than silently skipping, when the URL is absent.
-The test performs a real ping, creates a table, commits through `data.Manager`,
-and reads through `data/repository`.
+The tagged tests fail, rather than silently skipping, when the URL is absent.
+They perform a real ping, commit through `data.Manager`, read through
+`data/repository`, race two migration runners under one advisory lock, execute a
+multi-statement migration, prove transactional rollback, and verify that a
+canceled lock wait returns its context error.

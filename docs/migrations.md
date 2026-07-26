@@ -35,3 +35,42 @@ and bounded SQL-free observations.
 Core does not assume transactional DDL, invent a portable lock, start a
 goroutine, or choose a driver. Dialect starters provide lock, transaction,
 registry schema, and SQL execution policies appropriate to their database.
+
+## PostgreSQL
+
+The PostgreSQL starter supplies a concrete backend over a caller-owned pgx
+`database/sql` pool:
+
+```go
+backend, err := postgres.NewMigrationBackend(database, postgres.MigrationOptions{
+    Schema: "public",
+})
+if err != nil {
+    return err
+}
+runner, err := migration.NewRunner(backend)
+if err != nil {
+    return err
+}
+result, err := runner.Run(ctx, plan)
+```
+
+The configured schema must already exist. The backend owns the fixed
+`spice_schema_history` table within that schema and validates the schema as a
+PostgreSQL identifier; table names and registry SQL are never derived from
+migration content. A zero lock ID selects Spice's stable default. Applications
+sharing a database but intentionally maintaining independent registries should
+select distinct nonzero lock IDs and schemas.
+
+Each run pins one physical pgx connection and holds a PostgreSQL session-level
+advisory lock across reconciliation and application. Each migration script and
+its parameterized registry insert commit in one transaction. Scripts can
+contain multiple PostgreSQL statements. A failed script or registry write rolls
+back both. Lock waits honor cancellation. If unlock cannot be confirmed, Spice
+closes the physical connection so a session lock is never returned to the
+pool.
+
+The registry stores the complete Go `uint64` version domain as constrained
+`numeric(20,0)`, orders versions numerically, and returns timestamps in UTC.
+Errors contain migration identity but never SQL text, connection URLs, or
+credentials.
