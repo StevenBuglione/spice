@@ -71,6 +71,11 @@ transaction managers retain commit/rollback ownership and consume
 compiler-generated boundary and module identities; there is no ambient
 transaction, global pool, or retry hidden in a context.
 
+Repository queries are immutable, typed definitions with stable module and
+operation identities, explicit dialect SQL, caller-supplied row decoders, and
+mandatory list bounds. Single-result cardinality and row lifecycle errors fail
+closed without logging SQL or argument values.
+
 Database migrations form one immutable application-global version sequence
 while retaining module ownership. Core normalizes and checksums SQL, reconciles
 the durable registry as an exact plan prefix, and delegates advisory locking,
