@@ -11,6 +11,7 @@ import (
 	"github.com/StevenBuglione/spice/starter/oidc"
 	"github.com/StevenBuglione/spice/starter/otel"
 	"github.com/StevenBuglione/spice/starter/postgres"
+	redisstarter "github.com/StevenBuglione/spice/starter/redis"
 )
 
 func TestShippedStarterManifests(t *testing.T) {
@@ -90,6 +91,20 @@ func TestShippedStarterManifests(t *testing.T) {
 			capabilities: []string{"data.postgresql", "data.sql", "migration.postgresql"},
 			dependencies: []starter.Dependency{
 				{Module: "github.com/jackc/pgx/v5", Version: "v5.10.0", License: "MIT"},
+			},
+			activation: starter.ActivationExplicitConstructor,
+		},
+		{
+			name:         "redis",
+			manifest:     redisstarter.Manifest,
+			entrypoints:  []any{redisstarter.Open},
+			capabilities: []string{"cache.redis", "data.redis"},
+			dependencies: []starter.Dependency{
+				{
+					Module:  "github.com/redis/go-redis/v9",
+					Version: "v9.21.0",
+					License: "BSD-2-Clause",
+				},
 			},
 			activation: starter.ActivationExplicitConstructor,
 		},
