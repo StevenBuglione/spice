@@ -44,7 +44,10 @@ The repository currently provides:
 - Generic cache contracts, a bounded in-memory LRU/TTL cache, and compile-time
   `@cache.Cacheable` typed-read generation with configured capacity/TTL,
   deterministic keys, safe route validation, and bounded observations.
-- Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
+- Compile-time `@async.Execute` tasks with readiness-gated typed generated
+  submit methods, direct provider calls, configured bounded admission,
+  caller-owned lifetime contexts and observers, deterministic failure
+  aggregation, panic containment, snapshots, and lifecycle-owned shutdown.
 - Compile-time `@schedule.FixedDelay` jobs with exact provider ownership, direct generated method calls, non-overlap, explicit failure continuation, graceful drain, panic containment, observations, and virtual-time test seams.
 - An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric
   starter with exact generated observer-role validation and
@@ -221,8 +224,11 @@ curl http://localhost:8081/actuator/modules
 The modular commerce declaration enables structured request/lifecycle logging
 and exactly seven management endpoints. Its generated command owns
 `SIGINT`/`SIGTERM`, conventional environment loading, check mode, stable exit
-codes, and fresh bounded shutdown. The generated `Application` itself never
-captures process signals. Generated source and OpenAPI are committed under
+codes, and fresh bounded shutdown. Its generated application also owns the
+fixed-delay audit and exposes a typed, bounded asynchronous inventory
+verification method that drains before provider cleanup. The generated
+`Application` itself never captures process signals. Generated source and
+OpenAPI are committed under
 `internal/spicegen/commerce`; the matching ownership manifest is
 `.spice/commerce.manifest.json`.
 

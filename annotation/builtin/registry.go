@@ -9,6 +9,10 @@ func Registry() annotation.Registry {
 		annotation.Definition{Name: "Application", Targets: annotation.Targets(annotation.TargetFunction)},
 		annotation.Definition{Name: "Bean", Targets: annotation.Targets(annotation.TargetFunction)},
 		annotation.Definition{
+			Name:    "async.Execute",
+			Targets: annotation.Targets(annotation.TargetMethod),
+		},
+		annotation.Definition{
 			Name:    "cache.Cacheable",
 			Targets: annotation.Targets(annotation.TargetMethod),
 			Arguments: []annotation.ArgumentDefinition{
