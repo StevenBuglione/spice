@@ -111,6 +111,15 @@ uses a private buffer so template or cancellation failures do not partially
 commit HTTP state. Contextual escaping remains mandatory unless an application
 explicitly supplies a trusted-content template type.
 
+Mail composition is transport-neutral and instance-owned. A caller supplies
+the message ID, date, envelope, bodies, and attachment bytes; construction
+validates strict size and injection boundaries, defensively copies the inputs,
+and emits deterministic CRLF MIME without clocks, hostnames, randomness, or
+network access. Bcc recipients remain in the immutable SMTP envelope and never
+appear in serialized headers. Delivery is an explicit `mail.Sender` dependency,
+so test and SMTP transports can own cancellation, retry, security, and
+observation policy without a global client.
+
 Database migrations form one immutable application-global version sequence
 while retaining module ownership. Core normalizes and checksums SQL, reconciles
 the durable registry as an exact plan prefix, and delegates advisory locking,

@@ -1,29 +1,22 @@
 # Spice Roadmap
 
-## Current bootstrap priority
+## Current developer-proof priority
 
-The annotation-driven application bootstrap is the foundation for subsequent
-starter work. `@Application` now composes generated command construction,
-conventional environment loading, structured command logging, signal handling,
-stable exit codes, and typed bounded shutdown. Explicit
-`@management.Enable(expose=[...])` and `@observability.Logging` companions are
-resolved through typed definitions, preserved in the immutable application IR,
-and rendered without runtime discovery.
+Before broader database, messaging, or starter expansion, Spice must prove one
+complete development workflow: a minimal annotated `main.go`, compile-time
+local-module discovery, stable generate/verify/build/run behavior, a
+last-known-good `spice dev` supervisor, one shared overlay-aware compiler
+service, editor-neutral LSP support, a polished Zed integration, and one secure
+external mail integration exercised by the modular commerce application.
 
-The next starter slices must reuse this deterministic feature pipeline. The
-public third-party annotation/manifest SDK now defines the portable metadata
-boundary. A committed `.spice/starters.json` selection now drives fail-closed
-CLI/compiler feature composition without dependency-presence activation. The
-compiler now validates explicitly supplied starter entrypoint functions in the
-same typed program, merges them into the exact provider graph, and renders
-ordinary direct calls with cleanup/rollback behavior and provenance-sensitive
-ownership hashes. The CLI now loads selected entrypoint packages as isolated
-auxiliary roots and maps explicit-constructor or annotation-selected subsets
-into that graph without import-based activation. The CLI now snapshots the
-selected Go module graph in read-only offline mode and requires every active
-starter dependency to match its exact reviewed module version and replacement
-identity before provider analysis. Automated module-cache discovery and richer
-compile-time conditions remain future work.
+The existing bootstrap, module, configuration, web, security, and data
+capabilities remain the foundation, but their coverage-map labels are not
+substitutes for executable acceptance. The next slices replace manual
+bootstrap-package roots with package-main discovery and a same-package command
+bridge, audit the stable core, deliver the dev loop and LSP, then complete the
+mail transports and reference workflow. Broad MongoDB, OpenSearch, Kafka,
+RabbitMQ, GraphQL, and WebSocket work remains paused until that workflow is
+repeatable on Windows and Linux.
 
 ## M0 — Product and compiler proof
 
@@ -78,9 +71,10 @@ compile-time conditions remain future work.
 - Kafka, RabbitMQ, and additional messaging starters.
 - Redis, MongoDB, Elasticsearch/OpenSearch, and selected data starters.
 - gRPC, GraphQL, WebSocket, and outbound HTTP clients.
-- Mail and development tooling.
+- Immutable mail composition, test delivery, and a secure SMTP starter.
+- Last-known-good development supervision and cross-platform restart.
 - Starter SDK and third-party annotation SDK.
-- Language server and editor extensions.
+- Shared overlay analysis, language server, and Zed integration.
 
 ## Release gates
 

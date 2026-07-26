@@ -71,6 +71,10 @@ The repository currently provides:
 - Deterministic server-side HTML templates with contextual escaping, strict
   missing-key execution, duplicate-definition rejection, bounded atomic
   responses, cancellation, and concurrent rendering.
+- Immutable transport-neutral mail messages with caller-owned identity and
+  time, stable envelope recipients, Bcc-safe deterministic MIME, text/HTML
+  alternatives, bounded attachments, defensive copies, and no hidden network
+  client.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
