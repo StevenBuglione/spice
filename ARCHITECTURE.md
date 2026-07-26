@@ -46,6 +46,9 @@ Valid Go source
 - One editor-neutral stdio language server that projects the service's
   versioned diagnostics, annotation/module/configuration metadata, and safe
   edits into LSP without parsing a second application model.
+- One thin repository-owned Zed adapter that resolves the caller-installed
+  `spice` executable and launches that language server beside `gopls`; it owns
+  no compiler metadata, source rewrite, download, or global workspace state.
 - Annotation target and argument validation.
 
 ### Application model

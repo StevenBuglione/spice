@@ -1,4 +1,4 @@
-.PHONY: fmt fuzz lint offline security smoke test vet verify
+.PHONY: fmt fuzz lint offline security smoke test vet verify zed
 
 fmt:
 	go run ./internal/qualitygate -mode=fmt
@@ -23,6 +23,9 @@ test:
 
 vet:
 	go run ./internal/qualitygate -mode=vet
+
+zed:
+	go run ./internal/qualitygate -mode=zed
 
 verify:
 	go run ./internal/qualitygate -mode=verify

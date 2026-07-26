@@ -80,6 +80,12 @@ to:
 
 The edit is a precise prefix insertion rather than a file rewrite.
 
+The server also provides full-document semantic tokens. The
+`@qualified.Annotation` portion of each valid declaration comment is reported
+as the standard `decorator` token; the `// ` punctuation remains ordinary Go
+comment syntax. Editors choose whether and how to combine semantic tokens with
+their native Go grammar.
+
 ## Workspace settings
 
 Clients may select a target and bounded package patterns during initialization:
@@ -121,7 +127,10 @@ continues.
 
 The server supports initialize, initialized, shutdown, exit, cancellation,
 document open/change/save/close, workspace-folder changes, configuration
-refresh, diagnostics, completion, hover, and quick fixes. Shutdown cancels
-active analyses. Caller context cancellation interrupts a blocked closable
-input stream. Multiple workspaces never share services, overlays, results, or
-caches.
+refresh, diagnostics, completion, hover, quick fixes, and full semantic tokens.
+Shutdown cancels active analyses. Caller context cancellation interrupts a
+blocked closable input stream. Multiple workspaces never share services,
+overlays, results, or caches.
+
+The first-party Zed adapter and its setup/fixture are documented in
+[`zed.md`](zed.md).

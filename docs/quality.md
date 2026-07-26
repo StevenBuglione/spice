@@ -1,6 +1,9 @@
 # Engineering quality
 
-Spice treats local verification as part of the product contract. The repository requires Go 1.26.5 and exposes the same Go-owned verifier through GNU Make on Windows, Linux, and macOS.
+Spice treats local verification as part of the product contract. The repository
+requires Go 1.26.5. The Zed adapter additionally pins Rust 1.93.0. The same
+Go-owned verifier orchestrates both toolchains through GNU Make on Windows,
+Linux, and macOS.
 
 ## Commands
 
@@ -12,10 +15,13 @@ make test      # shuffled and race-enabled tests
 make fuzz      # bounded parser, decoder, and validation fuzz smoke
 make offline   # product tests with GOPROXY=off and vendor only
 make smoke     # Spice CLI and executable example checks
+make zed       # Rust format/test/Clippy and Zed WASM release build
 make verify    # every required gate
 ```
 
 `make verify` also checks both modules with `go mod tidy -diff`, regenerates vendor contents into a temporary directory and compares them byte-for-byte, enforces 85% whole-repository statement coverage, and verifies the exact Go toolchain version.
+It runs `make zed`'s equivalent checks against the locked extension graph and
+the current Zed `wasm32-wasip2` target.
 
 ## Pinned tools
 
@@ -31,6 +37,11 @@ Development tools live in the isolated `tools` module so they cannot enter the S
 | NilAway | `f4f8ac24c032dec36186896ecca26c1f232ef777` | nil-flow analysis |
 
 The product module separately pins `golang.org/x/tools v0.48.0` because `compiler/load` owns the `go/packages` boundary.
+
+`editors/zed/rust-toolchain.toml` pins Rust 1.93.0, `rustfmt`, Clippy, and
+`wasm32-wasip2`; its `Cargo.lock` pins `zed_extension_api` 0.7.0 and the
+complete adapter build graph. Those dependencies are isolated from the Go
+runtime and compiler modules.
 
 ## Linter policy
 

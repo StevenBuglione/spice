@@ -2,6 +2,7 @@
 /bin/
 /dist/
 /coverage.out
+/editors/zed/target/
 *.test
 .DS_Store
 .idea/

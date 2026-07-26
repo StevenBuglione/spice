@@ -30,9 +30,12 @@ rejection, and bounded content-keyed caching. Generate, build, run, and dev
 now consume that service, including selected-starter metadata and reviewed
 module-version enforcement. `spice lsp` now publishes the same versioned
 diagnostics and provides compiler-derived annotation, module, configuration,
-hover, and safe-edit metadata over bounded stdio JSON-RPC. The next slice is
-the repository-owned Zed integration, followed by the mail transports and
-reference workflow. Broad MongoDB,
+hover, safe-edit, and semantic-token metadata over bounded stdio JSON-RPC.
+The repository-owned Zed extension launches that server beside `gopls`, uses
+the standard settings/PATH contracts on Windows and Linux, and preserves valid
+Go while providing native completion, diagnostics, quick fixes, and semantic
+annotation emphasis. The next slice is the bounded test mail transport,
+followed by secure SMTP and the final reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 

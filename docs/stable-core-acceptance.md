@@ -39,8 +39,9 @@ but the final reference workflow intentionally remains incomplete:
   persistence, migrations, and repository retrieval must be added to the final
   Docker-backed reference path.
 - Mail transport, retry, and observation remain pending.
-- `spice dev`, the overlay compiler service, and the editor-neutral LSP are
-  available; the polished Zed integration remains pending.
+- `spice dev`, the overlay compiler service, the editor-neutral LSP, and the
+  repository-owned Zed integration are available. The final Zed/dev reference
+  walkthrough remains coupled to the pending security/data/mail commerce flow.
 
 Those are integration deliverables, not missing foundational runtime behavior.
 They stay visible here and in `docs/spring-coverage.md`; they must be closed
