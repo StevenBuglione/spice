@@ -28,6 +28,7 @@ The repository currently provides:
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
 - Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, and synchronous observations.
 - Immutable reflection-free repository queries with explicit SQL, typed row decoders, exact single-result cardinality, bounded lists, and safe failures.
+- An opt-in pgx PostgreSQL starter with secure URL/TLS policy, explicit pool ownership, and real-container transaction/repository verification.
 - Deterministic module-owned migration plans with global version ordering, normalized SHA-256 checksums, registry drift detection, and dialect-owned locking/atomic application.
 - Immutable generic event topics with exact payload types, deterministic subscriber order, cancellation/failure semantics, and module-interaction observations.
 - A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
@@ -133,6 +134,9 @@ Transactional outbox storage and dispatch semantics are documented in
 
 Module-owned database migration planning is documented in
 [`docs/migrations.md`](docs/migrations.md).
+
+PostgreSQL pool configuration and integration testing are documented in
+[`docs/postgres.md`](docs/postgres.md).
 
 For a repository containing package-level `@Module` roots:
 

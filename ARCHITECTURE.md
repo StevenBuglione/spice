@@ -82,6 +82,10 @@ the durable registry as an exact plan prefix, and delegates advisory locking,
 transactional DDL policy, and atomic registry writes to explicit dialect
 backends.
 
+The PostgreSQL starter adapts pgx to the standard SQL contracts. Applications
+provide complete URLs, own pool lifetimes, and explicitly ping during startup;
+TLS hostname verification is the default and construction never connects.
+
 Application events use immutable generic topics assembled by generated code.
 Payloads retain exact Go types, subscriber order is stable, and delivery is
 synchronous unless an explicit asynchronous or durable adapter is injected.
