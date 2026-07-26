@@ -77,6 +77,9 @@ The repository currently provides:
   time, stable envelope recipients, Bcc-safe deterministic MIME, text/HTML
   alternatives, bounded attachments, defensive copies, and no hidden network
   client.
+- An instance-owned `mail/mailtest` sender with bounded immutable attempts,
+  deterministic injected failures, explicit overflow, payload-free
+  observations, concurrent inspection, and typed MIME snapshots.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`,

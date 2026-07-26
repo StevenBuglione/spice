@@ -84,5 +84,50 @@ type Sender interface {
 The context belongs to the caller. Transport implementations own connection
 timeouts, cancellation, retry classification, TLS policy, and bounded
 observations. They must not log message bodies, attachments, credentials, or
-recipient data. The planned test sender and SMTP starter will implement this
+recipient data. The bounded test sender and planned SMTP starter implement this
 same instance-owned contract.
+
+## Test transport
+
+`mail/mailtest` provides an instance-owned `mail.Sender` for unit tests and
+local reference applications:
+
+```go
+sender, err := mailtest.New(mailtest.Config{
+	Capacity: 100,
+	Failures: []error{temporaryFailure, nil},
+	Observer: func(ctx context.Context, observation mailtest.Observation) {
+		// Payload-free attempt metadata only.
+	},
+})
+if err != nil {
+	return err
+}
+```
+
+`Failures` is a defensive one-based attempt plan: a non-nil entry fails that
+accepted attempt, and an omitted or nil entry succeeds. This makes retry tests
+deterministic without a callback running inside sender locks. A context already
+canceled on entry returns immediately without consuming capacity.
+
+The sender retains at most `Capacity` accepted attempts. Once full, `Send`
+returns a typed `mailtest.CapacityError` that matches
+`mailtest.ErrCapacityExceeded`; it never drops a message silently. The
+monotonic attempt count includes an explicit capacity rejection, while retained
+history remains bounded.
+
+`Attempts` exposes delivered, configured-failure, and late-cancellation
+outcomes. `Messages` returns successful deliveries only. Each message snapshot
+provides defensive access to:
+
+- envelope sender and stable recipients;
+- decoded subject;
+- CRLF-normalized text and HTML bodies;
+- ordered MIME attachment filenames, content types, and bytes;
+- the exact serialized MIME.
+
+Returned slices and bytes are deep copies. Concurrent sends and inspection are
+race-safe. Built-in observations contain only attempt number, message ID, and
+outcome; they exclude recipient data, subject, bodies, attachments, and error
+text. The optional observer runs synchronously after the sender unlocks, so it
+may safely inspect the same sender.

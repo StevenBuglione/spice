@@ -38,7 +38,9 @@ but the final reference workflow intentionally remains incomplete:
 - Commerce uses instance-owned in-memory order state; transactional SQL
   persistence, migrations, and repository retrieval must be added to the final
   Docker-backed reference path.
-- Mail transport, retry, and observation remain pending.
+- The bounded test mail transport, deterministic failure injection, decoded
+  inspection, and payload-free observations are available. Secure SMTP
+  transport and retry classification remain pending.
 - `spice dev`, the overlay compiler service, the editor-neutral LSP, and the
   repository-owned Zed integration are available. The final Zed/dev reference
   walkthrough remains coupled to the pending security/data/mail commerce flow.

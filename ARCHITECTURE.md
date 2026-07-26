@@ -156,7 +156,10 @@ and emits deterministic CRLF MIME without clocks, hostnames, randomness, or
 network access. Bcc recipients remain in the immutable SMTP envelope and never
 appear in serialized headers. Delivery is an explicit `mail.Sender` dependency,
 so test and SMTP transports can own cancellation, retry, security, and
-observation policy without a global client.
+observation policy without a global client. The test adapter owns a bounded
+attempt history, deterministic failure plan, defensive decoded MIME snapshots,
+and payload-free observations; overflow is an explicit failure rather than
+silent eviction.
 
 Database migrations form one immutable application-global version sequence
 while retaining module ownership. Core normalizes and checksums SQL, reconciles
