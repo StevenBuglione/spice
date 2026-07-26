@@ -32,6 +32,7 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		{name: "observability.Logging", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
 		{name: "security.Authorize", targets: []annotation.Target{annotation.TargetMethod}},
+		{name: "schedule.FixedDelay", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "Service", targets: []annotation.Target{annotation.TargetType}},
 	}
 
@@ -58,6 +59,10 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 				assertAuthorizationDefinition(t, definition)
 				return
 			}
+			if test.name == "schedule.FixedDelay" {
+				assertScheduleDefinition(t, definition)
+				return
+			}
 			if test.argumentName == "" {
 				if len(definition.Arguments) != 0 {
 					t.Fatalf("%s arguments = %#v, want none", test.name, definition.Arguments)
@@ -79,6 +84,43 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 				t.Fatalf("%s list element kinds = %#v", test.name, argument.ListElementKinds)
 			}
 		})
+	}
+}
+
+func assertScheduleDefinition(
+	t *testing.T,
+	definition annotation.Definition,
+) {
+	t.Helper()
+	if len(definition.Arguments) != 3 {
+		t.Fatalf(
+			"schedule.FixedDelay arguments = %#v, want 3",
+			definition.Arguments,
+		)
+	}
+	want := []struct {
+		name     string
+		kind     annotation.Kind
+		required bool
+	}{
+		{name: "delay", kind: annotation.KindString, required: true},
+		{name: "initialDelay", kind: annotation.KindString},
+		{name: "continueOnError", kind: annotation.KindBoolean},
+	}
+	for index, expected := range want {
+		argument := definition.Arguments[index]
+		if argument.Name != expected.name ||
+			argument.Required != expected.required ||
+			!reflect.DeepEqual(
+				argument.Kinds,
+				[]annotation.Kind{expected.kind},
+			) {
+			t.Fatalf(
+				"schedule.FixedDelay argument %d = %#v",
+				index,
+				argument,
+			)
+		}
 	}
 }
 

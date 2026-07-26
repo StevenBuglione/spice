@@ -115,6 +115,15 @@ authentication and runs outside the generated guard; route observation remains
 outermost. There is no global security context, runtime annotation lookup, or
 claim-bearing diagnostic.
 
+Fixed-delay scheduling is explicit method metadata. A qualified
+`@schedule.FixedDelay` declaration must belong to exactly one provider output
+and use the exact context-aware error signature. Normalized durations and
+module ownership enter immutable application IR and deterministic ownership
+hashes. Generation supplies direct method values to one instance-owned
+scheduler, ordered after provider startup and before provider shutdown.
+Application options retain caller-owned lifetime, virtual-time, and observation
+seams; there is no runtime scan, global scheduler, or hidden clock.
+
 ### Starters
 
 Third-party integrations live under `starter/` and remain opt-in at the package

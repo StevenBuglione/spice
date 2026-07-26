@@ -65,7 +65,7 @@ compile-time conditions remain future work.
 - Security policies, OAuth2/OIDC resource server support.
 - SQL, transaction management, migrations, and repository support.
 - Cache abstraction.
-- Scheduling and asynchronous execution.
+- Annotation-driven fixed-delay scheduling and asynchronous execution.
 - Typed application events and durable publication.
 
 ## M4 — Broad Spring Boot coverage

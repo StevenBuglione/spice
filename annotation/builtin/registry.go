@@ -94,6 +94,25 @@ func Registry() annotation.Registry {
 				},
 			},
 		},
+		annotation.Definition{
+			Name:    "schedule.FixedDelay",
+			Targets: annotation.Targets(annotation.TargetMethod),
+			Arguments: []annotation.ArgumentDefinition{
+				{
+					Name:     "delay",
+					Kinds:    []annotation.Kind{annotation.KindString},
+					Required: true,
+				},
+				{
+					Name:  "initialDelay",
+					Kinds: []annotation.Kind{annotation.KindString},
+				},
+				{
+					Name:  "continueOnError",
+					Kinds: []annotation.Kind{annotation.KindBoolean},
+				},
+			},
+		},
 		annotation.Definition{Name: "Service", Targets: annotation.Targets(annotation.TargetType)},
 	)
 }

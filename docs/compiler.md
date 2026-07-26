@@ -113,13 +113,32 @@ Each participating provider contributes one deterministic component with an opti
 
 `spice verify` runs lifecycle validation after provider-graph validation. The compiler stage is quiet and never executes methods, providers, or cleanup callbacks. It records metadata only. The public `lifecycle.Coordinator` implements caller-context state transitions, dependency-order start, reverse successful-start stop, reverse construction cleanup, startup rollback, deterministic joined errors, idempotent stop, and run/wait/shutdown composition. Generated code supplies direct hook method values. Reusable application APIs retain caller-owned signals, shutdown contexts, logging, and command policy; only the explicitly invoked generated command helper applies Spice's process conventions.
 
+## Typed scheduled-method catalog
+
+`compiler/schedule` consumes that same typed program and exact provider
+catalog. `@schedule.FixedDelay` methods use the lifecycle-compatible
+`func(receiver)(context.Context) error` signature. The compiler validates exact
+receiver ownership, the canonical Go 1.26 context identity, exported
+cross-package accessibility, required positive delay, optional non-negative
+initial delay, and explicit failure-continuation policy. It sorts jobs by stable
+method identity and returns defensive immutable metadata.
+
+Generation creates one public `schedule.Scheduler` after providers are
+constructed. Its job definitions carry module-or-package ownership and direct
+provider method values. The scheduler is the last generated lifecycle hook to
+start and the first to stop. `ApplicationOptions` exposes schedule context,
+waiter, and observer seams for embedding and deterministic tests. Scheduler
+construction errors pass through coordinator abort, so existing provider
+cleanup still rolls back in reverse order.
+
 ## Immutable application model
 
 `compiler/application` is the authoritative generation input assembled from the
-same loaded program and resolved annotations. It runs the provider, graph, and
-controller, and lifecycle stages once, retains dependency-first provider order
-and cleanup flags, reorders lifecycle components by that construction order,
-and validates typed `@Application` roots.
+same loaded program and resolved annotations. It runs the provider, graph,
+controller, lifecycle, and scheduling stages once, retains dependency-first
+provider order and cleanup flags, reorders lifecycle components by that
+construction order, retains deterministic scheduled jobs, and validates typed
+`@Application` roots.
 
 An `@Application` marker is an argument-free package-level function with no type
 parameters, variadic parameter, or results. Its ordinary parameter types are
@@ -195,6 +214,8 @@ aliases, generated configuration schema/binders, generated typed/raw
 exported provider calls in dependency-first order, existing graph-edge
 arguments, immediate cleanup registration, wrapped stable errors, and direct
 lifecycle method values.
+Scheduled targets additionally emit one directly wired scheduler whose
+normalized definitions participate in the canonical ownership hash.
 Targets with controllers also emit
 `internal/spicegen/<target>/openapi.json`; it is deterministic, manifest-owned,
 and protected by the same safe apply/check/diff protocol as generated Go.

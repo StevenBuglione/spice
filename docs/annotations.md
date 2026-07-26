@@ -136,6 +136,26 @@ The compiler records deterministic typed metadata only. `spice verify` never inv
 
 Generated `Run` accepts the caller's run context and a caller-supplied shutdown-context factory. This keeps operating-system signals and fresh shutdown deadlines in the command while allowing the framework to stop gracefully after cancellation without inventing a hidden background context.
 
+## Fixed-delay scheduling
+
+`@schedule.FixedDelay` targets an exported method owned by exactly one exact
+`@Bean` output. The method contract is
+`func(receiver)(context.Context) error`. Its required named `delay` argument
+must be a positive Go duration string. Optional `initialDelay` must be
+non-negative, and optional `continueOnError` is Boolean.
+
+```go
+// @schedule.FixedDelay(delay="30s", initialDelay="5s")
+func (*Inventory) Refresh(context.Context) error {
+    return nil
+}
+```
+
+The compiler normalizes durations into immutable scheduling IR and generation
+emits a direct method value. A single generated scheduler starts after ordinary
+provider hooks and shuts down before them. No method body executes during
+analysis, and no runtime annotation lookup or global scheduler exists.
+
 ## Application modules
 
 `@Module` is a package-documentation annotation. The annotated package's full
@@ -197,6 +217,7 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |
 | `@security.Authorize` | `@Get` or `@Post` method | `authenticated` Boolean; `anyRoles`, `allRoles`, and `allScopes` string lists; all optional and named-only, but at least one requirement is mandatory |
+| `@schedule.FixedDelay` | Exact provider-owned exported method | `delay` duration string, required; `initialDelay` duration string and `continueOnError` Boolean, optional; all named-only |
 | `@Service` | Type | None |
 
 Annotations may be discovered on packages, types, functions, methods, variables, and constants. Each annotation definition determines which declaration kinds and invocation forms are legal.
