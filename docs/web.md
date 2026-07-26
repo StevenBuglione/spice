@@ -49,6 +49,12 @@ status, bytes, duration, and panic state. Observation wraps caller middleware,
 so authentication rejections and other short circuits are still measured.
 Typed-nil observers fail application construction.
 
+An explicit `@security.Authorize` on a route adds a generated authorization
+guard inside caller middleware and outside the controller adapter. This order
+lets caller-owned authentication middleware attach a verified principal before
+the deny-by-default policy runs. Unannotated routes remain unchanged. See
+`docs/security.md` for the exact policy and observer contracts.
+
 The response wrapper preserves flushing, hijacking, HTTP/2 push, streaming
 `io.ReaderFrom`, and `http.ResponseController` unwrapping. This lets
 OpenTelemetry or a metrics package adapt the seam without changing generated
@@ -124,6 +130,9 @@ and header parameters; JSON request bodies; JSON or 204 success responses; and
 the shared RFC 9457 problem schema. Component schemas preserve JSON field
 names, omission rules, arrays, maps, pointers, recursive references,
 `time.Time`, and `time.Duration`.
+
+Protected operations additionally declare the generated Bearer security scheme,
+401/403 problem responses, and stable `x-spice-authorization` requirements.
 
 Raw `net/http` routes remain visible with an explicitly unconstrained response
 because Spice cannot safely infer a handler-owned wire contract. Module import

@@ -196,6 +196,7 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@OnStart` | Method | None |
 | `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |
+| `@security.Authorize` | `@Get` or `@Post` method | `authenticated` Boolean; `anyRoles`, `allRoles`, and `allScopes` string lists; all optional and named-only, but at least one requirement is mandatory |
 | `@Service` | Type | None |
 
 Annotations may be discovered on packages, types, functions, methods, variables, and constants. Each annotation definition determines which declaration kinds and invocation forms are legal.

@@ -41,7 +41,9 @@ The repository currently provides:
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
 - Lifecycle-owned fixed-delay scheduling with non-overlapping jobs, explicit failure continuation, graceful drain, panic containment, and virtual-time support.
-- Immutable authenticated principals and deny-by-default role/scope policies with safe RFC 9457 HTTP guards and bounded authorization observations.
+- Immutable authenticated principals plus compile-time `@security.Authorize`
+  route policies that generate deny-by-default RFC 9457 guards, stable
+  module/policy identities, and bounded authorization observations.
 - An opt-in OIDC JWT resource server with strict bearer parsing, signature/issuer/audience/expiry verification, exact claim mapping, bounded discovery/JWK transport, and safe authentication failures.
 - An opt-in OAuth2 client-credentials integration with separate timed transports, HTTPS-only bounded token acquisition, safe failures, and cached Bearer authorization.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
@@ -71,7 +73,7 @@ type UserController struct{}
 Qualified annotations are available for collisions:
 
 ```go
-// @security.Authorize(roles=["admin"])
+// @security.Authorize(anyRoles=["admin"], allScopes=["orders:write"])
 ```
 
 ## Run it

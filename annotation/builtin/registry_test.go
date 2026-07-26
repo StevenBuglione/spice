@@ -31,6 +31,7 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		{name: "management.Enable", targets: []annotation.Target{annotation.TargetFunction}, argumentName: "expose", kinds: []annotation.Kind{annotation.KindList}, required: true},
 		{name: "observability.Logging", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
+		{name: "security.Authorize", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "Service", targets: []annotation.Target{annotation.TargetType}},
 	}
 
@@ -53,6 +54,10 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 			if definition.Repeatable != test.repeatable {
 				t.Fatalf("%s repeatable = %t, want %t", test.name, definition.Repeatable, test.repeatable)
 			}
+			if test.name == "security.Authorize" {
+				assertAuthorizationDefinition(t, definition)
+				return
+			}
 			if test.argumentName == "" {
 				if len(definition.Arguments) != 0 {
 					t.Fatalf("%s arguments = %#v, want none", test.name, definition.Arguments)
@@ -74,6 +79,52 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 				t.Fatalf("%s list element kinds = %#v", test.name, argument.ListElementKinds)
 			}
 		})
+	}
+}
+
+func assertAuthorizationDefinition(
+	t *testing.T,
+	definition annotation.Definition,
+) {
+	t.Helper()
+	if len(definition.Arguments) != 4 {
+		t.Fatalf(
+			"security.Authorize arguments = %#v, want 4",
+			definition.Arguments,
+		)
+	}
+	want := []struct {
+		name string
+		kind annotation.Kind
+	}{
+		{name: "authenticated", kind: annotation.KindBoolean},
+		{name: "anyRoles", kind: annotation.KindList},
+		{name: "allRoles", kind: annotation.KindList},
+		{name: "allScopes", kind: annotation.KindList},
+	}
+	for index, expected := range want {
+		argument := definition.Arguments[index]
+		if argument.Name != expected.name ||
+			!reflect.DeepEqual(argument.Kinds, []annotation.Kind{expected.kind}) {
+			t.Fatalf(
+				"security.Authorize argument %d = %#v, want %s %s",
+				index,
+				argument,
+				expected.name,
+				expected.kind,
+			)
+		}
+		if expected.kind == annotation.KindList &&
+			!reflect.DeepEqual(
+				argument.ListElementKinds,
+				[]annotation.Kind{annotation.KindString},
+			) {
+			t.Fatalf(
+				"security.Authorize argument %d list kinds = %#v",
+				index,
+				argument.ListElementKinds,
+			)
+		}
 	}
 }
 

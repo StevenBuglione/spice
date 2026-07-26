@@ -69,6 +69,31 @@ func Registry() annotation.Registry {
 				{Name: "path", Kinds: []annotation.Kind{annotation.KindString}, Required: true, Positional: true},
 			},
 		},
+		annotation.Definition{
+			Name:    "security.Authorize",
+			Targets: annotation.Targets(annotation.TargetMethod),
+			Arguments: []annotation.ArgumentDefinition{
+				{
+					Name:  "authenticated",
+					Kinds: []annotation.Kind{annotation.KindBoolean},
+				},
+				{
+					Name:             "anyRoles",
+					Kinds:            []annotation.Kind{annotation.KindList},
+					ListElementKinds: []annotation.Kind{annotation.KindString},
+				},
+				{
+					Name:             "allRoles",
+					Kinds:            []annotation.Kind{annotation.KindList},
+					ListElementKinds: []annotation.Kind{annotation.KindString},
+				},
+				{
+					Name:             "allScopes",
+					Kinds:            []annotation.Kind{annotation.KindList},
+					ListElementKinds: []annotation.Kind{annotation.KindString},
+				},
+			},
+		},
 		annotation.Definition{Name: "Service", Targets: annotation.Targets(annotation.TargetType)},
 	)
 }

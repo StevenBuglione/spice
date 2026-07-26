@@ -107,6 +107,14 @@ synchronous unless an explicit asynchronous or durable adapter is injected.
 Publisher/subscriber module identities feed architecture-aware observations
 without a global event bus.
 
+HTTP authorization is explicit route metadata. A qualified
+`@security.Authorize` declaration is validated against a real controller
+method, normalized into immutable IR with module-or-package ownership, and
+rendered as direct policy/guard construction. Caller middleware owns
+authentication and runs outside the generated guard; route observation remains
+outermost. There is no global security context, runtime annotation lookup, or
+claim-bearing diagnostic.
+
 ### Starters
 
 Third-party integrations live under `starter/` and remain opt-in at the package
