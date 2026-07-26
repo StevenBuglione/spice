@@ -85,10 +85,14 @@ The repository currently provides:
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`,
   `generate`, `build`, `run`, last-known-good `dev`, and editor-neutral `lsp`
   commands.
-- A repository-owned Zed extension that launches the same LSP beside `gopls`
-  for completion, diagnostics, hover, modifier-click annotation navigation,
-  safe quick fixes, module/configuration metadata, and structured valid-Go
-  annotation highlighting on Windows and Linux.
+- A repository-owned GoLand plugin that renders canonical declaration comments
+  as zero-width-prefix annotations, applies configurable native syntax colors,
+  provides highlighted PSI navigation to virtual definitions, and launches the
+  same LSP for compiler-derived editor features.
+- A supported secondary Zed extension that launches the same LSP beside
+  `gopls` for completion, diagnostics, hover, modifier-click annotation
+  navigation, safe quick fixes, module/configuration metadata, and structured
+  valid-Go annotation highlighting on Windows and Linux.
 - A generated-application HTTP test slice with loopback-only serving, bounded
   detached responses, strict JSON/problem decoding, construction rollback,
   and idempotent lifecycle cleanup, plus transaction-scoped generic SQL
@@ -195,9 +199,15 @@ The stdio language server, versioned diagnostics, annotation/configuration
 completion, hover, safe code actions, and workspace settings are documented in
 [`docs/lsp.md`](docs/lsp.md).
 
-The Zed development extension, PATH/settings setup, modifier-click definition
-navigation, semantic annotation presentation, supported-API limitation, and
-diagnostic fixture are documented in [`docs/zed.md`](docs/zed.md).
+The primary GoLand plugin, exact prefix concealment, native color settings,
+PSI navigation, language-server setup, installable archive, and repeatable
+light/Darcula visual acceptance path are documented in
+[`docs/goland.md`](docs/goland.md).
+
+The supported secondary Zed extension, PATH/settings setup, modifier-click
+definition navigation, semantic annotation presentation, supported-API
+limitation, and diagnostic fixture are documented in
+[`docs/zed.md`](docs/zed.md).
 
 The recursive watcher, deterministic debounce policy, unique candidate builds,
 last-known-good recovery, and graceful restart controls used by `spice dev` are
@@ -324,7 +334,8 @@ mapping, lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `internal/cli/`: CLI implementation.
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
-- `editors/zed/`: pinned Rust/WASM adapter that launches `spice lsp` for Go.
+- `editors/goland/`: primary native IntelliJ Platform presentation and LSP adapter.
+- `editors/zed/`: supported secondary Rust/WASM adapter that launches `spice lsp` for Go.
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
 - `data/`: public `database/sql` executor, transaction manager, typed repository query, and observation contracts.
 - `migration/`: deterministic module-owned plans, registry reconciliation, and execution contracts.

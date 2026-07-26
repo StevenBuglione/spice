@@ -1,14 +1,16 @@
 # Engineering quality
 
 Spice treats local verification as part of the product contract. The repository
-requires Go 1.26.5. The Zed adapter additionally pins Rust 1.93.0. The same
-Go-owned verifier orchestrates both toolchains through GNU Make on Windows,
-Linux, and macOS.
+requires Go 1.26.5. The primary GoLand adapter additionally pins Java 25,
+Gradle 9.6.1, and GoLand platform build `262.8665.336`; the supported Zed
+adapter pins Rust 1.93.0. The same Go-owned verifier orchestrates all three
+toolchains through GNU Make on Windows, Linux, and macOS.
 
 ## Commands
 
 ```text
 make fmt       # apply goimports and gofumpt
+make goland    # native tests, visual renders, archive checks, Plugin Verifier
 make lint      # golangci-lint plus NilAway
 make security  # gosec plus govulncheck
 make test      # shuffled and race-enabled tests
@@ -20,8 +22,11 @@ make verify    # every required gate
 ```
 
 `make verify` also checks both modules with `go mod tidy -diff`, regenerates vendor contents into a temporary directory and compares them byte-for-byte, enforces 85% whole-repository statement coverage, and verifies the exact Go toolchain version.
-It runs `make zed`'s equivalent checks against the locked extension graph and
-the current Zed `wasm32-wasip2` target.
+It runs `make goland`'s equivalent Java compiler, real IDE fixture, visual
+render, physical-source/save/copy preservation checks, packaging, structural,
+and binary compatibility checks. It also runs
+`make zed`'s equivalent checks against the locked extension graph and current
+Zed `wasm32-wasip2` target.
 
 ## Pinned tools
 
@@ -37,6 +42,15 @@ Development tools live in the isolated `tools` module so they cannot enter the S
 | NilAway | `f4f8ac24c032dec36186896ecca26c1f232ef777` | nil-flow analysis |
 
 The product module separately pins `golang.org/x/tools v0.48.0` because `compiler/load` owns the `go/packages` boundary.
+
+`editors/goland` pins IntelliJ Platform Gradle Plugin 2.18.1, GoLand
+2026.2.0.1 build `262.8665.336`, IntelliJ Plugin Verifier 1.409, and JUnit
+4.13.2. Its Gradle 9.6.1 distribution and wrapper JAR both have
+repository-checked SHA-256 values, while `gradle.lockfile` fixes the complete
+development graph. Java compilation enables all lint categories and treats
+warnings as errors. The archive contains no Java runtime or duplicate compiler
+and is isolated from the Go product modules. See
+[`dependency-reviews/goland-plugin.md`](dependency-reviews/goland-plugin.md).
 
 `editors/zed/rust-toolchain.toml` pins Rust 1.93.0, `rustfmt`, Clippy, and
 `wasm32-wasip2`; its `Cargo.lock` pins `zed_extension_api` 0.7.0 and the

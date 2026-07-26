@@ -1,10 +1,13 @@
 # Zed integration
 
-The repository-owned extension in `editors/zed` attaches the editor-neutral
-`spice lsp` server to Go buffers. It adds Spice annotation completion,
-versioned diagnostics, hover, definition and document-link navigation, quick
-fixes, module/configuration metadata, and semantic annotation highlighting
-while leaving `gopls` responsible for ordinary Go language features.
+Zed is Spice's supported secondary editor integration. GoLand is the primary
+target because its native folding and PSI APIs can provide exact zero-width
+prefix concealment and virtual declarations; see [`goland.md`](goland.md).
+The repository-owned extension in `editors/zed` attaches the same
+editor-neutral `spice lsp` server to Go buffers. It adds Spice annotation
+completion, versioned diagnostics, hover, definition and document-link
+navigation, quick fixes, module/configuration metadata, and semantic annotation
+highlighting while leaving `gopls` responsible for ordinary Go features.
 
 The extension contains no compiler and downloads nothing. It resolves an
 explicitly configured executable first and otherwise looks for `spice` on the

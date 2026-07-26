@@ -1,10 +1,13 @@
-.PHONY: fmt fuzz lint offline security smoke test vet verify zed
+.PHONY: fmt fuzz goland lint offline security smoke test vet verify zed
 
 fmt:
 	go run ./internal/qualitygate -mode=fmt
 
 fuzz:
 	go run ./internal/qualitygate -mode=fuzz
+
+goland:
+	go run ./internal/qualitygate -mode=goland
 
 lint:
 	go run ./internal/qualitygate -mode=lint

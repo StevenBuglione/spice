@@ -6,8 +6,9 @@ Before broader database, messaging, or starter expansion, Spice must prove one
 complete development workflow: a minimal annotated `main.go`, compile-time
 local-module discovery, stable generate/verify/build/run behavior, a
 last-known-good `spice dev` supervisor, one shared overlay-aware compiler
-service, editor-neutral LSP support, a polished Zed integration, and one secure
-external mail integration exercised by the modular commerce application.
+service, editor-neutral LSP support, a polished primary GoLand integration, a
+supported secondary Zed integration, and one secure external mail integration
+exercised by the modular commerce application.
 
 The preferred package-main discovery and same-package command bridge are now
 exercised by the commerce application; the compatible legacy layout remains
@@ -31,14 +32,19 @@ now consume that service, including selected-starter metadata and reviewed
 module-version enforcement. `spice lsp` now publishes the same versioned
 diagnostics and provides compiler-derived annotation, module, configuration,
 hover, safe-edit, and semantic-token metadata over bounded stdio JSON-RPC.
-The repository-owned Zed extension launches that server beside `gopls`, uses
-the standard settings/PATH contracts on Windows and Linux, and preserves valid
-Go while providing native completion, diagnostics, exact modifier-click
-annotation navigation, quick fixes, and structured semantic annotation
-presentation. The bounded test mail transport now supplies immutable
-decoded delivery snapshots, deterministic failure injection, explicit
-capacity behavior, and payload-free observations. The next slice is secure
-SMTP, followed by the final reference workflow. Broad MongoDB,
+The repository-owned GoLand plugin is now the primary editor target. Its native
+folding pipeline reclaims the exact physical width of canonical `// `
+prefixes, its native annotator supplies configurable structured color, and
+highlighted PSI references navigate built-ins to virtual definition rows. Real
+GoLand fixtures prove collapsed non-expandable regions and emit inspectable
+light/Darcula renders; the same public LSP integration preserves one semantic
+compiler pipeline. The Zed extension remains supported beside `gopls` on
+Windows and Linux for native completion, diagnostics, modifier-click
+navigation, quick fixes, and semantic-token presentation, within Zed's public
+no-concealment boundary. The bounded test mail transport now supplies
+immutable decoded delivery snapshots, deterministic failure injection,
+explicit capacity behavior, and payload-free observations. The next slice is
+secure SMTP, followed by the final reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 
@@ -98,7 +104,8 @@ that workflow is repeatable on Windows and Linux.
 - Immutable mail composition, test delivery, and a secure SMTP starter.
 - Last-known-good development supervision and cross-platform restart.
 - Starter SDK and third-party annotation SDK.
-- Shared overlay analysis, language server, and Zed integration.
+- Shared overlay analysis, language server, primary GoLand integration, and
+  supported Zed integration.
 
 ## Release gates
 

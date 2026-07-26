@@ -41,9 +41,14 @@ but the final reference workflow intentionally remains incomplete:
 - The bounded test mail transport, deterministic failure injection, decoded
   inspection, and payload-free observations are available. Secure SMTP
   transport and retry classification remain pending.
-- `spice dev`, the overlay compiler service, the editor-neutral LSP, and the
-  repository-owned Zed integration are available. The final Zed/dev reference
-  walkthrough remains coupled to the pending security/data/mail commerce flow.
+- `spice dev`, the overlay compiler service, the editor-neutral LSP, the
+  primary GoLand integration, and the supported Zed integration are available.
+  GoLand's exact prefix concealment, native token colors, PSI navigation, and
+  light/Darcula visual reports are repository-gated, including proof that
+  concealment preserves saved and copied valid Go. Raw annotation lines receive
+  exact LSP diagnostics and a versioned comment-prefix repair instead of an
+  opaque temporary-loader failure. The final editor/dev reference walkthrough
+  remains coupled to the pending security/data/mail commerce flow.
 
 Those are integration deliverables, not missing foundational runtime behavior.
 They stay visible here and in `docs/spring-coverage.md`; they must be closed

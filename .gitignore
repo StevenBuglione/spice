@@ -3,6 +3,9 @@
 /dist/
 /coverage.out
 /editors/zed/target/
+/editors/goland/.gradle/
+/editors/goland/.intellijPlatform/
+/editors/goland/build/
 *.test
 .DS_Store
 .idea/
