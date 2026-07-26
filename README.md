@@ -80,7 +80,8 @@ The repository currently provides:
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`,
-  `generate`, `build`, `run`, and last-known-good `dev` commands.
+  `generate`, `build`, `run`, last-known-good `dev`, and editor-neutral `lsp`
+  commands.
 - A generated-application HTTP test slice with loopback-only serving, bounded
   detached responses, strict JSON/problem decoding, construction rollback,
   and idempotent lifecycle cleanup, plus transaction-scoped generic SQL
@@ -180,8 +181,12 @@ information, and version-aware safe edit contracts are documented in
 [`docs/diagnostics.md`](docs/diagnostics.md).
 
 The isolated overlay-aware analysis API shared by generation, run, dev, and
-future editor clients is documented in
+editor clients is documented in
 [`docs/compiler-service.md`](docs/compiler-service.md).
+
+The stdio language server, versioned diagnostics, annotation/configuration
+completion, hover, safe code actions, and workspace settings are documented in
+[`docs/lsp.md`](docs/lsp.md).
 
 The recursive watcher, deterministic debounce policy, unique candidate builds,
 last-known-good recovery, and graceful restart controls used by `spice dev` are

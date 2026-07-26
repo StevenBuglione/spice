@@ -453,3 +453,20 @@ The renderer adds deterministic capacity/TTL schema properties, constructs the
 bounded typed store after providers, and emits direct get/call/put route logic.
 Cache identity and exact key/value metadata participate in the ownership hash;
 configuration or observer failures abort through reverse provider cleanup.
+
+## Editor analysis projection
+
+`compiler/service` packages the same load, resolution, validation, module,
+application, and pure-generation stages as an instance-owned overlay-aware
+analysis API. `spice lsp` projects that result into standard JSON-RPC rather
+than parsing comments or rebuilding a second editor model. Resolved definitions
+drive annotation/argument completion, bootstrap definitions supply allowed
+values, the module graph supplies exact module APIs, generated configuration
+metadata supplies property completion/hover, and shared suggested fixes become
+version-checked workspace edits.
+
+Every open-document set is one compiler overlay request. A monotonic workspace
+sequence cancels and rejects stale work; editor publication additionally checks
+the current document versions. The service never applies its generation plan,
+so analysis cannot write generated source or ownership manifests. See
+[`lsp.md`](lsp.md) for the wire contract and editor setup.

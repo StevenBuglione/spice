@@ -11,6 +11,13 @@ type UserController struct{}
 
 The parser also accepts `//@Controller`, but `gofmt` inserts a space after `//`, making `// @Controller` the canonical documented form.
 
+`spice lsp` completes this canonical form directly. Typing `@` on an otherwise
+empty declaration line may insert the `// ` prefix together with the selected
+annotation and required-argument snippet. A raw `@Annotation` line is invalid
+Go; the language server reports the ordinary Go/compiler diagnostic and offers
+a version-checked prefix insertion. It never stores Java-style syntax or hides
+an invalid source representation from `gofmt`, `go test`, or other Go tools.
+
 ## Names
 
 Core declaration names are unqualified. Bootstrap features use qualified

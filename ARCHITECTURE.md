@@ -43,6 +43,9 @@ Valid Go source
   edits.
 - One instance-owned overlay compiler service with bounded content-keyed
   caching and per-workspace stale-request rejection.
+- One editor-neutral stdio language server that projects the service's
+  versioned diagnostics, annotation/module/configuration metadata, and safe
+  edits into LSP without parsing a second application model.
 - Annotation target and argument validation.
 
 ### Application model

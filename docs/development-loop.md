@@ -99,7 +99,8 @@ attached to a failure.
 ## Current boundary
 
 This slice provides the complete CLI supervisor, shared compiler-service
-integration, and portable fallback watcher. Editor/LSP debounce, a native
-notification accelerator, and Zed integration are separate remaining
-developer-proof deliverables. Generated application code remains ordinary
-committed Go and requires no Spice compiler at runtime.
+integration, and portable fallback watcher. The editor-neutral LSP now shares
+the same compiler analysis and stale-revision semantics. A native notification
+accelerator and Zed integration are separate remaining developer-proof
+deliverables. Generated application code remains ordinary committed Go and
+requires no Spice compiler at runtime.

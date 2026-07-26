@@ -77,8 +77,9 @@ changes whenever extension metadata changes.
 There is no global workspace, cache, registry mutation, filesystem write, or
 network policy override.
 
-`spice generate`, `spice build`, `spice run`, and `spice dev` all consume this
-service. The development supervisor reuses one instance and submits its
+`spice generate`, `spice build`, `spice run`, `spice dev`, and `spice lsp` all
+consume this service. The development supervisor reuses one instance and submits its
 monotonic change revision as the analysis sequence, so obsolete work cannot be
-published after a newer save. Editor and LSP clients use the same API with
-versioned overlays rather than reconstructing compiler behavior.
+published after a newer save. The language server uses the same API with
+versioned overlays and projects the returned metadata rather than reconstructing
+compiler behavior.
