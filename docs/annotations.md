@@ -182,8 +182,9 @@ The event must be an exported named value. Every marker parameter must select
 exactly one listener for that payload, every annotated listener must belong to
 one topic, and an ordinary provider may depend on the synthetic exact
 `event.Publisher[Event]` node. Provider cycles and duplicate publishers fail in
-the normal graph/catalog stages. The compiler metadata is available in this
-slice; deterministic direct `event.NewTopic` generation follows separately.
+the normal graph/catalog stages. Generation binds the listener methods directly
+to their constructed provider receivers and constructs an instance-owned
+`event.Topic[Event]`; it never calls the marker body.
 
 ## Transactional HTTP routes
 

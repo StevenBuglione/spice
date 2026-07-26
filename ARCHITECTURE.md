@@ -117,9 +117,12 @@ select exact provider-owned `@event.Listener` methods without executing either
 marker or listener bodies. The compiler carries payload, module, order,
 subscriber, and graph metadata in immutable IR and fails on unassigned
 listeners, duplicate publishers, missing exact owners, and cycles. Direct
-generated topic construction follows as the next bounded slice. Delivery
-remains synchronous unless an explicit asynchronous or durable adapter is
-injected, and there is no global event bus.
+generation constructs one `event.Topic[T]`, binds listener method values to
+already-constructed provider receivers, injects application-owned observers,
+and assigns the result to the synthetic exact publisher dependency. Topic
+construction failure participates in ordinary reverse provider rollback.
+Delivery remains synchronous unless an explicit asynchronous or durable
+adapter is injected, and there is no global event bus.
 
 HTTP authorization is explicit route metadata. A qualified
 `@security.Authorize` declaration is validated against a real controller

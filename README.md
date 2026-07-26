@@ -38,7 +38,7 @@ The repository currently provides:
 - Immutable generic event topics with exact payload types, deterministic
   subscriber order, cancellation/failure semantics, module-interaction
   observations, and compile-time `@event.Topic`/`@event.Listener` graph
-  metadata.
+  metadata rendered as direct, rollback-safe topic construction.
 - A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.

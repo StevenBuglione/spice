@@ -38,16 +38,18 @@ The marker becomes a synthetic exact `event.Publisher[OrderPlaced]` provider.
 Its parameters are ordinary exact dependencies on listener-owner providers.
 The compiler validates method signatures, provider ownership, exported payload
 identity, unique topic selection, module ownership, deterministic order, and
-the resulting provider graph. The immutable IR is available now; direct
-generated `event.NewTopic` construction is the next bounded generation slice.
+the resulting provider graph. Generation calls `event.NewTopic` directly,
+binds each listener method to its already-constructed provider receiver, and
+assigns the topic to the synthetic exact publisher variable. It never calls
+the marker body.
 
 Producers depend on `event.Publisher[OrderPlaced]`, preserving the exact event
-payload type at compile time. Explicitly assembled topics can be injected
-directly today, and generated construction consumes the compiled metadata in
-the following slice. Subscriber order is stable:
-lower explicit order first, then module import path and stable subscriber ID.
-The constructor copies its inputs, starts no goroutine, scans no package, and
-installs no global state.
+payload type at compile time. `ApplicationOptions.EventObservers` supplies
+instance-owned observers to every generated topic. Invalid observer
+configuration fails construction and rolls back earlier providers in reverse
+order. Subscriber order is stable: lower explicit order first, then module
+import path and stable subscriber ID. The constructor copies its inputs, starts
+no goroutine, scans no package, and installs no global state.
 
 `Publish` is synchronous and fail-fast. It uses the caller's context and
 goroutine, stops before the next subscriber when cancellation or an error is

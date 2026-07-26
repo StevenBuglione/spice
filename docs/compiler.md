@@ -359,6 +359,8 @@ Typed event compilation uses the same program and provider graph. An
 its exact parameters become graph dependencies on provider-owned
 `@event.Listener` receivers. The event IR retains the marker, payload, module,
 listener method, order, and exact provider identities. Marker and listener
-bodies are never invoked during analysis. This compiler slice deliberately
-fails generation for an event provider until the following renderer slice
-emits direct `event.NewTopic` construction.
+bodies are never invoked during analysis or generation. The renderer emits
+direct `event.NewTopic` construction, binds exact listener method values in
+deterministic order, injects caller-owned observers, and assigns the result to
+the synthetic exact publisher variable. Invalid observer configuration aborts
+construction through the same reverse-cleanup coordinator as provider errors.
