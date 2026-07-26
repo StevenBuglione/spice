@@ -100,6 +100,22 @@ alignment are subsequent slices. Until those adapters are present, annotation
 manifests do not change generated behavior and must not be represented as
 active merely because their module is installed.
 
+## Shipped starter metadata
+
+Every current integration exposes a package-level `Manifest()`:
+
+| Package | Capabilities | Reviewed dependency |
+|---|---|---|
+| `starter/postgres` | `data.postgresql`, `data.sql` | `github.com/jackc/pgx/v5` v5.10.0 |
+| `starter/oidc` | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
+| `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
+| `starter/otel` | `observability.metrics`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
+
+These manifests use `explicit-constructor` activation and name their real
+exported entrypoints. Tests compile those symbols, parse every canonical
+manifest, verify the Go 1.26.5 compatibility decision, and require each review
+document to exist. None of the four currently contributes an annotation.
+
 ## Review policy
 
 A manifest is not a substitute for its review document. Adoption still
