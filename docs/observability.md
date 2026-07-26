@@ -54,22 +54,36 @@ another handler or observer set can omit the annotation and use
 ## OpenTelemetry starter
 
 `starter/otel` adapts the same generated route seam to the stable OpenTelemetry
-Go trace and metric APIs. Applications must pass their own tracer and meter
-providers:
+Go trace and metric APIs. Its manifest contributes the qualified
+`@otel.Enable` application annotation. After explicitly embedding that manifest
+in `.spice/starters.json`, provide the application-owned OpenTelemetry inputs
+as an exact bean and enable the feature:
 
 ```go
-telemetry, err := spiceotel.NewHTTPObserver(spiceotel.Options{
-    TracerProvider: tracerProvider,
-    MeterProvider:  meterProvider,
-})
-if err != nil {
-    return err
+// @Bean
+func OpenTelemetryOptions(
+    providers *TelemetryProviders,
+) spiceotel.Options {
+    return spiceotel.Options{
+        TracerProvider: providers.Tracer,
+        MeterProvider:  providers.Meter,
+    }
 }
 
-application, err := generated.NewApplicationWithOptions(ctx, generated.ApplicationOptions{
-    HTTPObservers: []web.HTTPObserver{telemetry},
-})
+// @Application
+// @otel.Enable
+func Application(*Server) {}
 ```
+
+The compiler activates `spiceotel.NewHTTPObserver` only for that annotation,
+validates its exact `web.HTTPObserver` output contract and required reachable
+`*http.ServeMux`, and carries the feature and starter provenance into the
+generation hash. Generated code constructs the observer through the ordinary
+provider graph and installs it before route middleware is created. Invalid
+provider inputs, a missing mux capability, or an incompatible observer output
+fail before generated files are written. Importing the package, adding its
+module dependency, or selecting its manifest without the annotation does
+nothing.
 
 Every request creates a server span named from the method and route template.
 Spans include stable route ID, module, method, template, response status, and
@@ -80,3 +94,8 @@ The starter does not install global OpenTelemetry providers, select an
 exporter, read environment variables, or contact a collector. Applications own
 provider/exporter construction and shutdown deadlines. See the
 [dependency review](dependency-reviews/opentelemetry-go.md).
+
+Applications that need custom ordering or conditional observation can omit
+`@otel.Enable`, call `spiceotel.NewHTTPObserver` themselves, and pass it through
+`NewApplicationWithOptions.HTTPObservers`. This remains the explicit
+lower-level escape hatch.

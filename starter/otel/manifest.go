@@ -1,6 +1,9 @@
 package otel
 
-import spicestarter "github.com/StevenBuglione/spice/starter"
+import (
+	"github.com/StevenBuglione/spice/annotation"
+	spicestarter "github.com/StevenBuglione/spice/starter"
+)
 
 // Manifest returns OpenTelemetry starter compatibility and review metadata.
 func Manifest() spicestarter.Manifest {
@@ -14,7 +17,7 @@ func Manifest() spicestarter.Manifest {
 		License:   "Apache-2.0",
 		Review:    "docs/dependency-reviews/opentelemetry-go.md",
 		Activation: spicestarter.Activation{
-			Mode: spicestarter.ActivationExplicitConstructor,
+			Mode: spicestarter.ActivationExplicitAnnotation,
 			EntryPoints: []spicestarter.EntryPoint{
 				{
 					Package: "github.com/StevenBuglione/spice/starter/otel",
@@ -22,7 +25,30 @@ func Manifest() spicestarter.Manifest {
 				},
 			},
 		},
-		Capabilities: []string{"observability.metrics", "observability.tracing"},
+		Capabilities: []string{
+			"observability.http-server",
+			"observability.metrics",
+			"observability.tracing",
+		},
+		Annotations: []spicestarter.AnnotationSpec{
+			{
+				Name:    "otel.Enable",
+				Targets: []annotation.Target{annotation.TargetFunction},
+			},
+		},
+		ApplicationFeatures: []spicestarter.FeatureSpec{
+			{
+				Annotation: "otel.Enable",
+				Capability: "observability.http-server",
+				EntryPoints: []spicestarter.EntryPoint{
+					{
+						Package: "github.com/StevenBuglione/spice/starter/otel",
+						Symbol:  "NewHTTPObserver",
+					},
+				},
+				Requirements: []string{"http.serve-mux"},
+			},
+		},
 		Dependencies: []spicestarter.Dependency{
 			{
 				Module:  "go.opentelemetry.io/otel",

@@ -21,6 +21,10 @@ func TestShippedStarterManifests(t *testing.T) {
 		entrypoints  []any
 		capabilities []string
 		dependencies []starter.Dependency
+		activation   starter.ActivationMode
+		annotation   string
+		feature      string
+		requirements []string
 	}{
 		{
 			name:         "oauth2client",
@@ -30,6 +34,7 @@ func TestShippedStarterManifests(t *testing.T) {
 			dependencies: []starter.Dependency{
 				{Module: "golang.org/x/oauth2", Version: "v0.36.0", License: "BSD-3-Clause"},
 			},
+			activation: starter.ActivationExplicitConstructor,
 		},
 		{
 			name:         "oidc",
@@ -43,12 +48,17 @@ func TestShippedStarterManifests(t *testing.T) {
 					License: "Apache-2.0",
 				},
 			},
+			activation: starter.ActivationExplicitConstructor,
 		},
 		{
-			name:         "otel",
-			manifest:     otel.Manifest,
-			entrypoints:  []any{otel.NewHTTPObserver},
-			capabilities: []string{"observability.metrics", "observability.tracing"},
+			name:        "otel",
+			manifest:    otel.Manifest,
+			entrypoints: []any{otel.NewHTTPObserver},
+			capabilities: []string{
+				"observability.http-server",
+				"observability.metrics",
+				"observability.tracing",
+			},
 			dependencies: []starter.Dependency{
 				{
 					Module:  "go.opentelemetry.io/otel",
@@ -66,6 +76,12 @@ func TestShippedStarterManifests(t *testing.T) {
 					License: "Apache-2.0",
 				},
 			},
+			activation: starter.ActivationExplicitAnnotation,
+			annotation: "otel.Enable",
+			feature:    "observability.http-server",
+			requirements: []string{
+				"http.serve-mux",
+			},
 		},
 		{
 			name:         "postgres",
@@ -75,6 +91,7 @@ func TestShippedStarterManifests(t *testing.T) {
 			dependencies: []starter.Dependency{
 				{Module: "github.com/jackc/pgx/v5", Version: "v5.10.0", License: "MIT"},
 			},
+			activation: starter.ActivationExplicitConstructor,
 		},
 	}
 	seenIDs := make(map[string]struct{}, len(tests))
@@ -96,7 +113,7 @@ func TestShippedStarterManifests(t *testing.T) {
 				spec.SpiceAPI != starter.APIVersion ||
 				spec.MinimumGo != "1.26" ||
 				spec.License != "Apache-2.0" ||
-				spec.Activation.Mode != starter.ActivationExplicitConstructor {
+				spec.Activation.Mode != test.activation {
 				t.Fatalf("Manifest() = %#v", spec)
 			}
 			if len(spec.Activation.EntryPoints) != len(test.entrypoints) {
@@ -114,10 +131,28 @@ func TestShippedStarterManifests(t *testing.T) {
 					spec.Dependencies,
 				)
 			}
-			if len(spec.Annotations) != 0 ||
-				len(spec.ApplicationFeatures) != 0 ||
-				len(manifest.Definitions()) != 0 {
-				t.Fatal("constructor starter unexpectedly declares annotation activation")
+			if test.annotation == "" {
+				if len(spec.Annotations) != 0 ||
+					len(spec.ApplicationFeatures) != 0 ||
+					len(manifest.Definitions()) != 0 {
+					t.Fatal("constructor starter unexpectedly declares annotation activation")
+				}
+			} else if len(spec.Annotations) != 1 ||
+				spec.Annotations[0].Name != test.annotation ||
+				len(spec.ApplicationFeatures) != 1 ||
+				spec.ApplicationFeatures[0].Annotation != test.annotation ||
+				spec.ApplicationFeatures[0].Capability != test.feature ||
+				!slices.Equal(
+					spec.ApplicationFeatures[0].Requirements,
+					test.requirements,
+				) ||
+				len(manifest.Definitions()) != 1 {
+				t.Fatalf(
+					"annotation activation = annotations %#v features %#v definitions %#v",
+					spec.Annotations,
+					spec.ApplicationFeatures,
+					manifest.Definitions(),
+				)
 			}
 			if err := manifest.Compatible(starter.APIVersion, "go1.26.5"); err != nil {
 				t.Fatalf("Compatible() error = %v", err)

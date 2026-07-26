@@ -253,12 +253,21 @@ Every current integration exposes a package-level `Manifest()`:
 | `starter/postgres` | `data.postgresql`, `data.sql` | `github.com/jackc/pgx/v5` v5.10.0 |
 | `starter/oidc` | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
-| `starter/otel` | `observability.metrics`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
+| `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
 
-These manifests use `explicit-constructor` activation and name their real
-exported entrypoints. Tests compile those symbols, parse every canonical
-manifest, verify the Go 1.26.5 compatibility decision, and require each review
-document to exist. None of the four currently contributes an annotation.
+PostgreSQL, OIDC, and OAuth2-client use `explicit-constructor` activation.
+OpenTelemetry contributes `@otel.Enable` through `explicit-annotation`
+activation and maps it to the reviewed `NewHTTPObserver` entrypoint plus the
+reserved `observability.http-server` generator role. Tests compile those
+symbols, parse every canonical manifest, verify the Go 1.26.5 compatibility
+decision, and require each review document to exist.
+
+An HTTP-observation feature is not an unchecked interface plug-in. Its selected
+entrypoint must produce the exact structural `web.HTTPObserver` contract and
+the selected application graph must provide the declared `http.serve-mux`
+capability. The compiler reports either defect at the application annotation
+before rendering. Generated composition uses the provider already constructed
+from the explicit manifest; it performs no runtime lookup or registration.
 
 ## Review policy
 

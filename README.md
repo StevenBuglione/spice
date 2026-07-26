@@ -41,6 +41,9 @@ The repository currently provides:
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
 - Compile-time `@schedule.FixedDelay` jobs with exact provider ownership, direct generated method calls, non-overlap, explicit failure continuation, graceful drain, panic containment, observations, and virtual-time test seams.
+- An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric
+  starter with exact generated observer-role validation and
+  application-owned providers/exporters.
 - Immutable authenticated principals plus compile-time `@security.Authorize`
   route policies that generate deny-by-default RFC 9457 guards, stable
   module/policy identities, and bounded authorization observations.

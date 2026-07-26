@@ -163,6 +163,14 @@ proxy and checksum-database access disabled. Version and replacement identity
 must match the manifest review exactly; inactive annotation features do not
 impose dependencies and Spice never downloads them implicitly.
 
+The reserved `observability.http-server` feature role composes selected starter
+entrypoint outputs into generated route observers. The compiler requires each
+mapped output to implement the exact `web.HTTPObserver` contract, and the
+renderer appends the already constructed provider before route middleware is
+created. `starter/otel` uses this role for `@otel.Enable`; neither importing
+OpenTelemetry nor selecting its manifest activates telemetry without the
+application annotation.
+
 Outbound OAuth2 service clients receive separate caller-owned token and
 resource clients plus an application-lifetime context. Token endpoints are
 HTTPS-only, bounded, and non-redirecting; provider failures cross the starter

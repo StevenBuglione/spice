@@ -20,6 +20,10 @@
 - Configuration: providers are explicit constructor inputs; the starter does
   not read environment variables, install globals, contact a collector, or
   select an exporter.
+- Activation: the committed manifest must be explicitly selected and
+  `@otel.Enable` must occur on the application marker. The compiler validates
+  the exact HTTP-observer output and reachable mux capability before generated
+  code directly composes the constructor result.
 - Transitive scope: OpenTelemetry API/SDK support libraries only. No collector,
   network exporter, protobuf, gRPC, or Prometheus dependency is accepted by
   this slice.
