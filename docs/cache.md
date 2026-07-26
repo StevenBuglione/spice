@@ -29,3 +29,23 @@ Snapshots expose aggregate hit, miss, put, delete, eviction, expiration, and
 size counters. Observations contain only compiler-owned cache/module identity
 and bounded operation results; keys and values are never included. Redis and
 other distributed stores remain opt-in implementations of the same contract.
+
+The compiler recognizes explicit cacheable typed HTTP reads:
+
+```go
+// @Get("/products/{id}")
+// @cache.Cacheable(name="products.by-id")
+func (*Products) Product(
+    context.Context,
+    ProductRequest,
+) (ProductResponse, error)
+```
+
+The request DTO must be an exported comparable named struct value. Cacheable
+routes must be typed `GET` reads with response values and cannot currently own
+a transaction or authorization policy. This is a fail-closed boundary:
+principal-aware caching requires an explicit principal-bearing key contract,
+and mutating requests are never cached implicitly. The immutable compiler IR
+contains the stable cache/route/module identity and exact key/value types.
+Direct bounded-memory construction, typed configuration for capacity/TTL, and
+generated route wrapping follow in the renderer slice.

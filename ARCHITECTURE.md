@@ -124,6 +124,14 @@ construction failure participates in ordinary reverse provider rollback.
 Delivery remains synchronous unless an explicit asynchronous or durable
 adapter is injected, and there is no global event bus.
 
+HTTP response caching is an explicit generated boundary. A qualified
+`@cache.Cacheable(name="…")` declaration is valid only on a typed `GET` route
+whose request DTO is an exported comparable struct value. The compiler carries
+stable cache, route, module, key, and value identities in immutable IR. It
+rejects write/raw/no-content routes, transaction ownership, and authorization
+until those semantics can be represented in an explicit cache key. Direct
+bounded-store construction and route wrapping follow in the renderer slice.
+
 HTTP authorization is explicit route metadata. A qualified
 `@security.Authorize` declaration is validated against a real controller
 method, normalized into immutable IR with module-or-package ownership, and

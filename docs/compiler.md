@@ -364,3 +364,12 @@ direct `event.NewTopic` construction, binds exact listener method values in
 deterministic order, injects caller-owned observers, and assigns the result to
 the synthetic exact publisher variable. Invalid observer configuration aborts
 construction through the same reverse-cleanup coordinator as provider errors.
+
+Cacheable HTTP reads use the same resolved controller metadata. A qualified
+`@cache.Cacheable` occurrence contributes stable cache/route/module identity
+and exact key/value types to immutable application IR. The key must be an
+exported comparable named request struct. The compiler rejects writes, raw or
+no-content routes, transaction boundaries, duplicate cache names, and
+authorization-sensitive caching without an explicit principal-bearing key.
+This compiler slice deliberately fails generation until the renderer creates
+the bounded store and wraps the typed route directly.

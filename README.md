@@ -41,7 +41,8 @@ The repository currently provides:
   metadata rendered as direct, rollback-safe topic construction.
 - A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
-- Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
+- Generic cache contracts, a bounded in-memory LRU/TTL cache, and compile-time
+  `@cache.Cacheable` typed-read metadata with safe route/key validation.
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
 - Compile-time `@schedule.FixedDelay` jobs with exact provider ownership, direct generated method calls, non-overlap, explicit failure continuation, graceful drain, panic containment, observations, and virtual-time test seams.
 - An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric

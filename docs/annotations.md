@@ -186,6 +186,30 @@ the normal graph/catalog stages. Generation binds the listener methods directly
 to their constructed provider receivers and constructs an instance-owned
 `event.Topic[Event]`; it never calls the marker body.
 
+## Cacheable HTTP reads
+
+`@cache.Cacheable` declares an explicit generated cache boundary on a typed
+`@Get` method:
+
+```go
+// @Get("/products/{id}")
+// @cache.Cacheable(name="products.by-id")
+func (*Products) Product(
+    context.Context,
+    ProductRequest,
+) (ProductResponse, error) {
+    // ...
+}
+```
+
+The required `name` is a stable architecture identity, not a capacity or TTL.
+It must use lowercase alphanumeric segments separated by `.` or `-` and must
+be unique in the application. The request must be an exported comparable named
+struct value and becomes the exact cache key type. Raw, mutating, no-content,
+transactional, and authorization-sensitive routes fail closed. Runtime
+capacity and TTL belong to typed configuration; direct generated route
+wrapping follows the compiler metadata slice.
+
 ## Transactional HTTP routes
 
 `@data.Transactional` targets an exported typed `@Get` or `@Post` method. The
@@ -263,6 +287,7 @@ A positional value is accepted only when exactly one definition argument is expl
 |---|---|---|
 | `@Application` | Package-level function | None |
 | `@Bean` | Package-level function | None |
+| `@cache.Cacheable` | Exact typed `@Get` method | `name` string, required and named-only |
 | `@Configuration` | Type | `prefix` string, optional, named-only |
 | `@Controller` | Type | `prefix` string, optional, named-only |
 | `@Get` | Method | `path` string, required, named or positional |
