@@ -31,11 +31,11 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Observability | Actuator endpoints | Explicit `@management.Enable` allowlists deterministically generate exactly selected health/liveness/readiness/info/metrics routes, lifecycle-state probes, and bounded route metrics; broader module/config metadata follows | in-progress |
 | Observability | Structured logging | Explicit `@observability.Logging` composition installs instance-owned `log/slog` adapters with safe compiler-owned route/module and lifecycle metadata without global logger state | available |
 | Observability | Metrics and tracing | Generated module-aware observations, bounded in-process metrics, and an opt-in OpenTelemetry v1.43 trace/metric starter; applications own providers and exporters | integration |
-| Testing | Application context and test slices | Generated test application graphs and focused module/web/data tests | planned |
+| Testing | Application context and test slices | `spice test --module` validates and executes exact focused Modulith package graphs with ordinary Go race/count/run/timeout controls; generated application contexts and specialized web/data harnesses follow | in-progress |
 | Development | Devtools and reload | Fast generate/test loop and optional reload integration | planned |
 | Modulith | Module discovery | Import-path roots, longest-root package ownership, root APIs, named interfaces, and unassigned-package metadata | available |
 | Modulith | Module dependency verification | Real Go import edges, explicit allowed APIs, internal rejection, and deterministic strongly connected cycle paths | available |
-| Modulith | Module tests | Focused transitive dependency graphs and dependency-first composition are available; generated test harnesses follow | in-progress |
+| Modulith | Module tests | Focused transitive dependency graphs, dependency-first package selection, and exact ordinary Go test execution are available | available |
 | Modulith | Event publication registry | Transactional outbox messages, driver-neutral SQL persistence, lease/completion/release contracts, at-least-once dispatch, and bounded observations are available; dialect migrations and management views follow | in-progress |
 | Modulith | Documentation | Read-only JSON canvases plus deterministic Mermaid and PlantUML module diagrams | available |
 | Modulith | Runtime observations | Generated module ownership plus synchronous lifecycle and typed publisher-to-subscriber interaction seams are available; broader OpenTelemetry interactions follow | in-progress |

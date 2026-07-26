@@ -265,6 +265,13 @@ dependents, unrelated modules, unassigned packages, and declared-but-unused
 dependencies. JSON includes the focus identity and dependency-first composition
 order; Mermaid and PlantUML highlight the selected module.
 
+`spice test --module=<full-module-import-path>` validates the same model before
+starting a subprocess. It passes the dependency-first owned-package list
+directly to `go test -trimpath`, with optional race, count, run-expression, and
+timeout controls. No unassigned, dependent, or unrelated package can enter the
+test invocation, and the command performs no generation. Generated application
+contexts and specialized web/data harnesses are separate future slices.
+
 Generation maps each provider package back to its discovered owning module.
 Generated cleanup registration and lifecycle hooks carry that full import-path
 identity, and module ownership participates in the canonical manifest input

@@ -140,6 +140,12 @@ boundary only as safe cancellation-aware classes.
 - Valid transaction and configuration ownership.
 - Generated-code freshness.
 
+Focused module testing consumes the same validated Modulith model.
+`spice test --module=<full-import-path>` selects the focused module plus only
+its transitively observed dependencies and invokes ordinary `go test` for
+their owned packages in dependency-first order. It creates no alternate
+container or runtime discovery path.
+
 ## Capability parity policy
 
 Spice tracks Spring Boot and Spring Modulith capabilities in `docs/spring-coverage.md`. Each capability must be classified as one of:
