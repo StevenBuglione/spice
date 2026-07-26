@@ -41,6 +41,11 @@ OIDC or other authentication middleware can attach the principal. The route
 observation middleware remains outside both and records 401/403 outcomes.
 Unannotated routes receive no authorization guard.
 
+For applications with both public and protected routes, the OIDC starter's
+`OptionalMiddleware` is the safe global adapter: no credentials means no
+principal, while any presented credentials must verify successfully. Its
+required `Middleware` variant is appropriate when every route must authenticate.
+
 `ApplicationOptions.AuthorizationObservers` observes generated policy
 decisions. `AuthorizationWriteFailure` optionally receives a response-write
 failure that cannot flow through `http.Handler`. Typed-nil observers fail

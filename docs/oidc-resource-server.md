@@ -13,12 +13,21 @@ server, err := oidc.NewResourceServer(keySet, oidc.Options{
     Issuer:   "https://issuer.example",
     Audience: "orders-api",
 })
-authentication, err := server.Middleware(reportWriteFailure)
+authentication, err := server.OptionalMiddleware(reportWriteFailure)
 ```
 
-Generated routes place `authentication` before `security.Guard`. The default
-claims are `roles` and `scope`; both are configurable. Role and scope arrays are
-supported, and an OAuth-style space-delimited scope string is supported.
+`Middleware` requires credentials on every request. Applications that mix
+public and `@security.Authorize` routes should install `OptionalMiddleware` in
+generated `ApplicationOptions.Middleware`, as above. It lets a
+request without credentials continue without a principal, allowing the
+generated authorization guard to decide whether that route requires one. If a
+request presents credentials, they are always strictly verified; malformed or
+invalid credentials never downgrade to anonymous access.
+
+Generated routes place either authentication middleware before
+`security.Guard`. The default claims are `roles` and `scope`; both are
+configurable. Role and scope arrays are supported, and an OAuth-style
+space-delimited scope string is supported.
 
 Bearer parsing is strict: exactly one authorization value is accepted, token
 whitespace is rejected, and the default encoded-token limit is 16 KiB. Invalid
