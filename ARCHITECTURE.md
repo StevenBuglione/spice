@@ -99,6 +99,17 @@ forwards interrupt/termination, waits for the generated graceful shutdown, and
 preserves nonzero application exit codes. It never makes a legacy metadata
 package look executable.
 
+`spice dev` builds on a reusable supervisor with injected watcher, clock/timer,
+preparation, launcher, process-stop, and event-sink boundaries. Relevant
+recursive file changes are content-hashed and deterministically coalesced by a
+quiet period with a maximum-delay starvation bound. Each accepted revision
+runs analysis and guarded generation before compiling a unique candidate. A
+failed analysis or build never stops the active process; only a complete
+candidate initiates bounded process-group shutdown and replacement. Candidate
+artifacts are instance-owned and idempotently released. The portable polling
+watcher is the current Windows/Linux implementation and the correctness
+fallback for a future native notification accelerator.
+
 SQL access remains based on `database/sql`. Repositories accept the common
 executor contract implemented by both pools and transactions. Instance-owned
 transaction managers retain commit/rollback ownership and consume

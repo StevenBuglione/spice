@@ -79,7 +79,8 @@ The repository currently provides:
   client.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
-- A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
+- A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`,
+  `generate`, `build`, `run`, and last-known-good `dev` commands.
 - A generated-application HTTP test slice with loopback-only serving, bounded
   detached responses, strict JSON/problem decoding, construction rollback,
   and idempotent lifecycle cleanup, plus transaction-scoped generic SQL
@@ -124,6 +125,7 @@ go run ./cmd/spice verify --format=json ./examples/commerce/...
 go run ./cmd/spice test --module github.com/StevenBuglione/spice/examples/commerce/orders --count=1 ./examples/commerce/...
 go run ./cmd/spice generate --check --target Commerce ./examples/commerce/...
 go run ./cmd/spice run --target Commerce ./examples/commerce/... -- -check
+go run ./cmd/spice dev --target Commerce ./examples/commerce/...
 ```
 
 In an application module containing one typed `@Application` marker:
@@ -134,6 +136,7 @@ spice generate --check ./...
 spice generate --diff ./...
 spice build ./...
 spice run ./... -- -check
+spice dev ./...
 ```
 
 Application-platform conventions live on the ordinary process entrypoint and
@@ -175,6 +178,10 @@ bridge, and legacy migration contract are documented in
 Stable text/JSON diagnostic codes, physical and source-mapped ranges, related
 information, and version-aware safe edit contracts are documented in
 [`docs/diagnostics.md`](docs/diagnostics.md).
+
+The recursive watcher, deterministic debounce policy, unique candidate builds,
+last-known-good recovery, and graceful restart controls used by `spice dev` are
+documented in [`docs/development-loop.md`](docs/development-loop.md).
 
 The executable foundation and the remaining reference-application integration
 debt are tracked explicitly in

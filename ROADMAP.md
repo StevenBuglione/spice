@@ -18,9 +18,13 @@ shared `spice.diagnostics/v1` contract now backs text and machine-readable
 verification while retaining physical/source-mapped positions for editor use.
 The stable-core executable matrix is recorded in
 `docs/stable-core-acceptance.md`; remaining security/data/mail work is explicit
-reference integration debt rather than an untested core contract. The next
-slices deliver the dev loop and LSP, then complete the mail transports and
-reference workflow. Broad MongoDB,
+reference integration debt rather than an untested core contract. The
+reusable dev supervisor and portable recursive watcher now provide
+deterministic debounce, unique candidate builds, last-known-good recovery, and
+bounded Windows/Unix process-group restart through `spice dev`. A native watch
+accelerator remains follow-up; content polling is the correctness fallback.
+The next slices extract the overlay compiler service and deliver LSP/Zed, then
+complete the mail transports and reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 
