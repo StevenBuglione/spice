@@ -15,7 +15,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Web | OpenAPI and REST documentation | Deterministic manifest-owned OpenAPI 3.1 contracts cover typed parameters, JSON bodies/schemas, success/problem responses, raw-route limits, and module ownership | available |
 | Web | HTTP clients | Base-scoped context-owned `net/http` clients provide safe defaults, redirect/SSRF boundaries, bounded typed JSON, RFC 9457 remote errors, and a raw escape hatch | available |
 | Web | WebSocket, GraphQL, gRPC | Go-native integrations and starters | planned |
-| Security | Authentication and authorization | Middleware, generated method guards, OAuth2/OIDC starters | planned |
+| Security | Authentication and authorization | Immutable verified principals, deny-by-default exact role/scope policies, safe 401/403 HTTP guards, direct-service authorization, and bounded observations are available; compiler policy generation and authenticators follow | in-progress |
 | Security | Resource server and client | Standards-based Go integrations | planned |
 | Data | JDBC and transaction management | Standard-library executor and transaction manager contracts provide caller-owned pools, module/boundary metadata, commit/rollback ownership, joined failures, panic rollback, and observations; generated decorators and driver starters follow | in-progress |
 | Data | Repository abstractions | Optional generated repositories and query integration | planned |

@@ -32,6 +32,7 @@ The repository currently provides:
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
 - Lifecycle-owned fixed-delay scheduling with non-overlapping jobs, explicit failure continuation, graceful drain, panic containment, and virtual-time support.
+- Immutable authenticated principals and deny-by-default role/scope policies with safe RFC 9457 HTTP guards and bounded authorization observations.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
@@ -113,6 +114,9 @@ Bounded asynchronous task execution is documented in
 Fixed-delay job registration and lifecycle are documented in
 [`docs/schedule.md`](docs/schedule.md).
 
+Authentication boundaries and generated authorization policies are documented
+in [`docs/security.md`](docs/security.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
@@ -167,6 +171,7 @@ Generated source and OpenAPI are committed under
 - `cache/`: public generic cache contracts and bounded in-memory implementation.
 - `async/`: public bounded asynchronous execution and lifecycle contracts.
 - `schedule/`: public fixed-delay job registration and lifecycle runtime.
+- `security/`: public principals, deny-by-default policies, authorizer, and HTTP guards.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
 - `starter/`: reviewed opt-in third-party integrations, including OpenTelemetry.
 - `tools/`: isolated, pinned development tools module.
