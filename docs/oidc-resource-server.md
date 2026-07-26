@@ -27,6 +27,11 @@ challenge. Errors and observations never contain tokens, subjects, verifier
 errors, roles, or scopes.
 
 This slice supports signed JWT access tokens. It does not treat an ID token as
-an access token, introspect opaque tokens, perform discovery, fetch keys during
-construction, install global state, or read environment configuration. OIDC
-discovery and refresh are a separate explicit starter contract.
+an access token, introspect opaque tokens, install global state, or read
+environment configuration.
+
+`Discover` is the explicit networked constructor. It requires a caller-owned
+client with a positive timeout, rejects non-HTTPS requests and redirects, and
+limits provider metadata and JWK responses to 1 MiB. The request context can
+cancel discovery and waiting callers; the client timeout also bounds the
+underlying shared JWK refresh.
