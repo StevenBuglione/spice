@@ -28,6 +28,7 @@ The repository currently provides:
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
 - Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, and synchronous observations.
 - Immutable generic event topics with exact payload types, deterministic subscriber order, cancellation/failure semantics, and module-interaction observations.
+- A transactional outbox protocol with immutable bounded messages, atomic enqueue contracts, deterministic leases, at-least-once dispatch, explicit failure delay, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
@@ -121,6 +122,9 @@ in [`docs/security.md`](docs/security.md).
 OIDC JWT resource-server integration is documented in
 [`docs/oidc-resource-server.md`](docs/oidc-resource-server.md).
 
+Transactional outbox storage and dispatch semantics are documented in
+[`docs/outbox.md`](docs/outbox.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
@@ -171,6 +175,7 @@ Generated source and OpenAPI are committed under
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
 - `data/`: public `database/sql` executor, transaction manager, and observation contracts.
 - `event/`: public generic application-event topics, subscribers, and interaction observations.
+- `event/outbox/`: transactional durable-message and at-least-once dispatch contracts.
 - `retry/`: public bounded retry policies and typed execution helpers.
 - `cache/`: public generic cache contracts and bounded in-memory implementation.
 - `async/`: public bounded asynchronous execution and lifecycle contracts.

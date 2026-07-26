@@ -23,7 +23,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Data | Redis, MongoDB, Elasticsearch, Cassandra, Neo4j | Curated starters around mature Go clients | planned |
 | Migration | Flyway/Liquibase | Migration-tool starters and module ownership checks | planned |
 | Messaging | Kafka, RabbitMQ, JMS-like APIs, Pulsar | Typed publishers/listeners with client-specific starters | planned |
-| Events | Application events | Immutable generic topics provide exact payload types, deterministic fail-fast subscribers, caller-owned cancellation, and module interactions; compiler generation and durable publication follow | in-progress |
+| Events | Application events | Immutable generic topics provide exact payload types and deterministic in-process delivery; bounded transactional messages, atomic enqueue contracts, deterministic leases, and an at-least-once dispatcher are available, while compiler generation and SQL storage follow | in-progress |
 | Scheduling | Scheduled and asynchronous work | Bounded asynchronous execution plus lifecycle-owned fixed-delay jobs provide backpressure, caller-owned contexts, non-overlap, explicit error continuation, deterministic failures, panic containment, graceful drain, observations, and virtual time; compiler annotations follow | in-progress |
 | Batch | Batch jobs | Job/step abstraction with restart and observability support | planned |
 | Cache | Cache abstraction | Generic stores and a bounded concurrent LRU/TTL implementation provide explicit expiration, caller-owned time, key-free observations, and aggregate metrics; generated decorators and distributed starters follow | in-progress |
@@ -36,7 +36,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Modulith | Module discovery | Import-path roots, longest-root package ownership, root APIs, named interfaces, and unassigned-package metadata | available |
 | Modulith | Module dependency verification | Real Go import edges, explicit allowed APIs, internal rejection, and deterministic strongly connected cycle paths | available |
 | Modulith | Module tests | Focused transitive dependency graphs and dependency-first composition are available; generated test harnesses follow | in-progress |
-| Modulith | Event publication registry | Durable event publication and completion tracking | planned |
+| Modulith | Event publication registry | Transport-neutral transactional outbox messages, lease/completion/release contracts, at-least-once dispatch, and bounded observations are available; SQL storage and management views follow | in-progress |
 | Modulith | Documentation | Read-only JSON canvases plus deterministic Mermaid and PlantUML module diagrams | available |
 | Modulith | Runtime observations | Generated module ownership plus synchronous lifecycle and typed publisher-to-subscriber interaction seams are available; broader OpenTelemetry interactions follow | in-progress |
 | Current bootstrap | Annotation parser, declaration scan, and target metadata | Valid comment syntax, source association, typed built-in definitions, and target diagnostics | available |

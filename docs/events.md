@@ -39,6 +39,7 @@ order, duration, error, and panic state without the event payload. They can
 enrich each handler context and finish in reverse nesting order. Raw payloads
 are deliberately excluded from the observation contract.
 
-Asynchronous delivery, retries, and the durable publication registry are
-separate layers. They must not silently change this in-process contract or
-claim durability before an event is committed to application-owned storage.
+Asynchronous delivery, retries, and durable publication are separate layers.
+The transactional protocol and at-least-once dispatcher are documented in
+[`outbox.md`](outbox.md). They do not change this in-process contract or claim
+durability before an event is committed to application-owned storage.
