@@ -120,6 +120,7 @@ make verify
 go run ./cmd/spice version
 go run ./cmd/spice annotations ./examples/commerce/...
 go run ./cmd/spice verify ./...
+go run ./cmd/spice verify --format=json ./examples/commerce/...
 go run ./cmd/spice test --module github.com/StevenBuglione/spice/examples/commerce/orders --count=1 ./examples/commerce/...
 go run ./cmd/spice generate --check --target Commerce ./examples/commerce/...
 go run ./cmd/spice run --target Commerce ./examples/commerce/... -- -check
@@ -170,6 +171,10 @@ activates it. See
 The preferred annotated `main.go`, compile-time discovery scope, generated
 bridge, and legacy migration contract are documented in
 [`docs/application.md`](docs/application.md).
+
+Stable text/JSON diagnostic codes, physical and source-mapped ranges, related
+information, and version-aware safe edit contracts are documented in
+[`docs/diagnostics.md`](docs/diagnostics.md).
 
 Outbound integrations can use the base-scoped, bounded typed JSON client in
 [`docs/http-client.md`](docs/http-client.md).

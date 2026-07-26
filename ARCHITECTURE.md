@@ -38,7 +38,9 @@ Valid Go source
 - Annotation lexical and syntactic parser.
 - Go package loading and AST inspection.
 - Symbol and type resolution.
-- Source-positioned diagnostics.
+- One immutable diagnostic contract with stable codes, physical URI/ranges,
+  source-mapped display positions, related information, and safe versioned
+  edits.
 - Annotation target and argument validation.
 
 ### Application model

@@ -70,7 +70,19 @@ accepted only at its exact typed source position inside an annotated
 package-main `func main`. No other undefined identifier, unannotated call, or
 package error is suppressed.
 
-CLI layers decide how diagnostics are rendered. The caller context is forwarded to `go/packages` and external `GOPACKAGESDRIVER` processes; cancelling an already-running load terminates the driver and returns `context.Canceled`.
+`compiler/diagnostic` is the shared integration contract. It assigns stable
+namespaced codes, severity, physical file URI/path and half-open range,
+source-mapped display locations, related information, and version-aware safe
+edits. Immutable sets defensively copy nested values and sort by physical
+identity before display metadata. `spice verify` consumes those sets in text
+mode and exposes the deterministic `spice.diagnostics/v1` envelope with
+`--format=json`; command integrations never parse rendered error strings.
+Development and LSP services consume the same model as those slices are
+delivered.
+
+The caller context is forwarded to `go/packages` and external
+`GOPACKAGESDRIVER` processes; cancelling an already-running load terminates the
+driver and returns `context.Canceled`.
 
 ## Dependency and offline policy
 

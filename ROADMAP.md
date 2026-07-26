@@ -14,9 +14,10 @@ exercised by the commerce application; the compatible legacy layout remains
 available pre-1.0. `spice run` now applies guarded generation, builds a unique
 trimpath candidate, and relays the selected package-main process on Windows and
 Unix. Coverage-map labels are not substitutes for executable acceptance. The
-next slices complete the shared diagnostic contract, audit remaining core
-acceptance, deliver the dev loop and LSP, then complete the mail transports and
-reference workflow. Broad MongoDB,
+shared `spice.diagnostics/v1` contract now backs text and machine-readable
+verification while retaining physical/source-mapped positions for editor use.
+The next slices audit remaining core acceptance, deliver the dev loop and LSP,
+then complete the mail transports and reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 
