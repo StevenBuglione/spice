@@ -55,9 +55,10 @@ type Options struct {
 
 // Client owns one standalone Redis connection pool.
 type Client struct {
-	native   *redisclient.Client
-	close    sync.Once
-	closeErr error
+	native        *redisclient.Client
+	cacheCommands cacheCommands
+	close         sync.Once
+	closeErr      error
 }
 
 // Open validates deterministic connection policy and constructs a
@@ -67,7 +68,11 @@ func Open(options Options) (*Client, spicelifecycle.Cleanup, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	client := &Client{native: redisclient.NewClient(nativeOptions)}
+	native := redisclient.NewClient(nativeOptions)
+	client := &Client{
+		native:        native,
+		cacheCommands: nativeCacheCommands{client: native},
+	}
 	cleanup := spicelifecycle.Cleanup(client.Close)
 	return client, cleanup, nil
 }

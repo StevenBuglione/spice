@@ -14,14 +14,16 @@
 - Cancellation: every network operation uses a caller-owned context with
   context deadlines enabled in the client.
 - Observability: the client name is bounded and validated for safe server
-  attribution. Optional Spice cache observations and OpenTelemetry hooks remain
+  attribution. The typed cache adapter emits module-aware Spice observations
+  without keys or values; optional OpenTelemetry hooks remain
   application-owned.
 - Configuration: Spice fixes protocol, retry, timeout, and bounded-pool
   defaults instead of inheriting CPU- or process-environment-dependent
   behavior. `Open` performs no network I/O and returns exact lifecycle cleanup.
 - Integration: a tagged test runs against the official Redis 8.4.0 Alpine
   image (`sha256:4eec4565e45aa0b3966554c866bc73211e281b0b3d89fe9a33c982e6faca809d`)
-  and exercises connection, ping, cancellation, and cleanup.
+  and exercises connection, ping, bounded typed JSON cache operations,
+  expiration, cancellation, and cleanup.
 
 Primary references:
 

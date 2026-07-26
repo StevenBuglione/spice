@@ -256,7 +256,8 @@ Every current integration exposes a package-level `Manifest()`:
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
 | `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
 
-PostgreSQL, OIDC, and OAuth2-client use `explicit-constructor` activation.
+PostgreSQL, Redis, OIDC, and OAuth2-client use `explicit-constructor`
+activation.
 OpenTelemetry contributes `@otel.Enable` through `explicit-annotation`
 activation and maps it to the reviewed `NewHTTPObserver` entrypoint plus the
 reserved `observability.http-server` generator role. Tests compile those

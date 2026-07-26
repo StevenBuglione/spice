@@ -34,6 +34,9 @@ The repository currently provides:
 - Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, synchronous observations, and generated `@data.Transactional` typed HTTP boundaries.
 - Immutable reflection-free repository queries with explicit SQL, typed row decoders, exact single-result cardinality, bounded lists, and safe failures.
 - An opt-in pgx PostgreSQL starter with secure URL/TLS policy, explicit pool ownership, and real-container transaction, repository, and migration verification.
+- An opt-in go-redis starter with secure URL/TLS/authentication policy,
+  deterministic bounded pool ownership, exact cleanup, and a namespaced typed
+  JSON cache store verified against a real Redis server.
 - Deterministic module-owned migration plans with global version ordering, normalized SHA-256 checksums, registry drift detection, and a concrete PostgreSQL advisory-lock/transaction backend.
 - Immutable generic event topics with exact payload types, deterministic
   subscriber order, cancellation/failure semantics, module-interaction
@@ -160,6 +163,9 @@ Context-aware resilience policies are documented in
 
 Typed caching and the built-in bounded store are documented in
 [`docs/cache.md`](docs/cache.md).
+
+Secure Redis client ownership and distributed typed caching are documented in
+[`docs/redis.md`](docs/redis.md).
 
 Bounded asynchronous task execution is documented in
 [`docs/async.md`](docs/async.md).
