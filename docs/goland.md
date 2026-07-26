@@ -12,6 +12,10 @@ editor-neutral `spice lsp` compiler service:
   **Settings | Editor | Color Scheme | Spice**;
 - highlighted PSI references provide modifier-hover underlining,
   `Ctrl`/`Cmd`-click, and **Go to Declaration or Usages** navigation;
+- annotated `main` packages receive a preferred whole-package Run/Debug
+  configuration, preventing GoLand's temporary single-file runner from
+  dropping generated bootstrap files or interpreting folded presentation as
+  source;
 - built-in references open an in-memory, read-only annotation declaration page
   at the exact definition row rather than a generic website;
 - the public GoLand LSP API launches `spice lsp` for versioned diagnostics,
@@ -79,9 +83,11 @@ runtime.
    prefix region is empty-placeholder, collapsed, and non-expandable;
 4. proves the editor document, committed PSI, saved virtual file, and copied
    selection all retain the physical `// ` prefixes after concealment;
-5. renders realized editor components under the light and Darcula schemes;
-6. rejects blank or degenerate images;
-7. packages the plugin, validates its structure/configuration, and runs the
+5. proves `@Application` produces package/directory execution with no
+   single-file paths and retains the physical annotation comments;
+6. renders realized editor components under the light and Darcula schemes;
+7. rejects blank or degenerate images;
+8. packages the plugin, validates its structure/configuration, and runs the
    JetBrains binary/API verifier.
 
 The generated visual reports are:
