@@ -93,5 +93,46 @@ Call `Application.Start` explicitly before creating the slice only when a
 broader integration test requires lifecycle readiness.
 
 The commerce reference uses this harness for typed controllers, RFC 9457
-failures, caching/events, and the generated management surface. A specialized
-transaction-rollback data harness remains roadmap work.
+failures, caching/events, and the generated management surface.
+
+## Transaction-rollback data slice
+
+`spicetest.NewSQL` begins a transaction on a caller-owned `*sql.DB` and passes
+only the restricted `data.Executor` surface to a typed subject factory:
+
+```go
+slice, err := spicetest.NewSQL(
+    ctx,
+    database,
+    func(ctx context.Context, executor data.Executor) (*orders.Repository, error) {
+        return orders.NewRepository(executor)
+    },
+    spicetest.SQLOptions{Isolation: sql.LevelSerializable},
+)
+if err != nil {
+    t.Fatal(err)
+}
+t.Cleanup(func() {
+    if err := slice.Close(); err != nil {
+        t.Error(err)
+    }
+})
+
+repository := slice.Value()
+```
+
+The factory and subject share the same transaction. `Close` always rolls it
+back, is safe under concurrent calls, and returns the same rollback outcome to
+every caller. The executor deliberately omits commit and rollback methods.
+Factory errors roll back before return; factory panics attempt rollback and
+re-panic with the original value. If both panic and rollback fail,
+`SQLRollbackPanic` preserves the original value without formatting it and
+unwraps the rollback failure.
+
+Isolation and read-only policy are explicit. The harness owns no database,
+schema, migration, truncation, or connection-pool lifecycle. Database
+sequences and work performed outside the supplied executor are not
+transactional and therefore are not reset by the slice.
+
+The PostgreSQL integration suite proves under the race detector that rows are
+visible to the transaction-scoped subject and absent after `Close`.

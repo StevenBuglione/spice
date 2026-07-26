@@ -69,6 +69,8 @@ compile-time conditions remain future work.
 - Annotation-driven fixed-delay scheduling and asynchronous execution.
 - Restartable ordered batch execution with process-local and lease-aware
   PostgreSQL persistence.
+- Focused module execution plus generated HTTP and transaction-rollback data
+  test slices.
 - Typed application events and durable publication.
 
 ## M4 — Broad Spring Boot coverage
@@ -76,7 +78,7 @@ compile-time conditions remain future work.
 - Kafka, RabbitMQ, and additional messaging starters.
 - Redis, MongoDB, Elasticsearch/OpenSearch, and selected data starters.
 - gRPC, GraphQL, WebSocket, and outbound HTTP clients.
-- Sessions, mail, templates, specialized test slices, and development tooling.
+- Sessions, mail, templates, and development tooling.
 - Starter SDK and third-party annotation SDK.
 - Language server and editor extensions.
 

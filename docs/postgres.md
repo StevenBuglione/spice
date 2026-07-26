@@ -75,4 +75,5 @@ They perform a real ping, commit through `data.Manager`, read through
 multi-statement migration, prove transactional rollback, verify that a canceled
 lock wait returns its context error, and exercise durable batch restart,
 concurrent ownership, definition drift, lease takeover, and stale-owner
-rejection.
+rejection. It also verifies that `spicetest.NewSQL` exposes transaction-local
+data and always rolls it back.
