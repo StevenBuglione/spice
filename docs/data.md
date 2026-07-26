@@ -33,16 +33,54 @@ after a nil callback result. Context cancellation is handled by
 `database/sql` and the selected driver.
 
 Definitions require stable boundary and module identities. Generated
-transaction decorators will supply these from typed application/module IR.
-Observers receive the same bounded metadata, elapsed duration, error, and panic
-state. They may enrich the callback context and finish in reverse nesting
-order; they must not panic or block indefinitely.
+`@data.Transactional` typed HTTP adapters supply these from immutable
+application/module IR. Observers receive the same bounded metadata, elapsed
+duration, error, and panic state. They may enrich the callback context and
+finish in reverse nesting order; they must not panic or block indefinitely.
 
 Drivers, migrations, generated repositories, retry policy, and OpenTelemetry
 transaction adapters are separate opt-in slices. The core transaction package
 uses only the standard library and performs no implicit retry: repeating a
 transaction is safe only when application semantics make the entire callback
 retryable.
+
+## Generated HTTP transaction boundaries
+
+Annotate an exported typed `@Get` or `@Post` method and make the transaction
+dependency explicit as parameter 1:
+
+```go
+// @Post("/orders")
+// @data.Transactional(isolation="serializable")
+func (*OrdersController) Create(
+    ctx context.Context,
+    queries data.Executor,
+    request CreateOrderRequest,
+) (CreateOrderResponse, error) {
+    // Every repository call receives queries explicitly.
+    return createOrder(ctx, queries, request)
+}
+```
+
+The application graph must contain exactly one `@Bean` whose exact output type
+is `*data.Manager`. Spice rejects an executor parameter without the annotation,
+an annotated route without the executor parameter, raw `net/http` handlers,
+and missing or ambiguous manager providers. Generation emits a direct
+`Manager.Within` call; it does not use reflection, a service locator, or a
+transaction stored in `context.Context`.
+
+`isolation` is optional and defaults to `default`. Accepted values are
+`default`, `read-uncommitted`, `read-committed`, `write-committed`,
+`repeatable-read`, `snapshot`, `serializable`, and `linearizable`. Optional
+`readOnly` is Boolean. These values are passed to `database/sql`; whether a
+driver supports a particular isolation mode or enforces read-only semantics
+remains driver-specific.
+
+Request binding and validation run before the transaction starts. The generated
+adapter commits only after the route returns a nil error. Route errors, panics,
+and request-context cancellation follow `data.Manager` rollback semantics.
+Response encoding occurs after commit, so an HTTP write failure never causes a
+committed transaction to be retried or misreported as rolled back.
 
 ## Typed repository queries
 

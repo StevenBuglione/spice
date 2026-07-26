@@ -31,7 +31,7 @@ The repository currently provides:
 - Import-path application modules with root APIs, named interfaces, explicit dependencies, internal-boundary checks, unassigned-package reporting, and deterministic cycle detection.
 - Module-aware synchronous lifecycle observations that generated applications expose without a global tracer or telemetry dependency.
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
-- Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, and synchronous observations.
+- Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, synchronous observations, and generated `@data.Transactional` typed HTTP boundaries.
 - Immutable reflection-free repository queries with explicit SQL, typed row decoders, exact single-result cardinality, bounded lists, and safe failures.
 - An opt-in pgx PostgreSQL starter with secure URL/TLS policy, explicit pool ownership, and real-container transaction, repository, and migration verification.
 - Deterministic module-owned migration plans with global version ordering, normalized SHA-256 checksums, registry drift detection, and a concrete PostgreSQL advisory-lock/transaction backend.
@@ -138,8 +138,8 @@ activates it. See
 Outbound integrations can use the base-scoped, bounded typed JSON client in
 [`docs/http-client.md`](docs/http-client.md).
 
-SQL repositories and generated transaction decorators can use the explicit
-contracts in [`docs/data.md`](docs/data.md).
+SQL repositories and generated `@data.Transactional` HTTP boundaries use the
+explicit contracts in [`docs/data.md`](docs/data.md).
 
 Typed in-process event contracts are documented in
 [`docs/events.md`](docs/events.md).

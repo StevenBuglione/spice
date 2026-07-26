@@ -156,6 +156,31 @@ emits a direct method value. A single generated scheduler starts after ordinary
 provider hooks and shuts down before them. No method body executes during
 analysis, and no runtime annotation lookup or global scheduler exists.
 
+## Transactional HTTP routes
+
+`@data.Transactional` targets an exported typed `@Get` or `@Post` method. The
+method must make the transaction dependency explicit:
+
+```go
+// @Post("/orders")
+// @data.Transactional(isolation="serializable", readOnly=false)
+func (*OrdersController) Create(
+    context.Context,
+    data.Executor,
+    CreateOrderRequest,
+) (CreateOrderResponse, error) {
+    // ...
+}
+```
+
+The exact route signature is
+`func(receiver)(context.Context, data.Executor, RequestDTO) (Response, error)`.
+An exact `*data.Manager` provider is required. `isolation` is an optional
+named string and `readOnly` is an optional named Boolean. Generation wraps the
+direct route call in `Manager.Within`; Spice never places a transaction in the
+context or performs runtime annotation lookup. See
+[`data.md`](data.md) for isolation values and runtime semantics.
+
 ## Application modules
 
 `@Module` is a package-documentation annotation. The annotated package's full
@@ -216,6 +241,7 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@OnStart` | Method | None |
 | `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |
+| `@data.Transactional` | Exact typed `@Get` or `@Post` method | `isolation` string and `readOnly` Boolean, optional and named-only |
 | `@security.Authorize` | `@Get` or `@Post` method | `authenticated` Boolean; `anyRoles`, `allRoles`, and `allScopes` string lists; all optional and named-only, but at least one requirement is mandatory |
 | `@schedule.FixedDelay` | Exact provider-owned exported method | `delay` duration string, required; `initialDelay` duration string and `continueOnError` Boolean, optional; all named-only |
 | `@Service` | Type | None |

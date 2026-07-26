@@ -63,7 +63,8 @@ compile-time conditions remain future work.
 - Externalized configuration and profiles.
 - Structured logging and OpenTelemetry.
 - Security policies, OAuth2/OIDC resource server support.
-- SQL, transaction management, migrations, and repository support.
+- SQL, generated typed HTTP transaction boundaries, migrations, and repository
+  support.
 - Cache abstraction.
 - Annotation-driven fixed-delay scheduling and asynchronous execution.
 - Typed application events and durable publication.

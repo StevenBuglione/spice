@@ -23,6 +23,20 @@ func Registry() annotation.Registry {
 			},
 		},
 		annotation.Definition{
+			Name:    "data.Transactional",
+			Targets: annotation.Targets(annotation.TargetMethod),
+			Arguments: []annotation.ArgumentDefinition{
+				{
+					Name:  "isolation",
+					Kinds: []annotation.Kind{annotation.KindString},
+				},
+				{
+					Name:  "readOnly",
+					Kinds: []annotation.Kind{annotation.KindBoolean},
+				},
+			},
+		},
+		annotation.Definition{
 			Name:    "Get",
 			Targets: annotation.Targets(annotation.TargetMethod),
 			Arguments: []annotation.ArgumentDefinition{

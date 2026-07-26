@@ -86,13 +86,16 @@ func (*Users) Get(
 ) (UserResponse, error)
 ```
 
-The exact typed signature is
-`func(context.Context, RequestDTO) (Response, error)`. Request DTOs are exported
-named struct values. Every exported field declares exactly one `path`, `query`,
-`header`, or `body` tag, or opts out with `web:"-"`. Query and header tags may
-add `,required`; path values and the single JSON body are always required.
-Supported scalar bindings are strings, Booleans, signed integers, and
-`time.Duration`, including exported named forms.
+The ordinary exact typed signature is
+`func(context.Context, RequestDTO) (Response, error)`. A route annotated with
+`@data.Transactional` instead uses
+`func(context.Context, data.Executor, RequestDTO) (Response, error)` so its
+transaction-owned executor remains visible; see [`data.md`](data.md). Request
+DTOs are exported named struct values. Every exported field declares exactly
+one `path`, `query`, `header`, or `body` tag, or opts out with `web:"-"`.
+Query and header tags may add `,required`; path values and the single JSON body
+are always required. Supported scalar bindings are strings, Booleans, signed
+integers, and `time.Duration`, including exported named forms.
 
 After every field is bound, generated adapters invoke an optional exact
 value-receiver method:

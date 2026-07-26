@@ -23,6 +23,7 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		{name: "Bean", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Configuration", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix", kinds: []annotation.Kind{annotation.KindString}},
 		{name: "Controller", targets: []annotation.Target{annotation.TargetType}, argumentName: "prefix", kinds: []annotation.Kind{annotation.KindString}},
+		{name: "data.Transactional", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "Get", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
 		{name: "Module", targets: []annotation.Target{annotation.TargetPackage}, argumentName: "allowedDependencies", kinds: []annotation.Kind{annotation.KindList}},
 		{name: "NamedInterface", targets: []annotation.Target{annotation.TargetPackage}, argumentName: "name", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true, repeatable: true},
@@ -63,6 +64,10 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 				assertScheduleDefinition(t, definition)
 				return
 			}
+			if test.name == "data.Transactional" {
+				assertTransactionDefinition(t, definition)
+				return
+			}
 			if test.argumentName == "" {
 				if len(definition.Arguments) != 0 {
 					t.Fatalf("%s arguments = %#v, want none", test.name, definition.Arguments)
@@ -84,6 +89,40 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 				t.Fatalf("%s list element kinds = %#v", test.name, argument.ListElementKinds)
 			}
 		})
+	}
+}
+
+func assertTransactionDefinition(
+	t *testing.T,
+	definition annotation.Definition,
+) {
+	t.Helper()
+	if len(definition.Arguments) != 2 {
+		t.Fatalf(
+			"data.Transactional arguments = %#v, want 2",
+			definition.Arguments,
+		)
+	}
+	want := []struct {
+		name string
+		kind annotation.Kind
+	}{
+		{name: "isolation", kind: annotation.KindString},
+		{name: "readOnly", kind: annotation.KindBoolean},
+	}
+	for index, expected := range want {
+		argument := definition.Arguments[index]
+		if argument.Name != expected.name ||
+			!reflect.DeepEqual(
+				argument.Kinds,
+				[]annotation.Kind{expected.kind},
+			) {
+			t.Fatalf(
+				"data.Transactional argument %d = %#v",
+				index,
+				argument,
+			)
+		}
 	}
 }
 

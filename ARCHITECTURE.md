@@ -85,6 +85,12 @@ executor contract implemented by both pools and transactions. Instance-owned
 transaction managers retain commit/rollback ownership and consume
 compiler-generated boundary and module identities; there is no ambient
 transaction, global pool, or retry hidden in a context.
+An exact `@data.Transactional` typed HTTP route makes the dependency visible in
+ordinary Go as `data.Executor`. Generated code obtains the exact
+application-owned `*data.Manager`, opens the boundary around the direct method
+call, and supplies only its transaction-owned executor. Calls made outside the
+generated adapter remain ordinary explicit calls and cannot accidentally join
+a hidden transaction.
 
 Repository queries are immutable, typed definitions with stable module and
 operation identities, explicit dialect SQL, caller-supplied row decoders, and
