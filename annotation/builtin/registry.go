@@ -37,6 +37,20 @@ func Registry() annotation.Registry {
 			},
 		},
 		annotation.Definition{
+			Name:    "event.Listener",
+			Targets: annotation.Targets(annotation.TargetMethod),
+			Arguments: []annotation.ArgumentDefinition{
+				{
+					Name:  "order",
+					Kinds: []annotation.Kind{annotation.KindInteger},
+				},
+			},
+		},
+		annotation.Definition{
+			Name:    "event.Topic",
+			Targets: annotation.Targets(annotation.TargetFunction),
+		},
+		annotation.Definition{
 			Name:    "Get",
 			Targets: annotation.Targets(annotation.TargetMethod),
 			Arguments: []annotation.ArgumentDefinition{

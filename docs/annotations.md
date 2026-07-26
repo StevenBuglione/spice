@@ -156,6 +156,35 @@ emits a direct method value. A single generated scheduler starts after ordinary
 provider hooks and shuts down before them. No method body executes during
 analysis, and no runtime annotation lookup or global scheduler exists.
 
+## Typed application events
+
+`@event.Listener` targets an exported method owned by exactly one exact
+`@Bean`. Its signature is
+`func(receiver)(context.Context, Event) error`; optional named integer `order`
+controls deterministic delivery order.
+
+An exported `@event.Topic` marker function selects listener owners through its
+exact parameter types and returns one exact `event.Publisher[Event]`:
+
+```go
+// @event.Listener(order=10)
+func (*Inventory) Reserve(context.Context, OrderPlaced) error {
+    // ...
+}
+
+// @event.Topic
+func OrderEvents(*Inventory) event.Publisher[OrderPlaced] {
+    panic("Spice never executes event topic marker bodies")
+}
+```
+
+The event must be an exported named value. Every marker parameter must select
+exactly one listener for that payload, every annotated listener must belong to
+one topic, and an ordinary provider may depend on the synthetic exact
+`event.Publisher[Event]` node. Provider cycles and duplicate publishers fail in
+the normal graph/catalog stages. The compiler metadata is available in this
+slice; deterministic direct `event.NewTopic` generation follows separately.
+
 ## Transactional HTTP routes
 
 `@data.Transactional` targets an exported typed `@Get` or `@Post` method. The
@@ -242,6 +271,8 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |
 | `@data.Transactional` | Exact typed `@Get` or `@Post` method | `isolation` string and `readOnly` Boolean, optional and named-only |
+| `@event.Listener` | Exact provider-owned exported method | `order` integer, optional and named-only |
+| `@event.Topic` | Exported package-level marker function | None |
 | `@security.Authorize` | `@Get` or `@Post` method | `authenticated` Boolean; `anyRoles`, `allRoles`, and `allScopes` string lists; all optional and named-only, but at least one requirement is mandatory |
 | `@schedule.FixedDelay` | Exact provider-owned exported method | `delay` duration string, required; `initialDelay` duration string and `continueOnError` Boolean, optional; all named-only |
 | `@Service` | Type | None |

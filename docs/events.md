@@ -20,9 +20,31 @@ topic, err := event.NewTopic(
 )
 ```
 
+The compiler can now derive this topic contract from valid Go declarations:
+
+```go
+// @event.Listener(order=10)
+func (*Inventory) Reserve(context.Context, OrderPlaced) error {
+    return nil
+}
+
+// @event.Topic
+func OrderEvents(*Inventory) event.Publisher[OrderPlaced] {
+    panic("compile-time marker; Spice never executes this body")
+}
+```
+
+The marker becomes a synthetic exact `event.Publisher[OrderPlaced]` provider.
+Its parameters are ordinary exact dependencies on listener-owner providers.
+The compiler validates method signatures, provider ownership, exported payload
+identity, unique topic selection, module ownership, deterministic order, and
+the resulting provider graph. The immutable IR is available now; direct
+generated `event.NewTopic` construction is the next bounded generation slice.
+
 Producers depend on `event.Publisher[OrderPlaced]`, preserving the exact event
-payload type at compile time. Generated applications construct one immutable
-topic per event contract and inject it directly. Subscriber order is stable:
+payload type at compile time. Explicitly assembled topics can be injected
+directly today, and generated construction consumes the compiled metadata in
+the following slice. Subscriber order is stable:
 lower explicit order first, then module import path and stable subscriber ID.
 The constructor copies its inputs, starts no goroutine, scans no package, and
 installs no global state.

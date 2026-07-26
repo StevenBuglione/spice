@@ -111,11 +111,15 @@ session advisory lock, runs each parameter-free migration script and
 parameterized registry insert in one transaction, and closes the physical
 connection whenever unlock ownership cannot be confirmed.
 
-Application events use immutable generic topics assembled by generated code.
-Payloads retain exact Go types, subscriber order is stable, and delivery is
-synchronous unless an explicit asynchronous or durable adapter is injected.
-Publisher/subscriber module identities feed architecture-aware observations
-without a global event bus.
+Application events use immutable generic topics. `@event.Topic` marker
+functions declare exact `event.Publisher[T]` provider nodes; their parameters
+select exact provider-owned `@event.Listener` methods without executing either
+marker or listener bodies. The compiler carries payload, module, order,
+subscriber, and graph metadata in immutable IR and fails on unassigned
+listeners, duplicate publishers, missing exact owners, and cycles. Direct
+generated topic construction follows as the next bounded slice. Delivery
+remains synchronous unless an explicit asynchronous or durable adapter is
+injected, and there is no global event bus.
 
 HTTP authorization is explicit route metadata. A qualified
 `@security.Authorize` declaration is validated against a real controller

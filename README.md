@@ -35,7 +35,10 @@ The repository currently provides:
 - Immutable reflection-free repository queries with explicit SQL, typed row decoders, exact single-result cardinality, bounded lists, and safe failures.
 - An opt-in pgx PostgreSQL starter with secure URL/TLS policy, explicit pool ownership, and real-container transaction, repository, and migration verification.
 - Deterministic module-owned migration plans with global version ordering, normalized SHA-256 checksums, registry drift detection, and a concrete PostgreSQL advisory-lock/transaction backend.
-- Immutable generic event topics with exact payload types, deterministic subscriber order, cancellation/failure semantics, and module-interaction observations.
+- Immutable generic event topics with exact payload types, deterministic
+  subscriber order, cancellation/failure semantics, module-interaction
+  observations, and compile-time `@event.Topic`/`@event.Listener` graph
+  metadata.
 - A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.

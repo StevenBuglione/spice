@@ -353,3 +353,12 @@ the constructed state. The coordinator emits synchronous begin/end events for
 start, stop, and cleanup with stable component ID, module ID, operation, phase,
 and callback outcome. Core selects no global observer, tracer, meter, or
 exporter.
+
+Typed event compilation uses the same program and provider graph. An
+`@event.Topic` marker contributes a synthetic `event.Publisher[T]` provider;
+its exact parameters become graph dependencies on provider-owned
+`@event.Listener` receivers. The event IR retains the marker, payload, module,
+listener method, order, and exact provider identities. Marker and listener
+bodies are never invoked during analysis. This compiler slice deliberately
+fails generation for an event provider until the following renderer slice
+emits direct `event.NewTopic` construction.
