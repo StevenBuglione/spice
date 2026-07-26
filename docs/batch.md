@@ -61,11 +61,32 @@ inactive state and releases capacity.
 instance identity. It exposes the one-based attempt number, completed prefix,
 active/completed state, and bounded last-failure classification.
 
-The in-process store is deliberately not presented as durable storage. A
-production store must implement the four atomic `Store` transitions in its
-database and enforce the same exact-definition and stale-attempt invariants.
-The PostgreSQL implementation and generated/scaffolded batch registration
-remain follow-up slices.
+The in-process store is deliberately not presented as durable storage.
+
+## SQL store
+
+`SQLStore` adapts the same contract to a caller-owned `database/sql` executor.
+Construction performs no database operation. The database dialect supplies
+four fixed trusted statements; request values are always bound arguments.
+
+The begin statement atomically inserts, resumes, or observes an instance and
+returns one of the exported `SQLBeginOutcome...` values, a positive signed-SQL
+attempt number, and the completed step IDs as JSON. The transition statements
+must affect exactly one active attempt. Zero rows become `ErrStaleAttempt`;
+multiple rows and unsupported affected-row counts fail closed.
+
+`SQLStoreOptions.AttemptLease` is explicit and bounded to 24 hours. Begin
+claims the lease and every checkpoint renews it. A crashed runner can therefore
+be superseded after expiry. Steps that can exceed the lease must be idempotent:
+another runner may resume them, giving the durable execution contract
+at-least-once step semantics. The injected clock is a deterministic test seam;
+nil selects `time.Now`.
+
+The SQL store validates every reconstructed completed prefix before returning
+it to the runner. Database errors are wrapped without adding the instance
+identity. Dialect statements still own transactionality, locking, schema, and
+lease comparison details; the PostgreSQL schema and reviewed statements remain
+the next integration slice.
 
 The complete restart flow is executable as the `ExampleMemoryStore_restart`
 example in the `batch` package.
