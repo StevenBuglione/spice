@@ -11,9 +11,10 @@ resolved through typed definitions, preserved in the immutable application IR,
 and rendered without runtime discovery.
 
 The next starter slices must reuse this deterministic feature pipeline. The
-third-party annotation SDK, starter compatibility manifest, and compile-time
-starter conditions remain future work and must not be represented by
-dependency-presence activation.
+public third-party annotation/manifest SDK now defines the portable metadata
+boundary; repository discovery, compiler composition, generated entrypoint
+selection, dependency alignment, and richer compile-time conditions remain
+future work and must not be represented by dependency-presence activation.
 
 ## M0 — Product and compiler proof
 

@@ -172,6 +172,9 @@ Module-owned database migration planning is documented in
 PostgreSQL pool configuration and integration testing are documented in
 [`docs/postgres.md`](docs/postgres.md).
 
+Portable starter compatibility metadata and qualified annotation definitions
+are documented in [`docs/starters.md`](docs/starters.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash

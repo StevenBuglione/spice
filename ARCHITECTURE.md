@@ -117,9 +117,11 @@ network calls during construction unless their documented contract explicitly
 requires it.
 
 Built-in bootstrap features use the same qualified, typed definition model
-intended for future starter annotations. The public third-party annotation SDK
-and compatibility manifest remain roadmap work; until they exist, importing a
-starter alone has no activation semantics.
+available to the public starter manifest SDK. Manifests provide strict,
+deterministic compatibility, dependency, entrypoint, annotation, feature, and
+review metadata without registering global behavior. Repository discovery and
+compiler composition remain explicit adapter work; importing a starter alone
+has no activation semantics.
 
 Outbound OAuth2 service clients receive separate caller-owned token and
 resource clients plus an application-lifetime context. Token endpoints are
