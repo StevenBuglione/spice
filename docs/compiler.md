@@ -143,8 +143,13 @@ collision-free typed `Application.Submit<Receiver><Method>` names.
 
 Tasks are sorted by stable method identity and copied into immutable
 application IR. The compiler never invokes annotated methods. This stage
-establishes the fail-closed contract for generated bounded submission; it does
-not introduce runtime method lookup, goroutines, or a global executor.
+feeds deterministic rendering of typed
+`Application.Submit<Receiver><Method>` APIs. Generation creates one bounded
+executor after providers, registers shutdown ahead of provider teardown, and
+emits direct provider method calls inside accepted tasks. The generated
+`spice.async.max-concurrency` property is positive, defaults to 16, and is
+ownership-hashed with the task signatures. There is no runtime method lookup,
+proxy, hidden queue, or global executor.
 
 ## Immutable application model
 

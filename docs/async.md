@@ -5,9 +5,27 @@ accepts only exported non-generic, non-variadic
 `func(receiver)(context.Context, arguments...) error` methods owned by one
 exact provider output. It rejects unnameable argument types and generated
 submit-method collisions with source positions, preserves argument types in
-immutable application IR, and never executes the method body. Generated typed
-submission is in progress; the explicit runtime API below remains the current
-execution path.
+immutable application IR, and never executes the method body.
+
+Generation creates one application-owned executor after all providers and
+registers its shutdown immediately, so accepted tasks drain before provider
+cleanup. Every annotated method becomes a typed generated API:
+
+```go
+err := application.SubmitMailerSend(
+    admissionContext,
+    Message{OrderID: "order-42"},
+)
+```
+
+The application must be started and ready before submission. The admission
+context controls backpressure only; the generated executor supplies its
+caller-owned lifetime context to the provider method. `ApplicationOptions`
+accepts `AsyncContext` and `AsyncObservers`, while
+`spice.async.max-concurrency` (environment
+`SPICE_ASYNC_MAX_CONCURRENCY`) configures the positive bounded concurrency and
+defaults to 16. `Application.AsyncSnapshot()` returns bounded aggregate state.
+Task arguments follow ordinary Go ownership rules and are not deep-copied.
 
 `async.Executor` is an instance-owned, lifecycle-scoped alternative to
 unbounded `go` statements:

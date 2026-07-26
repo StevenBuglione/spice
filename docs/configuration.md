@@ -35,6 +35,11 @@ Collisions with `@Configuration` fields fail before rendering. Cache capacity
 must fit a positive platform `int`; a zero TTL disables expiration and a
 negative TTL fails application construction.
 
+Applications with `@async.Execute` methods also receive the framework-owned
+integer property `spice.async.max-concurrency`, mapped conventionally to
+`SPICE_ASYNC_MAX_CONCURRENCY`. It defaults to 16 and must fit a positive
+platform `int`; invalid values fail construction before any task is accepted.
+
 Applications may explicitly expose
 `@management.Enable(expose=["configprops"])`. The generated report uses this
 same schema and resolved snapshot to show deterministic key, kind, module,

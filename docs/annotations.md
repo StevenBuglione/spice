@@ -173,8 +173,11 @@ func (*Mailer) Send(context.Context, Message) error {
 
 The compiler derives a stable typed submit-method name, rejects collisions,
 and stores copied argument types in immutable application IR. It does not
-invoke the annotated method. Generated bounded submission is the next
-in-progress layer; callers can use the public `async.Executor` directly today.
+invoke the annotated method. Generation constructs one application-owned
+bounded executor and exposes
+`Application.Submit<Receiver><Method>(admissionContext, arguments...)`.
+Submission requires a ready application and calls the provider method directly
+on an accepted worker; there is no proxy or runtime method lookup.
 
 ## Typed application events
 

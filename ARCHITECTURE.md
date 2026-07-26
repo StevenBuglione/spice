@@ -156,9 +156,11 @@ Asynchronous entrypoints use the same explicit ownership model.
 `@async.Execute` must target one exported method on exactly one provider output
 with canonical context, error, and generated-nameable argument types. The
 compiler derives collision-free typed submit names and carries copied task
-metadata into application IR without invoking the method. Bounded execution
-remains instance-owned; there is no proxy, service locator, or global worker
-pool.
+metadata into application IR without invoking the method. Generation creates
+one configured executor after provider construction, registers shutdown before
+provider teardown, and emits readiness-gated typed application methods that
+submit direct provider calls. Bounded execution remains instance-owned; there
+is no proxy, service locator, hidden queue, or global worker pool.
 
 ### Starters
 
