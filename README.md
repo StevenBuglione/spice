@@ -37,6 +37,7 @@ The repository currently provides:
 - Lifecycle-owned fixed-delay scheduling with non-overlapping jobs, explicit failure continuation, graceful drain, panic containment, and virtual-time support.
 - Immutable authenticated principals and deny-by-default role/scope policies with safe RFC 9457 HTTP guards and bounded authorization observations.
 - An opt-in OIDC JWT resource server with strict bearer parsing, signature/issuer/audience/expiry verification, exact claim mapping, bounded discovery/JWK transport, and safe authentication failures.
+- An opt-in OAuth2 client-credentials integration with separate timed transports, HTTPS-only bounded token acquisition, safe failures, and cached Bearer authorization.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
@@ -123,6 +124,9 @@ in [`docs/security.md`](docs/security.md).
 
 OIDC JWT resource-server integration is documented in
 [`docs/oidc-resource-server.md`](docs/oidc-resource-server.md).
+
+OAuth2 service-client integration is documented in
+[`docs/oauth2-client.md`](docs/oauth2-client.md).
 
 Transactional outbox storage and dispatch semantics are documented in
 [`docs/outbox.md`](docs/outbox.md).

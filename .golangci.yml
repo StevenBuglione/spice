@@ -95,6 +95,19 @@ linters:
               desc: "compiler packages must not depend on command entrypoints"
             - pkg: "github.com/StevenBuglione/spice/starter"
               desc: "compiler packages must not depend on opt-in starters"
+        starters:
+          list-mode: lax
+          files:
+            - "starter/**/*.go"
+          deny:
+            - pkg: "github.com/StevenBuglione/spice/compiler"
+              desc: "runtime starters must not depend on compiler packages"
+            - pkg: "github.com/StevenBuglione/spice/internal"
+              desc: "public starters must not depend on repository internals"
+            - pkg: "github.com/StevenBuglione/spice/cmd"
+              desc: "public starters must not depend on command entrypoints"
+            - pkg: "github.com/StevenBuglione/spice/examples"
+              desc: "public starters must not depend on example applications"
         cli:
           list-mode: lax
           files:

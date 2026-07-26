@@ -97,6 +97,11 @@ caller-owned clients/providers, install no global state, and must not make
 network calls during construction unless their documented contract explicitly
 requires it.
 
+Outbound OAuth2 service clients receive separate caller-owned token and
+resource clients plus an application-lifetime context. Token endpoints are
+HTTPS-only, bounded, and non-redirecting; provider failures cross the starter
+boundary only as safe cancellation-aware classes.
+
 ### Verification
 
 `spice verify` will eventually enforce:

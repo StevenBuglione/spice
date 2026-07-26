@@ -47,7 +47,11 @@ The product module separately pins `golang.org/x/tools v0.48.0` because `compile
 
 Rules that impose high noise or arbitrary local style costs are deliberately not enabled globally: `lll`, `varnamelen`, `mnd`, `funlen`, `paralleltest`, `wrapcheck`, and `err113`. Complexity is bounded in production code while tests are exempt from the global complexity threshold.
 
-`depguard` prevents public/runtime packages from depending on compiler or CLI implementation packages and prevents compiler packages from depending on command entrypoints. `forbidigo` rejects debug printing, fatal logging, and process termination except for explicit command entrypoints and test processes.
+`depguard` prevents public/runtime packages from depending on compiler or CLI
+implementation packages, prevents compiler packages from depending on command
+entrypoints, and keeps public starters independent of compiler, internal, CLI,
+and example packages. `forbidigo` rejects debug printing, fatal logging, and
+process termination except for explicit command entrypoints and test processes.
 
 Suppressions must name one specific rule and explain the demonstrated false positive next to the code. Broad file, package, or linter exclusions are not acceptable substitutes for fixing findings.
 
