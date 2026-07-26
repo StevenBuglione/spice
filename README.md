@@ -29,6 +29,7 @@ The repository currently provides:
 - Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, and synchronous observations.
 - Immutable generic event topics with exact payload types, deterministic subscriber order, cancellation/failure semantics, and module-interaction observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
+- Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
@@ -101,6 +102,9 @@ Typed in-process event contracts are documented in
 Context-aware resilience policies are documented in
 [`docs/retry.md`](docs/retry.md).
 
+Typed caching and the built-in bounded store are documented in
+[`docs/cache.md`](docs/cache.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
@@ -152,6 +156,7 @@ Generated source and OpenAPI are committed under
 - `data/`: public `database/sql` executor, transaction manager, and observation contracts.
 - `event/`: public generic application-event topics, subscribers, and interaction observations.
 - `retry/`: public bounded retry policies and typed execution helpers.
+- `cache/`: public generic cache contracts and bounded in-memory implementation.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
 - `starter/`: reviewed opt-in third-party integrations, including OpenTelemetry.
 - `tools/`: isolated, pinned development tools module.

@@ -26,7 +26,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Events | Application events | Immutable generic topics provide exact payload types, deterministic fail-fast subscribers, caller-owned cancellation, and module interactions; compiler generation and durable publication follow | in-progress |
 | Scheduling | Scheduled and asynchronous work | Generated scheduler registration and lifecycle | planned |
 | Batch | Batch jobs | Job/step abstraction with restart and observability support | planned |
-| Cache | Cache abstraction | Typed cache interfaces and generated decorators | planned |
+| Cache | Cache abstraction | Generic stores and a bounded concurrent LRU/TTL implementation provide explicit expiration, caller-owned time, key-free observations, and aggregate metrics; generated decorators and distributed starters follow | in-progress |
 | Resilience | Retry | Explicit finite policies provide opt-in error classification, capped deterministic backoff, context cancellation, typed exhaustion, testable waiting, and attempt observations | available |
 | Observability | Actuator endpoints | Opt-in deterministic health/liveness/readiness/info endpoints, lifecycle-state probes, and generated-route HTTP metrics are available; routes, modules, and config metadata follow | in-progress |
 | Observability | Structured logging | Instance-owned `log/slog` adapters emit safe compiler-owned route/module and lifecycle metadata without global logger state | available |
