@@ -68,6 +68,9 @@ The repository currently provides:
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
+- A generated-application HTTP test slice with loopback-only serving, bounded
+  detached responses, strict JSON/problem decoding, construction rollback,
+  and idempotent lifecycle cleanup.
 - A committed generated HTTP application with real provider, lifecycle, route, and graceful-drain tests.
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
 - Product, architecture, annotation, and Spring-coverage documents.
@@ -201,6 +204,9 @@ PostgreSQL pool configuration and integration testing are documented in
 
 Portable starter compatibility metadata and qualified annotation definitions
 are documented in [`docs/starters.md`](docs/starters.md).
+
+Focused module execution and generated HTTP test slices are documented in
+[`docs/testing.md`](docs/testing.md).
 
 For a repository containing package-level `@Module` roots:
 

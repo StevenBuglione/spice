@@ -25,8 +25,9 @@ import (
 const (
 	defaultTestTimeout      = 5 * time.Second
 	maxTestTimeout          = time.Minute
+	defaultMaxRequestBytes  = int64(1 << 20)
 	defaultMaxResponseBytes = int64(1 << 20)
-	maxResponseBytes        = int64(64 << 20)
+	maxTestBodyBytes        = int64(64 << 20)
 )
 
 // HTTPApplication is the generated surface required by an HTTP test slice.
@@ -49,6 +50,7 @@ type ListenFunc func(context.Context, string, string) (net.Listener, error)
 type HTTPOptions struct {
 	ClientTimeout        time.Duration
 	ShutdownTimeout      time.Duration
+	MaxRequestBodyBytes  int64
 	MaxResponseBodyBytes int64
 	Listen               ListenFunc
 }
@@ -120,6 +122,7 @@ type HTTP struct {
 	server          *http.Server
 	client          *http.Client
 	baseURL         string
+	maxRequestBody  int64
 	maxResponseBody int64
 	shutdownTimeout time.Duration
 	serveDone       chan error
@@ -201,6 +204,7 @@ func NewHTTP(
 		server:          server,
 		client:          &http.Client{Transport: transport, Timeout: normalized.ClientTimeout},
 		baseURL:         "http://" + listener.Addr().String(),
+		maxRequestBody:  normalized.MaxRequestBodyBytes,
 		maxResponseBody: normalized.MaxResponseBodyBytes,
 		shutdownTimeout: normalized.ShutdownTimeout,
 		serveDone:       make(chan error, 1),
@@ -239,7 +243,7 @@ func (slice *HTTP) Do(
 	if err := validateHTTPRequest(ctx, slice, spec); err != nil {
 		return HTTPResponse{}, err
 	}
-	body, err := requestBody(spec)
+	body, err := requestBody(spec, slice.maxRequestBody)
 	if err != nil {
 		return HTTPResponse{}, err
 	}
@@ -333,6 +337,9 @@ func normalizeHTTPOptions(options HTTPOptions) (HTTPOptions, error) {
 	if options.MaxResponseBodyBytes == 0 {
 		options.MaxResponseBodyBytes = defaultMaxResponseBytes
 	}
+	if options.MaxRequestBodyBytes == 0 {
+		options.MaxRequestBodyBytes = defaultMaxRequestBytes
+	}
 	if options.ClientTimeout < 0 || options.ClientTimeout > maxTestTimeout {
 		return HTTPOptions{}, errors.New(
 			"construct HTTP test slice: client timeout must be between 1ns and 1m",
@@ -343,8 +350,14 @@ func normalizeHTTPOptions(options HTTPOptions) (HTTPOptions, error) {
 			"construct HTTP test slice: shutdown timeout must be between 1ns and 1m",
 		)
 	}
+	if options.MaxRequestBodyBytes < 0 ||
+		options.MaxRequestBodyBytes > maxTestBodyBytes {
+		return HTTPOptions{}, errors.New(
+			"construct HTTP test slice: request body limit must be between 1 and 67108864 bytes",
+		)
+	}
 	if options.MaxResponseBodyBytes < 0 ||
-		options.MaxResponseBodyBytes > maxResponseBytes {
+		options.MaxResponseBodyBytes > maxTestBodyBytes {
 		return HTTPOptions{}, errors.New(
 			"construct HTTP test slice: response body limit must be between 1 and 67108864 bytes",
 		)
@@ -406,13 +419,25 @@ func validateHTTPRequest(
 	return nil
 }
 
-func requestBody(spec HTTPRequest) ([]byte, error) {
+func requestBody(spec HTTPRequest, maximum int64) ([]byte, error) {
 	if spec.JSON == nil {
+		if int64(len(spec.Body)) > maximum {
+			return nil, fmt.Errorf(
+				"encode HTTP test request: body exceeds %d bytes",
+				maximum,
+			)
+		}
 		return bytes.Clone(spec.Body), nil
 	}
 	content, err := json.Marshal(spec.JSON)
 	if err != nil {
 		return nil, fmt.Errorf("encode HTTP test request JSON: %w", err)
+	}
+	if int64(len(content)) > maximum {
+		return nil, fmt.Errorf(
+			"encode HTTP test request JSON: body exceeds %d bytes",
+			maximum,
+		)
 	}
 	return content, nil
 }
