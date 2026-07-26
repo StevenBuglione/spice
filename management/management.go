@@ -198,6 +198,7 @@ type HandlerOptions struct {
 	Info          map[string]string
 	Metrics       *HTTPMetrics
 	Configuration *ConfigurationReport
+	Modules       *ModuleReport
 	Expose        []Endpoint
 }
 
@@ -217,6 +218,8 @@ const (
 	EndpointMetrics Endpoint = "metrics"
 	// EndpointConfigProps exposes redacted generated configuration metadata.
 	EndpointConfigProps Endpoint = "configprops"
+	// EndpointModules exposes the generated application-module canvas.
+	EndpointModules Endpoint = "modules"
 )
 
 // ConfigurationProperty is one safe resolved configuration entry. Secret
@@ -285,6 +288,7 @@ type Handler struct {
 	info          map[string]string
 	metrics       *HTTPMetrics
 	configuration *ConfigurationReport
+	modules       *ModuleReport
 	exposed       map[Endpoint]struct{}
 	mux           *http.ServeMux
 }
@@ -305,6 +309,7 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 		options.Expose,
 		options.Metrics != nil,
 		options.Configuration != nil,
+		options.Modules != nil,
 	)
 	if err != nil {
 		return nil, err
@@ -315,6 +320,7 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 		info:          cloneInfo(options.Info),
 		metrics:       options.Metrics,
 		configuration: cloneConfigurationReport(options.Configuration),
+		modules:       cloneModuleReport(options.Modules),
 		exposed:       exposed,
 		mux:           http.NewServeMux(),
 	}
@@ -339,6 +345,12 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 			handler.serveConfiguration,
 		)
 	}
+	if handler.exposes(EndpointModules) {
+		handler.mux.HandleFunc(
+			"GET "+basePath+"/modules",
+			handler.serveModules,
+		)
+	}
 	return handler, nil
 }
 
@@ -346,6 +358,7 @@ func exposedEndpoints(
 	configured []Endpoint,
 	metrics bool,
 	configuration bool,
+	modules bool,
 ) (map[Endpoint]struct{}, error) {
 	if configured == nil {
 		configured = []Endpoint{
@@ -372,6 +385,10 @@ func exposedEndpoints(
 		case EndpointConfigProps:
 			if !configuration {
 				return nil, errors.New("construct management handler: configprops endpoint requires a configuration report")
+			}
+		case EndpointModules:
+			if !modules {
+				return nil, errors.New("construct management handler: modules endpoint requires a module report")
 			}
 		default:
 			return nil, fmt.Errorf(
@@ -460,6 +477,19 @@ func (handler *Handler) serveConfiguration(
 	}
 }
 
+func (handler *Handler) serveModules(
+	writer http.ResponseWriter,
+	_ *http.Request,
+) {
+	if writeErr := web.WriteJSON(
+		writer,
+		http.StatusOK,
+		handler.modules,
+	); writeErr != nil {
+		return
+	}
+}
+
 func cloneConfigurationReport(
 	report *ConfigurationReport,
 ) *ConfigurationReport {
@@ -472,6 +502,35 @@ func cloneConfigurationReport(
 			report.Properties...,
 		),
 	}
+}
+
+func cloneModuleReport(report *ModuleReport) *ModuleReport {
+	if report == nil {
+		return nil
+	}
+	result := &ModuleReport{
+		Schema:             report.Schema,
+		Modules:            make([]ApplicationModule, len(report.Modules)),
+		Edges:              append([]ModuleEdge(nil), report.Edges...),
+		UnassignedPackages: append([]string(nil), report.UnassignedPackages...),
+	}
+	for index, module := range report.Modules {
+		result.Modules[index] = module
+		result.Modules[index].Packages = append([]string(nil), module.Packages...)
+		result.Modules[index].NamedInterfaces = append(
+			[]NamedInterface(nil),
+			module.NamedInterfaces...,
+		)
+		result.Modules[index].AllowedDependencies = append(
+			[]string(nil),
+			module.AllowedDependencies...,
+		)
+		result.Modules[index].ObservedDependencies = append(
+			[]string(nil),
+			module.ObservedDependencies...,
+		)
+	}
+	return result
 }
 
 func validName(value string) bool {

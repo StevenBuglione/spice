@@ -246,6 +246,7 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 		{name: "duplicate endpoint", expose: []Endpoint{EndpointHealth, EndpointHealth}},
 		{name: "metrics without collector", expose: []Endpoint{EndpointMetrics}},
 		{name: "configprops without report", expose: []Endpoint{EndpointConfigProps}},
+		{name: "modules without report", expose: []Endpoint{EndpointModules}},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			if _, err := NewHandler(HandlerOptions{

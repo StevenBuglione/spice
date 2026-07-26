@@ -112,7 +112,7 @@ ordinary direct-call Go:
 
 ```go
 // @Application
-// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops"])
+// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
 // @observability.Logging
 func Commerce(*platform.Server, *orders.Service) {
     panic("Spice application marker bodies are never executed")
@@ -215,10 +215,11 @@ curl -H "Content-Type: application/json" -d "{\"quantity\":2}" http://localhost:
 curl http://localhost:8081/actuator/health/readiness
 curl http://localhost:8081/actuator/metrics
 curl http://localhost:8081/actuator/configprops
+curl http://localhost:8081/actuator/modules
 ```
 
 The modular commerce declaration enables structured request/lifecycle logging
-and exactly six management endpoints. Its generated command owns
+and exactly seven management endpoints. Its generated command owns
 `SIGINT`/`SIGTERM`, conventional environment loading, check mode, stable exit
 codes, and fresh bounded shutdown. The generated `Application` itself never
 captures process signals. Generated source and OpenAPI are committed under

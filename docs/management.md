@@ -8,12 +8,12 @@ application marker:
 
 ```go
 // @Application
-// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops"])
+// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
 func Application(*Server) {}
 ```
 
-Valid names are `health`, `liveness`, `readiness`, `info`, `metrics`, and
-`configprops`.
+Valid names are `health`, `liveness`, `readiness`, `info`, `metrics`,
+`configprops`, and `modules`.
 The compiler rejects unknown or duplicate names with source positions,
 normalizes order deterministically, and verifies that the selected application
 graph owns the required `*http.ServeMux`. The generated handler registers
@@ -48,6 +48,7 @@ An isolated handler serves:
 | `GET /actuator/info` | caller-owned copied string metadata |
 | `GET /actuator/metrics` | generated-route HTTP metrics when a collector is supplied |
 | `GET /actuator/configprops` | generated configuration key/type/module/value/provenance metadata with mandatory secret redaction |
+| `GET /actuator/modules` | generated `spice.modules/v1` module, API, dependency-edge, and unassigned-package canvas |
 
 Down reports use HTTP 503; up reports and info use HTTP 200. Responses use the
 same secure JSON writer as generated controllers. The default base path is
@@ -60,6 +61,14 @@ module, resolution state, source, default provenance, and safe value. Secret
 values are always `<redacted>`; raw secret values never enter the report.
 Schema/snapshot mismatches fail application construction, and the handler
 copies the report before serving it.
+
+`modules` is also explicit opt-in. The compiler carries its already-validated
+Modulith graph into rendering, and generated Go constructs the runtime report
+from stable module IDs, owned packages, named interfaces, allowed
+dependencies, observed import edges, and unassigned packages. The runtime does
+not scan packages or import compiler code. Invalid or inconsistent generated
+metadata fails application construction, and the handler deep-copies the
+canvas before serving it.
 
 `management.HTTPMetrics` implements `web.HTTPObserver`. It records requests,
 in-flight work, status counts, bytes, total/max duration, and panics per stable

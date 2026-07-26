@@ -87,7 +87,7 @@ companions opt into behavior with exposure or operational consequences:
 
 ```go
 // @Application
-// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics"])
+// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
 // @observability.Logging
 func Commerce(*Server) {}
 ```

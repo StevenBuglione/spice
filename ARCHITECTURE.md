@@ -214,6 +214,12 @@ its transitively observed dependencies and invokes ordinary `go test` for
 their owned packages in dependency-first order. It creates no alternate
 container or runtime discovery path.
 
+Applications may explicitly expose the same validated graph through the
+generated `modules` management endpoint. Rendering emits ordinary module,
+named-interface, dependency-edge, and unassigned-package literals using the
+portable `spice.modules/v1` schema. The runtime validates and owns that report;
+it never imports the compiler or scans packages.
+
 ## Capability parity policy
 
 Spice tracks Spring Boot and Spring Modulith capabilities in `docs/spring-coverage.md`. Each capability must be classified as one of:
