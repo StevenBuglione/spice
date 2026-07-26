@@ -19,8 +19,11 @@ same typed program, merges them into the exact provider graph, and renders
 ordinary direct calls with cleanup/rollback behavior and provenance-sensitive
 ownership hashes. The CLI now loads selected entrypoint packages as isolated
 auxiliary roots and maps explicit-constructor or annotation-selected subsets
-into that graph without import-based activation. Dependency alignment,
-module-cache discovery, and richer compile-time conditions remain future work.
+into that graph without import-based activation. The CLI now snapshots the
+selected Go module graph in read-only offline mode and requires every active
+starter dependency to match its exact reviewed module version and replacement
+identity before provider analysis. Automated module-cache discovery and richer
+compile-time conditions remain future work.
 
 ## M0 — Product and compiler proof
 

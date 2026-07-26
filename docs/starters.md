@@ -132,9 +132,11 @@ downloaded module as active.
 
 `Catalog.Dependencies` exposes the exact reviewed module version and SPDX
 license contracts retained from every selected manifest.
-`Catalog.ValidateModuleVersions` compares those contracts with an explicitly
-supplied Go module graph. Missing modules, MVS upgrades or downgrades, ambiguous
-graph records, and replacements that do not resolve to the same reviewed module
+`Catalog.ActiveDependencies` narrows that set to explicit-constructor
+manifests and the explicit-annotation features present on an `@Application`
+marker. The matching validation APIs compare those contracts with a supplied
+Go module graph. Missing modules, MVS upgrades or downgrades, ambiguous graph
+records, and replacements that do not resolve to the same reviewed module
 identity and version fail deterministically. Selected manifests cannot publish
 conflicting version or license reviews for the same dependency.
 
@@ -231,8 +233,16 @@ constructor. Active functions must exist as exported package-level symbols and
 satisfy the ordinary provider signature contract. The resulting exact-type
 nodes participate in graph diagnostics, direct generated calls, immediate
 cleanup registration, reverse rollback, executable builds, and
-provenance-sensitive freshness checks. Dependency-version alignment remains a
-subsequent slice.
+provenance-sensitive freshness checks.
+
+Before provider analysis, the CLI checks dependencies declared by those active
+starters against `go list -mod=readonly -m -json all`. This snapshot is
+shell-free, bounded, and forced offline with `GOPROXY=off` and `GOSUMDB=off`.
+Exact reviewed versions are required, and replacements fail closed unless both
+their module identity and version match the review. An inactive
+explicit-annotation starter imposes no dependency requirement. If the local Go
+module cache cannot answer the read-only query, Spice reports the inspection
+failure; users retain control over any separate dependency download.
 
 ## Shipped starter metadata
 

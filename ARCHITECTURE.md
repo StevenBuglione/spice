@@ -130,7 +130,11 @@ discovery. Explicit-constructor manifests select all declared entrypoints;
 explicit-annotation manifests select only feature-mapped subsets whose
 qualified annotation is present on an application marker. Generation emits
 ordinary direct calls with the same cleanup and rollback contract as
-application beans.
+application beans. Before provider analysis, dependencies declared by active
+starters are checked against a bounded, read-only Go module graph snapshot with
+proxy and checksum-database access disabled. Version and replacement identity
+must match the manifest review exactly; inactive annotation features do not
+impose dependencies and Spice never downloads them implicitly.
 
 Outbound OAuth2 service clients receive separate caller-owned token and
 resource clients plus an application-lifetime context. Token endpoints are
