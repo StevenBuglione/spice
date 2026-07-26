@@ -47,6 +47,22 @@ func Registry() annotation.Registry {
 		annotation.Definition{Name: "OnStart", Targets: annotation.Targets(annotation.TargetMethod)},
 		annotation.Definition{Name: "OnStop", Targets: annotation.Targets(annotation.TargetMethod)},
 		annotation.Definition{
+			Name:    "management.Enable",
+			Targets: annotation.Targets(annotation.TargetFunction),
+			Arguments: []annotation.ArgumentDefinition{
+				{
+					Name:             "expose",
+					Kinds:            []annotation.Kind{annotation.KindList},
+					ListElementKinds: []annotation.Kind{annotation.KindString},
+					Required:         true,
+				},
+			},
+		},
+		annotation.Definition{
+			Name:    "observability.Logging",
+			Targets: annotation.Targets(annotation.TargetFunction),
+		},
+		annotation.Definition{
 			Name:    "Post",
 			Targets: annotation.Targets(annotation.TargetMethod),
 			Arguments: []annotation.ArgumentDefinition{

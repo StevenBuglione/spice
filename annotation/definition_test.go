@@ -37,6 +37,19 @@ func TestRegistryRejectsInvalidDefinitions(t *testing.T) {
 		{name: "duplicate definition", definitions: []Definition{{Name: "Controller", Targets: Targets(TargetType)}, {Name: "Controller", Targets: Targets(TargetType)}}},
 		{name: "missing argument name", definitions: []Definition{{Name: "Controller", Targets: Targets(TargetType), Arguments: []ArgumentDefinition{{Kinds: []Kind{KindString}}}}}},
 		{name: "missing argument kind", definitions: []Definition{{Name: "Controller", Targets: Targets(TargetType), Arguments: []ArgumentDefinition{{Name: "prefix"}}}}},
+		{
+			name:    "list element kinds without list",
+			message: "without accepting list",
+			definitions: []Definition{{
+				Name:    "Feature",
+				Targets: Targets(TargetFunction),
+				Arguments: []ArgumentDefinition{{
+					Name:             "values",
+					Kinds:            []Kind{KindString},
+					ListElementKinds: []Kind{KindString},
+				}},
+			}},
+		},
 		{name: "ambiguous positional metadata", message: "multiple positional arguments", definitions: []Definition{{
 			Name: "Route", Targets: Targets(TargetMethod), Arguments: []ArgumentDefinition{
 				{Name: "path", Kinds: []Kind{KindString}, Positional: true},
@@ -60,7 +73,11 @@ func TestRegistryRejectsInvalidDefinitions(t *testing.T) {
 
 func TestRegistryReturnsDefensiveCopies(t *testing.T) {
 	t.Parallel()
-	registry, err := NewRegistry(Definition{Name: "Controller", Targets: Targets(TargetType), Arguments: []ArgumentDefinition{{Name: "prefix", Kinds: []Kind{KindString}}}})
+	registry, err := NewRegistry(Definition{Name: "Controller", Targets: Targets(TargetType), Arguments: []ArgumentDefinition{{
+		Name:             "prefix",
+		Kinds:            []Kind{KindString, KindList},
+		ListElementKinds: []Kind{KindString},
+	}}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -70,11 +87,14 @@ func TestRegistryReturnsDefensiveCopies(t *testing.T) {
 	}
 	first.Arguments[0].Name = "changed"
 	first.Arguments[0].Kinds[0] = KindInteger
+	first.Arguments[0].ListElementKinds[0] = KindBoolean
 	second, ok := registry.Lookup("Controller")
 	if !ok {
 		t.Fatal(`Lookup("Controller") did not find definition`)
 	}
-	if second.Arguments[0].Name != "prefix" || second.Arguments[0].Kinds[0] != KindString {
+	if second.Arguments[0].Name != "prefix" ||
+		second.Arguments[0].Kinds[0] != KindString ||
+		second.Arguments[0].ListElementKinds[0] != KindString {
 		t.Fatalf("registry state mutated: %#v", second)
 	}
 }

@@ -2,6 +2,7 @@ package annotation
 
 import (
 	"fmt"
+	"slices"
 	"sort"
 	"strings"
 )
@@ -111,10 +112,11 @@ func maskForTarget(target Target) TargetSet {
 
 // ArgumentDefinition describes one supported annotation argument.
 type ArgumentDefinition struct {
-	Name       string
-	Kinds      []Kind
-	Required   bool
-	Positional bool
+	Name             string
+	Kinds            []Kind
+	ListElementKinds []Kind
+	Required         bool
+	Positional       bool
 }
 
 // Definition describes one annotation and where it may be used.
@@ -212,6 +214,13 @@ func validateDefinition(definition Definition) error {
 		if len(argument.Kinds) == 0 {
 			return fmt.Errorf("annotation definition %q argument %q requires at least one value kind", definition.Name, argument.Name)
 		}
+		if len(argument.ListElementKinds) != 0 && !slices.Contains(argument.Kinds, KindList) {
+			return fmt.Errorf(
+				"annotation definition %q argument %q defines list element kinds without accepting list values",
+				definition.Name,
+				argument.Name,
+			)
+		}
 		if argument.Positional {
 			positionalArguments++
 		}
@@ -228,6 +237,10 @@ func cloneDefinition(definition Definition) Definition {
 	for index, argument := range definition.Arguments {
 		result.Arguments[index] = argument
 		result.Arguments[index].Kinds = append([]Kind(nil), argument.Kinds...)
+		result.Arguments[index].ListElementKinds = append(
+			[]Kind(nil),
+			argument.ListElementKinds...,
+		)
 	}
 	return result
 }

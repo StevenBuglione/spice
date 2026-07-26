@@ -28,6 +28,8 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		{name: "NamedInterface", targets: []annotation.Target{annotation.TargetPackage}, argumentName: "name", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true, repeatable: true},
 		{name: "OnStart", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "OnStop", targets: []annotation.Target{annotation.TargetMethod}},
+		{name: "management.Enable", targets: []annotation.Target{annotation.TargetFunction}, argumentName: "expose", kinds: []annotation.Kind{annotation.KindList}, required: true},
+		{name: "observability.Logging", targets: []annotation.Target{annotation.TargetFunction}},
 		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
 		{name: "Service", targets: []annotation.Target{annotation.TargetType}},
 	}
@@ -66,6 +68,10 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 			}
 			if !reflect.DeepEqual(argument.Kinds, test.kinds) {
 				t.Fatalf("%s argument kinds = %#v, want %#v", test.name, argument.Kinds, test.kinds)
+			}
+			if test.name == "management.Enable" &&
+				!reflect.DeepEqual(argument.ListElementKinds, []annotation.Kind{annotation.KindString}) {
+				t.Fatalf("%s list element kinds = %#v", test.name, argument.ListElementKinds)
 			}
 		})
 	}
