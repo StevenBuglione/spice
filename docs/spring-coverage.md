@@ -21,7 +21,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Data | Repository abstractions | Optional generated repositories and query integration | planned |
 | Data | JPA/Hibernate | Go-native persistence patterns; no transparent entity runtime | planned |
 | Data | Redis, MongoDB, Elasticsearch, Cassandra, Neo4j | Curated starters around mature Go clients | planned |
-| Migration | Flyway/Liquibase | Migration-tool starters and module ownership checks | planned |
+| Migration | Flyway/Liquibase | Module-owned immutable plans provide global version ordering, normalized SHA-256 drift detection, exact registry-prefix reconciliation, cancellation, and dialect-owned lock/atomic-apply contracts; concrete dialect backends follow | in-progress |
 | Messaging | Kafka, RabbitMQ, JMS-like APIs, Pulsar | Typed publishers/listeners with client-specific starters | planned |
 | Events | Application events | Immutable generic topics provide exact payload types and deterministic in-process delivery; bounded transactional messages, a driver-neutral SQL store, atomic enqueue/lease contracts, and at-least-once dispatch are available, while compiler generation and dialect starters follow | in-progress |
 | Scheduling | Scheduled and asynchronous work | Bounded asynchronous execution plus lifecycle-owned fixed-delay jobs provide backpressure, caller-owned contexts, non-overlap, explicit error continuation, deterministic failures, panic containment, graceful drain, observations, and virtual time; compiler annotations follow | in-progress |

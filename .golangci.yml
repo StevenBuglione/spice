@@ -69,6 +69,7 @@ linters:
             - "httpclient/**/*.go"
             - "lifecycle/**/*.go"
             - "management/**/*.go"
+            - "migration/**/*.go"
             - "observability/**/*.go"
             - "retry/**/*.go"
             - "schedule/**/*.go"

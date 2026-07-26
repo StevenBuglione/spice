@@ -71,6 +71,12 @@ transaction managers retain commit/rollback ownership and consume
 compiler-generated boundary and module identities; there is no ambient
 transaction, global pool, or retry hidden in a context.
 
+Database migrations form one immutable application-global version sequence
+while retaining module ownership. Core normalizes and checksums SQL, reconciles
+the durable registry as an exact plan prefix, and delegates advisory locking,
+transactional DDL policy, and atomic registry writes to explicit dialect
+backends.
+
 Application events use immutable generic topics assembled by generated code.
 Payloads retain exact Go types, subscriber order is stable, and delivery is
 synchronous unless an explicit asynchronous or durable adapter is injected.

@@ -27,6 +27,7 @@ The repository currently provides:
 - Module-aware synchronous lifecycle observations that generated applications expose without a global tracer or telemetry dependency.
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
 - Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, and synchronous observations.
+- Deterministic module-owned migration plans with global version ordering, normalized SHA-256 checksums, registry drift detection, and dialect-owned locking/atomic application.
 - Immutable generic event topics with exact payload types, deterministic subscriber order, cancellation/failure semantics, and module-interaction observations.
 - A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
@@ -125,6 +126,9 @@ OIDC JWT resource-server integration is documented in
 Transactional outbox storage and dispatch semantics are documented in
 [`docs/outbox.md`](docs/outbox.md).
 
+Module-owned database migration planning is documented in
+[`docs/migrations.md`](docs/migrations.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
@@ -174,6 +178,7 @@ Generated source and OpenAPI are committed under
 - `internal/qualitygate/`: cross-platform repository verification.
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
 - `data/`: public `database/sql` executor, transaction manager, and observation contracts.
+- `migration/`: deterministic module-owned plans, registry reconciliation, and execution contracts.
 - `event/`: public generic application-event topics, subscribers, and interaction observations.
 - `event/outbox/`: transactional durable-message and at-least-once dispatch contracts.
 - `retry/`: public bounded retry policies and typed execution helpers.
