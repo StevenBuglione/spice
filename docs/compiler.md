@@ -151,7 +151,8 @@ compiler stage. Generation must reject any model with diagnostics and must not
 reload packages, rebuild the graph, or inspect declaration bodies.
 
 Qualified bootstrap annotations are resolved by the same typed annotation
-pipeline. `@management.Enable` accepts one required endpoint list and
+pipeline. `@management.Enable` accepts one required endpoint list, including
+the explicitly opt-in redacted `configprops` report, and
 `@observability.Logging` accepts no arguments. The bootstrap compiler validates
 their exact application-marker target, duplicate/conflicting declarations,
 known endpoints, and graph requirements, then stores normalized immutable
@@ -296,7 +297,8 @@ process signals, management composition, metrics, and the shutdown deadline.
 The handwritten `main` is only the `os.Exit(Main(args))` process boundary.
 Repository
 verification runs generation freshness, generated construction, live typed
-HTTP, failure mapping, metrics, and graceful-drain checks.
+HTTP, failure mapping, cache/event interaction, redacted configuration
+reporting, metrics, and graceful-drain checks.
 
 ## Module discovery
 

@@ -10,6 +10,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/StevenBuglione/spice/config"
 	"github.com/StevenBuglione/spice/lifecycle"
 	"github.com/StevenBuglione/spice/web"
 )
@@ -244,6 +245,7 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 		{name: "unsupported endpoint", expose: []Endpoint{"environment"}},
 		{name: "duplicate endpoint", expose: []Endpoint{EndpointHealth, EndpointHealth}},
 		{name: "metrics without collector", expose: []Endpoint{EndpointMetrics}},
+		{name: "configprops without report", expose: []Endpoint{EndpointConfigProps}},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			if _, err := NewHandler(HandlerOptions{
@@ -263,6 +265,123 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 	handler.ServeHTTP(response, httptest.NewRequest(http.MethodGet, "/", nil))
 	if response.Code != http.StatusServiceUnavailable {
 		t.Fatalf("nil handler status = %d", response.Code)
+	}
+}
+
+func TestConfigurationReportAndExplicitEndpointRedactSecrets(t *testing.T) {
+	t.Parallel()
+	schema, err := config.NewSchema(
+		config.Property{
+			Key:      "service.token",
+			Kind:     config.KindString,
+			Module:   "example.com/service",
+			Required: true,
+			Secret:   true,
+		},
+		config.Property{
+			Key:        "service.workers",
+			Kind:       config.KindInteger,
+			Module:     "example.com/service",
+			Default:    "4",
+			HasDefault: true,
+		},
+		config.Property{
+			Key:    "service.optional",
+			Kind:   config.KindString,
+			Module: "example.com/service",
+		},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	source, err := config.NewMapSource("test", map[string]string{
+		"service.token": "top-secret-token",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	snapshot, err := config.Resolve(
+		context.Background(),
+		schema,
+		config.Options{},
+		source,
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	report, err := NewConfigurationReport(schema, snapshot)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(report.Properties) != 3 ||
+		report.Properties[0].Key != "service.optional" ||
+		report.Properties[0].Resolved ||
+		report.Properties[1].Key != "service.token" ||
+		report.Properties[1].Value != "<redacted>" ||
+		!report.Properties[1].Secret ||
+		report.Properties[1].Source != "test" ||
+		report.Properties[2].Key != "service.workers" ||
+		report.Properties[2].Value != "4" ||
+		!report.Properties[2].Default {
+		t.Fatalf("configuration report = %#v", report)
+	}
+	encoded, err := json.Marshal(report)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(encoded), "top-secret-token") {
+		t.Fatalf("configuration report leaked secret: %s", encoded)
+	}
+
+	manager, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler, err := NewHandler(HandlerOptions{
+		Manager:       manager,
+		Configuration: &report,
+		Expose:        []Endpoint{EndpointConfigProps},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	report.Properties[1].Value = "mutated"
+	response := serve(
+		handler,
+		http.MethodGet,
+		"/actuator/configprops",
+	)
+	if response.Code != http.StatusOK ||
+		strings.Contains(response.Body.String(), "top-secret-token") ||
+		strings.Contains(response.Body.String(), "mutated") ||
+		!strings.Contains(response.Body.String(), "redacted") {
+		t.Fatalf(
+			"configprops response = %d %s",
+			response.Code,
+			response.Body.String(),
+		)
+	}
+	if response := serve(
+		handler,
+		http.MethodGet,
+		"/actuator/health",
+	); response.Code != http.StatusNotFound {
+		t.Fatalf("unexposed health status = %d", response.Code)
+	}
+
+	otherSchema, err := config.NewSchema(config.Property{
+		Key:  "other.value",
+		Kind: config.KindString,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := NewConfigurationReport(
+		otherSchema,
+		snapshot,
+	); err == nil ||
+		!strings.Contains(err.Error(), "absent from schema") {
+		t.Fatalf("mismatched report error = %v", err)
 	}
 }
 

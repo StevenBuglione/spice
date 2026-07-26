@@ -12,6 +12,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/StevenBuglione/spice/config"
 	"github.com/StevenBuglione/spice/lifecycle"
 	"github.com/StevenBuglione/spice/web"
 )
@@ -192,11 +193,12 @@ func LifecycleChecks(
 
 // HandlerOptions configures one isolated management HTTP handler.
 type HandlerOptions struct {
-	BasePath string
-	Manager  *Manager
-	Info     map[string]string
-	Metrics  *HTTPMetrics
-	Expose   []Endpoint
+	BasePath      string
+	Manager       *Manager
+	Info          map[string]string
+	Metrics       *HTTPMetrics
+	Configuration *ConfigurationReport
+	Expose        []Endpoint
 }
 
 // Endpoint identifies one explicitly exposed management HTTP endpoint.
@@ -213,19 +215,81 @@ const (
 	EndpointInfo Endpoint = "info"
 	// EndpointMetrics exposes generated-route HTTP metrics.
 	EndpointMetrics Endpoint = "metrics"
+	// EndpointConfigProps exposes redacted generated configuration metadata.
+	EndpointConfigProps Endpoint = "configprops"
 )
+
+// ConfigurationProperty is one safe resolved configuration entry. Secret
+// values are always redacted.
+type ConfigurationProperty struct {
+	Key      string      `json:"key"`
+	Kind     config.Kind `json:"kind"`
+	Module   string      `json:"module,omitempty"`
+	Value    string      `json:"value,omitempty"`
+	Source   string      `json:"source,omitempty"`
+	Resolved bool        `json:"resolved"`
+	Default  bool        `json:"default,omitempty"`
+	Secret   bool        `json:"secret,omitempty"`
+}
+
+// ConfigurationReport is a deterministic generated configuration view.
+type ConfigurationReport struct {
+	Properties []ConfigurationProperty `json:"properties"`
+}
+
+// NewConfigurationReport combines one generated schema and its resolved
+// snapshot without exposing raw secret values.
+func NewConfigurationReport(
+	schema config.Schema,
+	snapshot config.Snapshot,
+) (ConfigurationReport, error) {
+	properties := schema.Properties()
+	known := make(map[string]struct{}, len(properties))
+	for _, property := range properties {
+		known[property.Key] = struct{}{}
+	}
+	for _, key := range snapshot.Keys() {
+		if _, found := known[key]; !found {
+			return ConfigurationReport{}, fmt.Errorf(
+				"construct configuration report: snapshot key %q is absent from schema",
+				key,
+			)
+		}
+	}
+	redacted := snapshot.Redacted()
+	report := ConfigurationReport{
+		Properties: make([]ConfigurationProperty, 0, len(properties)),
+	}
+	for _, property := range properties {
+		item := ConfigurationProperty{
+			Key:    property.Key,
+			Kind:   property.Kind,
+			Module: property.Module,
+			Secret: property.Secret,
+		}
+		if entry, resolved := snapshot.Entry(property.Key); resolved {
+			item.Value = redacted[property.Key]
+			item.Source = entry.Origin.Source
+			item.Resolved = true
+			item.Default = entry.Origin.Default
+		}
+		report.Properties = append(report.Properties, item)
+	}
+	return report, nil
+}
 
 // Handler serves one isolated set of management endpoints.
 type Handler struct {
-	basePath string
-	manager  *Manager
-	info     map[string]string
-	metrics  *HTTPMetrics
-	exposed  map[Endpoint]struct{}
-	mux      *http.ServeMux
+	basePath      string
+	manager       *Manager
+	info          map[string]string
+	metrics       *HTTPMetrics
+	configuration *ConfigurationReport
+	exposed       map[Endpoint]struct{}
+	mux           *http.ServeMux
 }
 
-// NewHandler constructs health, liveness, readiness, and info endpoints.
+// NewHandler constructs exactly the explicitly exposed management endpoints.
 func NewHandler(options HandlerOptions) (*Handler, error) {
 	if options.Manager == nil {
 		return nil, errors.New("construct management handler: manager is nil")
@@ -237,17 +301,22 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 	if !validBasePath(basePath) {
 		return nil, fmt.Errorf("construct management handler: base path %q must be a clean absolute path below root", basePath)
 	}
-	exposed, err := exposedEndpoints(options.Expose, options.Metrics != nil)
+	exposed, err := exposedEndpoints(
+		options.Expose,
+		options.Metrics != nil,
+		options.Configuration != nil,
+	)
 	if err != nil {
 		return nil, err
 	}
 	handler := &Handler{
-		basePath: basePath,
-		manager:  options.Manager,
-		info:     cloneInfo(options.Info),
-		metrics:  options.Metrics,
-		exposed:  exposed,
-		mux:      http.NewServeMux(),
+		basePath:      basePath,
+		manager:       options.Manager,
+		info:          cloneInfo(options.Info),
+		metrics:       options.Metrics,
+		configuration: cloneConfigurationReport(options.Configuration),
+		exposed:       exposed,
+		mux:           http.NewServeMux(),
 	}
 	if handler.exposes(EndpointHealth) {
 		handler.mux.HandleFunc("GET "+basePath+"/health", handler.serveReport(GroupHealth))
@@ -264,10 +333,20 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 	if handler.exposes(EndpointMetrics) {
 		handler.mux.HandleFunc("GET "+basePath+"/metrics", handler.serveMetrics)
 	}
+	if handler.exposes(EndpointConfigProps) {
+		handler.mux.HandleFunc(
+			"GET "+basePath+"/configprops",
+			handler.serveConfiguration,
+		)
+	}
 	return handler, nil
 }
 
-func exposedEndpoints(configured []Endpoint, metrics bool) (map[Endpoint]struct{}, error) {
+func exposedEndpoints(
+	configured []Endpoint,
+	metrics bool,
+	configuration bool,
+) (map[Endpoint]struct{}, error) {
 	if configured == nil {
 		configured = []Endpoint{
 			EndpointHealth,
@@ -289,6 +368,10 @@ func exposedEndpoints(configured []Endpoint, metrics bool) (map[Endpoint]struct{
 		case EndpointMetrics:
 			if !metrics {
 				return nil, errors.New("construct management handler: metrics endpoint requires an HTTP metrics collector")
+			}
+		case EndpointConfigProps:
+			if !configuration {
+				return nil, errors.New("construct management handler: configprops endpoint requires a configuration report")
 			}
 		default:
 			return nil, fmt.Errorf(
@@ -361,6 +444,33 @@ func (handler *Handler) serveInfo(writer http.ResponseWriter, _ *http.Request) {
 func (handler *Handler) serveMetrics(writer http.ResponseWriter, _ *http.Request) {
 	if writeErr := web.WriteJSON(writer, http.StatusOK, handler.metrics.Snapshot()); writeErr != nil {
 		return
+	}
+}
+
+func (handler *Handler) serveConfiguration(
+	writer http.ResponseWriter,
+	_ *http.Request,
+) {
+	if writeErr := web.WriteJSON(
+		writer,
+		http.StatusOK,
+		handler.configuration,
+	); writeErr != nil {
+		return
+	}
+}
+
+func cloneConfigurationReport(
+	report *ConfigurationReport,
+) *ConfigurationReport {
+	if report == nil {
+		return nil
+	}
+	return &ConfigurationReport{
+		Properties: append(
+			[]ConfigurationProperty(nil),
+			report.Properties...,
+		),
 	}
 }
 

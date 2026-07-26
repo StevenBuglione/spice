@@ -34,6 +34,12 @@ Generated property keys and environment variables are framework-owned.
 Collisions with `@Configuration` fields fail before rendering. Cache capacity
 must fit a positive platform `int`; a zero TTL disables expiration and a
 negative TTL fails application construction.
+
+Applications may explicitly expose
+`@management.Enable(expose=["configprops"])`. The generated report uses this
+same schema and resolved snapshot to show deterministic key, kind, module,
+source, default, and resolution metadata. Secret values are always
+`<redacted>`; they are never copied into the management report.
 Strings, Booleans, signed integers (including named forms and aliases), and
 `time.Duration` are supported. The compiler validates keys, scalar defaults,
 integer widths, environment names, duplicate properties, duplicate environment

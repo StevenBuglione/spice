@@ -8,11 +8,12 @@ application marker:
 
 ```go
 // @Application
-// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics"])
+// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops"])
 func Application(*Server) {}
 ```
 
-Valid names are `health`, `liveness`, `readiness`, `info`, and `metrics`.
+Valid names are `health`, `liveness`, `readiness`, `info`, `metrics`, and
+`configprops`.
 The compiler rejects unknown or duplicate names with source positions,
 normalizes order deterministically, and verifies that the selected application
 graph owns the required `*http.ServeMux`. The generated handler registers
@@ -46,10 +47,19 @@ An isolated handler serves:
 | `GET /actuator/health/readiness` | traffic readiness report |
 | `GET /actuator/info` | caller-owned copied string metadata |
 | `GET /actuator/metrics` | generated-route HTTP metrics when a collector is supplied |
+| `GET /actuator/configprops` | generated configuration key/type/module/value/provenance metadata with mandatory secret redaction |
 
 Down reports use HTTP 503; up reports and info use HTTP 200. Responses use the
 same secure JSON writer as generated controllers. The default base path is
 `/actuator`; a custom path must be a clean absolute path below `/`.
+
+`configprops` is never part of the runtime default set and is generated only
+when explicitly allowlisted. Generation combines the exact schema and resolved
+snapshot after configuration resolution. Each property reports its key, kind,
+module, resolution state, source, default provenance, and safe value. Secret
+values are always `<redacted>`; raw secret values never enter the report.
+Schema/snapshot mismatches fail application construction, and the handler
+copies the report before serving it.
 
 `management.HTTPMetrics` implements `web.HTTPObserver`. It records requests,
 in-flight work, status counts, bytes, total/max duration, and panics per stable
