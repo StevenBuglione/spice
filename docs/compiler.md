@@ -6,6 +6,17 @@
 
 The loader deliberately accepts standard Go package patterns such as `./...` rather than translating them into a filesystem walk. It also passes through caller-provided working directories, environments, build flags, overlays, and cancellation.
 
+Compiler extensions can supply exact import paths through
+`Options.AuxiliaryPackages`. These roots participate in the same single
+`packages.Load` call and exact `go/types` universe as application packages, so
+their exported constructors can become direct provider nodes. `Packages` and
+`Symbols` retain the complete typed program; `PrimaryPackages` and
+`PrimarySymbols` exclude auxiliary roots. Annotation resolution and Modulith
+discovery use the primary views, preventing a selected starter's own comments
+or package structure from silently becoming application metadata. Auxiliary
+paths are exact and explicit—wildcards, relative patterns, discovery, and
+dependency-presence activation are rejected.
+
 Package directories come from `go/packages.Package.Dir`, with selected source files as a deterministic fallback for drivers that omit it. Each package exposes a deterministic `Files` view that pairs a physical compiled-file path with its AST. The compatibility `CompiledGoFiles` and `Syntax` slices are derived from that same view and remain index-aligned; they are never sorted independently. Cgo-transformed build-cache inputs remain visible without redefining source package ownership.
 
 Normal application compilation keeps `Tests` disabled. Requests with `Options.Tests` set to true fail immediately with a deterministic configuration diagnostic. Test-package and generated test-binary variants remain unsupported until Spice defines separate identities for production packages, in-package test variants, external test packages, and generated test binaries. This prevents duplicate stable package and symbol IDs from entering later compiler phases.
