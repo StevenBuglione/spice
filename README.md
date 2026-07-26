@@ -179,8 +179,8 @@ Stable text/JSON diagnostic codes, physical and source-mapped ranges, related
 information, and version-aware safe edit contracts are documented in
 [`docs/diagnostics.md`](docs/diagnostics.md).
 
-The isolated overlay-aware analysis API used to converge command and editor
-behavior is documented in
+The isolated overlay-aware analysis API shared by generation, run, dev, and
+future editor clients is documented in
 [`docs/compiler-service.md`](docs/compiler-service.md).
 
 The recursive watcher, deterministic debounce policy, unique candidate builds,

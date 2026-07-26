@@ -26,9 +26,10 @@ accelerator remains follow-up; content polling is the correctness fallback.
 The isolated overlay compiler service now returns the shared diagnostics,
 resolved annotations, exact provider/application/module/configuration models,
 safe fixes, and pure generation readiness with cancellation, stale-sequence
-rejection, and bounded content-keyed caching. The next slices make every
-command consumer use it and deliver LSP/Zed, then complete the mail transports
-and reference workflow. Broad MongoDB,
+rejection, and bounded content-keyed caching. Generate, build, run, and dev
+now consume that service, including selected-starter metadata and reviewed
+module-version enforcement. The next slices deliver LSP/Zed, then complete the
+mail transports and reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 

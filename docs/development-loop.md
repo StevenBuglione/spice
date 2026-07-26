@@ -32,7 +32,8 @@ process without a shell.
 
 Every accepted change batch has one monotonically increasing revision:
 
-1. load and validate the existing typed compiler pipeline with cancellation;
+1. submit the revision to the shared overlay-aware compiler service, which
+   cancels and rejects obsolete analysis;
 2. report the same source-positioned compiler failures used by other CLI
    commands;
 3. render and apply generation through the ownership guard;
@@ -97,8 +98,8 @@ attached to a failure.
 
 ## Current boundary
 
-This slice provides the complete CLI supervisor and portable fallback watcher.
-The overlay-aware compiler service, editor/LSP debounce, native notification
-accelerator, and Zed integration are separate remaining developer-proof
-deliverables. Generated application code remains ordinary committed Go and
-requires no Spice compiler at runtime.
+This slice provides the complete CLI supervisor, shared compiler-service
+integration, and portable fallback watcher. Editor/LSP debounce, a native
+notification accelerator, and Zed integration are separate remaining
+developer-proof deliverables. Generated application code remains ordinary
+committed Go and requires no Spice compiler at runtime.

@@ -38,6 +38,13 @@ No provider or marker body executes. Source failures become the same immutable
 `compiler/diagnostic.Set` consumed by `spice verify`; cancellation and invalid
 service requests remain ordinary Go errors.
 
+An explicitly selected starter catalog is part of the service configuration,
+not command-specific post-processing. The service composes its annotation and
+bootstrap definitions, loads only its declared constructor packages, validates
+only dependencies activated by the application source against the caller's Go
+module graph, and adds those constructors to the same provider graph. Missing
+or mismatched reviewed versions fail before application generation.
+
 The result exposes defensive:
 
 - resolved annotation summaries and physical/source-mapped locations;
@@ -48,7 +55,7 @@ The result exposes defensive:
 - generated configuration property metadata with secret defaults omitted;
 - completion-safe annotation definitions;
 - version-aware safe fixes already attached to diagnostics;
-- the pure generation plan and readiness flag.
+- the selected target name, pure generation plan, and readiness flag.
 
 Consumers never parse rendered diagnostic text and never rebuild metadata from
 declaration comments.
@@ -69,3 +76,9 @@ changes whenever extension metadata changes.
 
 There is no global workspace, cache, registry mutation, filesystem write, or
 network policy override.
+
+`spice generate`, `spice build`, `spice run`, and `spice dev` all consume this
+service. The development supervisor reuses one instance and submits its
+monotonic change revision as the analysis sequence, so obsolete work cannot be
+published after a newer save. Editor and LSP clients use the same API with
+versioned overlays rather than reconstructing compiler behavior.
