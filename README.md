@@ -176,6 +176,10 @@ Stable text/JSON diagnostic codes, physical and source-mapped ranges, related
 information, and version-aware safe edit contracts are documented in
 [`docs/diagnostics.md`](docs/diagnostics.md).
 
+The executable foundation and the remaining reference-application integration
+debt are tracked explicitly in
+[`docs/stable-core-acceptance.md`](docs/stable-core-acceptance.md).
+
 Outbound integrations can use the base-scoped, bounded typed JSON client in
 [`docs/http-client.md`](docs/http-client.md).
 

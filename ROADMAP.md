@@ -16,8 +16,11 @@ trimpath candidate, and relays the selected package-main process on Windows and
 Unix. Coverage-map labels are not substitutes for executable acceptance. The
 shared `spice.diagnostics/v1` contract now backs text and machine-readable
 verification while retaining physical/source-mapped positions for editor use.
-The next slices audit remaining core acceptance, deliver the dev loop and LSP,
-then complete the mail transports and reference workflow. Broad MongoDB,
+The stable-core executable matrix is recorded in
+`docs/stable-core-acceptance.md`; remaining security/data/mail work is explicit
+reference integration debt rather than an untested core contract. The next
+slices deliver the dev loop and LSP, then complete the mail transports and
+reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 
