@@ -2,9 +2,9 @@
 
 The repository-owned extension in `editors/zed` attaches the editor-neutral
 `spice lsp` server to Go buffers. It adds Spice annotation completion,
-versioned diagnostics, hover, quick fixes, module/configuration metadata, and
-semantic annotation highlighting while leaving `gopls` responsible for
-ordinary Go language features.
+versioned diagnostics, hover, definition and document-link navigation, quick
+fixes, module/configuration metadata, and semantic annotation highlighting
+while leaving `gopls` responsible for ordinary Go language features.
 
 The extension contains no compiler and downloads nothing. It resolves an
 explicitly configured executable first and otherwise looks for `spice` on the
@@ -67,6 +67,7 @@ Keep both servers enabled:
 
 ```json
 {
+  "lsp_document_links": true,
   "languages": {
     "Go": {
       "language_servers": ["gopls", "spice", "..."],
@@ -75,6 +76,16 @@ Keep both servers enabled:
   }
 }
 ```
+
+`lsp_document_links` is enabled by default in current Zed releases, but keeping
+it explicit in the repository setting makes the modifier-click contract
+visible.
+Hold the platform modifier (`Ctrl` on Windows/Linux or `Cmd` on macOS) while
+hovering an annotation to see its exact token underlined, then click to open
+the definition. In this repository, navigation opens the exact definition row
+in `docs/annotations.md`. In consumer workspaces, the document link opens the
+authoritative online annotation reference. Go-to-definition also resolves the
+exact local row when the reference is part of the workspace.
 
 Spice advertises `@` as a completion trigger. At a declaration-comment
 position, accepting an annotation completion inserts valid Go such as:
@@ -97,16 +108,20 @@ actual Spice annotations and module roots. Recognition never relies on
 
 ## Annotation presentation
 
-`spice lsp` emits the standard semantic `decorator` token for the
-`@qualified.Annotation` portion of a valid `// @...` declaration. With
-`semantic_tokens: "combined"`, Zed can emphasize that token while its Go
-grammar continues to render the punctuation as a comment.
+`spice lsp` emits standard semantic tokens for the full annotation structure:
+`decorator` for `@qualified.Annotation`, `parameter` for argument names,
+`string` and `number` for typed values, `keyword` for booleans and identifiers,
+and `operator` for delimiters. With `semantic_tokens: "combined"`, Zed can
+render annotations as structured source while its Go grammar keeps the comment
+prefix visually subordinate. The extension also supplies a native colored
+completion label rather than displaying every suggestion as plain text.
 
-The current public Zed extension API does not expose an arbitrary text
+The current public Zed extension API does not expose an arbitrary buffer
 decoration or concealment hook that can hide only the `// ` prefix of a
-built-in Go comment. Spice therefore does not fork the Go grammar or place
-invalid raw annotations on disk to simulate concealment. The source-of-truth
-representation remains ordinary, inspectable Go.
+built-in Go comment. The standard semantic-token protocol can restyle ranges
+but cannot remove source characters. Spice therefore does not fork the Go
+grammar or place invalid raw annotations on disk to simulate concealment. The
+source-of-truth representation remains ordinary, inspectable Go.
 
 ## Dependency review
 
@@ -130,6 +145,11 @@ current Spice checkout. In `main.go`:
 3. Add a new raw `@Application` line, request completion or the quick fix, and
    confirm the resulting source is `// @Application`.
 4. Hover an annotation to inspect its compiler-derived target and arguments.
+5. Hold `Ctrl`/`Cmd` over each exact `@...` token, confirm it is underlined, and
+   click through to its definition row.
+6. Confirm the annotation name, argument, strings, and punctuation receive
+   distinct semantic presentation while the Go comment prefix remains visible
+   and subordinate.
 
 Protocol behavior is tested independently of Zed in `internal/lsp`; the
 fixture is deliberately small so the visible editor loop is easy to inspect.

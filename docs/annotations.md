@@ -356,6 +356,8 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@Controller` | Type | `prefix` string, optional, named-only |
 | `@Get` | Method | `path` string, required, named or positional |
 | `@management.Enable` | `@Application` package-level function | `expose` string list, required, named-only |
+| `@Module` | Package documentation | `allowedDependencies` string list, optional and named-only |
+| `@NamedInterface` | Package documentation | Interface name string, required, named or positional; repeatable |
 | `@observability.Logging` | `@Application` package-level function | None |
 | `@OnStart` | Method | None |
 | `@OnStop` | Method | None |

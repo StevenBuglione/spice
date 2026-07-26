@@ -86,8 +86,9 @@ The repository currently provides:
   `generate`, `build`, `run`, last-known-good `dev`, and editor-neutral `lsp`
   commands.
 - A repository-owned Zed extension that launches the same LSP beside `gopls`
-  for completion, diagnostics, hover, safe quick fixes, module/configuration
-  metadata, and valid-Go annotation highlighting on Windows and Linux.
+  for completion, diagnostics, hover, modifier-click annotation navigation,
+  safe quick fixes, module/configuration metadata, and structured valid-Go
+  annotation highlighting on Windows and Linux.
 - A generated-application HTTP test slice with loopback-only serving, bounded
   detached responses, strict JSON/problem decoding, construction rollback,
   and idempotent lifecycle cleanup, plus transaction-scoped generic SQL
@@ -194,9 +195,9 @@ The stdio language server, versioned diagnostics, annotation/configuration
 completion, hover, safe code actions, and workspace settings are documented in
 [`docs/lsp.md`](docs/lsp.md).
 
-The Zed development extension, PATH/settings setup, semantic annotation
-presentation, supported-API limitation, and diagnostic fixture are documented
-in [`docs/zed.md`](docs/zed.md).
+The Zed development extension, PATH/settings setup, modifier-click definition
+navigation, semantic annotation presentation, supported-API limitation, and
+diagnostic fixture are documented in [`docs/zed.md`](docs/zed.md).
 
 The recursive watcher, deterministic debounce policy, unique candidate builds,
 last-known-good recovery, and graceful restart controls used by `spice dev` are

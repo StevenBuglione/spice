@@ -43,7 +43,7 @@ Application-global failures that do not have a source location use
 
 ## Language features
 
-Completion is derived from the current compiler result:
+Completion and navigation are derived from the current compiler result:
 
 - built-in and explicitly selected starter annotations;
 - annotation arguments and required-argument snippets;
@@ -63,6 +63,15 @@ describes annotation targets and argument types, module summaries, and
 configuration types, environment names, requirements, and non-secret defaults.
 Secret defaults never enter compiler metadata or hover text.
 
+Definition requests on a recognized annotation return an exact link to its row
+in `docs/annotations.md` when that reference is present in the workspace.
+Document-link requests cover every recognized annotation token. They target
+that exact local row when available and otherwise target the authoritative
+Spice annotation reference. Unknown annotations and `@` text in strings or
+ordinary comments never become links. This lets clients provide modifier-hover
+underlining and modifier-click navigation without inventing an editor-only
+annotation model.
+
 Code actions come from `compiler/diagnostic.SuggestedFix`. The server returns an
 action only when every edit names an open document, carries the exact current
 document version, and intersects the requested range. The first available fix
@@ -80,11 +89,12 @@ to:
 
 The edit is a precise prefix insertion rather than a file rewrite.
 
-The server also provides full-document semantic tokens. The
-`@qualified.Annotation` portion of each valid declaration comment is reported
-as the standard `decorator` token; the `// ` punctuation remains ordinary Go
-comment syntax. Editors choose whether and how to combine semantic tokens with
-their native Go grammar.
+The server also provides full-document semantic tokens. It reports
+`@qualified.Annotation` as `decorator`, argument names as `parameter`, quoted
+values as `string`, integers as `number`, booleans and unquoted values as
+`keyword`, and annotation delimiters as `operator`. The `// ` prefix remains
+ordinary Go comment syntax. Editors choose whether and how to combine semantic
+tokens with their native Go grammar.
 
 ## Workspace settings
 
@@ -127,10 +137,11 @@ continues.
 
 The server supports initialize, initialized, shutdown, exit, cancellation,
 document open/change/save/close, workspace-folder changes, configuration
-refresh, diagnostics, completion, hover, quick fixes, and full semantic tokens.
-Shutdown cancels active analyses. Caller context cancellation interrupts a
-blocked closable input stream. Multiple workspaces never share services,
-overlays, results, or caches.
+refresh, diagnostics, completion, hover, definition and document-link
+navigation, quick fixes, and full semantic tokens. Shutdown cancels active
+analyses. Caller context cancellation interrupts a blocked closable input
+stream. Multiple workspaces never share services, overlays, results, or
+caches.
 
 The first-party Zed adapter and its setup/fixture are documented in
 [`zed.md`](zed.md).

@@ -33,8 +33,9 @@ diagnostics and provides compiler-derived annotation, module, configuration,
 hover, safe-edit, and semantic-token metadata over bounded stdio JSON-RPC.
 The repository-owned Zed extension launches that server beside `gopls`, uses
 the standard settings/PATH contracts on Windows and Linux, and preserves valid
-Go while providing native completion, diagnostics, quick fixes, and semantic
-annotation emphasis. The bounded test mail transport now supplies immutable
+Go while providing native completion, diagnostics, exact modifier-click
+annotation navigation, quick fixes, and structured semantic annotation
+presentation. The bounded test mail transport now supplies immutable
 decoded delivery snapshots, deterministic failure injection, explicit
 capacity behavior, and payload-free observations. The next slice is secure
 SMTP, followed by the final reference workflow. Broad MongoDB,
