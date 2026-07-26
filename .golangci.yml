@@ -71,6 +71,7 @@ linters:
             - "management/**/*.go"
             - "observability/**/*.go"
             - "retry/**/*.go"
+            - "schedule/**/*.go"
             - "web/**/*.go"
           deny:
             - pkg: "github.com/StevenBuglione/spice/compiler"
