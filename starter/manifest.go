@@ -33,7 +33,7 @@ const (
 	// call a declared constructor.
 	ActivationExplicitConstructor ActivationMode = "explicit-constructor"
 	// ActivationExplicitAnnotation requires a declared qualified annotation and
-	// a future compiler adapter to select declared entrypoints.
+	// compiler selection of its declared entrypoints.
 	ActivationExplicitAnnotation ActivationMode = "explicit-annotation"
 )
 

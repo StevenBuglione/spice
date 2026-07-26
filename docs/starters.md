@@ -208,12 +208,21 @@ and fails before filesystem generation on any invalid or incompatible manifest.
 
 Selection is explicit repository configuration, not dependency discovery.
 Spice does not search module caches, call `Manifest()` functions, load plugins,
-or infer activation from imports. The compiler can now validate, graph, render,
-compile, and execute explicitly supplied starter entrypoints through its public
-programmatic seam. The CLI does not yet load and map selection entrypoints into
-that seam, so `.spice/starters.json` currently contributes annotations,
-features, and freshness metadata but not constructor calls. CLI entrypoint
-mapping and dependency alignment are subsequent slices.
+or infer activation from imports. Before its one typed package load, the CLI
+adds every declared constructor package as an auxiliary root. Auxiliary symbols
+remain available for exact provider analysis while their comments and package
+structure cannot become application annotations or modules.
+
+An `explicit-constructor` manifest activates every declared entrypoint when the
+manifest is selected. An `explicit-annotation` manifest activates only the
+entrypoint subset mapped to each qualified annotation actually present in
+source on an `@Application` marker; absent or misplaced annotations emit no
+constructor. Active functions must exist as exported package-level symbols and
+satisfy the ordinary provider signature contract. The resulting exact-type
+nodes participate in graph diagnostics, direct generated calls, immediate
+cleanup registration, reverse rollback, executable builds, and
+provenance-sensitive freshness checks. Dependency-version alignment remains a
+subsequent slice.
 
 ## Shipped starter metadata
 

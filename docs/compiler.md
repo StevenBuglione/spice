@@ -159,10 +159,19 @@ the function and retains the starter ID and version as provenance.
 `application.BuildOptions.ProviderCatalogs` merges these validated nodes into
 the exact-type graph. The renderer then emits the same direct dependency-first
 call, immediate cleanup registration, rollback, and error handling used for an
-`@Bean`; provenance participates in the ownership hash. The current public seam
-is programmatic. Resolving the repository selection to loaded entrypoint
-packages in the CLI and dependency alignment remain separate slices. Imports
-or `go.mod` entries have no activation effect.
+`@Bean`; provenance participates in the ownership hash.
+
+The CLI maps `.spice/starters.json` through this seam before its single typed
+load. Every declared entrypoint package joins that load as an auxiliary root:
+its symbols share the exact type universe while its comments and package
+structure remain outside application annotation and Modulith discovery.
+`explicit-constructor` selections activate all declared constructors.
+`explicit-annotation` selections activate only the exact feature entrypoint
+subsets whose qualified annotation occurs on an `@Application` marker. Missing
+functions, unsupported signatures, duplicate constructor ownership, exact-type
+graph failures, and generation all fail closed before filesystem application.
+Dependency-version alignment remains a separate slice. Imports or `go.mod`
+entries have no activation effect.
 
 ## Deterministic generation plan
 

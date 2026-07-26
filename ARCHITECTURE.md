@@ -122,8 +122,15 @@ deterministic compatibility, dependency, entrypoint, annotation, feature, and
 review metadata without registering global behavior. An application-owned
 `.spice/starters.json` document explicitly selects embedded manifests for CLI
 and compiler composition. Spice does not scan dependencies or execute manifest
-functions; importing a starter alone has no activation semantics, and generated
-entrypoint selection remains separate.
+functions; importing a starter alone has no activation semantics. Selected
+constructor packages join the compiler's one typed load as auxiliary roots, so
+their exported symbols can become exact provider nodes without their own
+comments or package structure entering application annotation or Modulith
+discovery. Explicit-constructor manifests select all declared entrypoints;
+explicit-annotation manifests select only feature-mapped subsets whose
+qualified annotation is present on an application marker. Generation emits
+ordinary direct calls with the same cleanup and rollback contract as
+application beans.
 
 Outbound OAuth2 service clients receive separate caller-owned token and
 resource clients plus an application-lifetime context. Token endpoints are

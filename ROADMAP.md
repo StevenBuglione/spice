@@ -17,7 +17,9 @@ CLI/compiler feature composition without dependency-presence activation. The
 compiler now validates explicitly supplied starter entrypoint functions in the
 same typed program, merges them into the exact provider graph, and renders
 ordinary direct calls with cleanup/rollback behavior and provenance-sensitive
-ownership hashes. CLI selection-to-entrypoint mapping, dependency alignment,
+ownership hashes. The CLI now loads selected entrypoint packages as isolated
+auxiliary roots and maps explicit-constructor or annotation-selected subsets
+into that graph without import-based activation. Dependency alignment,
 module-cache discovery, and richer compile-time conditions remain future work.
 
 ## M0 — Product and compiler proof
