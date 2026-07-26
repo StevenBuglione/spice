@@ -21,6 +21,19 @@ type Server struct {
 ```
 
 Tag options are `default=<value>`, `env=<NAME>`, `required`, and `secret`.
+
+Generated platform features also contribute typed properties. A
+`@cache.Cacheable(name="products.by-id")` route adds:
+
+- `spice.cache.products.by-id.capacity` /
+  `SPICE_CACHE_PRODUCTS_BY_ID_CAPACITY`, default `256`;
+- `spice.cache.products.by-id.ttl` /
+  `SPICE_CACHE_PRODUCTS_BY_ID_TTL`, default `5m`.
+
+Generated property keys and environment variables are framework-owned.
+Collisions with `@Configuration` fields fail before rendering. Cache capacity
+must fit a positive platform `int`; a zero TTL disables expiration and a
+negative TTL fails application construction.
 Strings, Booleans, signed integers (including named forms and aliases), and
 `time.Duration` are supported. The compiler validates keys, scalar defaults,
 integer widths, environment names, duplicate properties, duplicate environment

@@ -371,5 +371,7 @@ and exact key/value types to immutable application IR. The key must be an
 exported comparable named request struct. The compiler rejects writes, raw or
 no-content routes, transaction boundaries, duplicate cache names, and
 authorization-sensitive caching without an explicit principal-bearing key.
-This compiler slice deliberately fails generation until the renderer creates
-the bounded store and wraps the typed route directly.
+The renderer adds deterministic capacity/TTL schema properties, constructs the
+bounded typed store after providers, and emits direct get/call/put route logic.
+Cache identity and exact key/value metadata participate in the ownership hash;
+configuration or observer failures abort through reverse provider cleanup.

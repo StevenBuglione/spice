@@ -207,8 +207,9 @@ It must use lowercase alphanumeric segments separated by `.` or `-` and must
 be unique in the application. The request must be an exported comparable named
 struct value and becomes the exact cache key type. Raw, mutating, no-content,
 transactional, and authorization-sensitive routes fail closed. Runtime
-capacity and TTL belong to typed configuration; direct generated route
-wrapping follows the compiler metadata slice.
+capacity and TTL belong to typed configuration. Generation constructs one
+bounded in-memory store and emits direct get/call/put logic; method errors are
+never cached.
 
 ## Transactional HTTP routes
 

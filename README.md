@@ -42,7 +42,8 @@ The repository currently provides:
 - A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts, a bounded in-memory LRU/TTL cache, and compile-time
-  `@cache.Cacheable` typed-read metadata with safe route/key validation.
+  `@cache.Cacheable` typed-read generation with configured capacity/TTL,
+  deterministic keys, safe route validation, and bounded observations.
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
 - Compile-time `@schedule.FixedDelay` jobs with exact provider ownership, direct generated method calls, non-overlap, explicit failure continuation, graceful drain, panic containment, observations, and virtual-time test seams.
 - An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric

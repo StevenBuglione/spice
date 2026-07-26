@@ -129,8 +129,11 @@ HTTP response caching is an explicit generated boundary. A qualified
 whose request DTO is an exported comparable struct value. The compiler carries
 stable cache, route, module, key, and value identities in immutable IR. It
 rejects write/raw/no-content routes, transaction ownership, and authorization
-until those semantics can be represented in an explicit cache key. Direct
-bounded-store construction and route wrapping follow in the renderer slice.
+until those semantics can be represented in an explicit cache key. Generation
+adds typed capacity/TTL properties, constructs one bounded instance-owned store,
+and emits direct get/call/put control flow around the route. Caller-owned clocks
+and observers remain explicit application options; handler errors are never
+cached.
 
 HTTP authorization is explicit route metadata. A qualified
 `@security.Authorize` declaration is validated against a real controller

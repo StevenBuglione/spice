@@ -48,4 +48,21 @@ principal-aware caching requires an explicit principal-bearing key contract,
 and mutating requests are never cached implicitly. The immutable compiler IR
 contains the stable cache/route/module identity and exact key/value types.
 Direct bounded-memory construction, typed configuration for capacity/TTL, and
-generated route wrapping follow in the renderer slice.
+generated route wrapping use ordinary inspectable Go. Each cache contributes:
+
+- `spice.cache.<name>.capacity`, default `256`;
+- `spice.cache.<name>.ttl`, default `5m`, where `0s` disables expiration.
+
+The generated environment names use
+`SPICE_CACHE_<NORMALIZED_NAME>_CAPACITY` and
+`SPICE_CACHE_<NORMALIZED_NAME>_TTL`. Names that would normalize to the same
+environment prefix fail at compile time, as do user configuration keys or
+environment mappings that collide with generated properties. Capacity must fit
+a positive platform `int`; TTL cannot be negative.
+
+Generated route logic validates and binds the request before lookup, returns a
+hit without invoking the controller, and stores only a successful controller
+response. Lookup and put failures use the normal generated RFC 9457 error path.
+`ApplicationOptions.CacheClock` and `CacheObservers` are explicit test and
+observability seams. A cache construction failure participates in reverse
+provider rollback.
