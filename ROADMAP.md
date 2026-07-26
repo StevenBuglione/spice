@@ -23,8 +23,12 @@ reusable dev supervisor and portable recursive watcher now provide
 deterministic debounce, unique candidate builds, last-known-good recovery, and
 bounded Windows/Unix process-group restart through `spice dev`. A native watch
 accelerator remains follow-up; content polling is the correctness fallback.
-The next slices extract the overlay compiler service and deliver LSP/Zed, then
-complete the mail transports and reference workflow. Broad MongoDB,
+The isolated overlay compiler service now returns the shared diagnostics,
+resolved annotations, exact provider/application/module/configuration models,
+safe fixes, and pure generation readiness with cancellation, stale-sequence
+rejection, and bounded content-keyed caching. The next slices make every
+command consumer use it and deliver LSP/Zed, then complete the mail transports
+and reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 

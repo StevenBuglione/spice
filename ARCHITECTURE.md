@@ -41,6 +41,8 @@ Valid Go source
 - One immutable diagnostic contract with stable codes, physical URI/ranges,
   source-mapped display positions, related information, and safe versioned
   edits.
+- One instance-owned overlay compiler service with bounded content-keyed
+  caching and per-workspace stale-request rejection.
 - Annotation target and argument validation.
 
 ### Application model

@@ -77,8 +77,16 @@ edits. Immutable sets defensively copy nested values and sort by physical
 identity before display metadata. `spice verify` consumes those sets in text
 mode and exposes the deterministic `spice.diagnostics/v1` envelope with
 `--format=json`; command integrations never parse rendered error strings.
-Development and LSP services consume the same model as those slices are
-delivered.
+`compiler/service` exposes that pipeline as one read-only, overlay-aware
+analysis operation. It normalizes and bounds workspace overlays, returns
+source failures through the same diagnostic set, retains the immutable
+application IR, and exposes defensive annotation, exact-provider, module, and
+configuration summaries plus a pure generation plan. Sequenced requests are
+cancelled and rejected when a newer request for the same workspace arrives;
+different service instances and workspace identities remain isolated. Its
+small LRU is used only when the caller supplies a hash covering all relevant
+disk and overlay content, so an unkeyed filesystem request is never reused
+stale. See `docs/compiler-service.md`.
 
 The caller context is forwarded to `go/packages` and external
 `GOPACKAGESDRIVER` processes; cancelling an already-running load terminates the

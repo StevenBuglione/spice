@@ -179,6 +179,10 @@ Stable text/JSON diagnostic codes, physical and source-mapped ranges, related
 information, and version-aware safe edit contracts are documented in
 [`docs/diagnostics.md`](docs/diagnostics.md).
 
+The isolated overlay-aware analysis API used to converge command and editor
+behavior is documented in
+[`docs/compiler-service.md`](docs/compiler-service.md).
+
 The recursive watcher, deterministic debounce policy, unique candidate builds,
 last-known-good recovery, and graceful restart controls used by `spice dev` are
 documented in [`docs/development-loop.md`](docs/development-loop.md).
