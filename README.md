@@ -30,6 +30,7 @@ The repository currently provides:
 - Immutable generic event topics with exact payload types, deterministic subscriber order, cancellation/failure semantics, and module-interaction observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
+- Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
@@ -105,6 +106,9 @@ Context-aware resilience policies are documented in
 Typed caching and the built-in bounded store are documented in
 [`docs/cache.md`](docs/cache.md).
 
+Bounded asynchronous task execution is documented in
+[`docs/async.md`](docs/async.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
@@ -157,6 +161,7 @@ Generated source and OpenAPI are committed under
 - `event/`: public generic application-event topics, subscribers, and interaction observations.
 - `retry/`: public bounded retry policies and typed execution helpers.
 - `cache/`: public generic cache contracts and bounded in-memory implementation.
+- `async/`: public bounded asynchronous execution and lifecycle contracts.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
 - `starter/`: reviewed opt-in third-party integrations, including OpenTelemetry.
 - `tools/`: isolated, pinned development tools module.

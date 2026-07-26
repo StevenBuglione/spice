@@ -61,6 +61,7 @@ linters:
           list-mode: lax
           files:
             - "annotation/**/*.go"
+            - "async/**/*.go"
             - "cache/**/*.go"
             - "config/**/*.go"
             - "data/**/*.go"
