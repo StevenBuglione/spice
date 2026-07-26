@@ -55,7 +55,8 @@ The repository currently provides:
 - Restartable ordered batch jobs with atomic attempt/checkpoint contracts, exact
   completed-prefix validation, fresh failure contexts, panic containment,
   bounded observations, a concurrency-safe capacity-bounded in-process store,
-  and a driver-neutral lease-aware SQL persistence protocol.
+  a driver-neutral lease-aware SQL persistence protocol, and a real-container
+  verified PostgreSQL backend.
 - An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric
   starter with exact generated observer-role validation and
   application-owned providers/exporters.

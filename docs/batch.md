@@ -85,8 +85,38 @@ nil selects `time.Now`.
 The SQL store validates every reconstructed completed prefix before returning
 it to the runner. Database errors are wrapped without adding the instance
 identity. Dialect statements still own transactionality, locking, schema, and
-lease comparison details; the PostgreSQL schema and reviewed statements remain
-the next integration slice.
+lease comparison details.
+
+## PostgreSQL
+
+`starter/postgres` supplies the reviewed PostgreSQL schema and atomic
+statements. Schema creation remains an application-owned migration:
+
+```go
+options := postgres.BatchOptions{
+    Schema:       "orders",
+    AttemptLease: 15 * time.Minute,
+}
+schemaSQL, err := postgres.BatchSchemaSQL(options)
+// Include schemaSQL in a module-owned migration.Spec.
+
+store, err := postgres.NewBatchStore(database, options)
+```
+
+Empty relation options select `public.spice_batch_execution`; explicit names
+must be valid PostgreSQL identifiers and are always quoted. `NewBatchStore`
+does not connect or apply DDL.
+
+The begin statement uses one PostgreSQL upsert to insert, reject an active
+lease, reject definition drift, recognize completion, or atomically claim the
+next attempt after failure/expiry. Checkpoint, completion, and failure updates
+match the exact definition, instance, signed attempt number, state, and next
+ordered step. A superseded worker therefore receives `ErrStaleAttempt`.
+
+The pinned PostgreSQL integration test proves failed-step restart, retained
+prefixes across reconstructed stores, concurrent ownership, definition-drift
+rejection, expired-lease takeover, and stale-owner rejection against a real
+server under the race detector.
 
 The complete restart flow is executable as the `ExampleMemoryStore_restart`
 example in the `batch` package.

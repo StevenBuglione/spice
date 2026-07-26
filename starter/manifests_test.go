@@ -85,10 +85,15 @@ func TestShippedStarterManifests(t *testing.T) {
 			},
 		},
 		{
-			name:         "postgres",
-			manifest:     postgres.Manifest,
-			entrypoints:  []any{postgres.Open},
-			capabilities: []string{"data.postgresql", "data.sql", "migration.postgresql"},
+			name:        "postgres",
+			manifest:    postgres.Manifest,
+			entrypoints: []any{postgres.Open, postgres.NewBatchStore},
+			capabilities: []string{
+				"batch.postgresql",
+				"data.postgresql",
+				"data.sql",
+				"migration.postgresql",
+			},
 			dependencies: []starter.Dependency{
 				{Module: "github.com/jackc/pgx/v5", Version: "v5.10.0", License: "MIT"},
 			},

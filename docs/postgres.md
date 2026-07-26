@@ -28,6 +28,12 @@ fixed registry table in a validated existing schema, and applies each
 multi-statement migration plus its metadata in one transaction. See
 [`migrations.md`](migrations.md) for the durability and lock contract.
 
+`postgres.NewBatchStore` adapts the pool to Spice's restartable batch runner
+using atomic upsert/checkpoint statements and explicit attempt leases.
+`postgres.BatchSchemaSQL` supplies deterministic initial DDL for inclusion in
+an application-owned migration; construction never applies schema implicitly.
+See [`batch.md`](batch.md) for restart, idempotency, and lease semantics.
+
 Connection configuration must be a complete `postgres://` or
 `postgresql://` URL containing user, non-empty password, host, explicit port,
 and database. This prevents pgx from silently completing connection identity
@@ -66,5 +72,7 @@ Remove-Item Env:SPICE_POSTGRES_TEST_URL
 The tagged tests fail, rather than silently skipping, when the URL is absent.
 They perform a real ping, commit through `data.Manager`, read through
 `data/repository`, race two migration runners under one advisory lock, execute a
-multi-statement migration, prove transactional rollback, and verify that a
-canceled lock wait returns its context error.
+multi-statement migration, prove transactional rollback, verify that a canceled
+lock wait returns its context error, and exercise durable batch restart,
+concurrent ownership, definition drift, lease takeover, and stale-owner
+rejection.
