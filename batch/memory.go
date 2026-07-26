@@ -127,7 +127,7 @@ func (store *MemoryStore) Checkpoint(
 	if err := validateMemoryContext(ctx, store, "checkpoint"); err != nil {
 		return err
 	}
-	if err := validateMemoryAttempt(attempt); err != nil {
+	if err := validateStoreAttempt(attempt); err != nil {
 		return fmt.Errorf("checkpoint batch attempt: %w", err)
 	}
 	if !validMetadata(step) {
@@ -159,7 +159,7 @@ func (store *MemoryStore) Complete(
 	if err := validateMemoryContext(ctx, store, "complete"); err != nil {
 		return err
 	}
-	if err := validateMemoryAttempt(attempt); err != nil {
+	if err := validateStoreAttempt(attempt); err != nil {
 		return fmt.Errorf("complete batch attempt: %w", err)
 	}
 
@@ -333,7 +333,7 @@ func validateBeginRequest(request BeginRequest) error {
 	return nil
 }
 
-func validateMemoryAttempt(attempt Attempt) error {
+func validateStoreAttempt(attempt Attempt) error {
 	if err := validateDefinition(attempt.definition); err != nil {
 		return err
 	}
@@ -347,7 +347,7 @@ func validateMemoryAttempt(attempt Attempt) error {
 }
 
 func validateFailure(failure Failure) error {
-	if err := validateMemoryAttempt(failure.Attempt); err != nil {
+	if err := validateStoreAttempt(failure.Attempt); err != nil {
 		return fmt.Errorf("fail batch attempt: %w", err)
 	}
 	if !validMetadata(failure.Step) {
