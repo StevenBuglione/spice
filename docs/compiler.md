@@ -131,10 +131,15 @@ re-reads raw comments.
 
 The feature compiler is an explicit typed definition seam for qualified
 annotations. The public `starter` manifest SDK now provides portable syntax
-and application-feature specifications plus compatibility metadata; an
-explicit compiler adapter and repository discovery layer remain separate
-slices. Definitions must be deliberately supplied, and imports or `go.mod`
-entries have no activation effect.
+and application-feature specifications plus compatibility metadata.
+`compiler/starter` validates an explicitly supplied manifest catalog against
+the Spice API and Go version, composes its annotation registry, and maps
+application features into `application.BuildWithOptions`. Source identity,
+version, normalized options, requirements, and exported entrypoints survive in
+immutable IR and the generation input hash. Definitions and manifests must be
+deliberately supplied: repository discovery, CLI composition, and generated
+entrypoint selection remain separate slices, and imports or `go.mod` entries
+have no activation effect.
 
 ## Deterministic generation plan
 

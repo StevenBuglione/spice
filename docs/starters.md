@@ -94,11 +94,22 @@ explicitly composed compiler registry. The SDK validates qualified names,
 targets, arguments, option relationships, unique capabilities, and runtime
 requirement identities before those definitions can reach compilation.
 
-The manifest SDK is the public metadata boundary. Repository discovery,
-compiler composition, generated entrypoint selection, and starter dependency
-alignment are subsequent slices. Until those adapters are present, annotation
-manifests do not change generated behavior and must not be represented as
-active merely because their module is installed.
+`compiler/starter.New` is the explicit compiler adapter. It accepts
+application-selected manifests, verifies their exact Spice API and minimum Go contracts,
+sorts them by import-path identity, and rejects duplicate manifest,
+annotation, or capability identities. `Catalog.Registry` composes contributed
+syntax with a caller-owned base registry; `Catalog.BootstrapDefinitions`
+supplies immutable feature definitions to `application.BuildWithOptions`.
+Compiled features retain manifest identity, version, normalized options,
+runtime requirements, and exported entrypoints. Those inputs participate in
+the generated ownership hash, so changing a selected starter invalidates
+`spice generate --check`.
+
+The adapter performs no repository scan and never treats an imported or
+downloaded module as active. CLI manifest composition, generated entrypoint
+selection, and starter dependency alignment are subsequent slices. Until
+entrypoint selection is implemented, an explicit-annotation feature is
+validated and represented in IR but does not emit a constructor call.
 
 ## Shipped starter metadata
 
