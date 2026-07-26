@@ -33,6 +33,7 @@ The repository currently provides:
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
 - Lifecycle-owned fixed-delay scheduling with non-overlapping jobs, explicit failure continuation, graceful drain, panic containment, and virtual-time support.
 - Immutable authenticated principals and deny-by-default role/scope policies with safe RFC 9457 HTTP guards and bounded authorization observations.
+- An opt-in OIDC JWT resource server with strict bearer parsing, signature/issuer/audience/expiry verification, exact claim mapping, and safe authentication failures.
 - A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
 - Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`, `generate`, and `build` commands.
@@ -117,6 +118,9 @@ Fixed-delay job registration and lifecycle are documented in
 Authentication boundaries and generated authorization policies are documented
 in [`docs/security.md`](docs/security.md).
 
+OIDC JWT resource-server integration is documented in
+[`docs/oidc-resource-server.md`](docs/oidc-resource-server.md).
+
 For a repository containing package-level `@Module` roots:
 
 ```bash
@@ -173,7 +177,7 @@ Generated source and OpenAPI are committed under
 - `schedule/`: public fixed-delay job registration and lifecycle runtime.
 - `security/`: public principals, deny-by-default policies, authorizer, and HTTP guards.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
-- `starter/`: reviewed opt-in third-party integrations, including OpenTelemetry.
+- `starter/`: reviewed opt-in integrations, including OpenTelemetry telemetry and OIDC JWT resource-server authentication.
 - `tools/`: isolated, pinned development tools module.
 - `examples/`: executable reference applications.
 - `docs/`: user and product documentation.

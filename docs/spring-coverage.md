@@ -16,7 +16,7 @@ Spice aims to cover as much of the practical Spring Boot and Spring Modulith pla
 | Web | HTTP clients | Base-scoped context-owned `net/http` clients provide safe defaults, redirect/SSRF boundaries, bounded typed JSON, RFC 9457 remote errors, and a raw escape hatch | available |
 | Web | WebSocket, GraphQL, gRPC | Go-native integrations and starters | planned |
 | Security | Authentication and authorization | Immutable verified principals, deny-by-default exact role/scope policies, safe 401/403 HTTP guards, direct-service authorization, and bounded observations are available; compiler policy generation and authenticators follow | in-progress |
-| Security | Resource server and client | Standards-based Go integrations | planned |
+| Security | Resource server and client | Opt-in JWT resource servers verify signature, exact issuer/audience, expiry, strict bearer syntax, and bounded role/scope claims before creating principals; discovery, opaque introspection, and OAuth2 clients follow | in-progress |
 | Data | JDBC and transaction management | Standard-library executor and transaction manager contracts provide caller-owned pools, module/boundary metadata, commit/rollback ownership, joined failures, panic rollback, and observations; generated decorators and driver starters follow | in-progress |
 | Data | Repository abstractions | Optional generated repositories and query integration | planned |
 | Data | JPA/Hibernate | Go-native persistence patterns; no transparent entity runtime | planned |
