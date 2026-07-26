@@ -44,5 +44,23 @@ idempotency key.
 
 Publisher panics are observed and re-raised; the lease is left to expire.
 Observations contain topic/module/attempt and outcome metadata, never payloads
-or lease receipts. The forthcoming SQL store supplies atomic statement
-execution and affected-row checks while leaving locking syntax dialect-owned.
+or lease receipts.
+
+## SQL store
+
+`SQLStore` accepts a long-lived `data.Executor` plus four trusted,
+dialect-owned statements. It performs no database operation during
+construction.
+
+- Insert arguments: ID, topic, module, content type, payload, occurrence time.
+- Claim arguments: owner, current time, lease expiry, limit.
+- Claim columns: ID, topic, module, content type, payload, occurrence time,
+  opaque receipt, one-based attempt.
+- Complete arguments: owner, receipt.
+- Release arguments: owner, receipt, next availability time.
+
+The claim statement must atomically select and lease rows in occurrence-time/ID
+order. Spice reconstructs and validates every message, rejects duplicate or
+unordered results, closes and checks rows, and requires completion/release to
+affect exactly one row. Locking syntax and migrations remain dialect-owned;
+the PostgreSQL starter will supply reviewed statements and schema.

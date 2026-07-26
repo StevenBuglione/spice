@@ -28,7 +28,7 @@ The repository currently provides:
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
 - Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, and synchronous observations.
 - Immutable generic event topics with exact payload types, deterministic subscriber order, cancellation/failure semantics, and module-interaction observations.
-- A transactional outbox protocol with immutable bounded messages, atomic enqueue contracts, deterministic leases, at-least-once dispatch, explicit failure delay, and payload-free observations.
+- A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts and a bounded in-memory LRU/TTL cache with explicit expiration, caller-owned time, safe metrics, and no cleanup goroutine.
 - Bounded asynchronous execution with admission backpressure, caller-owned lifetime contexts, deterministic failure aggregation, panic containment, and lifecycle shutdown.
