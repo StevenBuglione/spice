@@ -156,6 +156,26 @@ emits a direct method value. A single generated scheduler starts after ordinary
 provider hooks and shuts down before them. No method body executes during
 analysis, and no runtime annotation lookup or global scheduler exists.
 
+## Asynchronous execution
+
+`@async.Execute` targets an exported method owned by exactly one exact
+`@Bean` output. It accepts no annotation arguments. The non-variadic contract
+is `func(receiver)(context.Context, arguments...) error`; parameter zero must
+be the exact canonical context type, and remaining argument types must be
+nameable from the target-scoped generated package.
+
+```go
+// @async.Execute
+func (*Mailer) Send(context.Context, Message) error {
+    return nil
+}
+```
+
+The compiler derives a stable typed submit-method name, rejects collisions,
+and stores copied argument types in immutable application IR. It does not
+invoke the annotated method. Generated bounded submission is the next
+in-progress layer; callers can use the public `async.Executor` directly today.
+
 ## Typed application events
 
 `@event.Listener` targets an exported method owned by exactly one exact
@@ -288,6 +308,7 @@ A positional value is accepted only when exactly one definition argument is expl
 |---|---|---|
 | `@Application` | Package-level function | None |
 | `@Bean` | Package-level function | None |
+| `@async.Execute` | Exact provider-owned exported method | None |
 | `@cache.Cacheable` | Exact typed `@Get` method | `name` string, required and named-only |
 | `@Configuration` | Type | `prefix` string, optional, named-only |
 | `@Controller` | Type | `prefix` string, optional, named-only |

@@ -152,6 +152,14 @@ scheduler, ordered after provider startup and before provider shutdown.
 Application options retain caller-owned lifetime, virtual-time, and observation
 seams; there is no runtime scan, global scheduler, or hidden clock.
 
+Asynchronous entrypoints use the same explicit ownership model.
+`@async.Execute` must target one exported method on exactly one provider output
+with canonical context, error, and generated-nameable argument types. The
+compiler derives collision-free typed submit names and carries copied task
+metadata into application IR without invoking the method. Bounded execution
+remains instance-owned; there is no proxy, service locator, or global worker
+pool.
+
 ### Starters
 
 Third-party integrations live under `starter/` and remain opt-in at the package

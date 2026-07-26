@@ -1,5 +1,14 @@
 # Bounded asynchronous execution
 
+`@async.Execute` is compile-time provider-owned method metadata. The compiler
+accepts only exported non-generic, non-variadic
+`func(receiver)(context.Context, arguments...) error` methods owned by one
+exact provider output. It rejects unnameable argument types and generated
+submit-method collisions with source positions, preserves argument types in
+immutable application IR, and never executes the method body. Generated typed
+submission is in progress; the explicit runtime API below remains the current
+execution path.
+
 `async.Executor` is an instance-owned, lifecycle-scoped alternative to
 unbounded `go` statements:
 

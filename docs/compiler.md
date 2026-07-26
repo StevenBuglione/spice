@@ -131,14 +131,29 @@ waiter, and observer seams for embedding and deterministic tests. Scheduler
 construction errors pass through coordinator abort, so existing provider
 cleanup still rolls back in reverse order.
 
+## Typed asynchronous-method catalog
+
+`compiler/async` consumes the same typed program and exact provider catalog.
+Argument-free `@async.Execute` declarations target exported methods with the
+non-variadic form
+`func(receiver)(context.Context, arguments...) error`. The compiler validates
+the canonical context and predeclared error identities, exact provider
+ownership, generated-package accessibility for every argument type, and
+collision-free typed `Application.Submit<Receiver><Method>` names.
+
+Tasks are sorted by stable method identity and copied into immutable
+application IR. The compiler never invokes annotated methods. This stage
+establishes the fail-closed contract for generated bounded submission; it does
+not introduce runtime method lookup, goroutines, or a global executor.
+
 ## Immutable application model
 
 `compiler/application` is the authoritative generation input assembled from the
 same loaded program and resolved annotations. It runs the provider, graph,
-controller, lifecycle, and scheduling stages once, retains dependency-first
-provider order and cleanup flags, reorders lifecycle components by that
-construction order, retains deterministic scheduled jobs, and validates typed
-`@Application` roots.
+controller, lifecycle, scheduling, and asynchronous-method stages once,
+retains dependency-first provider order and cleanup flags, reorders lifecycle
+components by that construction order, retains deterministic scheduled jobs
+and typed asynchronous tasks, and validates typed `@Application` roots.
 
 An `@Application` marker is an argument-free package-level function with no type
 parameters, variadic parameter, or results. Its ordinary parameter types are
