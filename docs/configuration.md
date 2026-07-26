@@ -183,8 +183,9 @@ An `@Application` target always includes the typed
 `spice.shutdown-timeout` property. Its default is `10s`, and its explicit
 environment name is `SPICE_SHUTDOWN_TIMEOUT`.
 
-The generated `Main` helper opts into `config.OSEnvironment("SPICE_")` and
-passes that source to construction. Reusable `NewApplication` and
+The preferred generated `spiceMain` bridge (or compatible legacy `Main`
+helper) opts into `config.OSEnvironment("SPICE_")` and passes that source to
+construction. Reusable `NewApplication` and
 `NewApplicationWithOptions` do not read the process environment: callers can
 provide their own ordered sources, profiles, and unknown-key policy.
 `RunCommand` also exposes the `ApplicationOptions` seam for tests and embedded

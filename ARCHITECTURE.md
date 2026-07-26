@@ -45,7 +45,8 @@ Valid Go source
 
 - Components and providers.
 - Dependency graph and lifecycle.
-- Application roots and explicit qualified bootstrap features.
+- Preferred package-main compile-time discovery, compatible typed legacy roots,
+  and explicit qualified bootstrap features.
 - Application modules and named interfaces.
 - Configuration ownership.
 - Routes, event contracts, and transaction boundaries.
@@ -63,6 +64,14 @@ Generation is split into a pure in-memory plan and a guarded filesystem
 application. The pure renderer consumes the immutable application IR, emits
 canonical target-scoped Go plus SHA-256 ownership metadata, and performs no
 filesystem or network mutation.
+
+The preferred `@Application` is the ordinary parameterless `func main()` in
+package `main`. The selected Go package scope is already bounded by the
+standard package driver; Spice discovers package-documentation modules and
+annotated application features within that scope, resolves exact types, and
+emits their real imports and calls beside `main.go`. Multi-application
+repositories use explicit target/package scope. This is compile-time analysis,
+not runtime scanning, `init` registration, or implicit dependency resolution.
 
 `@Application` supplies safe command conventions. Qualified companion
 annotations opt into behavior with exposure or operational consequences. The

@@ -23,6 +23,9 @@ Before writing, it validates:
 Normal generation refuses to replace a manually edited owned file, refuses even
 a byte-identical file without manifest ownership, and removes a stale file only
 when its bytes still match the prior manifest and retain the generated marker.
+Schema-1 generated-package ownership can migrate to the preferred schema-2
+application-package layout only when the target identity is canonical and
+every old owned file is unchanged; a manual edit blocks the migration.
 
 ## Apply protocol
 

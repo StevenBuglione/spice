@@ -61,8 +61,34 @@ nested annotations.
 
 ## `@Application` marker functions
 
-`@Application` marks an ordinary package-level function whose parameter types
-are application roots:
+The preferred application declaration is the ordinary Go process entrypoint:
+
+```go
+package main
+
+import "os"
+
+// @Application
+// @management.Enable(expose=["health", "readiness", "info"])
+// @observability.Logging
+func main() {
+	os.Exit(spiceMain(os.Args[1:]))
+}
+```
+
+The preferred marker must be the parameterless, result-free, non-generic
+`func main()` in package `main`. `spiceMain` is generated beside it and is the
+only framework invocation handwritten at the process boundary. During safe
+regeneration, the typed loader permits only that exact temporarily unresolved
+call inside the annotated function; every other Go load error remains fatal.
+
+Spice analyzes the selected local Go package scope, discovers
+package-documentation `@Module` roots and supported annotated features, builds
+one exact provider graph, and generates deterministic direct imports and
+calls. `main.go` does not import modules merely to discover them. Package
+patterns or an exact target selector bound multi-application repositories.
+
+The pre-1.0 legacy form remains supported:
 
 ```go
 // @Application
@@ -71,11 +97,10 @@ func Commerce(server *HTTPServer, worker Worker) {
 }
 ```
 
-The annotation takes no arguments. The function must be non-generic,
-non-variadic, and return no results. Every parameter must be the exact Go type
-produced by one `@Bean`; aliases preserve exact identity, while implicit
-interface implementation, assignability, pointer/value conversion, and
-underlying-type equality do not select a provider.
+Each legacy parameter must be the exact Go type produced by one `@Bean`;
+aliases preserve exact identity, while implicit interface implementation,
+assignability, pointer/value conversion, and underlying-type equality do not
+select a provider.
 
 The marker body has no framework semantics and is never executed during
 analysis. Packages without a marker remain valid for library verification.
@@ -89,7 +114,9 @@ companions opt into behavior with exposure or operational consequences:
 // @Application
 // @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
 // @observability.Logging
-func Commerce(*Server) {}
+func main() {
+	os.Exit(spiceMain(os.Args[1:]))
+}
 ```
 
 Both companions are valid only on an `@Application` function. Endpoint names
@@ -120,7 +147,12 @@ func(dependencies...) (T, lifecycle.Cleanup, error)
 
 Every parameter is a required exact-type dependency for the graph phase. Provider methods, generic or variadic functions, annotation arguments, malformed result ordering, multiple cleanup or error results, and extra values are rejected with source-positioned diagnostics.
 
-`spice verify` validates catalog and graph metadata but does not execute providers or cleanup callbacks. The pure generator now renders exported providers as direct calls in graph order and registers cleanup immediately; filesystem application is still a separate explicit command layer. A dedicated generated package cannot import `package main` or call unexported declarations, so render validation requires providers and lifecycle hooks to be exported and declared in importable packages.
+`spice verify` validates catalog and graph metadata but does not execute
+providers or cleanup callbacks. The pure generator renders exported providers
+as direct calls in graph order and registers cleanup immediately; filesystem
+application remains a separate explicit command layer. Providers and lifecycle
+hooks must be exported and declared in importable application-module packages,
+not the process-only `main` shell.
 
 Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, optional values, groups, and collection injection remain explicit future capabilities.
 
@@ -162,7 +194,7 @@ analysis, and no runtime annotation lookup or global scheduler exists.
 `@Bean` output. It accepts no annotation arguments. The non-variadic contract
 is `func(receiver)(context.Context, arguments...) error`; parameter zero must
 be the exact canonical context type, and remaining argument types must be
-nameable from the target-scoped generated package.
+nameable from the generated application package.
 
 ```go
 // @async.Execute

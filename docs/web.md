@@ -128,11 +128,12 @@ generated Spice binding and RFC 9457 policy.
 ## OpenAPI
 
 Every target with controllers emits a deterministic OpenAPI 3.1 document at
-`internal/spicegen/<target>/openapi.json`. Typed operations include path, query,
-and header parameters; JSON request bodies; JSON or 204 success responses; and
-the shared RFC 9457 problem schema. Component schemas preserve JSON field
-names, omission rules, arrays, maps, pointers, recursive references,
-`time.Time`, and `time.Duration`.
+`openapi.json` beside the preferred annotated `main.go`; compatible legacy
+targets retain `internal/spicegen/<target>/openapi.json`. Typed operations
+include path, query, and header parameters; JSON request bodies; JSON or 204
+success responses; and the shared RFC 9457 problem schema. Component schemas
+preserve JSON field names, omission rules, arrays, maps, pointers, recursive
+references, `time.Time`, and `time.Duration`.
 
 Protected operations additionally declare the generated Bearer security scheme,
 401/403 problem responses, and stable `x-spice-authorization` requirements.

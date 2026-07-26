@@ -9,7 +9,9 @@ application marker:
 ```go
 // @Application
 // @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
-func Application(*Server) {}
+func main() {
+	os.Exit(spiceMain(os.Args[1:]))
+}
 ```
 
 Valid names are `health`, `liveness`, `readiness`, `info`, `metrics`,

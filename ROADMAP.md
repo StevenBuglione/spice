@@ -9,14 +9,13 @@ last-known-good `spice dev` supervisor, one shared overlay-aware compiler
 service, editor-neutral LSP support, a polished Zed integration, and one secure
 external mail integration exercised by the modular commerce application.
 
-The existing bootstrap, module, configuration, web, security, and data
-capabilities remain the foundation, but their coverage-map labels are not
-substitutes for executable acceptance. The next slices replace manual
-bootstrap-package roots with package-main discovery and a same-package command
-bridge, audit the stable core, deliver the dev loop and LSP, then complete the
-mail transports and reference workflow. Broad MongoDB, OpenSearch, Kafka,
-RabbitMQ, GraphQL, and WebSocket work remains paused until that workflow is
-repeatable on Windows and Linux.
+The preferred package-main discovery and same-package command bridge are now
+exercised by the commerce application; the compatible legacy layout remains
+available pre-1.0. Coverage-map labels are not substitutes for executable
+acceptance. The next slices audit the stable core, deliver the dev loop and
+LSP, then complete the mail transports and reference workflow. Broad MongoDB,
+OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
+that workflow is repeatable on Windows and Linux.
 
 ## M0 — Product and compiler proof
 

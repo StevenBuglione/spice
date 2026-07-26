@@ -20,8 +20,10 @@ The repository currently provides:
 - Annotation parsing, resolution, and source-positioned validation.
 - Exact-type bean/configuration provider catalog and deterministic dependency graph validation.
 - Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
-- Exact-type `@Application` roots assembled with provider, lifecycle, and typed
-  bootstrap-feature data in one immutable application IR.
+- A preferred annotated package-main `func main()` that discovers the selected
+  local module scope at compile time, plus a pre-1.0 compatible exact-type
+  parameter-root marker form, both assembled with provider, lifecycle, and
+  typed bootstrap-feature data in one immutable application IR.
 - Annotation-driven generated commands with conventional environment
   configuration, structured command logging, explicit management/logging
   companions, redacted configuration reporting, stable exit codes, signal
@@ -119,7 +121,7 @@ go run ./cmd/spice version
 go run ./cmd/spice annotations ./examples/commerce/...
 go run ./cmd/spice verify ./...
 go run ./cmd/spice test --module github.com/StevenBuglione/spice/examples/commerce/orders --count=1 ./examples/commerce/...
-go run ./cmd/spice generate --check --target Commerce ./examples/commerce/bootstrap ./examples/commerce/inventory ./examples/commerce/orders ./examples/commerce/payments ./examples/commerce/platform
+go run ./cmd/spice generate --check --target Commerce ./examples/commerce/...
 go run ./examples/commerce -check
 ```
 
@@ -132,41 +134,41 @@ spice generate --diff ./...
 spice build ./...
 ```
 
-Application-platform conventions are declared on that marker and compiled into
-ordinary direct-call Go:
+Application-platform conventions live on the ordinary process entrypoint and
+compile into direct-call Go beside it:
 
 ```go
+package main
+
+import "os"
+
 // @Application
 // @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
 // @observability.Logging
-func Commerce(*platform.Server, *orders.Service) {
-    panic("Spice application marker bodies are never executed")
-}
-```
-
-The handwritten process boundary stays small:
-
-```go
 func main() {
-    os.Exit(commerce.Main(os.Args[1:]))
+    os.Exit(spiceMain(os.Args[1:]))
 }
 ```
 
-Generated `Main` returns an exit code; it does not call `os.Exit`. It resolves
+`spiceMain` is generated into the same package and returns an exit code; it
+does not call `os.Exit`. It resolves
 the generated schema from the `SPICE_` environment convention, logs command
 startup and failures, owns `SIGINT`/`SIGTERM`, and creates a fresh bounded
 shutdown context. `spice.shutdown-timeout` defaults to `10s` and can be set
 with `SPICE_SHUTDOWN_TIMEOUT`.
 
-Controller targets also own
-`internal/spicegen/<target>/openapi.json`; generation check/diff verifies it
-alongside the generated application.
+Controller targets also own `openapi.json` beside the annotated command;
+generation check/diff verifies it alongside the generated application.
 
 Production services opt into only the management routes they intend to expose
 with `@management.Enable(expose=[...])`. The endpoint allowlist is exact and
 validated at compile time; package presence or a `go.mod` dependency never
 activates it. See
 [`docs/management.md`](docs/management.md).
+
+The preferred annotated `main.go`, compile-time discovery scope, generated
+bridge, and legacy migration contract are documented in
+[`docs/application.md`](docs/application.md).
 
 Outbound integrations can use the base-scoped, bounded typed JSON client in
 [`docs/http-client.md`](docs/http-client.md).
@@ -237,9 +239,13 @@ with dependency-first composition order for module test slices.
 for exactly its owned packages, excluding unrelated and unassigned packages.
 See [`docs/testing.md`](docs/testing.md).
 
-Use `--target Name` when the selected packages contain multiple application
-markers. Generation writes only manifest-owned files under
-`internal/spicegen/<target>` and `.spice/<target>.manifest.json`.
+Use `--target Name`, the command import path, or the stable marker symbol ID
+when the selected packages contain multiple application markers. Positional Go
+package patterns provide explicit compile-time scope in a multi-application
+monorepo; an ordinary single-application module needs no dummy imports or
+module list. Preferred package-main generation writes manifest-owned files
+beside `main.go` and `.spice/<target>.manifest.json`. Legacy marker targets
+retain `internal/spicegen/<target>` during the pre-1.0 compatibility period.
 
 To start the example HTTP server:
 
@@ -252,18 +258,18 @@ curl http://localhost:8081/actuator/configprops
 curl http://localhost:8081/actuator/modules
 ```
 
-The modular commerce declaration enables structured request/lifecycle logging
+The modular commerce `main.go` enables structured request/lifecycle logging
 and exactly seven management endpoints. Its generated command owns
 `SIGINT`/`SIGTERM`, conventional environment loading, check mode, stable exit
 codes, and fresh bounded shutdown. Its generated application also owns the
 fixed-delay audit and exposes a typed, bounded asynchronous inventory
 verification method that drains before provider cleanup. The generated
 `Application` itself never captures process signals. Generated source and
-OpenAPI are committed under
-`internal/spicegen/commerce`; the matching ownership manifest is
+OpenAPI are committed as `examples/commerce/zz_spice_gen.go` and
+`examples/commerce/openapi.json`; the matching ownership manifest is
 `.spice/commerce.manifest.json`.
 
-For embedding and specialized policies, generated packages retain
+For embedding and specialized policies, the generated application retains
 `NewApplication`, `NewApplicationWithOptions`, `Application.Start`,
 `Application.Stop`, `Application.Run`, and `RunCommand`. These seams support
 caller-owned contexts, signals, configuration sources, middleware, error
