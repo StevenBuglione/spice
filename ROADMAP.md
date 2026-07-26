@@ -13,9 +13,12 @@ and rendered without runtime discovery.
 The next starter slices must reuse this deterministic feature pipeline. The
 public third-party annotation/manifest SDK now defines the portable metadata
 boundary. A committed `.spice/starters.json` selection now drives fail-closed
-CLI/compiler composition without dependency-presence activation. Generated
-entrypoint selection, dependency alignment, module-cache discovery, and richer
-compile-time conditions remain future work.
+CLI/compiler feature composition without dependency-presence activation. The
+compiler now validates explicitly supplied starter entrypoint functions in the
+same typed program, merges them into the exact provider graph, and renders
+ordinary direct calls with cleanup/rollback behavior and provenance-sensitive
+ownership hashes. CLI selection-to-entrypoint mapping, dependency alignment,
+module-cache discovery, and richer compile-time conditions remain future work.
 
 ## M0 — Product and compiler proof
 

@@ -139,9 +139,19 @@ version, normalized options, requirements, and exported entrypoints survive in
 immutable IR and the generation input hash. Definitions and manifests must be
 deliberately supplied. The CLI strictly composes manifests embedded in the
 application-owned `.spice/starters.json` selection for verification, module
-checks, generation, and build. Dependency/module-cache discovery and generated
-entrypoint selection remain separate slices, and imports or `go.mod` entries
-have no activation effect.
+checks, generation, and build.
+
+`provider.BuildEntrypoints` validates an explicitly selected exported
+package-level starter function from the same typed program used for application
+analysis. It applies the ordinary provider signature contract without invoking
+the function and retains the starter ID and version as provenance.
+`application.BuildOptions.ProviderCatalogs` merges these validated nodes into
+the exact-type graph. The renderer then emits the same direct dependency-first
+call, immediate cleanup registration, rollback, and error handling used for an
+`@Bean`; provenance participates in the ownership hash. The current public seam
+is programmatic. Resolving the repository selection to loaded entrypoint
+packages in the CLI and dependency alignment remain separate slices. Imports
+or `go.mod` entries have no activation effect.
 
 ## Deterministic generation plan
 

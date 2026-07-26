@@ -114,7 +114,18 @@ runtime requirements, and exported entrypoints. Those inputs participate in
 the generated ownership hash, so changing a selected starter invalidates
 `spice generate --check`.
 
-The adapter performs no repository scan and never treats an imported or
+`provider.BuildEntrypoints` is the explicit construction adapter. Given
+entrypoints selected from a validated manifest, it resolves only exported
+package-level functions already present in the application compiler's typed
+program, applies the ordinary exact provider signature contract, and records
+the starter ID and version without executing function bodies.
+`application.BuildOptions.ProviderCatalogs` composes that catalog into the
+application graph. Generation emits ordinary direct Go calls with
+dependency-first ordering, immediate cleanup ownership, construction rollback,
+and wrapped deterministic errors. Starter provenance participates in the
+generated ownership hash even though it adds no runtime registry or reflection.
+
+These adapters perform no repository scan and never treat an imported or
 downloaded module as active.
 
 ## Repository selection
@@ -197,10 +208,12 @@ and fails before filesystem generation on any invalid or incompatible manifest.
 
 Selection is explicit repository configuration, not dependency discovery.
 Spice does not search module caches, call `Manifest()` functions, load plugins,
-or infer activation from imports. Generated entrypoint selection and starter
-dependency alignment are subsequent slices. Until entrypoint selection is
-implemented, an explicit-annotation feature is validated and represented in IR
-but does not emit a constructor call.
+or infer activation from imports. The compiler can now validate, graph, render,
+compile, and execute explicitly supplied starter entrypoints through its public
+programmatic seam. The CLI does not yet load and map selection entrypoints into
+that seam, so `.spice/starters.json` currently contributes annotations,
+features, and freshness metadata but not constructor calls. CLI entrypoint
+mapping and dependency alignment are subsequent slices.
 
 ## Shipped starter metadata
 
