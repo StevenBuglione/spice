@@ -324,7 +324,13 @@ multi-file protocol, not a claim of global filesystem atomicity.
 deterministically sorted difference and returns nonzero; diff mode additionally
 prints bounded unified-style expected/current content. `spice build` performs
 the guarded generation operation and then runs `go build -trimpath ./...` in the
-selected module.
+selected module. `spice run` applies the same guarded plan, requires the
+preferred package-main layout, builds only its exact import path with
+`go build -trimpath -o <unique-temporary-artifact>`, and executes it without a
+shell. Application arguments follow `--`. Standard streams and nonnegative
+exit codes are preserved; Windows and Unix process-group adapters relay
+termination for generated graceful shutdown before escalating after a bounded
+deadline. Failed generation or compilation never executes an older artifact.
 
 Generated files include `//go:build !spice_generate`. Spice reserves and adds
 the `spice_generate` tag only to generation analysis, merging existing explicit

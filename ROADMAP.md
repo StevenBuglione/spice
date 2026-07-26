@@ -11,9 +11,12 @@ external mail integration exercised by the modular commerce application.
 
 The preferred package-main discovery and same-package command bridge are now
 exercised by the commerce application; the compatible legacy layout remains
-available pre-1.0. Coverage-map labels are not substitutes for executable
-acceptance. The next slices audit the stable core, deliver the dev loop and
-LSP, then complete the mail transports and reference workflow. Broad MongoDB,
+available pre-1.0. `spice run` now applies guarded generation, builds a unique
+trimpath candidate, and relays the selected package-main process on Windows and
+Unix. Coverage-map labels are not substitutes for executable acceptance. The
+next slices complete the shared diagnostic contract, audit remaining core
+acceptance, deliver the dev loop and LSP, then complete the mail transports and
+reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 

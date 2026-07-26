@@ -56,6 +56,29 @@ spice generate --target Commerce ./examples/commerce/...
 marker symbol ID. Package patterns are analysis scope, not module imports and
 not runtime activation.
 
+## Run
+
+`spice run` is the first-class development execution path:
+
+```text
+spice run --target Commerce ./examples/commerce/... -- -check
+```
+
+Arguments before `--` select the application and compile-time package scope;
+arguments after it belong to the generated application command. Spice applies
+guarded generation, builds only the selected package-main import path with
+`-trimpath` into a unique temporary artifact, and starts that exact candidate.
+Application standard input, output, error output, and nonzero exit codes are
+preserved.
+
+The child runs in an isolated process group. Interrupt and termination are
+relayed on Windows and Unix so the generated command can drain HTTP and execute
+its bounded lifecycle shutdown. A second interrupt or an unresponsive process
+after the relay deadline is terminated. The temporary artifact is removed
+after exit. Legacy parameter-root markers remain generatable and buildable but
+are deliberately not runnable because they do not identify a package-main
+process.
+
 ## Generated layout and ownership
 
 The preferred target owns:

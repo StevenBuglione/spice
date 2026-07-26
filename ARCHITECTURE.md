@@ -89,6 +89,14 @@ captures process signals. Only its explicitly invoked command helper owns
 `SIGINT`/`SIGTERM`, while lower-level APIs preserve caller-owned signal and
 context policy.
 
+The `spice run` CLI is a development process boundary above those reusable
+APIs. It applies guarded generation, builds only the selected package-main
+target with `-trimpath` into a unique temporary artifact, and executes that
+candidate without a shell. The runner isolates the child process group,
+forwards interrupt/termination, waits for the generated graceful shutdown, and
+preserves nonzero application exit codes. It never makes a legacy metadata
+package look executable.
+
 SQL access remains based on `database/sql`. Repositories accept the common
 executor contract implemented by both pools and transactions. Instance-owned
 transaction managers retain commit/rollback ownership and consume
