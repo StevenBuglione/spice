@@ -103,7 +103,12 @@ Normal analysis forces `GOPROXY=off`. It uses `-mod=vendor` when
 or vendor content is therefore an actionable load diagnostic and never an
 editor-triggered download.
 
-The executable protocol and exact target-module `tool` authorization are the
-next delivery slice. Until that host is connected, this document describes the
-landed source/import/descriptor contract rather than promising third-party
+The public SDK also defines bounded `Content-Length` JSON-RPC framing and typed
+`initialize`, `describe`, `analyze`, and `shutdown` messages. The compiler
+parses the target root's exact `go.mod` and rejects tools not listed by an exact
+`tool` directive; a parent module or another `go.work` member cannot authorize
+the process. Process launching, resolved-module handshake validation, and
+generic contribution incorporation are the next delivery slice. Until that
+host is connected, this document describes the landed
+source/import/descriptor/protocol contract rather than promising third-party
 semantic contributions.
