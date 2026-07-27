@@ -18,10 +18,13 @@ editor-neutral `spice lsp` compiler service:
   unresolved symbols, and deprecated symbols have separate theme-aware native
   color keys under
   **Settings | Editor | Color Scheme | Spice**;
-- highlighted PSI references provide modifier-hover underlining,
-  `Ctrl`/`Cmd`-click, and **Go to Declaration or Usages** navigation;
+- exact multi-range PSI references on annotation invocations, import paths,
+  imported symbols, aliases, and namespaces provide modifier-hover
+  underlining, `Ctrl`/`Cmd`-click, and
+  **Go to Declaration or Usages** navigation;
 - annotation lines carry a native gutter marker whose tooltip names the exact
-  descriptor package and symbol and whose navigation target is that real Go
+  descriptor package and symbol, module version/replacement, authorized tool,
+  handler, and protocol, and whose navigation target is that real Go
   declaration;
 - annotated `main` packages receive a preferred Spice Application
   configuration: Run invokes `spice run` for the selected target and complete
@@ -40,6 +43,11 @@ editor-neutral `spice lsp` compiler service:
   import and annotation completion, rich descriptor hover, parameter
   information, safe code actions, module/configuration metadata, definition
   links, and handler implementation links.
+- an indexed completion fallback continues offering already imported
+  annotations while the LSP restarts, and a read-only **Spice** health window
+  reports the exact executable, Spice/Go versions, module root, LSP state,
+  vendor/read-only mode, authorized `go.mod` tools, and the last bounded
+  failure without downloading or modifying dependencies.
 
 The source file remains ordinary Go. Copying, saving, `gofmt`, Git, the Go
 compiler, and generated code all retain the physical `// ` characters.
@@ -135,9 +143,17 @@ clean pinned GoLand profile through JetBrains Starter/Driver, and then:
    exact Run command, generates it through the Debug prerequisite, builds the
    full package with debug flags, executes that binary, and rechecks the
    physical annotation comments;
-13. rejects both raw and commented Spice applications presented to GoLand's
+13. moves the real mouse with the platform modifier held, proves the exact
+    annotation range visibly underlines, and Ctrl-clicks through to the real
+    descriptor source;
+14. opens installed Quick Documentation and verifies visible GoDoc, descriptor,
+    targets, module/replacement provenance, tool authorization, handler,
+    protocol, and implementation source sections;
+15. opens the installed Spice health window, verifies every operational field,
+    and records the rendered health surface;
+16. rejects both raw and commented Spice applications presented to GoLand's
     temporary single-file runner before any `gocommand-*` source is created;
-14. packages the plugin, validates its structure/configuration, and runs the
+17. packages the plugin, validates its structure/configuration, and runs the
     JetBrains binary/API verifier.
 
 The generated visual reports are:
@@ -147,6 +163,8 @@ editors/goland/build/reports/visual/spice-annotations-light.png
 editors/goland/build/reports/visual/spice-annotations-dark.png
 editors/goland/build/reports/visual/spice-installed-light.png
 editors/goland/build/reports/visual/spice-installed-dark.png
+editors/goland/build/reports/visual/spice-installed-documentation.png
+editors/goland/build/reports/visual/spice-installed-health.png
 ```
 
 The reviewed baselines live in
@@ -192,7 +210,10 @@ GoLand's native PSI reference resolves `Controller`, `GET`, and
 `Ctrl`/`Cmd`-click, and `Ctrl`/`Cmd+B` open ordinary indexed Go source.
 `spice lsp` supplies the same real descriptor location to every editor and
 provides **Go to Implementation** for the descriptor's declared handler source
-symbol.
+symbol. GoLand's native definition search also maps the indexed descriptor
+function to that handler, so implementation navigation survives an LSP
+restart. Local application modules, vendor source, and local `replace` targets
+are resolved read-only from the application's `go.mod`.
 
 Quick Documentation and hover combine the descriptor GoDoc with its typed
 arguments, defaults and allowed values, targets, examples, compatibility
@@ -254,4 +275,5 @@ GoLand `262.8665.336`, test-framework, JUnit, and verifier graph.
   module-cache or vendor source remains an actionable offline compiler
   diagnostic; the plugin does not download it.
 - LSP start failures are reported by GoLand and do not disable native
-  concealment, coloring, or PSI navigation to already indexed descriptors.
+  concealment, coloring, imported-symbol completion, documentation, or PSI
+  navigation to already indexed descriptors.
