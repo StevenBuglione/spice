@@ -1,6 +1,11 @@
 package web
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Post maps a controller method to an HTTP POST route.
 //
@@ -32,13 +37,45 @@ func Post() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "web/post",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "PostHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  PostHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// PostHandler contributes an HTTP POST route.
+func PostHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	return routeResult(invocation, "Post", "POST")
+}
+
+func routeResult(
+	invocation sdk.Invocation,
+	symbol string,
+	method string,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/web",
+		symbol,
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "path", "path")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	path, err := arguments.String("path", true)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionRoute,
+		Route: &sdk.RouteContribution{
+			Method: method,
+			Path:   path,
+		},
+	})
 }

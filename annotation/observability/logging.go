@@ -2,7 +2,12 @@
 // observability features.
 package observability
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Logging enables structured application and module lifecycle logging.
 //
@@ -26,13 +31,31 @@ func Logging() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "observability/logging",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "ObservabilityLoggingHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  ObservabilityLoggingHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// ObservabilityLoggingHandler contributes structured lifecycle logging.
+func ObservabilityLoggingHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/observability",
+		"Logging",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	if _, err := sdk.BindArguments(invocation, ""); err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionBootstrap,
+		Bootstrap: &sdk.BootstrapContribution{
+			Capability: "observability.logging",
+		},
+	})
 }

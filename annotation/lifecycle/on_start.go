@@ -2,7 +2,12 @@
 // lifecycle callbacks.
 package lifecycle
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // OnStart marks a provider-owned method that runs after dependency
 // construction and before the application becomes ready.
@@ -28,13 +33,17 @@ func OnStart() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "lifecycle/on-start",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "OnStartHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  OnStartHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// OnStartHandler contributes a dependency-ordered start callback.
+func OnStartHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	return lifecycleResult(invocation, "OnStart", sdk.LifecycleStart)
 }

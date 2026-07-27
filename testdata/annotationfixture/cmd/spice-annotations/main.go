@@ -33,7 +33,7 @@ func run(
 		context.Background(),
 		stdin,
 		stdout,
-		handler.Tool{},
+		handler.New(),
 	); err != nil {
 		if _, writeErr := fmt.Fprintf(
 			stderr,

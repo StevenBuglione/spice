@@ -1,6 +1,11 @@
 package web
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Get maps a controller method to an HTTP GET route.
 //
@@ -32,13 +37,17 @@ func Get() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "web/get",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "GetHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  GetHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// GetHandler contributes an HTTP GET route.
+func GetHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	return routeResult(invocation, "Get", "GET")
 }

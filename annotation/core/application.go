@@ -2,7 +2,12 @@
 // dependency-injection annotations.
 package core
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Application marks the package-level function that defines a Spice
 // application target.
@@ -33,13 +38,26 @@ func Application() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "core/application",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "ApplicationHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  ApplicationHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// ApplicationHandler contributes application-marker semantics.
+func ApplicationHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/core",
+		"Application",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind:        sdk.ContributionApplication,
+		Application: &sdk.ApplicationContribution{},
+	})
 }

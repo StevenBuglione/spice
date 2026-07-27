@@ -2,7 +2,11 @@
 // with Spice's public annotation SDK.
 package wiring
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Factory marks a package-level function as a compile-time provider.
 //
@@ -30,12 +34,25 @@ func Factory() sdk.Definition {
 		},
 		Implementation: sdk.Implementation{
 			Tool:     "example.com/spice-annotation-fixture/cmd/spice-annotations",
-			Handler:  "fixture/factory",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "example.com/spice-annotation-fixture/internal/handler",
-				Name:    "FactoryHandler",
-			},
+			Handler:  FactoryHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// FactoryHandler contributes exact provider semantics for Factory.
+func FactoryHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"example.com/spice-annotation-fixture/annotation/wiring",
+		"Factory",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind:     sdk.ContributionProvider,
+		Provider: &sdk.ProviderContribution{},
+	})
 }

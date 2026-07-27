@@ -1,6 +1,11 @@
 package event
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Listener marks a provider-owned method as a typed event listener.
 //
@@ -30,13 +35,36 @@ func Listener() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "event/listener",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "EventListenerHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  EventListenerHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// EventListenerHandler contributes one ordered typed event listener.
+func EventListenerHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/event",
+		"Listener",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "", "order")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	order, err := arguments.Integer("order")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionEventListener,
+		EventListener: &sdk.EventListenerContribution{
+			Order: order,
+		},
+	})
 }

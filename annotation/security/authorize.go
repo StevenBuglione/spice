@@ -2,7 +2,12 @@
 // policies.
 package security
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Authorize attaches a secure-deny authorization policy to one HTTP route.
 //
@@ -52,13 +57,58 @@ func Authorize() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "security/authorize",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "AuthorizeHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  AuthorizeHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// AuthorizeHandler contributes a generated secure-deny route policy.
+func AuthorizeHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/security",
+		"Authorize",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(
+		invocation,
+		"",
+		"authenticated",
+		"anyRoles",
+		"allRoles",
+		"allScopes",
+	)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	authenticated, err := arguments.Boolean("authenticated")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	anyRoles, err := arguments.Strings("anyRoles")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	allRoles, err := arguments.Strings("allRoles")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	allScopes, err := arguments.Strings("allScopes")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionAuthorization,
+		Authorization: &sdk.AuthorizationContribution{
+			Authenticated: authenticated,
+			AnyRoles:      anyRoles,
+			AllRoles:      allRoles,
+			AllScopes:     allScopes,
+		},
+	})
 }

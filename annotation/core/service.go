@@ -1,6 +1,11 @@
 package core
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Service classifies a type as an application service for architecture,
 // documentation, navigation, and observability metadata.
@@ -30,13 +35,31 @@ func Service() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "core/service",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "ServiceHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  ServiceHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// ServiceHandler contributes explicit service stereotype semantics.
+func ServiceHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/core",
+		"Service",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	if _, err := sdk.BindArguments(invocation, ""); err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionStereotype,
+		Stereotype: &sdk.StereotypeContribution{
+			Role: "service",
+		},
+	})
 }

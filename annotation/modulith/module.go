@@ -2,7 +2,12 @@
 // module boundaries.
 package modulith
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Module marks package documentation as an application-module root.
 //
@@ -34,13 +39,41 @@ func Module() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "modulith/module",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "ModuleHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  ModuleHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// ModuleHandler contributes an application-module root and its allowed
+// dependencies.
+func ModuleHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/modulith",
+		"Module",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(
+		invocation,
+		"",
+		"allowedDependencies",
+	)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	allowed, err := arguments.Strings("allowedDependencies")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionModule,
+		Module: &sdk.ModuleContribution{
+			AllowedDependencies: allowed,
+		},
+	})
 }

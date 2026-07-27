@@ -2,7 +2,12 @@
 // boundaries.
 package cache
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Cacheable marks a GET controller method whose successful response may be
 // cached under a stable cache name.
@@ -33,13 +38,36 @@ func Cacheable() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "cache/cacheable",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "CacheableHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  CacheableHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// CacheableHandler contributes one named generated cache boundary.
+func CacheableHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/cache",
+		"Cacheable",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "", "name")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	name, err := arguments.String("name", true)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionCache,
+		Cache: &sdk.CacheContribution{
+			Name: name,
+		},
+	})
 }

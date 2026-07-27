@@ -2,7 +2,12 @@
 // execution.
 package schedule
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // FixedDelay marks a provider-owned method for fixed-delay execution.
 //
@@ -46,13 +51,52 @@ func FixedDelay() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "schedule/fixed-delay",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "FixedDelayHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  FixedDelayHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// FixedDelayHandler contributes one generated scheduled method.
+func FixedDelayHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/schedule",
+		"FixedDelay",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(
+		invocation,
+		"",
+		"delay",
+		"initialDelay",
+		"continueOnError",
+	)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	delay, err := arguments.String("delay", true)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	initialDelay, err := arguments.String("initialDelay", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	continueOnError, err := arguments.Boolean("continueOnError")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionSchedule,
+		Schedule: &sdk.ScheduleContribution{
+			Delay:           delay,
+			InitialDelay:    initialDelay,
+			ContinueOnError: continueOnError,
+		},
+	})
 }

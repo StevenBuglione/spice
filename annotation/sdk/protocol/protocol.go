@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	// VersionV1Alpha1 is the first supported JSON-RPC contribution protocol.
-	VersionV1Alpha1 = sdk.ProtocolV1Alpha1
+	// VersionV1Alpha2 is the typed-handler JSON-RPC contribution protocol.
+	VersionV1Alpha2 = sdk.ProtocolV1Alpha2
 	// MaximumMessageBytes bounds one decoded plugin message.
 	MaximumMessageBytes = 16 << 20
 )
@@ -63,11 +63,10 @@ type InitializeResult struct {
 // DescribeParams requests inspectable handler metadata.
 type DescribeParams struct{}
 
-// Handler describes one stable implementation endpoint.
+// Handler describes one descriptor-to-implementation registration.
 type Handler struct {
-	ID           string     `json:"id"`
+	Descriptor   sdk.Symbol `json:"descriptor"`
 	Capabilities []string   `json:"capabilities"`
-	Source       sdk.Symbol `json:"source"`
 }
 
 // DescribeResult reports every public descriptor package and handler owned by
@@ -77,37 +76,19 @@ type DescribeResult struct {
 	Handlers           []Handler `json:"handlers"`
 }
 
-// Declaration contains normalized, non-executable facts about an annotation
-// target. Type identities are import-path-qualified strings.
-type Declaration struct {
-	Target      sdk.Target `json:"target"`
-	SymbolID    string     `json:"symbol_id"`
-	Name        string     `json:"name"`
-	PackagePath string     `json:"package_path"`
-	TypeID      string     `json:"type_id,omitempty"`
-}
+// Declaration is the normalized SDK declaration payload.
+type Declaration = sdk.Declaration
 
-// Invocation is one normalized explicit descriptor invocation.
-type Invocation struct {
-	DescriptorPackage string            `json:"descriptor_package"`
-	DescriptorSymbol  string            `json:"descriptor_symbol"`
-	CanonicalName     string            `json:"canonical_name"`
-	Arguments         []Argument        `json:"arguments,omitempty"`
-	Declaration       Declaration       `json:"declaration"`
-	Facts             map[string]string `json:"facts,omitempty"`
-}
+// Invocation is the normalized SDK invocation payload.
+type Invocation = sdk.Invocation
 
-// Argument retains the parsed argument spelling and normalized value.
-type Argument struct {
-	Name       string          `json:"name,omitempty"`
-	Kind       sdk.Kind        `json:"kind"`
-	Positional bool            `json:"positional,omitempty"`
-	Value      json.RawMessage `json:"value"`
-}
+// Argument is the normalized SDK invocation argument payload.
+type Argument = sdk.InvocationArgument
 
-// AnalyzeParams dispatches one invocation to its declared handler.
+// AnalyzeParams dispatches one invocation by its descriptor identity. The
+// process owns the descriptor-to-typed-handler registration.
 type AnalyzeParams struct {
-	Handler    string     `json:"handler"`
+	Descriptor sdk.Symbol `json:"descriptor"`
 	Invocation Invocation `json:"invocation"`
 }
 
@@ -120,11 +101,7 @@ type Contribution struct {
 }
 
 // Diagnostic is one plugin-owned source diagnostic.
-type Diagnostic struct {
-	Code     string `json:"code"`
-	Severity string `json:"severity"`
-	Message  string `json:"message"`
-}
+type Diagnostic = sdk.HandlerDiagnostic
 
 // AnalyzeResult returns validated IR inputs and diagnostics.
 type AnalyzeResult struct {

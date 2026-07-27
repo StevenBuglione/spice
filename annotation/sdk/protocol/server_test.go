@@ -15,11 +15,14 @@ import (
 func TestServeDispatchesTypedLifecycle(t *testing.T) {
 	var input bytes.Buffer
 	writeServerRequest(t, &input, 1, "initialize", InitializeParams{
-		Protocol: VersionV1Alpha1,
+		Protocol: VersionV1Alpha2,
 	})
 	writeServerRequest(t, &input, 2, "describe", DescribeParams{})
 	writeServerRequest(t, &input, 3, "analyze", AnalyzeParams{
-		Handler: "fixture",
+		Descriptor: sdk.Symbol{
+			Package: "example.com/annotation",
+			Name:    "Fixture",
+		},
 	})
 	writeServerRequest(t, &input, 4, "shutdown", ShutdownParams{})
 	var output bytes.Buffer
@@ -51,7 +54,10 @@ func TestServeReturnsProtocolErrorsAndContainsPanics(t *testing.T) {
 	var input bytes.Buffer
 	writeServerRequest(t, &input, 1, "missing", struct{}{})
 	writeServerRequest(t, &input, 2, "analyze", AnalyzeParams{
-		Handler: "panic",
+		Descriptor: sdk.Symbol{
+			Package: "example.com/annotation",
+			Name:    "Panic",
+		},
 	})
 	writeServerRequest(t, &input, 3, "shutdown", ShutdownParams{})
 	var output bytes.Buffer
@@ -112,7 +118,7 @@ func (tool *fixtureProtocolTool) Initialize(
 ) (InitializeResult, error) {
 	tool.record("initialize")
 	return InitializeResult{
-		Protocol:   VersionV1Alpha1,
+		Protocol:   VersionV1Alpha2,
 		ToolPath:   "example.com/tool",
 		ModulePath: "example.com",
 	}, nil
@@ -126,9 +132,8 @@ func (tool *fixtureProtocolTool) Describe(
 	return DescribeResult{
 		DescriptorPackages: []string{"example.com/annotation"},
 		Handlers: []Handler{{
-			ID: "fixture",
-			Source: sdk.Symbol{
-				Package: "example.com/internal",
+			Descriptor: sdk.Symbol{
+				Package: "example.com/annotation",
 				Name:    "Fixture",
 			},
 		}},
@@ -140,7 +145,7 @@ func (tool *fixtureProtocolTool) Analyze(
 	params AnalyzeParams,
 ) (AnalyzeResult, error) {
 	tool.record("analyze")
-	if params.Handler == "panic" {
+	if params.Descriptor.Name == "Panic" {
 		panic("fixture panic")
 	}
 	return AnalyzeResult{}, nil

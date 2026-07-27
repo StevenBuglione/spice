@@ -1,7 +1,12 @@
 // Package event defines canonical descriptors for typed application events.
 package event
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Topic marks a provider function that declares one typed event topic.
 //
@@ -25,13 +30,29 @@ func Topic() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "event/topic",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "EventTopicHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  EventTopicHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// EventTopicHandler contributes a typed event topic provider.
+func EventTopicHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/event",
+		"Topic",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	if _, err := sdk.BindArguments(invocation, ""); err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind:       sdk.ContributionEventTopic,
+		EventTopic: &sdk.EventTopicContribution{},
+	})
 }

@@ -4,6 +4,7 @@
 package sdk
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"path"
@@ -40,8 +41,8 @@ const (
 type ProtocolVersion string
 
 const (
-	// ProtocolV1Alpha1 is the first fail-closed stdio plugin contract.
-	ProtocolV1Alpha1 ProtocolVersion = "spice.annotation/v1alpha1"
+	// ProtocolV1Alpha2 is the typed-handler stdio plugin contract.
+	ProtocolV1Alpha2 ProtocolVersion = "spice.annotation/v1alpha2"
 )
 
 // Argument describes one supported annotation argument.
@@ -77,9 +78,8 @@ type Symbol struct {
 // Implementation identifies the native tool handler behind a descriptor.
 type Implementation struct {
 	Tool     string
-	Handler  string
+	Handler  Handler
 	Protocol ProtocolVersion
-	Source   Symbol
 }
 
 // Definition is the complete public, inspectable annotation descriptor.
@@ -326,29 +326,26 @@ func validateImplementation(
 			implementation.Tool,
 		)
 	}
-	if strings.TrimSpace(implementation.Handler) == "" ||
-		strings.TrimSpace(implementation.Handler) != implementation.Handler {
+	if implementation.Handler == nil {
 		return fmt.Errorf(
-			"annotation definition %q requires a canonical handler identity",
+			"annotation definition %q requires a typed handler",
 			definitionName,
 		)
 	}
-	if implementation.Protocol != ProtocolV1Alpha1 {
+	if implementation.Protocol != ProtocolV1Alpha2 {
 		return fmt.Errorf(
 			"annotation definition %q uses unsupported protocol %q",
 			definitionName,
 			implementation.Protocol,
 		)
 	}
-	if !validImportPath(implementation.Source.Package) ||
-		!validIdentifier(implementation.Source.Name) {
-		return fmt.Errorf(
-			"annotation definition %q requires a valid implementation source symbol",
-			definitionName,
-		)
-	}
 	return nil
 }
+
+// Handler is the exact executable contract implemented by one annotation.
+// Descriptor source stores a package-level function of this type. The compiler
+// validates and identifies that symbol statically; it never calls the function.
+type Handler func(context.Context, Invocation) (Result, error)
 
 func validIdentifier(value string) bool {
 	if value == "" {

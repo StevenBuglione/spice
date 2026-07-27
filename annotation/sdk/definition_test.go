@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"context"
 	"strings"
 	"testing"
 )
@@ -69,11 +70,11 @@ func TestDefinitionValidateRejectsInvalidMetadata(t *testing.T) {
 			message: "documented example",
 		},
 		{
-			name: "source",
+			name: "handler",
 			change: func(value *Definition) {
-				value.Implementation.Source.Package = "."
+				value.Implementation.Handler = nil
 			},
-			message: "implementation source",
+			message: "typed handler",
 		},
 	}
 	for _, test := range tests {
@@ -108,12 +109,12 @@ func validDefinition() Definition {
 		},
 		Implementation: Implementation{
 			Tool:     "example.com/plugin/cmd/annotations",
-			Handler:  "web/controller",
-			Protocol: ProtocolV1Alpha1,
-			Source: Symbol{
-				Package: "example.com/plugin/internal/web",
-				Name:    "ControllerHandler",
-			},
+			Handler:  testHandler,
+			Protocol: ProtocolV1Alpha2,
 		},
 	}
+}
+
+func testHandler(context.Context, Invocation) (Result, error) {
+	return Result{}, nil
 }

@@ -1,7 +1,12 @@
 // Package data defines canonical descriptors for generated data boundaries.
 package data
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Transactional marks a provider-owned method that must run inside an explicit
 // database/sql transaction.
@@ -40,13 +45,46 @@ func Transactional() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "data/transactional",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "TransactionalHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  TransactionalHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// TransactionalHandler contributes an explicit database transaction boundary.
+func TransactionalHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/data",
+		"Transactional",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(
+		invocation,
+		"",
+		"isolation",
+		"readOnly",
+	)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	isolation, err := arguments.String("isolation", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	readOnly, err := arguments.Boolean("readOnly")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionTransaction,
+		Transaction: &sdk.TransactionContribution{
+			Isolation: isolation,
+			ReadOnly:  readOnly,
+		},
+	})
 }

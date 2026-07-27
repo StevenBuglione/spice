@@ -1,6 +1,11 @@
 package modulith
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // NamedInterface exposes one descendant package as a named module API.
 //
@@ -33,13 +38,36 @@ func NamedInterface() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "modulith/named-interface",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "NamedInterfaceHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  NamedInterfaceHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// NamedInterfaceHandler contributes one explicitly exposed module API.
+func NamedInterfaceHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/modulith",
+		"NamedInterface",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "name", "name")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	name, err := arguments.String("name", true)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionNamedInterface,
+		NamedInterface: &sdk.NamedInterfaceContribution{
+			Name: name,
+		},
+	})
 }

@@ -2,7 +2,13 @@
 // endpoints.
 package management
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+	"errors"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Enable selects the management endpoints generated for one application.
 //
@@ -35,13 +41,55 @@ func Enable() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "management/enable",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "ManagementEnableHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  ManagementEnableHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// ManagementEnableHandler contributes selected generated management endpoints.
+func ManagementEnableHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/management",
+		"Enable",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "", "expose")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	if _, found := arguments["expose"]; !found {
+		return sdk.Result{}, errors.New(
+			"annotation argument \"expose\" is required",
+		)
+	}
+	expose, err := arguments.Strings("expose")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	values := make([]sdk.ContributionValue, len(expose))
+	for index, endpoint := range expose {
+		values[index] = sdk.ContributionValue{
+			Kind:   sdk.KindString,
+			String: endpoint,
+		}
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionBootstrap,
+		Bootstrap: &sdk.BootstrapContribution{
+			Capability: "management",
+			Options: []sdk.BootstrapOption{{
+				Name: "expose",
+				Value: sdk.ContributionValue{
+					Kind: sdk.KindList,
+					List: values,
+				},
+			}},
+		},
+	})
 }

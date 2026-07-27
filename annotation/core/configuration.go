@@ -1,6 +1,11 @@
 package core
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/coretool"
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Configuration marks a struct as generated typed configuration.
 //
@@ -33,13 +38,36 @@ func Configuration() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "github.com/StevenBuglione/spice/cmd/spice-annotation-core",
-			Handler:  "core/configuration",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "github.com/StevenBuglione/spice/internal/annotationcore",
-				Name:    "ConfigurationHandler",
-			},
+			Tool:     coretool.Path,
+			Handler:  ConfigurationHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// ConfigurationHandler contributes typed configuration semantics.
+func ConfigurationHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"github.com/StevenBuglione/spice/annotation/core",
+		"Configuration",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "", "prefix")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	prefix, err := arguments.String("prefix", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionConfiguration,
+		Configuration: &sdk.ConfigurationContribution{
+			Prefix: prefix,
+		},
+	})
 }

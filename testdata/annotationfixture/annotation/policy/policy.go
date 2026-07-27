@@ -1,7 +1,11 @@
 // Package policy demonstrates namespace-qualified third-party annotations.
 package policy
 
-import "github.com/StevenBuglione/spice/annotation/sdk"
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/sdk"
+)
 
 // Policy classifies a type under a fixture-owned architecture policy.
 //
@@ -36,12 +40,44 @@ func Policy() sdk.Definition {
 		},
 		Implementation: sdk.Implementation{
 			Tool:     "example.com/spice-annotation-fixture/cmd/spice-annotations",
-			Handler:  "fixture/policy",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "example.com/spice-annotation-fixture/internal/handler",
-				Name:    "PolicyHandler",
-			},
+			Handler:  PolicyHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// PolicyHandler contributes fixture policy semantics and diagnostics.
+func PolicyHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"example.com/spice-annotation-fixture/annotation/policy",
+		"Policy",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "", "mode")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	mode, err := arguments.String("mode", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	if mode == "deny" {
+		return sdk.Result{
+			Diagnostics: []sdk.HandlerDiagnostic{{
+				Code:     "policy-denied",
+				Severity: "error",
+				Message:  "fixture policy deliberately denied this declaration",
+			}},
+		}, nil
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionStereotype,
+		Stereotype: &sdk.StereotypeContribution{
+			Role: "fixture-policy",
+		},
+	})
 }

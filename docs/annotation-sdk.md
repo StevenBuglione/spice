@@ -47,6 +47,13 @@ reinterpret or broadly rewrite a file.
 Every annotation is one exported, documented function in its own `.go` file:
 
 ```go
+import (
+	"context"
+
+	"github.com/StevenBuglione/spice/annotation/sdk"
+	annotationtool "example.com/starter/annotationtool"
+)
+
 // Controller marks a type whose methods are exposed through generated
 // net/http adapters.
 func Controller() sdk.Definition {
@@ -68,15 +75,38 @@ func Controller() sdk.Definition {
 			MinimumSpice: "0.1.0",
 		},
 		Implementation: sdk.Implementation{
-			Tool:     "example.com/starter/cmd/spice-annotations",
-			Handler:  "web/controller",
-			Protocol: sdk.ProtocolV1Alpha1,
-			Source: sdk.Symbol{
-				Package: "example.com/starter/internal/annotations",
-				Name:    "ControllerHandler",
-			},
+			Tool:     annotationtool.Path,
+			Handler:  ControllerHandler,
+			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
+}
+
+// ControllerHandler is the actual generic contribution implementation.
+func ControllerHandler(
+	_ context.Context,
+	invocation sdk.Invocation,
+) (sdk.Result, error) {
+	if err := invocation.RequireDescriptor(
+		"example.com/starter/annotation/web",
+		"Controller",
+	); err != nil {
+		return sdk.Result{}, err
+	}
+	arguments, err := sdk.BindArguments(invocation, "", "prefix")
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	prefix, err := arguments.String("prefix", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.OneContribution(sdk.Contribution{
+		Kind: sdk.ContributionController,
+		Controller: &sdk.ControllerContribution{
+			Prefix: prefix,
+		},
+	})
 }
 ```
 
@@ -91,10 +121,14 @@ initialization fail.
 
 Definitions require a summary, target, compatibility range, documented
 example, documented arguments, supported value kinds, an exact protocol, a
-fully qualified tool package, a stable handler identity, and a real Go source
-symbol identity. This metadata is the common compiler, LSP, and GoLand contract
-for completion, parameter information, documentation, definition navigation,
-and implementation navigation.
+fully qualified tool package, and a typed package-level `sdk.Handler`.
+The descriptor and handler must be exported declarations in the same `.go`
+file. The handler’s exact signature is
+`func(context.Context, sdk.Invocation) (sdk.Result, error)`. The compiler
+derives its package and symbol from Go type information; descriptor authors do
+not repeat a handler ID or source-symbol string. This metadata is the common
+compiler, LSP, and GoLand contract for completion, documentation, descriptor
+navigation, and direct implementation navigation.
 
 ## Module and offline behavior
 
@@ -138,11 +172,13 @@ go tool <full-package-path> --spice-stdio
 ```
 
 The descriptor cannot supply a binary path, shell, command-line fragment, or
-environment mutation. The host negotiates exact protocol/tool/module identity,
-requires `describe` to enumerate every public descriptor package plus each
-handler, capability, and implementation symbol, rejects a descriptor whose
-package is absent from that declaration, and serializes calls over one
-persistent process per workspace and tool.
+environment mutation. The host negotiates exact v1alpha2
+protocol/tool/module identity, requires `describe` to enumerate every public
+descriptor package and descriptor-to-capability registration, rejects a
+descriptor whose package or symbol is absent from that declaration, and
+serializes calls over one persistent process per workspace and tool. Analyze
+dispatch uses the descriptor’s Go symbol identity; arbitrary handler-name
+strings are not part of the protocol.
 
 Calls have bounded startup and request deadlines. Framing corruption, stdout
 contamination, a crash, a timeout, or cancellation fails the operation and
