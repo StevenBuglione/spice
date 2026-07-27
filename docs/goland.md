@@ -4,6 +4,10 @@ GoLand is Spice's primary editor integration. The repository-owned plugin in
 `editors/goland` combines native IntelliJ Platform presentation with the
 editor-neutral `spice lsp` compiler service:
 
+- typing `@` on an otherwise blank package declaration or parameter line
+  inserts physical `// @` source in the same undoable editor command, then
+  refreshes folding and annotation completion; source is therefore valid Go
+  from the first annotation character rather than only after completion;
 - exact `// ` prefixes on canonical annotation comments are permanently
   folded to an empty placeholder, so `// @Application` is displayed as
   `@Application` with no blank columns;
@@ -21,6 +25,10 @@ editor-neutral `spice lsp` compiler service:
   task and then delegates to GoLand's native complete-package Go/Delve path;
   neither path can use the temporary single-file runner, drop generated
   bootstrap files, or interpret folded presentation as source;
+- an old or explicitly selected Go single-file configuration fails before
+  execution when its source contains a Spice application or a raw annotation;
+  the diagnostic directs the developer to the complete-package Spice
+  configuration instead of allowing a `gocommand-*` fragment;
 - named, aliased, and namespace-qualified references resolve to the real
   one-file Go SDK descriptor selected by the file's explicit
   `@spice.import`;
@@ -33,6 +41,11 @@ The source file remains ordinary Go. Copying, saving, `gofmt`, Git, the Go
 compiler, and generated code all retain the physical `// ` characters.
 Concealment and color are editor presentation only. Ordinary Go language
 features remain owned by GoLand's Go plugin.
+
+The typed conversion is intentionally narrow. It applies only at a
+horizontal-whitespace-only package position or inside a function parameter
+list. Typing `@` inside a function body, string, comment, or after existing Go
+tokens remains ordinary Go editing.
 
 ## Compatibility
 
@@ -93,8 +106,9 @@ runtime.
 4. proves the editor document, committed PSI, saved virtual file, and copied
    selection all retain the physical `// ` prefixes after concealment;
 5. proves `@Application` produces a persisted Spice Application configuration
-   with no single-file paths, an exact `spice run` command, and one enabled
-   generate-before-debug task;
+   with no single-file paths, an exact `spice run` command, one enabled
+   generate-before-debug task, and higher context priority than every ordinary
+   Go application configuration;
 6. renders realized editor components under the light and Darcula schemes;
 7. compares normalized 8-by-8 color blocks with committed fixed-theme goldens,
    enforcing bounded mean and changed-region tolerances while retaining exact
@@ -104,7 +118,9 @@ runtime.
    exact Run command, generates it through the Debug prerequisite, builds the
    full package with debug flags, executes that binary, and rechecks the
    physical annotation comments;
-10. packages the plugin, validates its structure/configuration, and runs the
+10. rejects both raw and commented Spice applications presented to GoLand's
+    temporary single-file runner before any `gocommand-*` source is created;
+11. packages the plugin, validates its structure/configuration, and runs the
     JetBrains binary/API verifier.
 
 The generated visual reports are:
