@@ -11,7 +11,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 //
 // Use a namespace import to keep the annotation's owner visible:
 //
-//	// @spice.import * as fixture from "example.com/spice-annotation-fixture/annotation/policy"
+//	// @import * as fixture from "example.com/spice-annotation-fixture/annotation/policy"
 //	// @fixture.Policy(mode="strict")
 //	type Settings struct{}
 func Policy() sdk.Definition {

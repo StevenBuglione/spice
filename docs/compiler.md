@@ -108,7 +108,7 @@ Development tools are pinned separately in `tools/go.mod`; they do not enter the
 
 `compiler/resolve` consumes one existing `load.Program`; it never walks the filesystem, reparses files, or creates another Go type universe. Only documentation comments on packages and declarations contribute annotations, and only files selected by the active Go build are examined.
 
-File-scoped `@spice.import` comments are collected across the complete selected
+File-scoped `@import` comments are collected across the complete selected
 file before declaration resolution. Named bindings, aliases, and namespaces
 resolve to exported descriptor functions loaded as auxiliary roots in the same
 typed program. Descriptor functions are statically decoded from one returned

@@ -38,7 +38,7 @@ editor-neutral `spice lsp` compiler service:
   configuration instead of allowing a `gocommand-*` fragment;
 - named, aliased, and namespace-qualified references resolve to the real
   one-file Go SDK descriptor selected by the file's explicit
-  `@spice.import`;
+  `@import`;
 - the public GoLand LSP API launches `spice lsp` for versioned diagnostics,
   import and annotation completion, rich descriptor hover, parameter
   information, safe code actions, module/configuration metadata, definition
@@ -48,6 +48,9 @@ editor-neutral `spice lsp` compiler service:
   reports the exact executable, Spice/Go versions, module root, LSP state,
   vendor/read-only mode, authorized `go.mod` tools, and the last bounded
   failure without downloading or modifying dependencies.
+- the hard-cut `@spice.import` diagnostic remains visibly un-folded and offers
+  one previewable, undoable replacement of only the retired token with
+  `@import`; the plugin never treats both spellings as valid.
 
 The source file remains ordinary Go. Copying, saving, `gofmt`, Git, the Go
 compiler, and generated code all retain the physical `// ` characters.
@@ -186,7 +189,7 @@ no shell-specific command or fixture binary is hidden in the plugin.
 
 The folding parser is intentionally narrow: it recognizes declaration comments
 whose complete text begins with canonical `// @`, including explicit
-`@spice.import` declarations. It never conceals ordinary comments or a
+`@import` declarations. It never conceals ordinary comments or a
 coincidental `@` later in prose. The Spice compiler/LSP remains the semantic
 authority for targets, arguments, module rules, descriptor metadata, and
 diagnostics; the plugin's small lexer is presentation-only.
@@ -194,11 +197,11 @@ diagnostics; the plugin's small lexer is presentation-only.
 ## Descriptor navigation and documentation
 
 An annotation reference is never resolved from a hidden built-in table.
-`@spice.import` establishes the local symbol table:
+`@import` establishes the local symbol table:
 
 ```go
-// @spice.import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @spice.import * as security from "github.com/StevenBuglione/spice/annotation/security"
+// @import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
+// @import * as security from "github.com/StevenBuglione/spice/annotation/security"
 
 // @Controller
 // @GET(path="/orders/{id}")

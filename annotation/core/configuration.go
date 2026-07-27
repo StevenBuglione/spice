@@ -9,7 +9,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // metadata without reflecting over the application at runtime. Prefix is
 // optional and must be dot-separated identifiers.
 //
-//	// @spice.import { Configuration } from "github.com/StevenBuglione/spice/annotation/core"
+//	// @import { Configuration } from "github.com/StevenBuglione/spice/annotation/core"
 //	// @Configuration(prefix="orders")
 //	type Settings struct {
 //		Limit int `spice:"limit,default=100"`

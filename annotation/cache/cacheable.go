@@ -11,7 +11,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // keeps the cache implementation explicit through dependency injection.
 // Errors and unauthorized responses are never cached.
 //
-//	// @spice.import { Cacheable } from "github.com/StevenBuglione/spice/annotation/cache"
+//	// @import { Cacheable } from "github.com/StevenBuglione/spice/annotation/cache"
 //	// @Cacheable(name="orders.by-id")
 func Cacheable() sdk.Definition {
 	return sdk.Definition{

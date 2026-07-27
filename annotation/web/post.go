@@ -8,7 +8,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // use explicit DTO tags and bounded decoding; generated adapters return
 // RFC 9457 problem responses for validation and application failures.
 //
-//	// @spice.import { Post } from "github.com/StevenBuglione/spice/annotation/web"
+//	// @import { Post } from "github.com/StevenBuglione/spice/annotation/web"
 //	// @Post("/orders")
 //	func (*Controller) Create(context.Context, CreateRequest) (Order, error)
 func Post() sdk.Definition {

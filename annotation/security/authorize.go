@@ -10,7 +10,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // Multiple categories are combined with AND semantics; anyRoles requires one
 // listed role while allRoles and allScopes require every listed value.
 //
-//	// @spice.import { Authorize } from "github.com/StevenBuglione/spice/annotation/security"
+//	// @import { Authorize } from "github.com/StevenBuglione/spice/annotation/security"
 //	// @Authorize(authenticated=true, anyRoles=["operator", "admin"])
 func Authorize() sdk.Definition {
 	return sdk.Definition{

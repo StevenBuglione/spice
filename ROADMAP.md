@@ -59,8 +59,9 @@ secure SMTP, followed by the final reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 
-The Go-native extension migration has begun with explicit named, aliased, and
-namespace annotation imports, the public statically decoded descriptor SDK,
+The Go-native extension migration has begun with the hard-cut `@import`
+directive and explicit named, aliased, and namespace annotation bindings, the
+public statically decoded descriptor SDK,
 fail-closed file symbol tables, and offline auxiliary descriptor loading in the
 single typed program. Exact target-module `tool` authorization, the public
 bounded JSON-RPC SDK/server, offline module and replacement provenance,
@@ -72,7 +73,9 @@ explicit imports, and verify/generate/build/run/dev/LSP share the tool-aware
 compiler service. The legacy registry remains only as a pre-1.0 compatibility
 path for files without explicit imports. Descriptor-backed LSP/GoLand
 completion, documentation, definition, and implementation navigation are now
-available. A separate fixture module now proves public-SDK-only descriptors and
+available. The retired `@spice.import` spelling produces an exact shared
+diagnostic and versioned replacement and is neither resolved nor concealed. A
+separate fixture module now proves public-SDK-only descriptors and
 handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
   generation, real source navigation, and offline build/run. Pre-import
   completion now discovers descriptors across the target module graph,

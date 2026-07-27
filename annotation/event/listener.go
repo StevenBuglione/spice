@@ -8,7 +8,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // listeners by order, module, and symbol identity. The generated invocation
 // propagates context and errors without a global event bus.
 //
-//	// @spice.import { Listener } from "github.com/StevenBuglione/spice/annotation/event"
+//	// @import { Listener } from "github.com/StevenBuglione/spice/annotation/event"
 //	// @Listener(order=10)
 func Listener() sdk.Definition {
 	return sdk.Definition{

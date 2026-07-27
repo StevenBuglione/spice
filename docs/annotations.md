@@ -23,9 +23,9 @@ an invalid source representation from `gofmt`, `go test`, or other Go tools.
 New source may explicitly bind descriptor symbols per file:
 
 ```go
-// @spice.import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @spice.import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @spice.import * as web from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
+// @import * as web from "github.com/StevenBuglione/spice/annotation/web"
 ```
 
 Named bindings permit clean `@Application` and `@Controller` spellings.
@@ -33,6 +33,13 @@ Aliases permit `@GET`; namespace bindings permit visibly sourced
 `@web.Controller`. Imports apply to the entire file. Once a file contains an
 annotation import, every annotation in that file must be imported explicitly.
 There is no implicit fallback registry for that file.
+
+`@import` is the only import directive. The earlier `@spice.import` spelling is
+not accepted as an alias: analysis reports
+`spice.resolution.annotation-import-legacy` on the retired token, and editor
+clients receive a version-checked quick fix replacing exactly that token with
+`@import`. The surrounding bindings, aliases, package path, comments, and
+physical `// ` prefix are preserved.
 
 Files without imports retain the pre-1.0 built-in spelling compatibility path
 while the built-ins and commerce application migrate. See

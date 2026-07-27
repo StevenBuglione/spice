@@ -11,9 +11,9 @@ binary registry, or runtime annotation container.
 Annotation imports remain valid Go comments:
 
 ```go
-// @spice.import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @spice.import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @spice.import * as web from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
+// @import * as web from "github.com/StevenBuglione/spice/annotation/web"
 
 // @Application
 // @Controller
@@ -37,6 +37,10 @@ is scheduled for removal before 1.0.
 
 The physical source always contains `// `. GoLand concealment is presentation
 only, so `gofmt`, Go Run, debuggers, Git, and copied text operate on valid Go.
+The retired `@spice.import` spelling fails closed and is never folded or
+resolved. The shared compiler emits an exact source diagnostic and a
+document-version-checked `@import` replacement, so migration cannot silently
+reinterpret or broadly rewrite a file.
 
 ## Descriptor contract
 
@@ -112,7 +116,7 @@ bounded lexical catalog only: it recognizes exported exact
 but the existing typed-program decoder remains authoritative after insertion.
 The catalog runs offline, does not execute descriptors or tools, and marks
 whether the target application's own `go.mod` declares the exact tool path.
-Selecting a candidate always inserts a visible `@spice.import`; discovery never
+Selecting a candidate always inserts a visible `@import`; discovery never
 creates an implicit compiler binding.
 
 The public SDK defines bounded `Content-Length` JSON-RPC framing and typed
@@ -323,7 +327,7 @@ do not make an untrusted native process safe.
 
 ## GoLand authoring loop
 
-With the Spice plugin installed, type `@` or edit an `@spice.import`. Completion
+With the Spice plugin installed, type `@` or edit an `@import`. Completion
 shows the descriptor package, selected version or replacement, tool, and
 handler. Accepting a completion adds a visible named or namespace import when
 needed. Modifier-click opens the one-file descriptor; **Go to Implementation**

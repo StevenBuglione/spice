@@ -10,7 +10,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // participate in dependency injection. This separation keeps initialization,
 // dependencies, errors, and cleanup visible as ordinary Go.
 //
-//	// @spice.import { Bean, Service } from "github.com/StevenBuglione/spice/annotation/core"
+//	// @import { Bean, Service } from "github.com/StevenBuglione/spice/annotation/core"
 //	// @Service
 //	type Orders struct{}
 //

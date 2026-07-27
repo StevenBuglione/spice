@@ -8,7 +8,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // the owning module and API explicitly; a named interface never exposes other
 // descendant packages by implication.
 //
-//	// @spice.import { NamedInterface } from "github.com/StevenBuglione/spice/annotation/modulith"
+//	// @import { NamedInterface } from "github.com/StevenBuglione/spice/annotation/modulith"
 //	// @NamedInterface("events")
 //	package api
 func NamedInterface() sdk.Definition {

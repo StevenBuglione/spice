@@ -8,7 +8,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // The topic's exact payload type and ownership come from the Go signature and
 // application module. Generated publishing remains explicit and observable.
 //
-//	// @spice.import { Topic } from "github.com/StevenBuglione/spice/annotation/event"
+//	// @import { Topic } from "github.com/StevenBuglione/spice/annotation/event"
 //	// @Topic
 //	func OrderChangedTopic() event.Topic[OrderChanged]
 func Topic() sdk.Definition {

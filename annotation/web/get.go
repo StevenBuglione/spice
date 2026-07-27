@@ -8,7 +8,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // path parameters against request DTO tags and generates content negotiation,
 // validation, problem responses, and explicit response writing.
 //
-//	// @spice.import { Get } from "github.com/StevenBuglione/spice/annotation/web"
+//	// @import { Get } from "github.com/StevenBuglione/spice/annotation/web"
 //	// @Get("/orders/{id}")
 //	func (*Controller) Find(context.Context, FindRequest) (Order, error)
 func Get() sdk.Definition {

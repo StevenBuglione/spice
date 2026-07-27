@@ -10,7 +10,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // cancellation, panic containment, overlap prevention, graceful shutdown, and
 // observations. Duration values use time.ParseDuration syntax.
 //
-//	// @spice.import { FixedDelay } from "github.com/StevenBuglione/spice/annotation/schedule"
+//	// @import { FixedDelay } from "github.com/StevenBuglione/spice/annotation/schedule"
 //	// @FixedDelay(delay="5m", initialDelay="30s")
 func FixedDelay() sdk.Definition {
 	return sdk.Definition{

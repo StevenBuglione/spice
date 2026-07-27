@@ -18,7 +18,7 @@ type ImportBinding struct {
 	Local    string
 }
 
-// ImportDirective is one valid-Go @spice.import declaration comment.
+// ImportDirective is one valid-Go @import declaration comment.
 type ImportDirective struct {
 	Kind      ImportKind
 	Package   string

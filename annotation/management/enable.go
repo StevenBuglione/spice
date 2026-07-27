@@ -11,7 +11,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // same module ownership, authorization, metrics, and graceful shutdown model
 // as application routes.
 //
-//	// @spice.import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
+//	// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
 //	// @Enable(expose=["health", "liveness", "readiness", "info"])
 func Enable() sdk.Definition {
 	return sdk.Definition{

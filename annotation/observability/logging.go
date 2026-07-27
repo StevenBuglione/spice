@@ -10,7 +10,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // application, module, component, operation, and phase fields. No global
 // logger is installed; the logger remains an explicit dependency.
 //
-//	// @spice.import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
+//	// @import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
 //	// @Logging
 func Logging() sdk.Definition {
 	return sdk.Definition{

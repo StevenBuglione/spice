@@ -11,7 +11,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // before generating ordinary inspectable Go. Prefix is an optional absolute
 // route path shared by the controller's methods.
 //
-//	// @spice.import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
+//	// @import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
 //	// @Controller(prefix="/orders")
 //	type HTTPController struct{}
 func Controller() sdk.Definition {

@@ -12,7 +12,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 //
 // Import Factory with a local name when that makes application code clearer:
 //
-//	// @spice.import { Factory as Construct } from "example.com/spice-annotation-fixture/annotation/wiring"
+//	// @import { Factory as Construct } from "example.com/spice-annotation-fixture/annotation/wiring"
 //	// @Construct
 //	func provideStore() *Store { return &Store{} }
 func Factory() sdk.Definition {

@@ -49,11 +49,15 @@ Completion and navigation are derived from the shared compiler service:
 - exported descriptor candidates discovered from source already present in the
   target module graph, workspace modules, vendor tree, local replacements, and
   module cache;
-- descriptor package paths and symbols inside `@spice.import` declarations;
+- descriptor package paths and symbols inside `@import` declarations;
 - annotation arguments and required-argument snippets;
 - bootstrap allowed values such as management endpoint names;
 - exact module IDs and named-interface identities;
 - generated configuration property keys.
+
+The earlier `@spice.import` spelling is a hard error, not an alias. The
+diagnostic is anchored to the retired token and carries a version-checked
+workspace edit that replaces only it with `@import`.
 
 Typing `@` on an otherwise empty declaration line may complete to a valid
 comment and add the corresponding explicit import as a versioned additional

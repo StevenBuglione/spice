@@ -16,7 +16,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 //
 // Use one explicit import in every file that declares the marker:
 //
-//	// @spice.import { Application } from "github.com/StevenBuglione/spice/annotation/core"
+//	// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
 //	// @Application
 //	func main() {}
 func Application() sdk.Definition {

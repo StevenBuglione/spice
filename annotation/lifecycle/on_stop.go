@@ -8,7 +8,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // reverse dependency order before construction cleanups. Stop is idempotent
 // and uses the caller-owned shutdown context.
 //
-//	// @spice.import { OnStop } from "github.com/StevenBuglione/spice/annotation/lifecycle"
+//	// @import { OnStop } from "github.com/StevenBuglione/spice/annotation/lifecycle"
 //	// @OnStop
 //	func (*Server) Stop(context.Context) error
 func OnStop() sdk.Definition {

@@ -11,7 +11,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // cross-module import edges, allowed dependencies, cycles, and unassigned
 // packages before generation.
 //
-//	// @spice.import { Module } from "github.com/StevenBuglione/spice/annotation/modulith"
+//	// @import { Module } from "github.com/StevenBuglione/spice/annotation/modulith"
 //	// @Module(allowedDependencies=["example.com/app/inventory"])
 //	package orders
 func Module() sdk.Definition {

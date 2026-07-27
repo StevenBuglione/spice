@@ -10,7 +10,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // rollback or shutdown. Interface outputs require an explicit adapter
 // provider; assignability is never guessed.
 //
-//	// @spice.import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
+//	// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
 //	// @Bean
 //	func NewStore(config Config) (*Store, lifecycle.Cleanup, error)
 func Bean() sdk.Definition {

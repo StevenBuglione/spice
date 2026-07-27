@@ -10,7 +10,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // Generated code owns cancellation, panic containment, bounded execution, and
 // observability; the annotation never creates a hidden global worker pool.
 //
-//	// @spice.import { Execute } from "github.com/StevenBuglione/spice/annotation/async"
+//	// @import { Execute } from "github.com/StevenBuglione/spice/annotation/async"
 //	// @Execute
 //	func (*Mailer) Deliver(context.Context, Message) error
 func Execute() sdk.Definition {

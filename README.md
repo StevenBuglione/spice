@@ -111,7 +111,7 @@ The repository currently provides:
 Annotations are valid declaration comments with explicit file-scoped imports:
 
 ```go
-// @spice.import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
 
 // @Controller(prefix="/users")
 type UserController struct{}
@@ -121,8 +121,8 @@ Named imports keep common annotations clean, aliases resolve local collisions,
 and namespace imports keep provenance visible:
 
 ```go
-// @spice.import { Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @spice.import * as security from "github.com/StevenBuglione/spice/annotation/security"
+// @import { Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
+// @import * as security from "github.com/StevenBuglione/spice/annotation/security"
 
 // @GET("/orders/{id}")
 // @security.Authorize(anyRoles=["admin"], allScopes=["orders:write"])
@@ -185,9 +185,9 @@ package main
 
 import "os"
 
-// @spice.import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @spice.import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
-// @spice.import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
+// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
+// @import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
 
 // @Application
 // @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])

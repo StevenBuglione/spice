@@ -11,7 +11,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // dependency-first. A failure rolls back already-started callbacks and
 // constructed providers in reverse deterministic order.
 //
-//	// @spice.import { OnStart } from "github.com/StevenBuglione/spice/annotation/lifecycle"
+//	// @import { OnStart } from "github.com/StevenBuglione/spice/annotation/lifecycle"
 //	// @OnStart
 //	func (*Server) Start(context.Context) error
 func OnStart() sdk.Definition {

@@ -10,7 +10,7 @@ import "github.com/StevenBuglione/spice/annotation/sdk"
 // back on error or panic, and records the owning application module.
 // Isolation is optional and readOnly defaults to false.
 //
-//	// @spice.import { Transactional } from "github.com/StevenBuglione/spice/annotation/data"
+//	// @import { Transactional } from "github.com/StevenBuglione/spice/annotation/data"
 //	// @Transactional(isolation="serializable")
 func Transactional() sdk.Definition {
 	return sdk.Definition{
