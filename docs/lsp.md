@@ -115,11 +115,13 @@ application's own `go.mod` also receives a command-backed quick fix:
    original hashes of both module files before staged replacement, and rolls
    back on a write failure.
 
-The preview is bounded, cancellation-aware, tied to an unauthorized descriptor
-from the shared offline catalog, and replaced when the user previews again.
-The language server advertises only these two exact execute-command IDs. It
-does not accept an arbitrary shell command, package path, workspace, or
-unpreviewed mutation.
+The preview is bounded, tied to an unauthorized descriptor from the shared
+offline catalog, and replaced when the user previews again. Execute commands
+run as tracked asynchronous LSP requests so the server continues reading
+`$/cancelRequest`; cancellation terminates the `go get` subprocess and returns
+the standard LSP request-cancelled error. The language server advertises only
+these two exact execute-command IDs. It does not accept an arbitrary shell
+command, package path, workspace, or unpreviewed mutation.
 
 The server also provides full-document semantic tokens. It reports
 `@qualified.Annotation` as `decorator`, argument names as `parameter`, quoted
@@ -172,11 +174,12 @@ document open/change/save/close, workspace-folder changes, configuration
 refresh, diagnostics, completion, signature help, hover, definition,
 implementation and document-link navigation, quick fixes, and full semantic
 tokens. Its execute-command provider is limited to confirmed annotation-tool
-preview/apply. A clean first analysis still publishes an empty diagnostic set for
-each open document, allowing clients to finish synchronization without a
-sentinel error. Shutdown cancels active analyses. Caller context cancellation
-interrupts a blocked closable input stream. Multiple workspaces never share
-services, overlays, results, or caches.
+preview/apply. A clean first analysis still publishes an empty diagnostic set
+for each open document, allowing clients to finish synchronization without a
+sentinel error. Shutdown cancels active analyses and command requests. Caller
+context cancellation interrupts a blocked closable input stream. Multiple
+workspaces never share services, overlays, results, caches, or installation
+previews.
 
 The first-party Zed adapter and its setup/fixture are documented in
 [`zed.md`](zed.md).

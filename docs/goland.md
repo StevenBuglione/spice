@@ -15,10 +15,12 @@ editor-neutral `spice lsp` compiler service:
 - annotation lines carry a native gutter marker whose tooltip names the exact
   descriptor package and symbol and whose navigation target is that real Go
   declaration;
-- annotated `main` packages receive a preferred whole-package Run/Debug
-  configuration, preventing GoLand's temporary single-file runner from
-  dropping generated bootstrap files or interpreting folded presentation as
-  source;
+- annotated `main` packages receive a preferred Spice Application
+  configuration: Run invokes `spice run` for the selected target and complete
+  package pattern, while Debug first executes a registered `spice generate`
+  task and then delegates to GoLand's native complete-package Go/Delve path;
+  neither path can use the temporary single-file runner, drop generated
+  bootstrap files, or interpret folded presentation as source;
 - named, aliased, and namespace-qualified references resolve to the real
   one-file Go SDK descriptor selected by the file's explicit
   `@spice.import`;
@@ -90,15 +92,20 @@ runtime.
    collapsed, and non-expandable;
 4. proves the editor document, committed PSI, saved virtual file, and copied
    selection all retain the physical `// ` prefixes after concealment;
-5. proves `@Application` produces package/directory execution with no
-   single-file paths and retains the physical annotation comments;
+5. proves `@Application` produces a persisted Spice Application configuration
+   with no single-file paths, an exact `spice run` command, and one enabled
+   generate-before-debug task;
 6. renders realized editor components under the light and Darcula schemes;
 7. compares normalized 8-by-8 color blocks with committed fixed-theme goldens,
    enforcing bounded mean and changed-region tolerances while retaining exact
    token/range assertions;
 8. rejects blank or degenerate images;
-9. packages the plugin, validates its structure/configuration, and runs the
-   JetBrains binary/API verifier.
+9. builds a real Spice CLI, executes the folded commerce target through the
+   exact Run command, generates it through the Debug prerequisite, builds the
+   full package with debug flags, executes that binary, and rechecks the
+   physical annotation comments;
+10. packages the plugin, validates its structure/configuration, and runs the
+    JetBrains binary/API verifier.
 
 The generated visual reports are:
 
@@ -113,6 +120,11 @@ tolerances absorb bounded platform-font and antialiasing drift without
 silently accepting a missing fold, theme-wide color regression, blank render,
 or major layout shift. The build reports remain the exact current render for
 human inspection on Windows and Linux.
+
+The commerce execution test is part of ordinary `make goland` and therefore of
+the Windows, Linux, and macOS `make verify` matrix. It uses platform-native
+process invocation and temporary output paths; no shell-specific command or
+fixture binary is hidden in the plugin.
 
 The folding parser is intentionally narrow: it recognizes declaration comments
 whose complete text begins with canonical `// @`, including explicit
@@ -193,6 +205,10 @@ GoLand `262.8665.336`, test-framework, JUnit, and verifier graph.
   source; Spice never rewrites annotations into invalid raw `@` lines.
 - Prefix folds are non-expandable by design so the presentation does not
   regress after editor refresh or file reopen.
+- Run intentionally uses Spice's guarded generate/build/run pipeline. Debug
+  intentionally retains GoLand's native Go debugger after the explicit
+  generation prerequisite, so breakpoints, Delve behavior, and package
+  inspection remain ordinary GoLand features.
 - Definition navigation requires resolvable descriptor Go source. Missing
   module-cache or vendor source remains an actionable offline compiler
   diagnostic; the plugin does not download it.

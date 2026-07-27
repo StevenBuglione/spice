@@ -74,7 +74,11 @@ handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
   exact module-file diff is shown without mutation, and a separate confirmed
   action applies only the content-derived plan while both original hashes
   match. Tool negotiation also declares and validates every public descriptor
-  package. The next bounded slice is final Windows workflow acceptance.
+  package. Installation commands remain cancellable while the LSP reads new
+  requests. GoLand Run invokes `spice run`; Debug first runs a registered
+  Spice generation task and then retains the native complete-package Go/Delve
+  path. The pinned GoLand suite executes commerce through both command paths
+  on the Windows/Linux verification matrix.
 
 ## M0 — Product and compiler proof
 

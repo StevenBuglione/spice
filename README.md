@@ -88,11 +88,12 @@ The repository currently provides:
 - A repository-owned GoLand plugin that renders canonical declaration comments
   as zero-width-prefix annotations, applies configurable native syntax colors,
   resolves highlighted PSI references to their real Go SDK descriptor
-  declarations, shows descriptor provenance in the gutter, checks light/dark
-  rendering against committed visual goldens, and launches the same LSP for
-  descriptor documentation, handler implementation navigation, completion,
-  diagnostics, safe edits, and confirmed hash-guarded `go get -tool`
-  preview/apply.
+  declarations, shows descriptor provenance in the gutter, runs applications
+  through `spice run`, generates before native GoLand package debugging,
+  checks light/dark rendering against committed visual goldens, and launches
+  the same LSP for descriptor documentation, handler implementation
+  navigation, completion, diagnostics, safe edits, and cancellable confirmed
+  hash-guarded `go get -tool` preview/apply.
 - A supported secondary Zed extension that launches the same LSP beside
   `gopls` for completion, diagnostics, hover, modifier-click annotation
   navigation, safe quick fixes, module/configuration metadata, and structured
