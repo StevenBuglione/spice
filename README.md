@@ -136,6 +136,12 @@ Spice statically decodes each one-file Go descriptor and launches only its
 authorized full package path through `go tool`; there is no plugin manifest or
 custom dependency resolver.
 
+The independent modules under
+[`testdata/annotationfixture`](testdata/annotationfixture) and
+[`testdata/annotationapp`](testdata/annotationapp) prove that a third party can
+use only the public SDK/protocol to supply aliases, namespaces, diagnostics,
+real editor navigation, provider semantics, and inspectable generated Go.
+
 ## Run it
 
 Install Go 1.26.5 and GNU Make, then run:

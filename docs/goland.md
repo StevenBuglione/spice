@@ -141,6 +141,12 @@ same argument metadata. Selecting an annotation completion either uses its
 existing local alias or inserts the required explicit named/namespace import;
 the inserted edit is visible source, never an implicit compiler binding.
 
+The independent
+[`testdata/annotationfixture`](../testdata/annotationfixture) module is the
+third-party acceptance source for descriptor and implementation navigation.
+Its paired application uses both an aliased named import and a namespace
+import, so the editor workflow does not prove only first-party paths.
+
 If an editor buffer contains raw `@Application`-style lines, `spice lsp`
 reports each line at its exact source range with a version-checked action that
 inserts `// `. It does not surface the temporary `gocommand-*` loader dump or

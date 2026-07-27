@@ -183,3 +183,131 @@ installs dependencies or changes module files.
 tool-aware compiler service. Verification uses validation mode, so it includes
 committed generated files and does not require an application target;
 generation mode excludes generated files while producing the guarded plan.
+
+## Author a third-party module
+
+Keep descriptors, handlers, and the command visibly separate:
+
+```text
+example.com/acme/spice-mail
+├── annotation/mail/send.go
+├── internal/annotationhandler/send.go
+├── internal/annotationhandler/tool.go
+└── cmd/spice-annotations/main.go
+```
+
+The public descriptor package imports only
+`github.com/StevenBuglione/spice/annotation/sdk`. The handler and command may
+also import `github.com/StevenBuglione/spice/annotation/sdk/protocol`; they do
+not import `compiler`, `internal/cli`, or an official handler package. A
+descriptor's `Implementation.Source` points at the real package-level handler
+function, and the tool's `describe` response must report the same symbol.
+
+Implement `protocol.Tool` as an instance-owned value. `initialize` checks the
+exact tool and protocol identities, `describe` returns stable handler metadata,
+`analyze` decodes normalized invocation facts and returns typed contributions,
+and `shutdown` releases owned resources. `protocol.Serve` owns framing and
+panic containment. Handlers must honor the caller context; they must not retain
+an invocation, write generated files, print to stdout, scan ambient packages,
+or execute application declarations.
+
+The committed independent proof is split between
+[`testdata/annotationfixture`](../testdata/annotationfixture) and
+[`testdata/annotationapp`](../testdata/annotationapp). It demonstrates a named
+core import, an aliased third-party provider import, a namespace-qualified
+policy import, plugin-owned diagnostics, real descriptor and handler source
+navigation, provider contribution, deterministic generated Go, ownership
+checking, build, and execution. The fixture plugin imports only the public SDK
+and protocol.
+
+## Publish and select a version
+
+Tag the descriptor packages and tool command in the same Go module. Consumers
+select that one version with standard Go commands:
+
+```text
+go get -tool example.com/acme/spice-mail/cmd/spice-annotations@v1.4.0
+go mod tidy
+spice annotations doctor ./...
+```
+
+`go get -tool` adds the executable package to the application module's `tool`
+block and selects its module in the ordinary build list. The descriptor import
+comment selects symbols from that same resolved module. Spice rejects a
+descriptor and tool that differ in module path, version, or replacement
+identity. Removing the integration uses the standard command:
+
+```text
+go get -tool example.com/acme/spice-mail/cmd/spice-annotations@none
+go mod tidy
+```
+
+Because tool dependencies participate in minimal-version selection, extension
+authors should keep their dependency surface small and publish compatibility
+ranges honestly. Do not hide a second dependency solver or download path in
+the annotation process.
+
+## Local development and workspaces
+
+Use a normal replacement while developing an application and extension
+together:
+
+```go
+require example.com/acme/spice-mail v0.0.0
+
+replace example.com/acme/spice-mail => ../spice-mail
+
+tool example.com/acme/spice-mail/cmd/spice-annotations
+```
+
+`go.work` can make both modules convenient to edit, but it does not authorize
+the tool. The application module's own `go.mod` must retain the `tool`
+directive. Editor documentation labels a local replacement explicitly and
+shows its source directory; it never presents local source as checksum-verified
+published content.
+
+## Vendor and offline operation
+
+Run the ordinary Go workflow:
+
+```text
+go mod tidy
+go mod vendor
+go test -mod=vendor ./...
+spice annotations doctor ./...
+spice generate --check ./...
+```
+
+When `vendor/modules.txt` exists, Spice uses `-mod=vendor`; otherwise it uses
+`-mod=readonly`. It always sets `GOPROXY=off` for analysis and tool launch.
+Therefore editor completion, hover, diagnostics, navigation, generation, and
+verification cannot download missing code. Install or vendor the dependency
+deliberately when the diagnostic says its source is unavailable.
+
+## Trust and review
+
+An annotation tool is a native executable with the developer's permissions.
+It is not sandboxed. Before authorizing one, review its maintenance, license,
+release provenance, dependencies, cancellation behavior, network/file access,
+diagnostic quality, and generated-output requests. Capability declarations are
+inspectable compatibility metadata, not a security boundary.
+
+Spice narrows the execution surface by requiring an exact application-owned
+`tool` directive, an exact full package path, offline Go resolution, protocol
+and module identity negotiation, bounded framing and stderr, deadlines,
+process-tree cancellation, no replay, and guarded generation. Those controls
+do not make an untrusted native process safe.
+
+## GoLand authoring loop
+
+With the Spice plugin installed, type `@` or edit an `@spice.import`. Completion
+shows the descriptor package, selected version or replacement, tool, and
+handler. Accepting a completion adds a visible named or namespace import when
+needed. Modifier-click opens the one-file descriptor; **Go to Implementation**
+opens the handler; Quick Documentation renders its GoDoc, arguments, examples,
+compatibility, provenance, and protocol metadata.
+
+The editor does not install a missing tool silently. Use `go get -tool`
+directly until the preview-and-confirm module edit action is available. Then
+run `spice annotations doctor` to validate the executable identity and every
+selected handler before generation.

@@ -64,8 +64,11 @@ explicit imports, and verify/generate/build/run/dev/LSP share the tool-aware
 compiler service. The legacy registry remains only as a pre-1.0 compatibility
 path for files without explicit imports. Descriptor-backed LSP/GoLand
 completion, documentation, definition, and implementation navigation are now
-available; the next bounded slice is the independent third-party fixture,
-offline module-graph discovery, and confirmed tool-install edit preview.
+available. A separate fixture module now proves public-SDK-only descriptors and
+handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
+generation, real source navigation, and offline build/run. The next bounded
+slice is broader offline module-graph discovery and confirmed tool-install edit
+preview.
 
 ## M0 — Product and compiler proof
 
