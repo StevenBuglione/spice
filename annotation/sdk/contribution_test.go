@@ -68,6 +68,32 @@ func TestContributionRejectsMalformedValues(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "empty interface binding",
+			value: Contribution{
+				Kind:      ContributionInterface,
+				Interface: &InterfaceBindingContribution{},
+			},
+		},
+		{
+			name: "duplicate interface binding",
+			value: Contribution{
+				Kind: ContributionInterface,
+				Interface: &InterfaceBindingContribution{
+					Interfaces: []string{"api.Reader", "api.Reader"},
+				},
+			},
+		},
+		{
+			name: "untrimmed stereotype constructor",
+			value: Contribution{
+				Kind: ContributionStereotype,
+				Stereotype: &StereotypeContribution{
+					Role:        "service",
+					Constructor: " NewService",
+				},
+			},
+		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -101,6 +127,15 @@ func validContributions() []Contribution {
 		{
 			Kind:       ContributionStereotype,
 			Stereotype: &StereotypeContribution{Role: "service"},
+		},
+		{
+			Kind: ContributionInterface,
+			Interface: &InterfaceBindingContribution{
+				Interfaces: []string{
+					"health.Checker",
+					"payments.Processor",
+				},
+			},
 		},
 		{
 			Kind:     ContributionProvider,

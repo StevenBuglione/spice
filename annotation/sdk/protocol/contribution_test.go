@@ -37,6 +37,7 @@ func TestEveryContributionKindRoundTrips(t *testing.T) {
 	values := []sdk.Contribution{
 		{Kind: sdk.ContributionApplication, Application: &sdk.ApplicationContribution{}},
 		{Kind: sdk.ContributionStereotype, Stereotype: &sdk.StereotypeContribution{Role: "service"}},
+		{Kind: sdk.ContributionInterface, Interface: &sdk.InterfaceBindingContribution{Interfaces: []string{"payments.Processor"}}},
 		{Kind: sdk.ContributionProvider, Provider: &sdk.ProviderContribution{}},
 		{Kind: sdk.ContributionConfiguration, Configuration: &sdk.ConfigurationContribution{Prefix: "server"}},
 		{Kind: sdk.ContributionController, Controller: &sdk.ControllerContribution{Prefix: "/api"}},

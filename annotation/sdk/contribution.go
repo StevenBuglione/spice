@@ -15,6 +15,7 @@ type ContributionKind string
 const (
 	ContributionApplication    ContributionKind = "application"
 	ContributionStereotype     ContributionKind = "stereotype"
+	ContributionInterface      ContributionKind = "interface-binding"
 	ContributionProvider       ContributionKind = "provider"
 	ContributionConfiguration  ContributionKind = "configuration"
 	ContributionController     ContributionKind = "controller"
@@ -40,7 +41,17 @@ type ApplicationContribution struct{}
 // StereotypeContribution classifies a declaration for architecture and tooling
 // without inventing construction behavior. Providers remain explicit.
 type StereotypeContribution struct {
-	Role string `json:"role"`
+	Role        string `json:"role"`
+	Construct   bool   `json:"construct,omitempty"`
+	Constructor string `json:"constructor,omitempty"`
+}
+
+// InterfaceBindingContribution explicitly exposes one concrete bean through
+// named Go interfaces. Expressions are resolved against the invocation's
+// physical source file by the typed compiler; handlers never guess method
+// assignability.
+type InterfaceBindingContribution struct {
+	Interfaces []string `json:"interfaces"`
 }
 
 // ProviderContribution marks the invocation target as a provider. The
@@ -159,6 +170,7 @@ type Contribution struct {
 	Kind           ContributionKind
 	Application    *ApplicationContribution
 	Stereotype     *StereotypeContribution
+	Interface      *InterfaceBindingContribution
 	Provider       *ProviderContribution
 	Configuration  *ConfigurationContribution
 	Controller     *ControllerContribution
@@ -217,9 +229,34 @@ func validateFoundationContribution(
 		); err != nil {
 			return err, true
 		}
-		return requireTrimmed(
+		if err := requireTrimmed(
 			"stereotype role",
 			contribution.Stereotype.Role,
+		); err != nil {
+			return err, true
+		}
+		if contribution.Stereotype.Constructor != "" {
+			return requireTrimmed(
+				"stereotype constructor",
+				contribution.Stereotype.Constructor,
+			), true
+		}
+		return nil, true
+	case ContributionInterface:
+		if err := requirePayload(
+			contribution.Interface,
+			"interface binding",
+		); err != nil {
+			return err, true
+		}
+		if len(contribution.Interface.Interfaces) == 0 {
+			return errors.New(
+				"annotation interface binding requires at least one interface",
+			), true
+		}
+		return validateUniqueTrimmed(
+			"interface expression",
+			contribution.Interface.Interfaces,
 		), true
 	case ContributionProvider:
 		return requirePayload(contribution.Provider, "provider"), true
@@ -383,6 +420,12 @@ func (contribution Contribution) Clone() Contribution {
 	result := contribution
 	result.Application = clonePointer(contribution.Application)
 	result.Stereotype = clonePointer(contribution.Stereotype)
+	result.Interface = clonePointer(contribution.Interface)
+	if result.Interface != nil {
+		result.Interface.Interfaces = slices.Clone(
+			contribution.Interface.Interfaces,
+		)
+	}
 	result.Provider = clonePointer(contribution.Provider)
 	result.Configuration = clonePointer(contribution.Configuration)
 	result.Controller = clonePointer(contribution.Controller)
@@ -428,6 +471,7 @@ func (contribution Contribution) payloadCount() int {
 	for _, present := range []bool{
 		contribution.Application != nil,
 		contribution.Stereotype != nil,
+		contribution.Interface != nil,
 		contribution.Provider != nil,
 		contribution.Configuration != nil,
 		contribution.Controller != nil,

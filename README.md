@@ -18,7 +18,9 @@ The repository currently provides:
 
 - A typed Go package-loading pipeline with stable declaration identities.
 - Annotation parsing, resolution, and source-positioned validation.
-- Exact-type bean/configuration provider catalog and deterministic dependency graph validation.
+- Exact concrete bean/configuration providers, constructible service/controller/
+  repository stereotypes, and explicit `@Implements` interface bindings with
+  deterministic compile-time dependency graph validation.
 - Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
 - A preferred annotated package-main `func main()` that discovers the selected
   local module scope at compile time, plus a pre-1.0 compatible exact-type

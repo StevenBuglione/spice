@@ -37,6 +37,11 @@ func TestRegistryRejectsInvalidDefinitions(t *testing.T) {
 		{name: "duplicate definition", definitions: []Definition{{Name: "Controller", Targets: Targets(TargetType)}, {Name: "Controller", Targets: Targets(TargetType)}}},
 		{name: "missing argument name", definitions: []Definition{{Name: "Controller", Targets: Targets(TargetType), Arguments: []ArgumentDefinition{{Kinds: []Kind{KindString}}}}}},
 		{name: "missing argument kind", definitions: []Definition{{Name: "Controller", Targets: Targets(TargetType), Arguments: []ArgumentDefinition{{Name: "prefix"}}}}},
+		{name: "named variadic", message: "must be positional", definitions: []Definition{{
+			Name: "Implements", Targets: Targets(TargetType), Arguments: []ArgumentDefinition{{
+				Name: "interfaces", Kinds: []Kind{KindIdentifier}, Variadic: true,
+			}},
+		}}},
 		{
 			name:    "list element kinds without list",
 			message: "without accepting list",

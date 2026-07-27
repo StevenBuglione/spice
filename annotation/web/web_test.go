@@ -72,9 +72,14 @@ func TestWebHandlers(t *testing.T) {
 			if err != nil {
 				t.Fatalf("handler error: %v", err)
 			}
-			if len(result.Contributions) != 1 ||
+			if len(result.Contributions) == 0 ||
 				result.Contributions[0].Kind != test.kind {
 				t.Fatalf("handler result = %#v", result)
+			}
+			if test.symbol == "Controller" &&
+				(len(result.Contributions) != 2 ||
+					result.Contributions[1].Kind != sdk.ContributionStereotype) {
+				t.Fatalf("controller stereotype = %#v", result)
 			}
 			if _, err := test.handler(context.Background(), sdk.Invocation{
 				DescriptorPackage: "example.com/wrong",

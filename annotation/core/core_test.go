@@ -14,6 +14,8 @@ func TestCoreDefinitions(t *testing.T) {
 		Application(),
 		Bean(),
 		Configuration(),
+		Implements(),
+		Repository(),
 		Service(),
 	} {
 		if err := definition.Validate(); err != nil {
@@ -57,6 +59,25 @@ func TestCoreHandlers(t *testing.T) {
 				Value: json.RawMessage(`"commerce"`),
 			}},
 			kind: sdk.ContributionConfiguration,
+		},
+		{
+			name:      "implements",
+			symbol:    "Implements",
+			canonical: "Implements",
+			handler:   ImplementsHandler,
+			arguments: []sdk.InvocationArgument{{
+				Kind:       sdk.KindIdentifier,
+				Positional: true,
+				Value:      json.RawMessage(`"payments.Processor"`),
+			}},
+			kind: sdk.ContributionInterface,
+		},
+		{
+			name:      "repository",
+			symbol:    "Repository",
+			canonical: "Repository",
+			handler:   RepositoryHandler,
+			kind:      sdk.ContributionStereotype,
 		},
 		{
 			name:      "service",

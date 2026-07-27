@@ -8,16 +8,17 @@ import (
 	"github.com/StevenBuglione/spice/annotation/sdk"
 )
 
-// Controller marks a provider-owned type whose annotated methods are exposed
+// Controller declares a constructible bean whose annotated methods are exposed
 // through generated net/http adapters.
 //
-// The receiver must have an exact provider. Spice validates method signatures,
-// request DTO bindings, response handling, authorization, and route conflicts
-// before generating ordinary inspectable Go. Prefix is an optional absolute
-// route path shared by the controller's methods.
+// Spice validates and selects the controller constructor exactly as it does
+// for a @Service. It then validates method signatures, request DTO bindings, response
+// handling, authorization, and route conflicts before generating ordinary
+// inspectable Go. Prefix is an optional absolute route path shared by the
+// controller's methods.
 //
 //	// @import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
-//	// @Controller(prefix="/orders")
+//	// @Controller(prefix="/orders", constructor=NewHTTPController)
 //	type HTTPController struct{}
 func Controller() sdk.Definition {
 	return sdk.Definition{
@@ -28,10 +29,14 @@ func Controller() sdk.Definition {
 			Name:        "prefix",
 			Kinds:       []sdk.Kind{sdk.KindString},
 			Description: "Optional absolute route prefix.",
+		}, {
+			Name:        "constructor",
+			Kinds:       []sdk.Kind{sdk.KindIdentifier},
+			Description: "Optional same-package constructor function.",
 		}},
 		Examples: []sdk.Example{{
 			Title: "Controller",
-			Code:  "// @Controller(prefix=\"/orders\")\ntype HTTPController struct{}",
+			Code:  "// @Controller(prefix=\"/orders\", constructor=NewHTTPController)\ntype HTTPController struct{}",
 		}},
 		Compatibility: sdk.Compatibility{
 			Since:        "0.1.0",
@@ -56,7 +61,12 @@ func ControllerHandler(
 	); err != nil {
 		return sdk.Result{}, err
 	}
-	arguments, err := sdk.BindArguments(invocation, "", "prefix")
+	arguments, err := sdk.BindArguments(
+		invocation,
+		"",
+		"prefix",
+		"constructor",
+	)
 	if err != nil {
 		return sdk.Result{}, err
 	}
@@ -64,10 +74,24 @@ func ControllerHandler(
 	if err != nil {
 		return sdk.Result{}, err
 	}
-	return sdk.OneContribution(sdk.Contribution{
-		Kind: sdk.ContributionController,
-		Controller: &sdk.ControllerContribution{
-			Prefix: prefix,
+	constructor, err := arguments.Identifier("constructor", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	return sdk.Contributions(
+		sdk.Contribution{
+			Kind: sdk.ContributionController,
+			Controller: &sdk.ControllerContribution{
+				Prefix: prefix,
+			},
 		},
-	})
+		sdk.Contribution{
+			Kind: sdk.ContributionStereotype,
+			Stereotype: &sdk.StereotypeContribution{
+				Role:        "controller",
+				Construct:   true,
+				Constructor: constructor,
+			},
+		},
+	)
 }

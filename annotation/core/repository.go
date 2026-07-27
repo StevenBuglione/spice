@@ -7,24 +7,20 @@ import (
 	"github.com/StevenBuglione/spice/annotation/sdk"
 )
 
-// Service declares a constructible application-service bean.
+// Repository declares a constructible data-access bean.
 //
-// Spice selects an ordinary Go constructor at compile time: an explicit
-// constructor symbol, New<Type>, the unambiguous package New function, or
-// generated new(T). Dependencies remain constructor parameters and generated
-// code calls the selected constructor directly. No reflection or service
-// locator is used. Use @Implements plus a normal Go compile-time assertion to
-// expose the concrete result through an interface.
+// Constructor discovery and dependency injection follow the same compile-time
+// rules as Service. Repository is a semantic role for module ownership,
+// transactions, diagnostics, navigation, and observability; generated code
+// still contains only direct ordinary Go constructor calls.
 //
-//	// @import { Service } from "github.com/StevenBuglione/spice/annotation/core"
-//	// @Service(constructor=NewOrders)
-//	type Orders struct{}
-//
-//	func NewOrders(repository Repository) *Orders
-func Service() sdk.Definition {
+//	// @import { Repository } from "github.com/StevenBuglione/spice/annotation/core"
+//	// @Repository(constructor=NewOrderRepository)
+//	type OrderRepository struct{}
+func Repository() sdk.Definition {
 	return sdk.Definition{
-		Name:    "core.Service",
-		Summary: "Declares a constructible application-service bean.",
+		Name:    "core.Repository",
+		Summary: "Declares a constructible data-access bean.",
 		Targets: []sdk.Target{sdk.TargetType},
 		Arguments: []sdk.Argument{{
 			Name:        "constructor",
@@ -32,29 +28,29 @@ func Service() sdk.Definition {
 			Description: "Optional same-package constructor function.",
 		}},
 		Examples: []sdk.Example{{
-			Title: "Service with explicit constructor",
-			Code:  "// @Service(constructor=NewOrders)\ntype Orders struct{}\n\nfunc NewOrders(repository Repository) *Orders",
+			Title: "Repository with constructor discovery",
+			Code:  "// @Repository\ntype OrderRepository struct{}\n\nfunc NewOrderRepository(database *sql.DB) *OrderRepository",
 		}},
 		Compatibility: sdk.Compatibility{
-			Since:        "0.1.0",
-			MinimumSpice: "0.1.0",
+			Since:        "0.2.0",
+			MinimumSpice: "0.2.0",
 		},
 		Implementation: sdk.Implementation{
 			Tool:     coretool.Path,
-			Handler:  ServiceHandler,
+			Handler:  RepositoryHandler,
 			Protocol: sdk.ProtocolV1Alpha2,
 		},
 	}
 }
 
-// ServiceHandler contributes explicit service stereotype semantics.
-func ServiceHandler(
+// RepositoryHandler contributes explicit repository construction metadata.
+func RepositoryHandler(
 	_ context.Context,
 	invocation sdk.Invocation,
 ) (sdk.Result, error) {
 	if err := invocation.RequireDescriptor(
 		"github.com/StevenBuglione/spice/annotation/core",
-		"Service",
+		"Repository",
 	); err != nil {
 		return sdk.Result{}, err
 	}
@@ -73,7 +69,7 @@ func ServiceHandler(
 	return sdk.OneContribution(sdk.Contribution{
 		Kind: sdk.ContributionStereotype,
 		Stereotype: &sdk.StereotypeContribution{
-			Role:        "service",
+			Role:        "repository",
 			Construct:   true,
 			Constructor: constructor,
 		},

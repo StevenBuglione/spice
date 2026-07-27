@@ -117,6 +117,7 @@ type ArgumentDefinition struct {
 	ListElementKinds []Kind
 	Required         bool
 	Positional       bool
+	Variadic         bool
 }
 
 // Definition describes one annotation and where it may be used.
@@ -201,25 +202,12 @@ func validateDefinition(definition Definition) error {
 	seenArguments := make(map[string]struct{}, len(definition.Arguments))
 	positionalArguments := 0
 	for _, argument := range definition.Arguments {
-		if strings.TrimSpace(argument.Name) == "" {
-			return fmt.Errorf("annotation definition %q contains an argument without a name", definition.Name)
-		}
-		if strings.TrimSpace(argument.Name) != argument.Name {
-			return fmt.Errorf("annotation definition %q argument %q must not contain surrounding whitespace", definition.Name, argument.Name)
-		}
-		if _, exists := seenArguments[argument.Name]; exists {
-			return fmt.Errorf("annotation definition %q contains duplicate argument %q", definition.Name, argument.Name)
-		}
-		seenArguments[argument.Name] = struct{}{}
-		if len(argument.Kinds) == 0 {
-			return fmt.Errorf("annotation definition %q argument %q requires at least one value kind", definition.Name, argument.Name)
-		}
-		if len(argument.ListElementKinds) != 0 && !slices.Contains(argument.Kinds, KindList) {
-			return fmt.Errorf(
-				"annotation definition %q argument %q defines list element kinds without accepting list values",
-				definition.Name,
-				argument.Name,
-			)
+		if err := validateArgumentDefinition(
+			definition.Name,
+			argument,
+			seenArguments,
+		); err != nil {
+			return err
 		}
 		if argument.Positional {
 			positionalArguments++
@@ -227,6 +215,57 @@ func validateDefinition(definition Definition) error {
 	}
 	if positionalArguments > 1 {
 		return fmt.Errorf("annotation definition %q contains multiple positional arguments; only one is supported", definition.Name)
+	}
+	return nil
+}
+
+func validateArgumentDefinition(
+	definitionName string,
+	argument ArgumentDefinition,
+	seen map[string]struct{},
+) error {
+	if strings.TrimSpace(argument.Name) == "" {
+		return fmt.Errorf(
+			"annotation definition %q contains an argument without a name",
+			definitionName,
+		)
+	}
+	if strings.TrimSpace(argument.Name) != argument.Name {
+		return fmt.Errorf(
+			"annotation definition %q argument %q must not contain surrounding whitespace",
+			definitionName,
+			argument.Name,
+		)
+	}
+	if _, exists := seen[argument.Name]; exists {
+		return fmt.Errorf(
+			"annotation definition %q contains duplicate argument %q",
+			definitionName,
+			argument.Name,
+		)
+	}
+	seen[argument.Name] = struct{}{}
+	if len(argument.Kinds) == 0 {
+		return fmt.Errorf(
+			"annotation definition %q argument %q requires at least one value kind",
+			definitionName,
+			argument.Name,
+		)
+	}
+	if len(argument.ListElementKinds) != 0 &&
+		!slices.Contains(argument.Kinds, KindList) {
+		return fmt.Errorf(
+			"annotation definition %q argument %q defines list element kinds without accepting list values",
+			definitionName,
+			argument.Name,
+		)
+	}
+	if argument.Variadic && !argument.Positional {
+		return fmt.Errorf(
+			"annotation definition %q argument %q must be positional when variadic",
+			definitionName,
+			argument.Name,
+		)
 	}
 	return nil
 }

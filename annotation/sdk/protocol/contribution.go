@@ -102,6 +102,8 @@ func foundationContributionPayload(
 		return value.Application, true
 	case sdk.ContributionStereotype:
 		return value.Stereotype, true
+	case sdk.ContributionInterface:
+		return value.Interface, true
 	case sdk.ContributionProvider:
 		return value.Provider, true
 	case sdk.ContributionConfiguration:
@@ -176,6 +178,9 @@ func foundationContributionDestination(
 	case sdk.ContributionStereotype:
 		value.Stereotype = &sdk.StereotypeContribution{}
 		return value, value.Stereotype, true
+	case sdk.ContributionInterface:
+		value.Interface = &sdk.InterfaceBindingContribution{}
+		return value, value.Interface, true
 	case sdk.ContributionProvider:
 		value.Provider = &sdk.ProviderContribution{}
 		return value, value.Provider, true

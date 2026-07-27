@@ -55,6 +55,7 @@ type Argument struct {
 	Default          string
 	Required         bool
 	Positional       bool
+	Variadic         bool
 }
 
 // Example is one documentation example shown by editors and generated GoDoc.
@@ -260,6 +261,13 @@ func validateArgument(
 	if strings.TrimSpace(argument.Description) == "" {
 		return fmt.Errorf(
 			"annotation definition %q argument %q requires documentation",
+			definitionName,
+			argument.Name,
+		)
+	}
+	if argument.Variadic && !argument.Positional {
+		return fmt.Errorf(
+			"annotation definition %q argument %q must be positional when variadic",
 			definitionName,
 			argument.Name,
 		)

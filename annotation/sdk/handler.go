@@ -51,12 +51,33 @@ type Result struct {
 	Diagnostics   []HandlerDiagnostic
 }
 
+// Contributions validates and returns one deterministic handler result.
+func Contributions(values ...Contribution) (Result, error) {
+	seen := make(map[ContributionKind]struct{}, len(values))
+	result := make([]Contribution, len(values))
+	for index, value := range values {
+		if err := value.Validate(); err != nil {
+			return Result{}, fmt.Errorf(
+				"annotation contribution %d: %w",
+				index,
+				err,
+			)
+		}
+		if _, duplicate := seen[value.Kind]; duplicate {
+			return Result{}, fmt.Errorf(
+				"annotation handler returned duplicate %q contributions",
+				value.Kind,
+			)
+		}
+		seen[value.Kind] = struct{}{}
+		result[index] = value.Clone()
+	}
+	return Result{Contributions: result}, nil
+}
+
 // OneContribution validates and returns a result containing one contribution.
 func OneContribution(value Contribution) (Result, error) {
-	if err := value.Validate(); err != nil {
-		return Result{}, err
-	}
-	return Result{Contributions: []Contribution{value}}, nil
+	return Contributions(value)
 }
 
 // RequireDescriptor rejects dispatch to a handler for another descriptor.
@@ -118,6 +139,50 @@ func BindArguments(
 			)
 		}
 		result[name] = argument
+	}
+	return result, nil
+}
+
+// PositionalIdentifiers validates and decodes an invocation made exclusively
+// from one or more positional Go identifier expressions.
+func PositionalIdentifiers(
+	invocation Invocation,
+) ([]string, error) {
+	if len(invocation.Arguments) == 0 {
+		return nil, fmt.Errorf(
+			"annotation %s requires at least one positional identifier",
+			invocation.CanonicalName,
+		)
+	}
+	result := make([]string, len(invocation.Arguments))
+	seen := make(map[string]struct{}, len(invocation.Arguments))
+	for index, argument := range invocation.Arguments {
+		if !argument.Positional || argument.Name != "" {
+			return nil, fmt.Errorf(
+				"annotation %s accepts only positional identifiers",
+				invocation.CanonicalName,
+			)
+		}
+		value, err := (BoundArguments{
+			"value": argument,
+		}).Identifier("value", true)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"annotation %s argument %d: %w",
+				invocation.CanonicalName,
+				index,
+				err,
+			)
+		}
+		if _, duplicate := seen[value]; duplicate {
+			return nil, fmt.Errorf(
+				"annotation %s repeats identifier %q",
+				invocation.CanonicalName,
+				value,
+			)
+		}
+		seen[value] = struct{}{}
+		result[index] = value
 	}
 	return result, nil
 }
@@ -209,6 +274,41 @@ func (arguments BoundArguments) Integer(name string) (int64, error) {
 	var result int64
 	if err := decodeArgumentValue(name, argument.Value, &result); err != nil {
 		return 0, err
+	}
+	return result, nil
+}
+
+// Identifier returns one decoded Go identifier expression argument.
+func (arguments BoundArguments) Identifier(
+	name string,
+	required bool,
+) (string, error) {
+	argument, found := arguments[name]
+	if !found {
+		if required {
+			return "", fmt.Errorf(
+				"annotation argument %q is required",
+				name,
+			)
+		}
+		return "", nil
+	}
+	if argument.Kind != KindIdentifier {
+		return "", fmt.Errorf(
+			"annotation argument %q must be an identifier",
+			name,
+		)
+	}
+	var result string
+	if err := decodeArgumentValue(name, argument.Value, &result); err != nil {
+		return "", err
+	}
+	if strings.TrimSpace(result) == "" ||
+		strings.TrimSpace(result) != result {
+		return "", fmt.Errorf(
+			"annotation argument %q must be a trimmed identifier",
+			name,
+		)
 	}
 	return result, nil
 }

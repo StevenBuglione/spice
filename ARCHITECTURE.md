@@ -279,6 +279,27 @@ resource clients plus an application-lifetime context. Token endpoints are
 HTTPS-only, bounded, and non-redirecting; provider failures cross the starter
 boundary only as safe cancellation-aware classes.
 
+### Constructor and interface dependency injection
+
+`@Service`, `@Controller`, and `@Repository` are constructible bean
+stereotypes. The compiler selects an explicit typed constructor, the
+same-package `New<Type>` function, an unambiguous package `New`, or generated
+`new(T)`, in that order. Constructor signatures use the ordinary provider
+result/error/cleanup contract. The immutable provider IR records the
+declaration, selected constructor, exact result type, dependencies, and
+construction form; generation emits only direct calls or allocation.
+
+Concrete providers are never projected to interfaces by scanning method sets.
+`@Implements(pkg.Interface)` explicitly adds a named interface candidate after
+the compiler resolves the type expression in the annotation file, verifies
+the exact pointer/value method set, and finds the corresponding ordinary Go
+compile-time assertion. A factory returning an interface already supplies that
+exact interface and needs no binding. Graph selection uses live `go/types`
+identity for exact outputs and explicit bindings, reports missing or ambiguous
+candidates deterministically, and passes concrete variables directly to
+interface constructor parameters in generated Go. There is no reflection,
+runtime service locator, string-based type lookup, or implicit package scan.
+
 ### Verification
 
 `spice verify` will eventually enforce:

@@ -91,6 +91,15 @@ handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
   path. The pinned GoLand suite executes commerce through both command paths
   on the Windows/Linux verification matrix.
 
+The constructor graph now treats `@Service`, `@Controller`, and `@Repository`
+as constructible beans and records deterministic constructor discovery in the
+immutable IR. `@Implements` resolves named and instantiated generic Go
+interfaces, validates exact pointer/value method sets, requires ordinary Go
+assertions, and exposes only those explicit bindings to dependency selection.
+Commerce proves concrete payment construction with interface injection and
+inspectable direct-call generated Go. Qualifiers, collection injection,
+provider handles, and request/session/prototype scopes are the next DI slice.
+
 ## M0 — Product and compiler proof
 
 - Annotation syntax and parser.

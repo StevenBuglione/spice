@@ -149,22 +149,32 @@ compatibility tests but is no longer the authoritative CLI source.
 
 `compiler/provider` consumes the same `load.Program` and `resolve.Result` already produced for one CLI command. It never reloads packages, reparses files, walks function bodies, reflects on runtime values, or executes provider functions.
 
-After ordinary annotation target and argument validation, each valid package-level `@Bean` function contributes one deterministic provider record. Validated `@Configuration` structs contribute explicit generated-binder provider records before graph construction. Accepted bean signatures are `func(dependencies...) T`, `func(dependencies...) (T, error)`, `func(dependencies...) (T, lifecycle.Cleanup)`, and `func(dependencies...) (T, lifecycle.Cleanup, error)`. `lifecycle.Cleanup` is the canonical named `func(context.Context) error` type. Recognition uses the result's live `go/types` named identity from the owning program: aliases to the canonical type are accepted, while unnamed or distinct defined callback types are rejected. No second package load or assignability-based callback inference occurs.
+After ordinary annotation target and argument validation, each valid package-level `@Bean` function contributes one deterministic provider record. Constructible `@Service`, `@Controller`, and `@Repository` types select an explicit constructor, same-package `New<Type>`, unambiguous package `New`, or generated `new(T)`, in that order. Validated `@Configuration` structs contribute explicit generated-binder provider records before graph construction. Accepted constructor signatures are `func(dependencies...) T`, `func(dependencies...) (T, error)`, `func(dependencies...) (T, lifecycle.Cleanup)`, and `func(dependencies...) (T, lifecycle.Cleanup, error)`. `lifecycle.Cleanup` is the canonical named `func(context.Context) error` type. Recognition uses the result's live `go/types` named identity from the owning program: aliases to the canonical type are accepted, while unnamed or distinct defined callback types are rejected. No second package load or application function execution occurs.
 
 The first result remains the sole output. Provider records retain `ReturnsCleanup` and `ReturnsError` flags but no runtime callback value. Inputs preserve parameter order and positions, and cleanup metadata creates no dependency edge or injectable implicit value. Records retain live `go/types.Type` values only for the owning program, plus import-path-qualified stable type strings for diagnostics and later serialization.
 
-Catalog output is sorted by stable provider symbol ID. Exact output conflicts use `types.Identical` and fail closed with one deterministic diagnostic naming every conflicting declaration. Distinct named types remain distinct even when their underlying representations match. The catalog does not perform assignability-based interface selection, provider or cleanup invocation, scopes, startup/shutdown orchestration, or code generation.
+`@Implements` is the sole concrete-to-interface opt-in. Each positional named
+Go interface expression is resolved against the physical annotation file,
+including instantiated generic interfaces. The compiler rejects anonymous,
+pointer-to-interface, inaccessible, unresolved, non-interface, and
+constraint-only expressions; checks the concrete factory result's exact
+pointer/value method set; and requires a matching `var _ Interface =
+ConcreteExpression` assertion already type-checked by Go. An `@Bean` returning
+an interface is already an exact interface provider and rejects redundant
+`@Implements`.
+
+Catalog output is sorted by stable provider symbol ID. Exact output conflicts use `types.Identical` and fail closed with one deterministic diagnostic naming every conflicting declaration. Distinct named types remain distinct even when their underlying representations match. The catalog does not invoke providers or cleanup, perform reflection, install a runtime container, or scan assignability implicitly.
 
 `spice verify` runs this catalog stage only after loading, typed annotation resolution, target validation, and argument validation have succeeded. Library code remains quiet; the CLI owns rendering and exit status.
 
 
 ## Deterministic provider dependency graph
 
-`compiler/graph` consumes one already validated `provider.Catalog` from the owning typed compiler run. Every bootstrap provider is currently active. Each parameter resolves only to the one provider whose live output type is semantically identical under `go/types.Identical`; readable type IDs remain diagnostics and serialization data, not semantic lookup authority. Spice does not implicitly project concrete values to interfaces, equate distinct named types, convert pointers and values, or supply framework-specific defaults.
+`compiler/graph` consumes one already validated `provider.Catalog` from the owning typed compiler run. Every bootstrap provider is currently active. Each parameter resolves to the unique provider whose live output type is identical under `go/types.Identical` or whose validated explicit interface binding is identical. Readable type IDs remain diagnostics and serialization data, not semantic lookup authority. Spice does not implicitly project concrete values to interfaces, equate distinct named types, convert pointers and values, or supply framework-specific defaults.
 
 Graph construction returns stable provider nodes, parameter edges, and a dependency-first order with stable provider IDs breaking ties. Missing inputs accumulate as source-positioned diagnostics. Tarjan strongly connected component analysis reports every self-cycle and multi-provider cycle with a deterministic closed path. Any missing input or cycle suppresses construction order. The library is quiet and never executes provider bodies.
 
-`spice verify` runs graph validation after provider-catalog validation. This stage validates bootstrap-wide singleton metadata only. Provider cleanup flags are preserved on graph nodes but do not change nodes, edges, missing-dependency analysis, cycles, or construction order. Reachable-provider pruning, generated constructor calls, cleanup invocation, lifecycle execution, scopes, conditions, interface bindings, qualifiers, overrides, and module rules remain explicit later phases.
+`spice verify` runs graph validation after provider-catalog validation. This stage validates bootstrap-wide singleton metadata only. Provider cleanup and interface-binding metadata are preserved on graph nodes. Reachable-provider pruning, cleanup invocation, lifecycle execution, scopes, conditions, qualifiers, overrides, and module rules remain explicit later phases.
 
 ## Typed lifecycle-hook catalog
 

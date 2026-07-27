@@ -148,4 +148,114 @@ func TestOneContributionValidatesValue(t *testing.T) {
 	if _, err := OneContribution(Contribution{}); err == nil {
 		t.Fatal("OneContribution(invalid) error = nil")
 	}
+	if _, err := Contributions(
+		Contribution{
+			Kind:        ContributionApplication,
+			Application: &ApplicationContribution{},
+		},
+		Contribution{
+			Kind:        ContributionApplication,
+			Application: &ApplicationContribution{},
+		},
+	); err == nil || !strings.Contains(err.Error(), "duplicate") {
+		t.Fatalf("Contributions(duplicate) error = %v", err)
+	}
+}
+
+func TestPositionalIdentifiers(t *testing.T) {
+	t.Parallel()
+	invocation := Invocation{
+		CanonicalName: "core.Implements",
+		Arguments: []InvocationArgument{
+			{
+				Kind:       KindIdentifier,
+				Positional: true,
+				Value:      json.RawMessage(`"payments.Processor"`),
+			},
+			{
+				Kind:       KindIdentifier,
+				Positional: true,
+				Value:      json.RawMessage(`"health.Checker"`),
+			},
+		},
+	}
+	values, err := PositionalIdentifiers(invocation)
+	if err != nil || len(values) != 2 ||
+		values[0] != "payments.Processor" ||
+		values[1] != "health.Checker" {
+		t.Fatalf("PositionalIdentifiers() = %q, %v", values, err)
+	}
+	tests := []struct {
+		name       string
+		invocation Invocation
+		message    string
+	}{
+		{
+			name:       "missing",
+			invocation: Invocation{CanonicalName: "core.Implements"},
+			message:    "at least one",
+		},
+		{
+			name: "named",
+			invocation: Invocation{
+				CanonicalName: "core.Implements",
+				Arguments: []InvocationArgument{{
+					Name:  "value",
+					Kind:  KindIdentifier,
+					Value: json.RawMessage(`"Processor"`),
+				}},
+			},
+			message: "only positional",
+		},
+		{
+			name: "wrong kind",
+			invocation: Invocation{
+				CanonicalName: "core.Implements",
+				Arguments: []InvocationArgument{{
+					Kind:       KindString,
+					Positional: true,
+					Value:      json.RawMessage(`"Processor"`),
+				}},
+			},
+			message: "must be an identifier",
+		},
+		{
+			name: "duplicate",
+			invocation: Invocation{
+				CanonicalName: "core.Implements",
+				Arguments: []InvocationArgument{
+					{
+						Kind:       KindIdentifier,
+						Positional: true,
+						Value:      json.RawMessage(`"Processor"`),
+					},
+					{
+						Kind:       KindIdentifier,
+						Positional: true,
+						Value:      json.RawMessage(`"Processor"`),
+					},
+				},
+			},
+			message: "repeats identifier",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			_, positionalErr := PositionalIdentifiers(
+				test.invocation,
+			)
+			if positionalErr == nil ||
+				!strings.Contains(
+					positionalErr.Error(),
+					test.message,
+				) {
+				t.Fatalf(
+					"PositionalIdentifiers() error = %v, want %q",
+					positionalErr,
+					test.message,
+				)
+			}
+		})
+	}
 }

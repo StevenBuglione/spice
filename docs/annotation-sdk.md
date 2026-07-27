@@ -197,7 +197,8 @@ instruction to execute application code.
 
 Handlers return the public `sdk.Contribution` discriminated union. The current
 typed capabilities cover application roots, service stereotypes, providers,
-configuration, controllers, routes, modules, named interfaces, lifecycle,
+explicit interface bindings, configuration, controllers, routes, modules,
+named interfaces, lifecycle,
 bootstrap features, scheduling, async execution, transactions, event topics
 and listeners, caching, authorization, and guarded generated files. Both the
 tool-side encoder and compiler-side decoder validate the selected kind and its
@@ -214,11 +215,15 @@ Official descriptors use exactly the same protocol path through:
 github.com/StevenBuglione/spice/cmd/spice-annotation-core
 ```
 
-All 20 official descriptors have one public descriptor file, one declared
+All 22 official descriptors have one public descriptor file, one declared
 handler, a real implementation source symbol, rich GoDoc, compatibility
-metadata, and examples. `@Service` is intentionally an architectural
-stereotype; construction remains an explicit `@Bean` provider so Spice does
-not invent a hidden container or zero-value construction rule.
+metadata, and examples. `@Service`, `@Controller`, and `@Repository` contribute
+constructible stereotypes with deterministic ordinary Go constructor
+selection. `@Implements` contributes typed named-interface expressions; the
+compiler verifies exact method sets and requires a normal Go compile-time
+assertion before adding an interface candidate. Third-party architectural
+stereotypes remain non-constructing unless their typed contribution explicitly
+sets the construction contract.
 
 Use the read-only inspection commands:
 
@@ -239,22 +244,23 @@ generation mode excludes generated files while producing the guarded plan.
 
 ## Author a third-party module
 
-Keep descriptors, handlers, and the command visibly separate:
+Keep each descriptor beside its real handler while leaving the executable tool
+command visibly separate:
 
 ```text
 example.com/acme/spice-mail
 ├── annotation/mail/send.go
-├── internal/annotationhandler/send.go
-├── internal/annotationhandler/tool.go
+├── internal/annotationtool/tool.go
 └── cmd/spice-annotations/main.go
 ```
 
 The public descriptor package imports only
-`github.com/StevenBuglione/spice/annotation/sdk`. The handler and command may
+`github.com/StevenBuglione/spice/annotation/sdk`. The tool command may
 also import `github.com/StevenBuglione/spice/annotation/sdk/protocol`; they do
 not import `compiler`, `internal/cli`, or an official handler package. A
-descriptor's `Implementation.Source` points at the real package-level handler
-function, and the tool's `describe` response must report the same symbol.
+descriptor's `Implementation.Handler` is a typed reference to the real
+package-level handler in the same file, and the tool's `describe` response
+must report that descriptor registration.
 
 Implement `protocol.Tool` as an instance-owned value. `initialize` checks the
 exact tool and protocol identities, `describe` returns stable handler metadata,
