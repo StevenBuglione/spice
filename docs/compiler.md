@@ -496,6 +496,14 @@ values, the module graph supplies exact module APIs, generated configuration
 metadata supplies property completion/hover, and shared suggested fixes become
 version-checked workspace edits.
 
+For explicit annotation imports, the service also projects the descriptor's
+real Go declaration, GoDoc, examples, compatibility, resolved module and
+replacement provenance, authorized tool/handler/protocol, and resolved
+implementation source symbol. The language server uses that projection for
+alias-aware import and annotation completion, rich hover and signature help,
+definition navigation, and Go-to-implementation. Neither the LSP nor GoLand
+maintains a second annotation registry or a virtual built-in declaration page.
+
 Every open-document set is one compiler overlay request. A monotonic workspace
 sequence cancels and rejects stale work; editor publication additionally checks
 the current document versions. The service never applies its generation plan,

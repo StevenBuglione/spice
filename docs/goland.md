@@ -16,11 +16,13 @@ editor-neutral `spice lsp` compiler service:
   configuration, preventing GoLand's temporary single-file runner from
   dropping generated bootstrap files or interpreting folded presentation as
   source;
-- built-in references open an in-memory, read-only annotation declaration page
-  at the exact definition row rather than a generic website;
+- named, aliased, and namespace-qualified references resolve to the real
+  one-file Go SDK descriptor selected by the file's explicit
+  `@spice.import`;
 - the public GoLand LSP API launches `spice lsp` for versioned diagnostics,
-  completion, hover, safe code actions, module/configuration metadata,
-  semantic information, and third-party definition links.
+  import and annotation completion, rich descriptor hover, parameter
+  information, safe code actions, module/configuration metadata, definition
+  links, and handler implementation links.
 
 The source file remains ordinary Go. Copying, saving, `gofmt`, Git, the Go
 compiler, and generated code all retain the physical `// ` characters.
@@ -78,9 +80,11 @@ runtime.
 
 1. opens a Go PSI file through the registered plugin extensions;
 2. runs native highlighting and asserts the exact text-attribute key and range
-   for each annotation token kind;
+   for sigils, namespaces, annotation names, parameters, literals, and
+   punctuation;
 3. runs GoLand's registered folding pipeline and asserts that every exact
-   prefix region is empty-placeholder, collapsed, and non-expandable;
+   annotation and annotation-import prefix region is empty-placeholder,
+   collapsed, and non-expandable;
 4. proves the editor document, committed PSI, saved virtual file, and copied
    selection all retain the physical `// ` prefixes after concealment;
 5. proves `@Application` produces package/directory execution with no
@@ -102,11 +106,40 @@ platform-font and antialiasing drift while preserving a repeatable visual
 inspection path on Windows and Linux.
 
 The folding parser is intentionally narrow: it recognizes declaration comments
-whose complete text begins with canonical `// @` and a valid qualified
-annotation name. It never conceals ordinary comments or a coincidental `@`
-later in prose. The Spice compiler/LSP remains the semantic authority for
-targets, arguments, module rules, and diagnostics; the plugin's small lexer is
-presentation-only.
+whose complete text begins with canonical `// @`, including explicit
+`@spice.import` declarations. It never conceals ordinary comments or a
+coincidental `@` later in prose. The Spice compiler/LSP remains the semantic
+authority for targets, arguments, module rules, descriptor metadata, and
+diagnostics; the plugin's small lexer is presentation-only.
+
+## Descriptor navigation and documentation
+
+An annotation reference is never resolved from a hidden built-in table.
+`@spice.import` establishes the local symbol table:
+
+```go
+// @spice.import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
+// @spice.import * as security from "github.com/StevenBuglione/spice/annotation/security"
+
+// @Controller
+// @GET(path="/orders/{id}")
+// @security.Authorize(anyRoles=["admin"])
+```
+
+GoLand's native PSI reference resolves `Controller`, `GET`, and
+`security.Authorize` to their exact descriptor functions, so modifier-hover,
+`Ctrl`/`Cmd`-click, and `Ctrl`/`Cmd+B` open ordinary indexed Go source.
+`spice lsp` supplies the same real descriptor location to every editor and
+provides **Go to Implementation** for the descriptor's declared handler source
+symbol.
+
+Quick Documentation and hover combine the descriptor GoDoc with its typed
+arguments, defaults and allowed values, targets, examples, compatibility
+range, resolved module version or local replacement, authorized tool path,
+handler identity, protocol, and implementation symbol. Signature help uses the
+same argument metadata. Selecting an annotation completion either uses its
+existing local alias or inserts the required explicit named/namespace import;
+the inserted edit is visible source, never an implicit compiler binding.
 
 If an editor buffer contains raw `@Application`-style lines, `spice lsp`
 reports each line at its exact source range with a version-checked action that
@@ -133,7 +166,8 @@ GoLand `262.8665.336`, test-framework, JUnit, and verifier graph.
   source; Spice never rewrites annotations into invalid raw `@` lines.
 - Prefix folds are non-expandable by design so the presentation does not
   regress after editor refresh or file reopen.
-- Built-in declaration pages are bundled from `docs/annotations.md`.
-  Third-party definition ownership stays with `spice lsp`.
+- Definition navigation requires resolvable descriptor Go source. Missing
+  module-cache or vendor source remains an actionable offline compiler
+  diagnostic; the plugin does not download it.
 - LSP start failures are reported by GoLand and do not disable native
-  concealment, coloring, or built-in navigation.
+  concealment, coloring, or PSI navigation to already indexed descriptors.

@@ -35,13 +35,16 @@ hover, safe-edit, and semantic-token metadata over bounded stdio JSON-RPC.
 The repository-owned GoLand plugin is now the primary editor target. Its native
 folding pipeline reclaims the exact physical width of canonical `// `
 prefixes, its native annotator supplies configurable structured color, and
-highlighted PSI references navigate built-ins to virtual definition rows. Real
-GoLand fixtures prove collapsed non-expandable regions and emit inspectable
-light/Darcula renders; the same public LSP integration preserves one semantic
-compiler pipeline. The Zed extension remains supported beside `gopls` on
-Windows and Linux for native completion, diagnostics, modifier-click
-navigation, quick fixes, and semantic-token presentation, within Zed's public
-no-concealment boundary. The bounded test mail transport now supplies
+highlighted PSI references resolve explicit imports to real indexed Go
+descriptor functions. Real GoLand fixtures prove annotation/import
+concealment, structured theme colors, collapsed non-expandable regions, and
+inspectable light/Darcula renders. The shared LSP supplies alias-aware
+explicit-import completion, rich descriptor documentation and signature help,
+real descriptor definitions, and real handler implementation links without an
+editor registry. The Zed extension remains supported beside `gopls` on Windows
+and Linux for native completion, diagnostics, modifier-click navigation, quick
+fixes, and semantic-token presentation, within Zed's public no-concealment
+boundary. The bounded test mail transport now supplies
 immutable decoded delivery snapshots, deterministic failure injection,
 explicit capacity behavior, and payload-free observations. The next slice is
 secure SMTP, followed by the final reference workflow. Broad MongoDB,
@@ -59,9 +62,10 @@ union is validated on both sides of the protocol, every official annotation
 has a one-file descriptor and external core-tool handler, commerce uses
 explicit imports, and verify/generate/build/run/dev/LSP share the tool-aware
 compiler service. The legacy registry remains only as a pre-1.0 compatibility
-path for files without explicit imports. The next bounded slice is rich
-descriptor-backed LSP/GoLand completion, documentation, definition and
-implementation navigation, followed by the independent third-party fixture.
+path for files without explicit imports. Descriptor-backed LSP/GoLand
+completion, documentation, definition, and implementation navigation are now
+available; the next bounded slice is the independent third-party fixture,
+offline module-graph discovery, and confirmed tool-install edit preview.
 
 ## M0 — Product and compiler proof
 

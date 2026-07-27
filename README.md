@@ -87,8 +87,9 @@ The repository currently provides:
   commands.
 - A repository-owned GoLand plugin that renders canonical declaration comments
   as zero-width-prefix annotations, applies configurable native syntax colors,
-  provides highlighted PSI navigation to virtual definitions, and launches the
-  same LSP for compiler-derived editor features.
+  resolves highlighted PSI references to their real Go SDK descriptor
+  declarations, and launches the same LSP for descriptor documentation,
+  handler implementation navigation, completion, diagnostics, and safe edits.
 - A supported secondary Zed extension that launches the same LSP beside
   `gopls` for completion, diagnostics, hover, modifier-click annotation
   navigation, safe quick fixes, module/configuration metadata, and structured

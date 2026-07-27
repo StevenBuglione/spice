@@ -45,32 +45,41 @@ Application-global failures that do not have a source location use
 
 Completion and navigation are derived from the current compiler result:
 
-- built-in and explicitly selected starter annotations;
+- statically decoded descriptors selected by explicit annotation imports;
+- descriptor package paths and symbols inside `@spice.import` declarations;
 - annotation arguments and required-argument snippets;
 - bootstrap allowed values such as management endpoint names;
 - exact module IDs and named-interface identities;
 - generated configuration property keys.
 
 Typing `@` on an otherwise empty declaration line may complete to a valid
-comment such as:
+comment and add the corresponding explicit import as a versioned additional
+text edit:
 
 ```go
 // @management.Enable(expose=["health"])
 ```
 
-Completion is refused when `@` appears in an unrelated Go expression. Hover
-describes annotation targets and argument types, module summaries, and
-configuration types, environment names, requirements, and non-secret defaults.
-Secret defaults never enter compiler metadata or hover text.
+Existing named aliases and namespace imports are preserved. Completion detail
+identifies the descriptor package, selected module version or replacement,
+implementation tool, and handler, so the inserted source has inspectable
+provenance. Completion is refused when `@` appears in an unrelated Go
+expression.
 
-Definition requests on a recognized annotation return an exact link to its row
-in `docs/annotations.md` when that reference is present in the workspace.
-Document-link requests cover every recognized annotation token. They target
-that exact local row when available and otherwise target the authoritative
-Spice annotation reference. Unknown annotations and `@` text in strings or
-ordinary comments never become links. This lets clients provide modifier-hover
-underlining and modifier-click navigation without inventing an editor-only
-annotation model.
+Hover renders the descriptor summary and GoDoc, typed arguments, descriptions,
+defaults and allowed values, targets, examples, compatibility, resolved module
+provenance, tool, handler, protocol, and implementation symbol. Signature help
+uses the same argument model and tracks the active annotation argument.
+Configuration hover still omits secret defaults.
+
+Definition and document-link requests return the exact one-file Go descriptor
+function selected by the current file's named, aliased, or namespace import.
+`textDocument/implementation` returns the real Go handler source symbol declared
+by that descriptor. The compiler resolves both locations offline through the
+same target module graph used for analysis, including vendor and local
+replacement source. Unknown annotations and `@` text in strings or ordinary
+comments never become links. Legacy unimported built-ins retain documentation
+links only during the documented pre-1.0 compatibility window.
 
 Code actions come from `compiler/diagnostic.SuggestedFix`. The server returns an
 action only when every edit names an open document, carries the exact current
@@ -137,11 +146,13 @@ continues.
 
 The server supports initialize, initialized, shutdown, exit, cancellation,
 document open/change/save/close, workspace-folder changes, configuration
-refresh, diagnostics, completion, hover, definition and document-link
-navigation, quick fixes, and full semantic tokens. Shutdown cancels active
-analyses. Caller context cancellation interrupts a blocked closable input
-stream. Multiple workspaces never share services, overlays, results, or
-caches.
+refresh, diagnostics, completion, signature help, hover, definition,
+implementation and document-link navigation, quick fixes, and full semantic
+tokens. A clean first analysis still publishes an empty diagnostic set for
+each open document, allowing clients to finish synchronization without a
+sentinel error. Shutdown cancels active analyses. Caller context cancellation
+interrupts a blocked closable input stream. Multiple workspaces never share
+services, overlays, results, or caches.
 
 The first-party Zed adapter and its setup/fixture are documented in
 [`zed.md`](zed.md).
