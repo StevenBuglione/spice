@@ -155,6 +155,13 @@ module cache. Their detail identifies package, version or replacement, tool,
 and target-module authorization before the edit is selected. GoLand neither
 maintains a private annotation registry nor searches the network.
 
+When that tool is not yet authorized, GoLand exposes the shared LSP's two-step
+quick fix. The first action previews the exact standard `go get -tool` command
+and complete `go.mod`/`go.sum` diff without changing the project. The second,
+separately selected **Apply previewed** action is the confirmation and succeeds
+only if the original module-file hashes still match. No plugin-private
+dependency resolver, background download, or direct unpreviewed edit exists.
+
 The independent
 [`testdata/annotationfixture`](../testdata/annotationfixture) module is the
 third-party acceptance source for descriptor and implementation navigation.

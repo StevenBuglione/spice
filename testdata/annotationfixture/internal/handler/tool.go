@@ -42,24 +42,30 @@ func (Tool) Describe(
 	context.Context,
 	protocol.DescribeParams,
 ) (protocol.DescribeResult, error) {
-	return protocol.DescribeResult{Handlers: []protocol.Handler{
-		{
-			ID:           "fixture/factory",
-			Capabilities: []string{string(sdk.ContributionProvider)},
-			Source: sdk.Symbol{
-				Package: modulePath + "/internal/handler",
-				Name:    "FactoryHandler",
+	return protocol.DescribeResult{
+		DescriptorPackages: []string{
+			modulePath + "/annotation/policy",
+			modulePath + "/annotation/wiring",
+		},
+		Handlers: []protocol.Handler{
+			{
+				ID:           "fixture/factory",
+				Capabilities: []string{string(sdk.ContributionProvider)},
+				Source: sdk.Symbol{
+					Package: modulePath + "/internal/handler",
+					Name:    "FactoryHandler",
+				},
+			},
+			{
+				ID:           "fixture/policy",
+				Capabilities: []string{string(sdk.ContributionStereotype)},
+				Source: sdk.Symbol{
+					Package: modulePath + "/internal/handler",
+					Name:    "PolicyHandler",
+				},
 			},
 		},
-		{
-			ID:           "fixture/policy",
-			Capabilities: []string{string(sdk.ContributionStereotype)},
-			Source: sdk.Symbol{
-				Package: modulePath + "/internal/handler",
-				Name:    "PolicyHandler",
-			},
-		},
-	}}, nil
+	}, nil
 }
 
 // Analyze dispatches only the handlers declared by Describe.

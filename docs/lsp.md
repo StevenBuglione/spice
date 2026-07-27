@@ -104,6 +104,23 @@ to:
 
 The edit is a precise prefix insertion rather than a file rewrite.
 
+An explicitly imported descriptor whose tool is absent from the target
+application's own `go.mod` also receives a command-backed quick fix:
+
+1. **Preview** runs the exact displayed `go get -tool package@version` against
+   a temporary sibling modfile and shows the complete `go.mod`/`go.sum` diff;
+   the application files remain unchanged.
+2. **Apply previewed** is offered only after that preview and acts as the
+   explicit confirmation. The server checks the content-derived token and the
+   original hashes of both module files before staged replacement, and rolls
+   back on a write failure.
+
+The preview is bounded, cancellation-aware, tied to an unauthorized descriptor
+from the shared offline catalog, and replaced when the user previews again.
+The language server advertises only these two exact execute-command IDs. It
+does not accept an arbitrary shell command, package path, workspace, or
+unpreviewed mutation.
+
 The server also provides full-document semantic tokens. It reports
 `@qualified.Annotation` as `decorator`, argument names as `parameter`, quoted
 values as `string`, integers as `number`, booleans and unquoted values as
@@ -154,7 +171,8 @@ The server supports initialize, initialized, shutdown, exit, cancellation,
 document open/change/save/close, workspace-folder changes, configuration
 refresh, diagnostics, completion, signature help, hover, definition,
 implementation and document-link navigation, quick fixes, and full semantic
-tokens. A clean first analysis still publishes an empty diagnostic set for
+tokens. Its execute-command provider is limited to confirmed annotation-tool
+preview/apply. A clean first analysis still publishes an empty diagnostic set for
 each open document, allowing clients to finish synchronization without a
 sentinel error. Shutdown cancels active analyses. Caller context cancellation
 interrupts a blocked closable input stream. Multiple workspaces never share

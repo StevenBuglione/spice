@@ -123,13 +123,16 @@ func (tool *fixtureProtocolTool) Describe(
 	_ DescribeParams,
 ) (DescribeResult, error) {
 	tool.record("describe")
-	return DescribeResult{Handlers: []Handler{{
-		ID: "fixture",
-		Source: sdk.Symbol{
-			Package: "example.com/internal",
-			Name:    "Fixture",
-		},
-	}}}, nil
+	return DescribeResult{
+		DescriptorPackages: []string{"example.com/annotation"},
+		Handlers: []Handler{{
+			ID: "fixture",
+			Source: sdk.Symbol{
+				Package: "example.com/internal",
+				Name:    "Fixture",
+			},
+		}},
+	}, nil
 }
 
 func (tool *fixtureProtocolTool) Analyze(

@@ -70,9 +70,11 @@ type Handler struct {
 	Source       sdk.Symbol `json:"source"`
 }
 
-// DescribeResult reports every handler owned by the process.
+// DescribeResult reports every public descriptor package and handler owned by
+// the process.
 type DescribeResult struct {
-	Handlers []Handler `json:"handlers"`
+	DescriptorPackages []string  `json:"descriptor_packages"`
+	Handlers           []Handler `json:"handlers"`
 }
 
 // Declaration contains normalized, non-executable facts about an annotation

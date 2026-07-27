@@ -135,8 +135,10 @@ go tool <full-package-path> --spice-stdio
 
 The descriptor cannot supply a binary path, shell, command-line fragment, or
 environment mutation. The host negotiates exact protocol/tool/module identity,
-requires each descriptor handler and implementation symbol in `describe`, and
-serializes calls over one persistent process per workspace and tool.
+requires `describe` to enumerate every public descriptor package plus each
+handler, capability, and implementation symbol, rejects a descriptor whose
+package is absent from that declaration, and serializes calls over one
+persistent process per workspace and tool.
 
 Calls have bounded startup and request deadlines. Framing corruption, stdout
 contamination, a crash, a timeout, or cancellation fails the operation and
@@ -257,6 +259,16 @@ Because tool dependencies participate in minimal-version selection, extension
 authors should keep their dependency surface small and publish compatibility
 ranges honestly. Do not hide a second dependency solver or download path in
 the annotation process.
+
+In an LSP client such as GoLand, importing an annotation whose exact tool is
+not declared offers a two-step quick fix. **Preview** runs the displayed
+`go get -tool` command against a temporary sibling modfile, shows the exact
+`go.mod`/`go.sum` unified diff, and changes no application file. A separate
+**Apply previewed** action is the confirmation. It accepts only the
+content-derived preview token and only while both original module-file hashes
+still match; guarded staged replacement rolls back on failure. Re-previewing
+replaces an older plan. Editor completion and ordinary analysis remain offline
+and never invoke this path implicitly.
 
 ## Local development and workspaces
 

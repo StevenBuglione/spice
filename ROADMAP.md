@@ -69,8 +69,12 @@ handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
   generation, real source navigation, and offline build/run. Pre-import
   completion now discovers descriptors across the target module graph,
   workspace modules, replacements, vendor source, and populated module cache
-  without network access or implicit bindings. The next bounded slice is the
-  confirmed tool-install edit preview.
+  without network access or implicit bindings. Undeclared tools now use a
+  two-step LSP quick fix: `go get -tool` runs against a temporary modfile, the
+  exact module-file diff is shown without mutation, and a separate confirmed
+  action applies only the content-derived plan while both original hashes
+  match. Tool negotiation also declares and validates every public descriptor
+  package. The next bounded slice is final Windows workflow acceptance.
 
 ## M0 — Product and compiler proof
 

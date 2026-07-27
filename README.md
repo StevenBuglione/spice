@@ -91,7 +91,8 @@ The repository currently provides:
   declarations, shows descriptor provenance in the gutter, checks light/dark
   rendering against committed visual goldens, and launches the same LSP for
   descriptor documentation, handler implementation navigation, completion,
-  diagnostics, and safe edits.
+  diagnostics, safe edits, and confirmed hash-guarded `go get -tool`
+  preview/apply.
 - A supported secondary Zed extension that launches the same LSP beside
   `gopls` for completion, diagnostics, hover, modifier-click annotation
   navigation, safe quick fixes, module/configuration metadata, and structured
@@ -136,7 +137,10 @@ tool github.com/StevenBuglione/spice/cmd/spice-annotation-core
 
 Spice statically decodes each one-file Go descriptor and launches only its
 authorized full package path through `go tool`; there is no plugin manifest or
-custom dependency resolver.
+custom dependency resolver. Editor installation assistance uses the standard Go
+command against a temporary modfile, shows the exact `go.mod`/`go.sum` diff,
+and requires a separate confirmed action before applying the still-current
+preview.
 
 The independent modules under
 [`testdata/annotationfixture`](testdata/annotationfixture) and
