@@ -13,11 +13,14 @@ import (
 // Declaration contains normalized, non-executable facts about an annotation
 // target. Type identities are import-path-qualified strings.
 type Declaration struct {
-	Target      Target `json:"target"`
-	SymbolID    string `json:"symbol_id"`
-	Name        string `json:"name"`
-	PackagePath string `json:"package_path"`
-	TypeID      string `json:"type_id,omitempty"`
+	Target          Target `json:"target"`
+	SymbolID        string `json:"symbol_id"`
+	Name            string `json:"name"`
+	PackagePath     string `json:"package_path"`
+	TypeID          string `json:"type_id,omitempty"`
+	ParameterIndex  int    `json:"parameter_index,omitempty"`
+	ParameterName   string `json:"parameter_name,omitempty"`
+	ParameterTypeID string `json:"parameter_type_id,omitempty"`
 }
 
 // Invocation is one normalized explicit descriptor invocation.
@@ -276,6 +279,29 @@ func (arguments BoundArguments) Integer(name string) (int64, error) {
 		return 0, err
 	}
 	return result, nil
+}
+
+// BeanIdentity decodes the conventional optional name and aliases arguments
+// used by constructible bean descriptors. An explicitly empty name is
+// rejected; aliases are validated by the contribution boundary.
+func BeanIdentity(
+	arguments BoundArguments,
+) (string, []string, error) {
+	name, err := arguments.String("name", false)
+	if err != nil {
+		return "", nil, err
+	}
+	if _, present := arguments["name"]; present &&
+		strings.TrimSpace(name) == "" {
+		return "", nil, errors.New(
+			"annotation argument \"name\" must not be empty",
+		)
+	}
+	aliases, err := arguments.Strings("aliases")
+	if err != nil {
+		return "", nil, err
+	}
+	return name, aliases, nil
 }
 
 // Identifier returns one decoded Go identifier expression argument.

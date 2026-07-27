@@ -22,6 +22,26 @@ func TestContributionValidateAndClone(t *testing.T) {
 	}
 }
 
+func TestBeanMetadataContributionClonesOwnedValues(t *testing.T) {
+	t.Parallel()
+	order := int64(-10)
+	original := Contribution{
+		Kind: ContributionBeanMetadata,
+		BeanMetadata: &BeanMetadataContribution{
+			Qualifiers: []string{"stripe"},
+			Order:      &order,
+			Scope:      BeanScopeRequest,
+		},
+	}
+	cloned := original.Clone()
+	cloned.BeanMetadata.Qualifiers[0] = "changed"
+	*cloned.BeanMetadata.Order = 20
+	if original.BeanMetadata.Qualifiers[0] != "stripe" ||
+		*original.BeanMetadata.Order != -10 {
+		t.Fatal("Clone() retained bean metadata aliases")
+	}
+}
+
 func TestContributionRejectsMalformedValues(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
@@ -94,6 +114,34 @@ func TestContributionRejectsMalformedValues(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "primary fallback conflict",
+			value: Contribution{
+				Kind: ContributionBeanMetadata,
+				BeanMetadata: &BeanMetadataContribution{
+					Primary:  true,
+					Fallback: true,
+				},
+			},
+		},
+		{
+			name: "duplicate qualifier",
+			value: Contribution{
+				Kind: ContributionBeanMetadata,
+				BeanMetadata: &BeanMetadataContribution{
+					Qualifiers: []string{"stripe", "stripe"},
+				},
+			},
+		},
+		{
+			name: "unsupported scope",
+			value: Contribution{
+				Kind: ContributionBeanMetadata,
+				BeanMetadata: &BeanMetadataContribution{
+					Scope: BeanScope("thread"),
+				},
+			},
+		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -140,6 +188,15 @@ func validContributions() []Contribution {
 		{
 			Kind:     ContributionProvider,
 			Provider: &ProviderContribution{},
+		},
+		{
+			Kind: ContributionBeanMetadata,
+			BeanMetadata: &BeanMetadataContribution{
+				Qualifiers: []string{"stripe"},
+				Primary:    true,
+				Order:      int64Pointer(-10),
+				Scope:      BeanScopeRequest,
+			},
 		},
 		{
 			Kind: ContributionConfiguration,
@@ -245,4 +302,8 @@ func validContributions() []Contribution {
 			},
 		},
 	}
+}
+
+func int64Pointer(value int64) *int64 {
+	return new(value)
 }

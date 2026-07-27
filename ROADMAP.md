@@ -97,8 +97,13 @@ immutable IR. `@Implements` resolves named and instantiated generic Go
 interfaces, validates exact pointer/value method sets, requires ordinary Go
 assertions, and exposes only those explicit bindings to dependency selection.
 Commerce proves concrete payment construction with interface injection and
-inspectable direct-call generated Go. Qualifiers, collection injection,
-provider handles, and request/session/prototype scopes are the next DI slice.
+inspectable direct-call generated Go. The graph now also provides explicit
+bean names and aliases, repeatable qualifiers, primary/fallback selection,
+ordered slice/map injection, typed optional/lazy/provider handles, and
+singleton/prototype/request/session cleanup ownership without reflection or a
+runtime locator. Commerce proves qualifier/primary selection against a
+separate fallback implementation. The next developer-proof slice is native
+`@Implements` completion and GoLand Implement Methods integration.
 
 ## M0 — Product and compiler proof
 

@@ -163,18 +163,45 @@ ConcreteExpression` assertion already type-checked by Go. An `@Bean` returning
 an interface is already an exact interface provider and rejects redundant
 `@Implements`.
 
-Catalog output is sorted by stable provider symbol ID. Exact output conflicts use `types.Identical` and fail closed with one deterministic diagnostic naming every conflicting declaration. Distinct named types remain distinct even when their underlying representations match. The catalog does not invoke providers or cleanup, perform reflection, install a runtime container, or scan assignability implicitly.
+Catalog output is sorted by stable provider symbol ID. Multiple selectable
+beans may expose the same exact output or explicit interface; their stable
+names, aliases, qualifiers, primary/fallback state, order, and scope remain in
+the immutable provider record for graph selection. Non-selectable synthetic
+configuration/event/starter providers still fail on exact-output conflicts.
+Distinct named types remain distinct even when their underlying
+representations match. The catalog does not invoke providers or cleanup,
+perform reflection, install a runtime container, or scan assignability
+implicitly.
 
 `spice verify` runs this catalog stage only after loading, typed annotation resolution, target validation, and argument validation have succeeded. Library code remains quiet; the CLI owns rendering and exit status.
 
 
 ## Deterministic provider dependency graph
 
-`compiler/graph` consumes one already validated `provider.Catalog` from the owning typed compiler run. Every bootstrap provider is currently active. Each parameter resolves to the unique provider whose live output type is identical under `go/types.Identical` or whose validated explicit interface binding is identical. Readable type IDs remain diagnostics and serialization data, not semantic lookup authority. Spice does not implicitly project concrete values to interfaces, equate distinct named types, convert pointers and values, or supply framework-specific defaults.
+`compiler/graph` consumes one already validated `provider.Catalog` from the
+owning typed compiler run. Every bootstrap provider is currently active.
+Candidate collection uses a live output type identical under
+`go/types.Identical` or a validated explicit interface binding. Requested
+qualifiers filter candidates; non-fallbacks win; a unique candidate, sole
+primary, or exact parameter-name bean-name/alias match resolves the value in
+that order. Readable type IDs remain diagnostics and serialization data, not
+semantic lookup authority. Spice does not implicitly project concrete values
+to interfaces, equate distinct named types, or convert pointers and values.
+
+Exact `[]T` and `map[string]T` inputs collect all candidates ordered by
+`@Order`, bean name, then source; map keys must be unique. Exact generic
+`bean.Optional[T]`, `bean.Lazy[T]`, and `bean.Provider[T]` inputs preserve
+typed absence, once-only resolution, or explicit acquisition/cleanup
+ownership. Direct dependencies on prototype/request/session beans fail with a
+source-positioned scope diagnostic and require `bean.Provider[T]`.
 
 Graph construction returns stable provider nodes, parameter edges, and a dependency-first order with stable provider IDs breaking ties. Missing inputs accumulate as source-positioned diagnostics. Tarjan strongly connected component analysis reports every self-cycle and multi-provider cycle with a deterministic closed path. Any missing input or cycle suppresses construction order. The library is quiet and never executes provider bodies.
 
-`spice verify` runs graph validation after provider-catalog validation. This stage validates bootstrap-wide singleton metadata only. Provider cleanup and interface-binding metadata are preserved on graph nodes. Reachable-provider pruning, cleanup invocation, lifecycle execution, scopes, conditions, qualifiers, overrides, and module rules remain explicit later phases.
+`spice verify` runs graph validation after provider-catalog validation.
+Provider cleanup, interface bindings, selection metadata, dependency kinds,
+and scope ownership are preserved on graph nodes. Generated direct calls
+construct application singletons, typed prototype factories, and typed scoped
+providers; no generated container performs reflection or string lookup.
 
 ## Typed lifecycle-hook catalog
 

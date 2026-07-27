@@ -300,6 +300,28 @@ candidates deterministically, and passes concrete variables directly to
 interface constructor parameters in generated Go. There is no reflection,
 runtime service locator, string-based type lookup, or implicit package scan.
 
+Provider identity and selection are compile-time data. Stereotypes and
+`@Bean` may declare a stable name and aliases. Repeatable `@Qualifier` metadata
+on a bean forms its selection set; the same annotation on one exact
+constructor parameter is a request. After exact concrete/interface candidate
+collection, selection applies qualifiers, prefers non-fallback beans, accepts
+a unique candidate, then a sole `@Primary`, then an exact parameter-name match
+against bean names or aliases. Every ambiguity remains a source-positioned
+error. Slice and string-keyed map dependencies contain every candidate ordered
+by `@Order`, bean name, and source identity.
+
+`bean.Optional[T]`, `bean.Lazy[T]`, and `bean.Provider[T]` are recognized by
+exact generic package/type identity, never by spelling. Optional dependencies
+allow absence but not ambiguity. Lazy dependencies resolve once in the owning
+scope. A provider handle returns `(T, lifecycle.Cleanup, error)` from
+`Acquire(ctx)`. Singleton cleanup belongs to the application lifecycle;
+prototype cleanup belongs to the acquiring caller; request and session
+cleanup belongs to an explicit typed context scope. Narrower-scoped beans can
+only cross a constructor boundary through `bean.Provider[T]`. Framework-owned
+controllers, lifecycle components, scheduled jobs, asynchronous tasks, and
+event listeners remain singleton because those execution sites have no caller
+lease to own narrower-scope cleanup.
+
 ### Verification
 
 `spice verify` will eventually enforce:

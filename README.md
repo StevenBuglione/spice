@@ -20,7 +20,9 @@ The repository currently provides:
 - Annotation parsing, resolution, and source-positioned validation.
 - Exact concrete bean/configuration providers, constructible service/controller/
   repository stereotypes, and explicit `@Implements` interface bindings with
-  deterministic compile-time dependency graph validation.
+  deterministic qualifiers, primary/fallback selection, ordered collection
+  injection, typed optional/lazy/provider handles, and explicit
+  singleton/prototype/request/session ownership.
 - Typed provider cleanup and `@OnStart`/`@OnStop` lifecycle metadata with a race-safe rollback and shutdown coordinator.
 - A preferred annotated package-main `func main()` that discovers the selected
   local module scope at compile time, plus a pre-1.0 compatible exact-type
@@ -150,6 +152,45 @@ The independent modules under
 [`testdata/annotationapp`](testdata/annotationapp) prove that a third party can
 use only the public SDK/protocol to supply aliases, namespaces, diagnostics,
 real editor navigation, provider semantics, and inspectable generated Go.
+
+### Explicit bean selection and scopes
+
+Spice never treats general Go assignability as dependency discovery. A
+concrete result becomes an interface candidate only through `@Implements` and
+its ordinary Go compile-time assertion, while a factory returning the exact
+interface type is already an interface bean.
+
+```go
+// @import { Implements, Primary, Qualifier, Service } from "github.com/StevenBuglione/spice/annotation/core"
+
+// @Service(name="stripeProcessor", aliases=["payments"])
+// @Implements(payments.Processor)
+// @Qualifier("stripe")
+// @Primary
+type StripeProcessor struct{}
+
+var _ payments.Processor = (*StripeProcessor)(nil)
+
+func NewCheckout(
+	// @Qualifier("stripe")
+	processor payments.Processor,
+) *Checkout
+```
+
+Single values first apply requested qualifiers, ignore fallback beans when a
+regular candidate exists, select a unique candidate or primary, and finally
+use an exact parameter-name match against bean names and aliases. Ambiguity is
+a compile error with candidate locations. `[]T` and `map[string]T` inject all
+matching beans in `@Order`, bean-name, and source order.
+
+The generic `bean.Optional[T]`, `bean.Lazy[T]`, and `bean.Provider[T]` contracts
+remain ordinary typed Go. `Optional` permits absence but never ambiguity.
+`Lazy` resolves a singleton once. `Provider.Acquire(ctx)` returns the exact
+value, an idempotent `lifecycle.Cleanup`, and an error. Prototype cleanup is
+caller-owned; request and session beans are cached in an explicit typed
+`bean.Scope` attached to context. The generated application installs request
+scope middleware when required. Session scopes are deliberately created and
+closed by application code—there is no global session registry.
 
 ## Run it
 

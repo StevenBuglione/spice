@@ -22,11 +22,24 @@ func Repository() sdk.Definition {
 		Name:    "core.Repository",
 		Summary: "Declares a constructible data-access bean.",
 		Targets: []sdk.Target{sdk.TargetType},
-		Arguments: []sdk.Argument{{
-			Name:        "constructor",
-			Kinds:       []sdk.Kind{sdk.KindIdentifier},
-			Description: "Optional same-package constructor function.",
-		}},
+		Arguments: []sdk.Argument{
+			{
+				Name:        "constructor",
+				Kinds:       []sdk.Kind{sdk.KindIdentifier},
+				Description: "Optional same-package constructor function.",
+			},
+			{
+				Name:        "name",
+				Kinds:       []sdk.Kind{sdk.KindString},
+				Description: "Optional unique bean name.",
+			},
+			{
+				Name:             "aliases",
+				Kinds:            []sdk.Kind{sdk.KindList},
+				ListElementKinds: []sdk.Kind{sdk.KindString},
+				Description:      "Optional unique alternate bean names.",
+			},
+		},
 		Examples: []sdk.Example{{
 			Title: "Repository with constructor discovery",
 			Code:  "// @Repository\ntype OrderRepository struct{}\n\nfunc NewOrderRepository(database *sql.DB) *OrderRepository",
@@ -58,11 +71,17 @@ func RepositoryHandler(
 		invocation,
 		"",
 		"constructor",
+		"name",
+		"aliases",
 	)
 	if err != nil {
 		return sdk.Result{}, err
 	}
 	constructor, err := arguments.Identifier("constructor", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	name, aliases, err := sdk.BeanIdentity(arguments)
 	if err != nil {
 		return sdk.Result{}, err
 	}
@@ -72,6 +91,8 @@ func RepositoryHandler(
 			Role:        "repository",
 			Construct:   true,
 			Constructor: constructor,
+			Name:        name,
+			Aliases:     aliases,
 		},
 	})
 }

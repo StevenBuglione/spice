@@ -11,12 +11,13 @@ import (
 type Target string
 
 const (
-	TargetPackage  Target = "package"
-	TargetType     Target = "type"
-	TargetFunction Target = "function"
-	TargetMethod   Target = "method"
-	TargetVariable Target = "variable"
-	TargetConstant Target = "constant"
+	TargetPackage   Target = "package"
+	TargetType      Target = "type"
+	TargetFunction  Target = "function"
+	TargetMethod    Target = "method"
+	TargetParameter Target = "parameter"
+	TargetVariable  Target = "variable"
+	TargetConstant  Target = "constant"
 )
 
 var orderedTargets = []Target{
@@ -24,6 +25,7 @@ var orderedTargets = []Target{
 	TargetType,
 	TargetFunction,
 	TargetMethod,
+	TargetParameter,
 	TargetVariable,
 	TargetConstant,
 }
@@ -36,6 +38,7 @@ const (
 	targetTypeMask
 	targetFunctionMask
 	targetMethodMask
+	targetParameterMask
 	targetVariableMask
 	targetConstantMask
 )
@@ -101,6 +104,8 @@ func maskForTarget(target Target) TargetSet {
 		return targetFunctionMask
 	case TargetMethod:
 		return targetMethodMask
+	case TargetParameter:
+		return targetParameterMask
 	case TargetVariable:
 		return targetVariableMask
 	case TargetConstant:

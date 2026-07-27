@@ -215,7 +215,7 @@ Official descriptors use exactly the same protocol path through:
 github.com/StevenBuglione/spice/cmd/spice-annotation-core
 ```
 
-All 22 official descriptors have one public descriptor file, one declared
+All 30 official descriptors have one public descriptor file, one declared
 handler, a real implementation source symbol, rich GoDoc, compatibility
 metadata, and examples. `@Service`, `@Controller`, and `@Repository` contribute
 constructible stereotypes with deterministic ordinary Go constructor
@@ -224,6 +224,22 @@ compiler verifies exact method sets and requires a normal Go compile-time
 assertion before adding an interface candidate. Third-party architectural
 stereotypes remain non-constructing unless their typed contribution explicitly
 sets the construction contract.
+
+Bean-selection annotations return the generic `bean-metadata` contribution:
+
+- `@Qualifier("name")` is repeatable on beans and exact constructor
+  parameters.
+- `@Primary` and `@Fallback` control deterministic single-value selection.
+- `@Order(value)` controls collection order.
+- `@Singleton`, `@Prototype`, `@RequestScope`, and `@SessionScope` declare
+  cleanup ownership.
+
+The SDK contribution contains typed fields; handlers do not resolve candidates
+or construct values. Parameter invocations carry their exact parameter index,
+name, type identity, and physical source position through the same protocol.
+The compiler applies all selection and ownership rules generically, so a
+third-party annotation may contribute equivalent metadata without adding an
+annotation-name switch.
 
 Use the read-only inspection commands:
 

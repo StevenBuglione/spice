@@ -39,6 +39,14 @@ func TestEveryContributionKindRoundTrips(t *testing.T) {
 		{Kind: sdk.ContributionStereotype, Stereotype: &sdk.StereotypeContribution{Role: "service"}},
 		{Kind: sdk.ContributionInterface, Interface: &sdk.InterfaceBindingContribution{Interfaces: []string{"payments.Processor"}}},
 		{Kind: sdk.ContributionProvider, Provider: &sdk.ProviderContribution{}},
+		{
+			Kind: sdk.ContributionBeanMetadata,
+			BeanMetadata: &sdk.BeanMetadataContribution{
+				Qualifiers: []string{"stripe"},
+				Primary:    true,
+				Scope:      sdk.BeanScopeRequest,
+			},
+		},
 		{Kind: sdk.ContributionConfiguration, Configuration: &sdk.ConfigurationContribution{Prefix: "server"}},
 		{Kind: sdk.ContributionController, Controller: &sdk.ControllerContribution{Prefix: "/api"}},
 		{Kind: sdk.ContributionRoute, Route: &sdk.RouteContribution{Method: http.MethodGet, Path: "/"}},

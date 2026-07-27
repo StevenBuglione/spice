@@ -106,6 +106,8 @@ func foundationContributionPayload(
 		return value.Interface, true
 	case sdk.ContributionProvider:
 		return value.Provider, true
+	case sdk.ContributionBeanMetadata:
+		return value.BeanMetadata, true
 	case sdk.ContributionConfiguration:
 		return value.Configuration, true
 	case sdk.ContributionController:
@@ -184,6 +186,9 @@ func foundationContributionDestination(
 	case sdk.ContributionProvider:
 		value.Provider = &sdk.ProviderContribution{}
 		return value, value.Provider, true
+	case sdk.ContributionBeanMetadata:
+		value.BeanMetadata = &sdk.BeanMetadataContribution{}
+		return value, value.BeanMetadata, true
 	case sdk.ContributionConfiguration:
 		value.Configuration = &sdk.ConfigurationContribution{}
 		return value, value.Configuration, true

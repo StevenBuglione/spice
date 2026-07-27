@@ -23,6 +23,19 @@ func Bean() sdk.Definition {
 		Name:    "core.Bean",
 		Summary: "Declares an exact-type dependency provider.",
 		Targets: []sdk.Target{sdk.TargetFunction},
+		Arguments: []sdk.Argument{
+			{
+				Name:        "name",
+				Kinds:       []sdk.Kind{sdk.KindString},
+				Description: "Optional unique bean name.",
+			},
+			{
+				Name:             "aliases",
+				Kinds:            []sdk.Kind{sdk.KindList},
+				ListElementKinds: []sdk.Kind{sdk.KindString},
+				Description:      "Optional unique alternate bean names.",
+			},
+		},
 		Examples: []sdk.Example{{
 			Title: "Provider",
 			Code:  "// @Bean\nfunc NewStore(config Config) (*Store, error)",
@@ -50,11 +63,24 @@ func BeanHandler(
 	); err != nil {
 		return sdk.Result{}, err
 	}
-	if _, err := sdk.BindArguments(invocation, ""); err != nil {
+	arguments, err := sdk.BindArguments(
+		invocation,
+		"",
+		"name",
+		"aliases",
+	)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	name, aliases, err := sdk.BeanIdentity(arguments)
+	if err != nil {
 		return sdk.Result{}, err
 	}
 	return sdk.OneContribution(sdk.Contribution{
-		Kind:     sdk.ContributionProvider,
-		Provider: &sdk.ProviderContribution{},
+		Kind: sdk.ContributionProvider,
+		Provider: &sdk.ProviderContribution{
+			Name:    name,
+			Aliases: aliases,
+		},
 	})
 }

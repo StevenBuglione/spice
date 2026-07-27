@@ -17,6 +17,7 @@ const (
 	ContributionStereotype     ContributionKind = "stereotype"
 	ContributionInterface      ContributionKind = "interface-binding"
 	ContributionProvider       ContributionKind = "provider"
+	ContributionBeanMetadata   ContributionKind = "bean-metadata"
 	ContributionConfiguration  ContributionKind = "configuration"
 	ContributionController     ContributionKind = "controller"
 	ContributionRoute          ContributionKind = "route"
@@ -41,9 +42,11 @@ type ApplicationContribution struct{}
 // StereotypeContribution classifies a declaration for architecture and tooling
 // without inventing construction behavior. Providers remain explicit.
 type StereotypeContribution struct {
-	Role        string `json:"role"`
-	Construct   bool   `json:"construct,omitempty"`
-	Constructor string `json:"constructor,omitempty"`
+	Role        string   `json:"role"`
+	Construct   bool     `json:"construct,omitempty"`
+	Constructor string   `json:"constructor,omitempty"`
+	Name        string   `json:"name,omitempty"`
+	Aliases     []string `json:"aliases,omitempty"`
 }
 
 // InterfaceBindingContribution explicitly exposes one concrete bean through
@@ -56,7 +59,32 @@ type InterfaceBindingContribution struct {
 
 // ProviderContribution marks the invocation target as a provider. The
 // compiler derives inputs, output, cleanup, and error behavior from go/types.
-type ProviderContribution struct{}
+type ProviderContribution struct {
+	Name    string   `json:"name,omitempty"`
+	Aliases []string `json:"aliases,omitempty"`
+}
+
+// BeanScope identifies which generated owner controls a bean instance and its
+// cleanup. Scope values are compiler inputs, not runtime string lookups.
+type BeanScope string
+
+const (
+	BeanScopeSingleton BeanScope = "singleton"
+	BeanScopePrototype BeanScope = "prototype"
+	BeanScopeRequest   BeanScope = "request"
+	BeanScopeSession   BeanScope = "session"
+)
+
+// BeanMetadataContribution adds selection and ownership metadata to a bean or
+// one constructor parameter. Qualifiers on parameters are requests; all other
+// fields describe the bean on the annotated declaration.
+type BeanMetadataContribution struct {
+	Qualifiers []string  `json:"qualifiers,omitempty"`
+	Primary    bool      `json:"primary,omitempty"`
+	Fallback   bool      `json:"fallback,omitempty"`
+	Order      *int64    `json:"order,omitempty"`
+	Scope      BeanScope `json:"scope,omitempty"`
+}
 
 // ConfigurationContribution marks one typed configuration declaration.
 type ConfigurationContribution struct {
@@ -172,6 +200,7 @@ type Contribution struct {
 	Stereotype     *StereotypeContribution
 	Interface      *InterfaceBindingContribution
 	Provider       *ProviderContribution
+	BeanMetadata   *BeanMetadataContribution
 	Configuration  *ConfigurationContribution
 	Controller     *ControllerContribution
 	Route          *RouteContribution
@@ -215,6 +244,9 @@ func (contribution Contribution) Validate() error {
 func validateFoundationContribution(
 	contribution Contribution,
 ) (error, bool) {
+	if err, found := validateBeanContribution(contribution); found {
+		return err, true
+	}
 	//nolint:exhaustive // Contribution cases are deliberately partitioned across validators.
 	switch contribution.Kind {
 	case ContributionApplication:
@@ -222,44 +254,6 @@ func validateFoundationContribution(
 			contribution.Application,
 			"application",
 		), true
-	case ContributionStereotype:
-		if err := requirePayload(
-			contribution.Stereotype,
-			"stereotype",
-		); err != nil {
-			return err, true
-		}
-		if err := requireTrimmed(
-			"stereotype role",
-			contribution.Stereotype.Role,
-		); err != nil {
-			return err, true
-		}
-		if contribution.Stereotype.Constructor != "" {
-			return requireTrimmed(
-				"stereotype constructor",
-				contribution.Stereotype.Constructor,
-			), true
-		}
-		return nil, true
-	case ContributionInterface:
-		if err := requirePayload(
-			contribution.Interface,
-			"interface binding",
-		); err != nil {
-			return err, true
-		}
-		if len(contribution.Interface.Interfaces) == 0 {
-			return errors.New(
-				"annotation interface binding requires at least one interface",
-			), true
-		}
-		return validateUniqueTrimmed(
-			"interface expression",
-			contribution.Interface.Interfaces,
-		), true
-	case ContributionProvider:
-		return requirePayload(contribution.Provider, "provider"), true
 	case ContributionConfiguration:
 		if err := requirePayload(
 			contribution.Configuration,
@@ -284,6 +278,82 @@ func validateFoundationContribution(
 	default:
 		return nil, false
 	}
+}
+
+func validateBeanContribution(
+	contribution Contribution,
+) (error, bool) {
+	//nolint:exhaustive // Bean contribution cases are deliberately isolated.
+	switch contribution.Kind {
+	case ContributionStereotype:
+		return validateStereotypeContribution(contribution)
+	case ContributionInterface:
+		if err := requirePayload(
+			contribution.Interface,
+			"interface binding",
+		); err != nil {
+			return err, true
+		}
+		if len(contribution.Interface.Interfaces) == 0 {
+			return errors.New(
+				"annotation interface binding requires at least one interface",
+			), true
+		}
+		return validateUniqueTrimmed(
+			"interface expression",
+			contribution.Interface.Interfaces,
+		), true
+	case ContributionProvider:
+		if err := requirePayload(
+			contribution.Provider,
+			"provider",
+		); err != nil {
+			return err, true
+		}
+		return validateBeanIdentity(
+			contribution.Provider.Name,
+			contribution.Provider.Aliases,
+		), true
+	case ContributionBeanMetadata:
+		if err := requirePayload(
+			contribution.BeanMetadata,
+			"bean metadata",
+		); err != nil {
+			return err, true
+		}
+		return validateBeanMetadata(*contribution.BeanMetadata), true
+	default:
+		return nil, false
+	}
+}
+
+func validateStereotypeContribution(
+	contribution Contribution,
+) (error, bool) {
+	if err := requirePayload(
+		contribution.Stereotype,
+		"stereotype",
+	); err != nil {
+		return err, true
+	}
+	if err := requireTrimmed(
+		"stereotype role",
+		contribution.Stereotype.Role,
+	); err != nil {
+		return err, true
+	}
+	if contribution.Stereotype.Constructor != "" {
+		if err := requireTrimmed(
+			"stereotype constructor",
+			contribution.Stereotype.Constructor,
+		); err != nil {
+			return err, true
+		}
+	}
+	return validateBeanIdentity(
+		contribution.Stereotype.Name,
+		contribution.Stereotype.Aliases,
+	), true
 }
 
 func validateWebModuleContribution(
@@ -420,6 +490,11 @@ func (contribution Contribution) Clone() Contribution {
 	result := contribution
 	result.Application = clonePointer(contribution.Application)
 	result.Stereotype = clonePointer(contribution.Stereotype)
+	if result.Stereotype != nil {
+		result.Stereotype.Aliases = slices.Clone(
+			contribution.Stereotype.Aliases,
+		)
+	}
 	result.Interface = clonePointer(contribution.Interface)
 	if result.Interface != nil {
 		result.Interface.Interfaces = slices.Clone(
@@ -427,6 +502,20 @@ func (contribution Contribution) Clone() Contribution {
 		)
 	}
 	result.Provider = clonePointer(contribution.Provider)
+	if result.Provider != nil {
+		result.Provider.Aliases = slices.Clone(
+			contribution.Provider.Aliases,
+		)
+	}
+	result.BeanMetadata = clonePointer(contribution.BeanMetadata)
+	if result.BeanMetadata != nil {
+		result.BeanMetadata.Qualifiers = slices.Clone(
+			contribution.BeanMetadata.Qualifiers,
+		)
+		result.BeanMetadata.Order = clonePointer(
+			contribution.BeanMetadata.Order,
+		)
+	}
 	result.Configuration = clonePointer(contribution.Configuration)
 	result.Controller = clonePointer(contribution.Controller)
 	result.Route = clonePointer(contribution.Route)
@@ -473,6 +562,7 @@ func (contribution Contribution) payloadCount() int {
 		contribution.Stereotype != nil,
 		contribution.Interface != nil,
 		contribution.Provider != nil,
+		contribution.BeanMetadata != nil,
 		contribution.Configuration != nil,
 		contribution.Controller != nil,
 		contribution.Route != nil,
@@ -494,6 +584,50 @@ func (contribution Contribution) payloadCount() int {
 		}
 	}
 	return count
+}
+
+func validateBeanIdentity(name string, aliases []string) error {
+	if name != "" {
+		if err := requireTrimmed("bean name", name); err != nil {
+			return err
+		}
+	}
+	if err := validateUniqueTrimmed("bean alias", aliases); err != nil {
+		return err
+	}
+	for _, alias := range aliases {
+		if alias == name {
+			return fmt.Errorf(
+				"bean alias %q duplicates the bean name",
+				alias,
+			)
+		}
+	}
+	return nil
+}
+
+func validateBeanMetadata(metadata BeanMetadataContribution) error {
+	if err := validateUniqueTrimmed(
+		"bean qualifier",
+		metadata.Qualifiers,
+	); err != nil {
+		return err
+	}
+	if metadata.Primary && metadata.Fallback {
+		return errors.New(
+			"bean metadata cannot be both primary and fallback",
+		)
+	}
+	switch metadata.Scope {
+	case "", BeanScopeSingleton, BeanScopePrototype,
+		BeanScopeRequest, BeanScopeSession:
+		return nil
+	default:
+		return fmt.Errorf(
+			"bean metadata scope %q is unsupported",
+			metadata.Scope,
+		)
+	}
 }
 
 func requirePayload[T any](payload *T, name string) error {

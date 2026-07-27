@@ -18,12 +18,13 @@ import (
 type Target = annotation.Target
 
 const (
-	TargetPackage  = annotation.TargetPackage
-	TargetType     = annotation.TargetType
-	TargetFunction = annotation.TargetFunction
-	TargetMethod   = annotation.TargetMethod
-	TargetVariable = annotation.TargetVariable
-	TargetConstant = annotation.TargetConstant
+	TargetPackage   = annotation.TargetPackage
+	TargetType      = annotation.TargetType
+	TargetFunction  = annotation.TargetFunction
+	TargetMethod    = annotation.TargetMethod
+	TargetParameter = annotation.TargetParameter
+	TargetVariable  = annotation.TargetVariable
+	TargetConstant  = annotation.TargetConstant
 )
 
 // Kind identifies an accepted annotation argument representation.
@@ -161,6 +162,7 @@ var knownTargets = []Target{
 	TargetType,
 	TargetFunction,
 	TargetMethod,
+	TargetParameter,
 	TargetVariable,
 	TargetConstant,
 }

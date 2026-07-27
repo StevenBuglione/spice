@@ -26,11 +26,24 @@ func Service() sdk.Definition {
 		Name:    "core.Service",
 		Summary: "Declares a constructible application-service bean.",
 		Targets: []sdk.Target{sdk.TargetType},
-		Arguments: []sdk.Argument{{
-			Name:        "constructor",
-			Kinds:       []sdk.Kind{sdk.KindIdentifier},
-			Description: "Optional same-package constructor function.",
-		}},
+		Arguments: []sdk.Argument{
+			{
+				Name:        "constructor",
+				Kinds:       []sdk.Kind{sdk.KindIdentifier},
+				Description: "Optional same-package constructor function.",
+			},
+			{
+				Name:        "name",
+				Kinds:       []sdk.Kind{sdk.KindString},
+				Description: "Optional unique bean name.",
+			},
+			{
+				Name:             "aliases",
+				Kinds:            []sdk.Kind{sdk.KindList},
+				ListElementKinds: []sdk.Kind{sdk.KindString},
+				Description:      "Optional unique alternate bean names.",
+			},
+		},
 		Examples: []sdk.Example{{
 			Title: "Service with explicit constructor",
 			Code:  "// @Service(constructor=NewOrders)\ntype Orders struct{}\n\nfunc NewOrders(repository Repository) *Orders",
@@ -62,11 +75,17 @@ func ServiceHandler(
 		invocation,
 		"",
 		"constructor",
+		"name",
+		"aliases",
 	)
 	if err != nil {
 		return sdk.Result{}, err
 	}
 	constructor, err := arguments.Identifier("constructor", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	name, aliases, err := sdk.BeanIdentity(arguments)
 	if err != nil {
 		return sdk.Result{}, err
 	}
@@ -76,6 +95,8 @@ func ServiceHandler(
 			Role:        "service",
 			Construct:   true,
 			Constructor: constructor,
+			Name:        name,
+			Aliases:     aliases,
 		},
 	})
 }
