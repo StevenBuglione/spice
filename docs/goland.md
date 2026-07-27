@@ -12,6 +12,9 @@ editor-neutral `spice lsp` compiler service:
   **Settings | Editor | Color Scheme | Spice**;
 - highlighted PSI references provide modifier-hover underlining,
   `Ctrl`/`Cmd`-click, and **Go to Declaration or Usages** navigation;
+- annotation lines carry a native gutter marker whose tooltip names the exact
+  descriptor package and symbol and whose navigation target is that real Go
+  declaration;
 - annotated `main` packages receive a preferred whole-package Run/Debug
   configuration, preventing GoLand's temporary single-file runner from
   dropping generated bootstrap files or interpreting folded presentation as
@@ -90,8 +93,11 @@ runtime.
 5. proves `@Application` produces package/directory execution with no
    single-file paths and retains the physical annotation comments;
 6. renders realized editor components under the light and Darcula schemes;
-7. rejects blank or degenerate images;
-8. packages the plugin, validates its structure/configuration, and runs the
+7. compares normalized 8-by-8 color blocks with committed fixed-theme goldens,
+   enforcing bounded mean and changed-region tolerances while retaining exact
+   token/range assertions;
+8. rejects blank or degenerate images;
+9. packages the plugin, validates its structure/configuration, and runs the
    JetBrains binary/API verifier.
 
 The generated visual reports are:
@@ -101,9 +107,12 @@ editors/goland/build/reports/visual/spice-annotations-light.png
 editors/goland/build/reports/visual/spice-annotations-dark.png
 ```
 
-They are build evidence rather than committed screenshots, avoiding
-platform-font and antialiasing drift while preserving a repeatable visual
-inspection path on Windows and Linux.
+The reviewed baselines live in
+`editors/goland/src/test/resources/goldens`. Block normalization and explicit
+tolerances absorb bounded platform-font and antialiasing drift without
+silently accepting a missing fold, theme-wide color regression, blank render,
+or major layout shift. The build reports remain the exact current render for
+human inspection on Windows and Linux.
 
 The folding parser is intentionally narrow: it recognizes declaration comments
 whose complete text begins with canonical `// @`, including explicit
