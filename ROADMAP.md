@@ -51,11 +51,13 @@ that workflow is repeatable on Windows and Linux.
 The Go-native extension migration has begun with explicit named, aliased, and
 namespace annotation imports, the public statically decoded descriptor SDK,
 fail-closed file symbol tables, and offline auxiliary descriptor loading in the
-single typed program. Exact target-module `tool` authorization and the public
-bounded JSON-RPC protocol types are now present. The next bounded slice is
-offline process hosting, resolved-module handshake validation, and generic
-contribution incorporation; the legacy built-in registry remains only for
-files without explicit imports during that migration.
+single typed program. Exact target-module `tool` authorization, the public
+bounded JSON-RPC SDK/server, offline module and replacement provenance,
+persistent process hosting, cross-platform process-tree cancellation, and
+read-only list/doctor commands are now present. The next bounded slice is
+validated generic contribution incorporation and built-in migration; the
+legacy built-in registry remains only for files without explicit imports
+during that migration.
 
 ## M0 — Product and compiler proof
 

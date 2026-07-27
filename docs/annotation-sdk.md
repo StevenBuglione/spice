@@ -103,12 +103,48 @@ Normal analysis forces `GOPROXY=off`. It uses `-mod=vendor` when
 or vendor content is therefore an actionable load diagnostic and never an
 editor-triggered download.
 
-The public SDK also defines bounded `Content-Length` JSON-RPC framing and typed
-`initialize`, `describe`, `analyze`, and `shutdown` messages. The compiler
-parses the target root's exact `go.mod` and rejects tools not listed by an exact
-`tool` directive; a parent module or another `go.work` member cannot authorize
-the process. Process launching, resolved-module handshake validation, and
-generic contribution incorporation are the next delivery slice. Until that
-host is connected, this document describes the landed
-source/import/descriptor/protocol contract rather than promising third-party
-semantic contributions.
+The public SDK defines bounded `Content-Length` JSON-RPC framing and typed
+`initialize`, `describe`, `analyze`, and `shutdown` messages. `protocol.Serve`
+provides the matching panic-contained server loop so extension authors do not
+reimplement framing or method dispatch.
+
+The compiler parses the target root's exact `go.mod` and rejects tools not
+listed by an exact `tool` directive; a parent module or another `go.work`
+member cannot authorize the process. It resolves package and module provenance
+with offline `go list`, preserving selected versions and local or versioned
+replacement identity. Descriptor and executable packages must resolve from the
+same module version and replacement.
+
+Authorized tools launch through the fixed command shape:
+
+```text
+go tool <full-package-path> --spice-stdio
+```
+
+The descriptor cannot supply a binary path, shell, command-line fragment, or
+environment mutation. The host negotiates exact protocol/tool/module identity,
+requires each descriptor handler and implementation symbol in `describe`, and
+serializes calls over one persistent process per workspace and tool.
+
+Calls have bounded startup and request deadlines. Framing corruption, stdout
+contamination, a crash, a timeout, or cancellation fails the operation and
+terminates the complete process tree without replay. Windows processes are
+contained in kill-on-close Job Objects; Unix processes use dedicated process
+groups. Stderr is bounded and diagnostic-only.
+
+Use the read-only inspection commands:
+
+```text
+spice annotations list ./...
+spice annotations doctor ./...
+```
+
+`list` reports explicit descriptors and whether their tools are authorized.
+`doctor` launches authorized tools, negotiates provenance, checks handlers and
+source symbols, shuts them down, and reports every problem. Neither command
+installs dependencies or changes module files.
+
+Generic contribution incorporation and built-in migration are the next
+delivery slice. Until that is connected, the landed host proves process,
+identity, and inspection behavior but does not promise third-party generated
+semantics.

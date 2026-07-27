@@ -117,6 +117,14 @@ a bounded lexical import preflight solely to add those exact descriptor package
 paths to the one semantic load. Analysis disables module downloads and selects
 read-only or vendor mode. See [`annotation-sdk.md`](annotation-sdk.md).
 
+`compiler/annotationhost` is the only native annotation process boundary. It
+requires an exact tool declaration in the target module, resolves standard Go
+module/replacement provenance offline, launches only the fully qualified
+package through `go tool`, negotiates the public framed protocol, validates
+declared handler source symbols, and reuses one serialized process per
+workspace/tool. Cancellation terminates the full Windows Job Object or Unix
+process group; failed calls are never replayed.
+
 Each occurrence carries its canonical symbol ID, package path, target, physical file/offset, and developer-facing `//line`-adjusted position. Physical identity controls deterministic ordering; adjusted paths are display metadata only.
 
 Grouped declaration metadata fails closed when it could describe multiple specs or names, and blank identifiers cannot be annotation targets. Place metadata on one individual spec or split a multi-name declaration.

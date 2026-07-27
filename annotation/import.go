@@ -37,3 +37,15 @@ type DefinitionReference struct {
 	Package string
 	Symbol  string
 }
+
+// ModuleProvenance identifies the Go-selected module content behind a
+// descriptor or tool package.
+type ModuleProvenance struct {
+	Path               string
+	Version            string
+	Directory          string
+	ReplacementPath    string
+	ReplacementVersion string
+	ReplacementDir     string
+	LocalReplacement   bool
+}
