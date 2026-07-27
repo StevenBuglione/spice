@@ -36,9 +36,10 @@ The repository-owned GoLand plugin is now the primary editor target. Its native
 folding pipeline reclaims the exact physical width of canonical `// `
 prefixes, its native annotator supplies configurable structured color, and
 highlighted PSI references resolve explicit imports to real indexed Go
-descriptor functions. Real GoLand fixtures prove annotation/import
-concealment, structured theme colors, collapsed non-expandable regions, and
-inspectable light/Darcula renders. The shared LSP supplies alias-aware
+descriptor functions. A packaged-plugin Starter/Driver suite launches pinned
+GoLand with the freshly built repository LSP, proves declaration-safe typing,
+save/undo/redo/reformat/reopen preservation and zero-width coordinates, and
+captures reviewed light/Darcula editor renders. The shared LSP supplies alias-aware
 explicit-import completion, rich descriptor documentation and signature help,
 real descriptor definitions, and real handler implementation links without an
 editor registry. The Zed extension remains supported beside `gopls` on Windows

@@ -5,14 +5,18 @@ GoLand is Spice's primary editor integration. The repository-owned plugin in
 editor-neutral `spice lsp` compiler service:
 
 - typing `@` on an otherwise blank package declaration or parameter line
-  inserts physical `// @` source in the same undoable editor command, then
-  refreshes folding and annotation completion; source is therefore valid Go
-  from the first annotation character rather than only after completion;
+  inserts physical `// @` source in the same undoable editor command; typing
+  at the start of an existing declaration or parameter inserts a dedicated
+  annotation line above it instead of commenting out the Go declaration;
+  folding and annotation completion refresh immediately, so source is valid
+  Go from the first annotation character rather than only after completion;
 - exact `// ` prefixes on canonical annotation comments are permanently
   folded to an empty placeholder, so `// @Application` is displayed as
   `@Application` with no blank columns;
-- annotation names, argument names, strings, numbers, keyword values, and
-  punctuation have separate native color keys under
+- the concealed prefix, sigils, import symbols/aliases, namespaces, annotation
+  names, argument names, Go type references, literals, keywords, punctuation,
+  unresolved symbols, and deprecated symbols have separate theme-aware native
+  color keys under
   **Settings | Editor | Color Scheme | Spice**;
 - highlighted PSI references provide modifier-hover underlining,
   `Ctrl`/`Cmd`-click, and **Go to Declaration or Usages** navigation;
@@ -59,7 +63,9 @@ Windows and Linux are first-class. macOS uses the same Gradle and runtime
 contracts. `SPICE_GOLAND_HOME` may identify a local IDE for repository
 verification; otherwise the pinned build downloads the exact GoLand platform.
 The Windows verifier also recognizes the standard
-`%LOCALAPPDATA%\Programs\GoLand` installation.
+`%LOCALAPPDATA%\Programs\GoLand` installation. On a headless Linux host,
+`make verify` launches the GoLand gate through `xvfb-run -a`; a visible display
+is used unchanged when `DISPLAY` is already set.
 
 ## Install a development build
 
@@ -77,7 +83,7 @@ make goland
 ```
 
 The installable archive is
-`editors/goland/build/distributions/spice-goland-0.1.0.zip`. In GoLand, open
+`editors/goland/build/distributions/spice-goland-0.2.0.zip`. In GoLand, open
 **Settings | Plugins**, choose **Install Plugin from Disk**, select that
 archive, and restart if the IDE requests it.
 
@@ -94,9 +100,11 @@ runtime.
 
 ## Visual acceptance
 
-`make goland` does more than instantiate folding APIs. Its real GoLand fixture:
+`make goland` does more than instantiate folding APIs. On Windows and Linux it
+builds the current Spice CLI, packages the plugin, launches that archive in a
+clean pinned GoLand profile through JetBrains Starter/Driver, and then:
 
-1. opens a Go PSI file through the registered plugin extensions;
+1. opens a real Go module through the registered plugin extensions;
 2. runs native highlighting and asserts the exact text-attribute key and range
    for sigils, namespaces, annotation names, parameters, literals, and
    punctuation;
@@ -109,18 +117,27 @@ runtime.
    with no single-file paths, an exact `spice run` command, one enabled
    generate-before-debug task, and higher context priority than every ordinary
    Go application configuration;
-6. renders realized editor components under the light and Darcula schemes;
-7. compares normalized 8-by-8 color blocks with committed fixed-theme goldens,
-   enforcing bounded mean and changed-region tolerances while retaining exact
-   token/range assertions;
-8. rejects blank or degenerate images;
-9. builds a real Spice CLI, executes the folded commerce target through the
+6. types `@` at a declaration boundary, saves it, verifies physical `// @`,
+   exercises undo, redo, reformat, close, and reopen, and proves the original
+   file is restored byte-for-byte;
+7. measures the installed editor coordinates and proves folded annotations
+   start at the same horizontal coordinate as their declaration;
+8. switches the installed IDE between light and dark themes and captures the
+   real editor component from the packaged plugin;
+9. compares those captures and the faster realized-component renders with
+   committed fixed-theme goldens, enforcing bounded mean and changed-region
+   tolerances while retaining exact token/range assertions;
+10. rejects blank or degenerate images and protocol/source corruption;
+11. verifies that empty LSP diagnostic publications contain
+    `diagnostics: []`, so GoLand clears stale errors instead of rejecting a
+    null payload;
+12. builds a real Spice CLI, executes the folded commerce target through the
    exact Run command, generates it through the Debug prerequisite, builds the
    full package with debug flags, executes that binary, and rechecks the
    physical annotation comments;
-10. rejects both raw and commented Spice applications presented to GoLand's
+13. rejects both raw and commented Spice applications presented to GoLand's
     temporary single-file runner before any `gocommand-*` source is created;
-11. packages the plugin, validates its structure/configuration, and runs the
+14. packages the plugin, validates its structure/configuration, and runs the
     JetBrains binary/API verifier.
 
 The generated visual reports are:
@@ -128,19 +145,26 @@ The generated visual reports are:
 ```text
 editors/goland/build/reports/visual/spice-annotations-light.png
 editors/goland/build/reports/visual/spice-annotations-dark.png
+editors/goland/build/reports/visual/spice-installed-light.png
+editors/goland/build/reports/visual/spice-installed-dark.png
 ```
 
 The reviewed baselines live in
-`editors/goland/src/test/resources/goldens`. Block normalization and explicit
-tolerances absorb bounded platform-font and antialiasing drift without
-silently accepting a missing fold, theme-wide color regression, blank render,
-or major layout shift. The build reports remain the exact current render for
-human inspection on Windows and Linux.
+`editors/goland/src/test/resources/goldens` for realized-component tests and
+`editors/goland/src/integrationTest/resources/goldens` for the packaged-plugin
+run. Block normalization and explicit tolerances absorb bounded platform-font
+and antialiasing drift without silently accepting a missing fold, theme-wide
+color regression, blank render, or major layout shift. The build reports
+remain the exact current render for human inspection on Windows and Linux.
 
 The commerce execution test is part of ordinary `make goland` and therefore of
-the Windows, Linux, and macOS `make verify` matrix. It uses platform-native
-process invocation and temporary output paths; no shell-specific command or
-fixture binary is hidden in the plugin.
+the `make verify` matrix. Windows and Linux also run the installed-plugin UI
+suite; macOS currently runs compile, unit, execution, packaging, and Plugin
+Verifier coverage while its stable UI runner remains pending. The UI suite
+prepends a freshly built repository Spice binary to the launched IDE's `PATH`,
+so it cannot silently validate against a stale globally installed language
+server. It uses platform-native process invocation and temporary output paths;
+no shell-specific command or fixture binary is hidden in the plugin.
 
 The folding parser is intentionally narrow: it recognizes declaration comments
 whose complete text begins with canonical `// @`, including explicit
@@ -207,6 +231,7 @@ From `editors/goland`:
 
 ```text
 gradlew.bat -PgolandPath=C:\path\to\GoLand test
+gradlew.bat -PgolandPath=C:\path\to\GoLand integrationTest
 gradlew.bat -PgolandPath=C:\path\to\GoLand buildPlugin
 gradlew.bat -PgolandPath=C:\path\to\GoLand verifyPlugin
 ```

@@ -2,6 +2,7 @@
 /bin/
 /dist/
 /coverage.out
+/out/
 /editors/zed/target/
 /editors/goland/.gradle/
 /editors/goland/.intellijPlatform/
