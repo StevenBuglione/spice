@@ -18,15 +18,26 @@ Go; the language server reports the ordinary Go/compiler diagnostic and offers
 a version-checked prefix insertion. It never stores Java-style syntax or hides
 an invalid source representation from `gofmt`, `go test`, or other Go tools.
 
-## Names
+## Names and imports
 
-Core declaration names are unqualified. Bootstrap features use qualified
-built-in names such as `@management.Enable` and
-`@observability.Logging`. Third-party qualified definitions use the same model
-when their complete manifests are explicitly selected in
-`.spice/starters.json`. During bootstrap, `spice verify` fails closed on
-unknown annotations. Package imports and `go.mod` entries do not register or
-activate definitions.
+New source may explicitly bind descriptor symbols per file:
+
+```go
+// @spice.import { Application } from "github.com/StevenBuglione/spice/annotation/core"
+// @spice.import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
+// @spice.import * as web from "github.com/StevenBuglione/spice/annotation/web"
+```
+
+Named bindings permit clean `@Application` and `@Controller` spellings.
+Aliases permit `@GET`; namespace bindings permit visibly sourced
+`@web.Controller`. Imports apply to the entire file. Once a file contains an
+annotation import, every annotation in that file must be imported explicitly.
+There is no implicit fallback registry for that file.
+
+Files without imports retain the pre-1.0 built-in spelling compatibility path
+while the built-ins and commerce application migrate. See
+[`annotation-sdk.md`](annotation-sdk.md) for the static descriptor contract and
+offline module behavior.
 
 ## Arguments
 

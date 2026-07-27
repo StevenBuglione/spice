@@ -108,6 +108,15 @@ Development tools are pinned separately in `tools/go.mod`; they do not enter the
 
 `compiler/resolve` consumes one existing `load.Program`; it never walks the filesystem, reparses files, or creates another Go type universe. Only documentation comments on packages and declarations contribute annotations, and only files selected by the active Go build are examined.
 
+File-scoped `@spice.import` comments are collected across the complete selected
+file before declaration resolution. Named bindings, aliases, and namespaces
+resolve to exported descriptor functions loaded as auxiliary roots in the same
+typed program. Descriptor functions are statically decoded from one returned
+`sdk.Definition` composite literal and are never executed. The service performs
+a bounded lexical import preflight solely to add those exact descriptor package
+paths to the one semantic load. Analysis disables module downloads and selects
+read-only or vendor mode. See [`annotation-sdk.md`](annotation-sdk.md).
+
 Each occurrence carries its canonical symbol ID, package path, target, physical file/offset, and developer-facing `//line`-adjusted position. Physical identity controls deterministic ordering; adjusted paths are display metadata only.
 
 Grouped declaration metadata fails closed when it could describe multiple specs or names, and blank identifiers cannot be annotation targets. Place metadata on one individual spec or split a multi-name declaration.
