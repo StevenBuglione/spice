@@ -60,6 +60,17 @@ The result exposes defensive:
 Consumers never parse rendered diagnostic text and never rebuild metadata from
 declaration comments.
 
+`AnnotationCatalog` is the companion read-only editor query for descriptors
+that have not yet been imported. It scans only exported exact
+`func() sdk.Definition` source declarations already selected by the target
+application's Go module graph, workspace, replacements, module cache, or
+vendor tree. The query forces `GOPROXY=off`, observes the target `go.mod` tool
+block, returns descriptor positions and exact module/replacement provenance,
+and never loads a package, launches a tool, edits a module file, or invents an
+implicit annotation binding. Results are defensively copied and briefly cached
+per service/workspace so completion does not rescan the graph on every
+keystroke.
+
 ## Concurrency and cache policy
 
 A service instance may analyze independent workspaces concurrently. A nonzero
@@ -75,7 +86,7 @@ extensions disable caching unless their owner supplies a namespace that
 changes whenever extension metadata changes.
 
 There is no global workspace, cache, registry mutation, filesystem write, or
-network policy override.
+network-enabled discovery path.
 
 `spice generate`, `spice build`, `spice run`, `spice dev`, and `spice lsp` all
 consume this service. The development supervisor reuses one instance and submits its

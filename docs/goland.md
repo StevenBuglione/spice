@@ -149,6 +149,11 @@ handler identity, protocol, and implementation symbol. Signature help uses the
 same argument metadata. Selecting an annotation completion either uses its
 existing local alias or inserts the required explicit named/namespace import;
 the inserted edit is visible source, never an implicit compiler binding.
+Pre-import suggestions come from the shared compiler service's bounded offline
+scan of the target Go module graph, workspace, replacements, vendor tree, and
+module cache. Their detail identifies package, version or replacement, tool,
+and target-module authorization before the edit is selected. GoLand neither
+maintains a private annotation registry nor searches the network.
 
 The independent
 [`testdata/annotationfixture`](../testdata/annotationfixture) module is the

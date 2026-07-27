@@ -43,9 +43,12 @@ Application-global failures that do not have a source location use
 
 ## Language features
 
-Completion and navigation are derived from the current compiler result:
+Completion and navigation are derived from the shared compiler service:
 
 - statically decoded descriptors selected by explicit annotation imports;
+- exported descriptor candidates discovered from source already present in the
+  target module graph, workspace modules, vendor tree, local replacements, and
+  module cache;
 - descriptor package paths and symbols inside `@spice.import` declarations;
 - annotation arguments and required-argument snippets;
 - bootstrap allowed values such as management endpoint names;
@@ -62,9 +65,12 @@ text edit:
 
 Existing named aliases and namespace imports are preserved. Completion detail
 identifies the descriptor package, selected module version or replacement,
-implementation tool, and handler, so the inserted source has inspectable
-provenance. Completion is refused when `@` appears in an unrelated Go
-expression.
+implementation tool, and whether the target `go.mod` authorizes that exact
+tool, so the inserted source has inspectable provenance. Catalog discovery
+forces `GOPROXY=off`, never executes a descriptor or tool, never changes module
+files, and keeps fully typed imported descriptors authoritative over lexical
+pre-import candidates. Completion is refused when `@` appears in an unrelated
+Go expression.
 
 Hover renders the descriptor summary and GoDoc, typed arguments, descriptions,
 defaults and allowed values, targets, examples, compatibility, resolved module

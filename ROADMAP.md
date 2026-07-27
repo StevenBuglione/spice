@@ -66,9 +66,11 @@ path for files without explicit imports. Descriptor-backed LSP/GoLand
 completion, documentation, definition, and implementation navigation are now
 available. A separate fixture module now proves public-SDK-only descriptors and
 handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
-generation, real source navigation, and offline build/run. The next bounded
-slice is broader offline module-graph discovery and confirmed tool-install edit
-preview.
+  generation, real source navigation, and offline build/run. Pre-import
+  completion now discovers descriptors across the target module graph,
+  workspace modules, replacements, vendor source, and populated module cache
+  without network access or implicit bindings. The next bounded slice is the
+  confirmed tool-install edit preview.
 
 ## M0 — Product and compiler proof
 

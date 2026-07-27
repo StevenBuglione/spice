@@ -104,6 +104,17 @@ Normal analysis forces `GOPROXY=off`. It uses `-mod=vendor` when
 or vendor content is therefore an actionable load diagnostic and never an
 editor-triggered download.
 
+Before a file imports a descriptor, editor completion can discover its public
+function from the target module graph, active workspace modules, local
+replacements, vendor source, and already-populated module cache. This is a
+bounded lexical catalog only: it recognizes exported exact
+`func() sdk.Definition` declarations and literal identity/provenance fields,
+but the existing typed-program decoder remains authoritative after insertion.
+The catalog runs offline, does not execute descriptors or tools, and marks
+whether the target application's own `go.mod` declares the exact tool path.
+Selecting a candidate always inserts a visible `@spice.import`; discovery never
+creates an implicit compiler binding.
+
 The public SDK defines bounded `Content-Length` JSON-RPC framing and typed
 `initialize`, `describe`, `analyze`, and `shutdown` messages. `protocol.Serve`
 provides the matching panic-contained server loop so extension authors do not
