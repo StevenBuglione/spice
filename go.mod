@@ -4,6 +4,8 @@ go 1.26.0
 
 toolchain go1.26.5
 
+tool github.com/StevenBuglione/spice/cmd/spice-annotation-core
+
 require (
 	github.com/coreos/go-oidc/v3 v3.20.0
 	github.com/jackc/pgx/v5 v5.10.0

@@ -125,11 +125,25 @@ declared handler source symbols, and reuses one serialized process per
 workspace/tool. Cancellation terminates the full Windows Job Object or Unix
 process group; failed calls are never replayed.
 
+After ordinary target and argument validation, every explicitly imported
+occurrence is analyzed by that declared handler. The host strictly decodes the
+public typed contribution union before attaching immutable defensive copies to
+the resolved occurrence. Application, provider, configuration, module,
+lifecycle, web, security, data, scheduling, event, cache, and bootstrap
+compilers select contribution kinds and payloads rather than descriptor names.
+The official `spice-annotation-core` executable follows this same external
+protocol; it is not imported by compiler packages.
+
 Each occurrence carries its canonical symbol ID, package path, target, physical file/offset, and developer-facing `//line`-adjusted position. Physical identity controls deterministic ordering; adjusted paths are display metadata only.
 
 Grouped declaration metadata fails closed when it could describe multiple specs or names, and blank identifiers cannot be annotation targets. Place metadata on one individual spec or split a multi-name declaration.
 
-The `spice annotations` and `spice verify` commands accept ordinary Go package patterns, default to `.`, and perform one load-resolve-validate pipeline. `compiler/scan.Tree` remains for compatibility tests but is no longer the authoritative CLI source.
+The `spice annotations` and `spice verify` commands accept ordinary Go package
+patterns and perform one load-resolve-validate pipeline. `spice verify` uses
+the same persistent-tool compiler service as generate, build, run, dev, and
+LSP, in validation-only mode so committed generated packages remain visible
+and no application target is required. `compiler/scan.Tree` remains for
+compatibility tests but is no longer the authoritative CLI source.
 
 ## Typed provider catalog
 

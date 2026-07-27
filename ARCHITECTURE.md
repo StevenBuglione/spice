@@ -9,7 +9,9 @@ Spice is a Go-native enterprise application platform inspired by the useful outc
 ```text
 Valid Go source
   -> Go AST and type information
-  -> Spice annotation parser
+  -> file-scoped annotation imports and static SDK descriptors
+  -> authorized go.mod tool handlers
+  -> validated typed contributions
   -> typed Spice intermediate representation
   -> typed application-bootstrap feature metadata
   -> module and dependency graphs
@@ -36,6 +38,13 @@ Valid Go source
 ### Compiler front end
 
 - Annotation lexical and syntactic parser.
+- Fail-closed named, aliased, and namespace annotation imports.
+- Statically decoded one-file public SDK descriptors that are never executed.
+- Exact target-module `tool` authorization and offline Go module provenance.
+- One persistent, bounded, version-negotiated handler process per workspace
+  and tool, launched only through `go tool <full-package-path>`.
+- A strictly validated typed contribution union; compiler subsystems select
+  capability kinds and payloads rather than annotation package/name switches.
 - Go package loading and AST inspection.
 - Symbol and type resolution.
 - One immutable diagnostic contract with stable codes, physical URI/ranges,
@@ -83,12 +92,14 @@ emits their real imports and calls beside `main.go`. Multi-application
 repositories use explicit target/package scope. This is compile-time analysis,
 not runtime scanning, `init` registration, or implicit dependency resolution.
 
-`@Application` supplies safe command conventions. Qualified companion
-annotations opt into behavior with exposure or operational consequences. The
-compiler resolves and validates those annotations once, carries normalized
-typed metadata in the immutable application IR, and renders direct
-construction. Rendering does not rescan comments. Feature activation never
-depends on classpath-style scanning, `go.mod`, `init`, or a mutable registry.
+`@Application` supplies safe command conventions. Explicitly imported
+companion annotations opt into behavior with exposure or operational
+consequences. The compiler resolves and validates those annotations once,
+launches only the exact handler tools authorized by the target `go.mod`,
+strictly incorporates their normalized typed contributions into the immutable
+application IR, and renders direct construction. Rendering does not rescan
+comments. Feature activation never depends on classpath-style scanning,
+package `init`, a runtime annotation lookup, or a mutable registry.
 
 ### Runtime
 

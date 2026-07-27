@@ -98,6 +98,7 @@ type Invocation struct {
 // Argument retains the parsed argument spelling and normalized value.
 type Argument struct {
 	Name       string          `json:"name,omitempty"`
+	Kind       sdk.Kind        `json:"kind"`
 	Positional bool            `json:"positional,omitempty"`
 	Value      json.RawMessage `json:"value"`
 }
@@ -112,8 +113,8 @@ type AnalyzeParams struct {
 // capability and Value is decoded into the corresponding typed contribution by
 // the host before it can enter the compiler IR.
 type Contribution struct {
-	Kind  string          `json:"kind"`
-	Value json.RawMessage `json:"value"`
+	Kind  sdk.ContributionKind `json:"kind"`
+	Value json.RawMessage      `json:"value"`
 }
 
 // Diagnostic is one plugin-owned source diagnostic.

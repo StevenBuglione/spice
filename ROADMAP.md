@@ -54,10 +54,14 @@ fail-closed file symbol tables, and offline auxiliary descriptor loading in the
 single typed program. Exact target-module `tool` authorization, the public
 bounded JSON-RPC SDK/server, offline module and replacement provenance,
 persistent process hosting, cross-platform process-tree cancellation, and
-read-only list/doctor commands are now present. The next bounded slice is
-validated generic contribution incorporation and built-in migration; the
-legacy built-in registry remains only for files without explicit imports
-during that migration.
+read-only list/doctor commands are now present. The complete typed contribution
+union is validated on both sides of the protocol, every official annotation
+has a one-file descriptor and external core-tool handler, commerce uses
+explicit imports, and verify/generate/build/run/dev/LSP share the tool-aware
+compiler service. The legacy registry remains only as a pre-1.0 compatibility
+path for files without explicit imports. The next bounded slice is rich
+descriptor-backed LSP/GoLand completion, documentation, definition and
+implementation navigation, followed by the independent third-party fixture.
 
 ## M0 — Product and compiler proof
 

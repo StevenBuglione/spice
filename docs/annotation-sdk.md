@@ -31,8 +31,9 @@ that declares at least one annotation import is fail-closed: every annotation
 in that file must resolve through a named or namespace binding. Duplicate local
 names, malformed paths, private descriptor symbols, and missing descriptor
 source are source-positioned errors. Files with no import declaration retain
-the pre-1.0 built-in spelling compatibility path while the commerce example
-and built-ins migrate.
+the pre-1.0 built-in spelling compatibility path. New application code should
+use explicit imports; the compatibility path has no third-party resolution and
+is scheduled for removal before 1.0.
 
 The physical source always contains `// `. GoLand concealment is presentation
 only, so `gofmt`, Go Run, debuggers, Git, and copied text operate on valid Go.
@@ -132,6 +133,40 @@ terminates the complete process tree without replay. Windows processes are
 contained in kill-on-close Job Objects; Unix processes use dedicated process
 groups. Stderr is bounded and diagnostic-only.
 
+## Typed contributions
+
+Every explicitly imported occurrence is sent to its descriptor's declared
+handler after static descriptor validation. The invocation contains the
+canonical descriptor identity, normalized typed literal arguments, declaration
+target, stable Go symbol ID, package path, exact type identity when available,
+and non-executable declaration facts. It never contains a provider value or an
+instruction to execute application code.
+
+Handlers return the public `sdk.Contribution` discriminated union. The current
+typed capabilities cover application roots, service stereotypes, providers,
+configuration, controllers, routes, modules, named interfaces, lifecycle,
+bootstrap features, scheduling, async execution, transactions, event topics
+and listeners, caching, authorization, and guarded generated files. Both the
+tool-side encoder and compiler-side decoder validate the selected kind and its
+one matching payload. Unknown fields, unknown kinds, ambiguous payloads,
+trailing JSON, malformed values, and duplicate contribution kinds fail before
+the immutable application IR is built.
+
+The compiler consumes contribution kinds and typed payloads, not annotation
+names. Any authorized third-party descriptor can contribute a supported
+capability without a compiler switch for that descriptor's package or name.
+Official descriptors use exactly the same protocol path through:
+
+```text
+github.com/StevenBuglione/spice/cmd/spice-annotation-core
+```
+
+All 20 official descriptors have one public descriptor file, one declared
+handler, a real implementation source symbol, rich GoDoc, compatibility
+metadata, and examples. `@Service` is intentionally an architectural
+stereotype; construction remains an explicit `@Bean` provider so Spice does
+not invent a hidden container or zero-value construction rule.
+
 Use the read-only inspection commands:
 
 ```text
@@ -144,7 +179,7 @@ spice annotations doctor ./...
 source symbols, shuts them down, and reports every problem. Neither command
 installs dependencies or changes module files.
 
-Generic contribution incorporation and built-in migration are the next
-delivery slice. Until that is connected, the landed host proves process,
-identity, and inspection behavior but does not promise third-party generated
-semantics.
+`spice verify`, `generate`, `build`, `run`, `dev`, and `lsp` now share this
+tool-aware compiler service. Verification uses validation mode, so it includes
+committed generated files and does not require an application target;
+generation mode excludes generated files while producing the guarded plan.

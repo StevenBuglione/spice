@@ -103,26 +103,37 @@ The repository currently provides:
 
 ## Annotation syntax
 
-Both of these are accepted:
+Annotations are valid declaration comments with explicit file-scoped imports:
 
 ```go
-//@Controller(prefix="/users")
+// @spice.import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
+
 // @Controller(prefix="/users")
 type UserController struct{}
 ```
 
-`gofmt` canonicalizes the second form, so official Spice documentation uses:
+Named imports keep common annotations clean, aliases resolve local collisions,
+and namespace imports keep provenance visible:
 
 ```go
-// @Controller(prefix="/users")
-type UserController struct{}
-```
+// @spice.import { Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
+// @spice.import * as security from "github.com/StevenBuglione/spice/annotation/security"
 
-Qualified annotations are available for collisions:
-
-```go
+// @GET("/orders/{id}")
 // @security.Authorize(anyRoles=["admin"], allScopes=["orders:write"])
+func (*Controller) Get(context.Context, Request) (Response, error)
 ```
+
+The application root `go.mod` authorizes annotation handlers through standard
+Go tool dependencies:
+
+```go
+tool github.com/StevenBuglione/spice/cmd/spice-annotation-core
+```
+
+Spice statically decodes each one-file Go descriptor and launches only its
+authorized full package path through `go tool`; there is no plugin manifest or
+custom dependency resolver.
 
 ## Run it
 
@@ -131,7 +142,8 @@ Install Go 1.26.5 and GNU Make, then run:
 ```bash
 make verify
 go run ./cmd/spice version
-go run ./cmd/spice annotations ./examples/commerce/...
+go run ./cmd/spice annotations list ./examples/commerce/...
+go run ./cmd/spice annotations doctor ./examples/commerce/...
 go run ./cmd/spice verify ./...
 go run ./cmd/spice verify --format=json ./examples/commerce/...
 go run ./cmd/spice test --module github.com/StevenBuglione/spice/examples/commerce/orders --count=1 ./examples/commerce/...
@@ -159,9 +171,13 @@ package main
 
 import "os"
 
+// @spice.import { Application } from "github.com/StevenBuglione/spice/annotation/core"
+// @spice.import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
+// @spice.import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
+
 // @Application
-// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
-// @observability.Logging
+// @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
+// @Logging
 func main() {
     os.Exit(spiceMain(os.Args[1:]))
 }
@@ -186,6 +202,10 @@ activates it. See
 The preferred annotated `main.go`, compile-time discovery scope, generated
 bridge, and legacy migration contract are documented in
 [`docs/application.md`](docs/application.md).
+
+Explicit imports, static descriptors, `go.mod` tool authorization, typed
+contributions, offline behavior, and extension security are documented in
+[`docs/annotation-sdk.md`](docs/annotation-sdk.md).
 
 Stable text/JSON diagnostic codes, physical and source-mapped ranges, related
 information, and version-aware safe edit contracts are documented in
