@@ -1,0 +1,44 @@
+{{define "pets/createOrUpdatePetForm"}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>{{if .Creating}}New{{else}}Update{{end}} Pet</title></head>
+<body>
+<nav><a href="/">Home</a> <a href="/owners/find">Find owners</a> <a href="/vets.html">Veterinarians</a></nav>
+<main>
+  <h1>{{if .Creating}}New{{else}}Update{{end}} Pet</h1>
+  <p>Owner: <a href="/owners/{{.Owner.ID}}">{{.Owner.FirstName}} {{.Owner.LastName}}</a></p>
+  {{range .Errors}}<p role="alert">{{.Field}} {{.Message}}</p>{{end}}
+  <form method="post">
+    <label>Name <input name="name" value="{{.Pet.Name}}" required></label>
+    <label>Birth date <input type="date" name="birthDate" value="{{if .Pet.BirthDate.IsZero}}{{else}}{{.Pet.BirthDate.Format "2006-01-02"}}{{end}}" required></label>
+    <label>Type
+      <select name="type" required>
+        <option value="">Select a type</option>
+        {{range .PetTypes}}<option value="{{.ID}}" {{if eq .ID $.Pet.Type.ID}}selected{{end}}>{{.Name}}</option>{{end}}
+      </select>
+    </label>
+    <button type="submit">{{if .Creating}}Add{{else}}Update{{end}} Pet</button>
+  </form>
+</main>
+</body></html>
+{{end}}
+
+{{define "pets/createOrUpdateVisitForm"}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>New Visit</title></head>
+<body>
+<nav><a href="/">Home</a> <a href="/owners/find">Find owners</a> <a href="/vets.html">Veterinarians</a></nav>
+<main>
+  <h1>New Visit</h1>
+  <p>Owner: <a href="/owners/{{.Owner.ID}}">{{.Owner.FirstName}} {{.Owner.LastName}}</a></p>
+  <p>Pet: {{.Pet.Name}} — {{.Pet.Type.Name}}</p>
+  {{range .Errors}}<p role="alert">{{.Field}} {{.Message}}</p>{{end}}
+  <form method="post">
+    <label>Date <input type="date" name="date" value="{{if .Visit.Date.IsZero}}{{else}}{{.Visit.Date.Format "2006-01-02"}}{{end}}" required></label>
+    <label>Description <textarea name="description" required>{{.Visit.Description}}</textarea></label>
+    <button type="submit">Add Visit</button>
+  </form>
+  <h2>Previous Visits</h2>
+  <ul>{{range .Pet.Visits}}<li>{{.Date.Format "2006-01-02"}} — {{.Description}}</li>{{end}}</ul>
+</main>
+</body></html>
+{{end}}

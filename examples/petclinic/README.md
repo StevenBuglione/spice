@@ -21,9 +21,12 @@ Implemented foundations:
 - generated direct-call dependency injection and interface assertions;
 - a complete-package executable serving the welcome and management routes;
 - the complete owner web workflow: find, paginated results, details, create,
-  edit, validation, redirects, and missing-owner problem responses.
+  edit, validation, redirects, and missing-owner problem responses;
+- nested pet creation/editing and visit registration with pet-type reference
+  data, duplicate-name checks, aggregate-owned identities, validation, and
+  owner/pet not-found problem responses.
 
-Pet, visit, and veterinarian workflows, SQL persistence profiles,
+Veterinarian workflows, SQL persistence profiles,
 internationalization, security, and the installed-IDE workflow are delivered
 as subsequent bounded slices. The in-memory profile remains the zero-network
 default.
@@ -38,6 +41,9 @@ Current application routes:
 | `GET`, `POST` | `/owners/new` | Create an owner |
 | `GET` | `/owners/{ownerId}` | Owner, pets, and visits |
 | `GET`, `POST` | `/owners/{ownerId}/edit` | Edit an owner |
+| `GET`, `POST` | `/owners/{ownerId}/pets/new` | Add a pet |
+| `GET`, `POST` | `/owners/{ownerId}/pets/{petId}/edit` | Edit a pet |
+| `GET`, `POST` | `/owners/{ownerId}/pets/{petId}/visits/new` | Add a visit |
 | `GET` | `/actuator/*` | Generated management endpoints |
 
 Generate and exercise the current target:
