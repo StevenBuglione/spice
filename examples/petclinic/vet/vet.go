@@ -11,7 +11,7 @@ import (
 // Vet is a veterinarian and their ordered specialties.
 type Vet struct {
 	model.Person
-	Specialties []Specialty
+	Specialties []Specialty `json:"specialties"`
 }
 
 // Clone returns a deep value copy.

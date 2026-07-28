@@ -4,7 +4,7 @@ package model
 // BaseEntity gives persistent Petclinic entities a stable identity. A zero ID
 // identifies an entity that has not been persisted.
 type BaseEntity struct {
-	ID ID
+	ID ID `json:"id"`
 }
 
 // New reports whether the entity has not yet been persisted.

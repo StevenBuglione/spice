@@ -24,12 +24,13 @@ Implemented foundations:
   edit, validation, redirects, and missing-owner problem responses;
 - nested pet creation/editing and visit registration with pet-type reference
   data, duplicate-name checks, aggregate-owned identities, validation, and
-  owner/pet not-found problem responses.
+  owner/pet not-found problem responses;
+- paginated veterinarian HTML plus a stable JSON collection with canonical
+  lower-camel-case fields and ordered specialties.
 
-Veterinarian workflows, SQL persistence profiles,
-internationalization, security, and the installed-IDE workflow are delivered
-as subsequent bounded slices. The in-memory profile remains the zero-network
-default.
+SQL persistence profiles, internationalization, security, and the installed-
+IDE workflow are delivered as subsequent bounded slices. The in-memory profile
+remains the zero-network default.
 
 Current application routes:
 
@@ -44,6 +45,8 @@ Current application routes:
 | `GET`, `POST` | `/owners/{ownerId}/pets/new` | Add a pet |
 | `GET`, `POST` | `/owners/{ownerId}/pets/{petId}/edit` | Edit a pet |
 | `GET`, `POST` | `/owners/{ownerId}/pets/{petId}/visits/new` | Add a visit |
+| `GET` | `/vets.html` | Paginated veterinarian browser view |
+| `GET` | `/vets` | Veterinarian JSON collection |
 | `GET` | `/actuator/*` | Generated management endpoints |
 
 Generate and exercise the current target:

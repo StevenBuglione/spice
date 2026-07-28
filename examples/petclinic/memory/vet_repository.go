@@ -46,6 +46,33 @@ func (repository *VetRepository) FindAll(
 	return cloneVets(repository.database.vets), nil
 }
 
+// FindPage returns one bounded page and the total veterinarian count.
+func (repository *VetRepository) FindPage(
+	ctx context.Context,
+	offset int,
+	limit int,
+) ([]vet.Vet, int, error) {
+	values, err := repository.FindAll(ctx)
+	if err != nil {
+		return nil, 0, err
+	}
+	if offset < 0 {
+		return nil, 0, errors.New(
+			"find veterinarian page: offset must not be negative",
+		)
+	}
+	if limit < 1 || limit > 100 {
+		return nil, 0, errors.New(
+			"find veterinarian page: limit must be between 1 and 100",
+		)
+	}
+	total := len(values)
+	if offset >= total {
+		return []vet.Vet{}, total, nil
+	}
+	return values[offset:min(offset+limit, total)], total, nil
+}
+
 func cloneVets(values []vet.Vet) []vet.Vet {
 	result := make([]vet.Vet, len(values))
 	for index, value := range values {

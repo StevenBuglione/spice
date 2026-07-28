@@ -61,6 +61,23 @@ func TestReferenceDatabaseMatchesPetclinicData(t *testing.T) {
 		len(allVets[1].Specialties) != 2 {
 		t.Fatalf("vets = %#v", allVets)
 	}
+	secondVetPage, vetTotal, err := vets.FindPage(
+		context.Background(),
+		5,
+		5,
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if vetTotal != 6 ||
+		len(secondVetPage) != 1 ||
+		secondVetPage[0].LastName != "Stevens" {
+		t.Fatalf(
+			"second veterinarian page = %#v, total %d",
+			secondVetPage,
+			vetTotal,
+		)
+	}
 
 	jean, found, err := owners.FindByID(
 		context.Background(),

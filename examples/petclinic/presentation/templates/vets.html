@@ -1,0 +1,20 @@
+{{define "vets/vetList"}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Veterinarians</title></head>
+<body>
+<nav><a href="/">Home</a> <a href="/owners/find">Find owners</a> <a aria-current="page" href="/vets.html">Veterinarians</a></nav>
+<main>
+  <h1>Veterinarians</h1>
+  <table>
+    <thead><tr><th>Name</th><th>Specialties</th></tr></thead>
+    <tbody>{{range .Vets}}<tr>
+      <td>{{.FirstName}} {{.LastName}}</td>
+      <td>{{range .Specialties}}{{.Name}} {{else}}none{{end}}</td>
+    </tr>{{end}}</tbody>
+  </table>
+  <p>Page {{.CurrentPage}} of {{.TotalPages}} — {{.TotalItems}} veterinarians</p>
+  {{if .HasPrevious}}<a href="/vets.html?page={{.PreviousPage}}">Previous</a>{{end}}
+  {{if .HasNext}}<a href="/vets.html?page={{.NextPage}}">Next</a>{{end}}
+</main>
+</body></html>
+{{end}}

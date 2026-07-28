@@ -9,8 +9,8 @@ import (
 // Person is the shared name data for owners and veterinarians.
 type Person struct {
 	BaseEntity
-	FirstName string
-	LastName  string
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
 }
 
 // Validate returns stable, presentation-safe person violations.

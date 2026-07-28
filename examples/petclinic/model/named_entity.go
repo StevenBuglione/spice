@@ -4,5 +4,5 @@ package model
 // veterinary specialties.
 type NamedEntity struct {
 	BaseEntity
-	Name string
+	Name string `json:"name"`
 }
