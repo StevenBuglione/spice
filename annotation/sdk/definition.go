@@ -38,6 +38,19 @@ const (
 	KindList       = annotation.KindList
 )
 
+// ValueDomain identifies an SDK-defined semantic value space. Domains let the
+// shared Spice compiler provide type-aware validation, completion, navigation,
+// and code actions without an editor or compiler switch on an annotation name.
+type ValueDomain = annotation.ValueDomain
+
+const (
+	// ValueDomainNone uses only the argument's lexical Kinds metadata.
+	ValueDomainNone = annotation.ValueDomainNone
+	// ValueDomainGoInterface accepts named runtime Go interface type
+	// expressions resolved from the consuming application's typed program.
+	ValueDomainGoInterface = annotation.ValueDomainGoInterface
+)
+
 // ProtocolVersion identifies a compatible native plugin protocol.
 type ProtocolVersion string
 
@@ -51,6 +64,7 @@ type Argument struct {
 	Name             string
 	Kinds            []Kind
 	ListElementKinds []Kind
+	ValueDomain      ValueDomain
 	AllowedValues    []string
 	Description      string
 	Default          string
@@ -175,6 +189,11 @@ var knownKinds = []Kind{
 	KindList,
 }
 
+var knownValueDomains = []ValueDomain{
+	ValueDomainNone,
+	ValueDomainGoInterface,
+}
+
 func validateName(name string) error {
 	if strings.TrimSpace(name) == "" || strings.TrimSpace(name) != name {
 		return errors.New("annotation definition name must be non-empty without surrounding whitespace")
@@ -236,6 +255,23 @@ func validateArgument(
 	}
 	if err := validateKinds(definitionName, argument.Name, argument.Kinds); err != nil {
 		return err
+	}
+	if !slices.Contains(knownValueDomains, argument.ValueDomain) {
+		return fmt.Errorf(
+			"annotation definition %q argument %q contains unknown value domain %q",
+			definitionName,
+			argument.Name,
+			argument.ValueDomain,
+		)
+	}
+	if argument.ValueDomain == ValueDomainGoInterface &&
+		!slices.Contains(argument.Kinds, KindIdentifier) {
+		return fmt.Errorf(
+			"annotation definition %q argument %q uses value domain %q without accepting identifier values",
+			definitionName,
+			argument.Name,
+			argument.ValueDomain,
+		)
 	}
 	if len(argument.ListElementKinds) > 0 &&
 		!slices.Contains(argument.Kinds, KindList) {

@@ -97,7 +97,9 @@ The repository currently provides:
   checks light/dark rendering against committed visual goldens, and launches
   the same LSP for descriptor documentation, handler implementation
   navigation, completion, diagnostics, safe edits, and cancellable confirmed
-  hash-guarded `go get -tool` preview/apply.
+  hash-guarded `go get -tool` preview/apply. Interface completion and bean
+  selection come from Spice's typed compiler catalog; the plugin uses GoLand's
+  index only to navigate and generate methods for symbols already in source.
 - A supported secondary Zed extension that launches the same LSP beside
   `gopls` for completion, diagnostics, hover, modifier-click annotation
   navigation, safe quick fixes, module/configuration metadata, and structured

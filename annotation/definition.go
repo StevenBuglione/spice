@@ -120,6 +120,7 @@ type ArgumentDefinition struct {
 	Name             string
 	Kinds            []Kind
 	ListElementKinds []Kind
+	ValueDomain      ValueDomain
 	Required         bool
 	Positional       bool
 	Variadic         bool
@@ -263,6 +264,24 @@ func validateArgumentDefinition(
 			"annotation definition %q argument %q defines list element kinds without accepting list values",
 			definitionName,
 			argument.Name,
+		)
+	}
+	if argument.ValueDomain != ValueDomainNone &&
+		argument.ValueDomain != ValueDomainGoInterface {
+		return fmt.Errorf(
+			"annotation definition %q argument %q contains unknown value domain %q",
+			definitionName,
+			argument.Name,
+			argument.ValueDomain,
+		)
+	}
+	if argument.ValueDomain == ValueDomainGoInterface &&
+		!slices.Contains(argument.Kinds, KindIdentifier) {
+		return fmt.Errorf(
+			"annotation definition %q argument %q uses value domain %q without accepting identifier values",
+			definitionName,
+			argument.Name,
+			argument.ValueDomain,
 		)
 	}
 	if argument.Variadic && !argument.Positional {

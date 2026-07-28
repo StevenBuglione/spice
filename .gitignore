@@ -7,6 +7,7 @@
 /editors/goland/.gradle/
 /editors/goland/.intellijPlatform/
 /editors/goland/build/
+/editors/goland/allure-results/
 *.test
 .DS_Store
 .idea/

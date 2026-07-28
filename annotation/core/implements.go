@@ -36,6 +36,7 @@ func Implements() sdk.Definition {
 		Arguments: []sdk.Argument{{
 			Name:        "interfaces",
 			Kinds:       []sdk.Kind{sdk.KindIdentifier},
+			ValueDomain: sdk.ValueDomainGoInterface,
 			Description: "One or more named Go interface type expressions.",
 			Required:    true,
 			Positional:  true,

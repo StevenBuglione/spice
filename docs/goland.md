@@ -19,9 +19,18 @@ editor-neutral `spice lsp` compiler service:
   color keys under
   **Settings | Editor | Color Scheme | Spice**;
 - exact multi-range PSI references on annotation invocations, import paths,
-  imported symbols, aliases, and namespaces provide modifier-hover
-  underlining, `Ctrl`/`Cmd`-click, and
+  imported symbols, aliases, namespaces, and already-authored Go interface
+  operands provide modifier-hover underlining, `Ctrl`/`Cmd`-click, and
   **Go to Declaration or Usages** navigation;
+- `@Implements` completion comes only from the shared Spice compiler's loaded
+  Go type universe. Accepting a named interface can atomically insert its
+  ordinary Go import and compiler-derived assertion. The plugin never scans
+  GoLand's type index to invent DI candidates;
+- `Alt+Enter` on an authored `@Implements` offers native GoLand method
+  generation, including generic/embedded methods and the compiler-selected
+  pointer/value receiver, plus an offline-safe ordinary assertion action. These
+  actions author inspectable Go; only the Spice compiler validates the binding
+  and makes it selectable for injection;
 - annotation lines carry a native gutter marker whose tooltip names the exact
   descriptor package and symbol, module version/replacement, authorized tool,
   handler, and protocol, and whose navigation target is that real Go
@@ -156,7 +165,12 @@ clean pinned GoLand profile through JetBrains Starter/Driver, and then:
     and records the rendered health surface;
 16. rejects both raw and commented Spice applications presented to GoLand's
     temporary single-file runner before any `gocommand-*` source is created;
-17. packages the plugin, validates its structure/configuration, and runs the
+17. completes `@Implements` from the compiler-owned interface catalog, verifies
+    the exact Go import and assertion edits, invokes native missing-method
+    generation with a pointer receiver and inspectable body, and applies the
+    separate assertion action while every annotation remains a physical
+    comment;
+18. packages the plugin, validates its structure/configuration, and runs the
     JetBrains binary/API verifier.
 
 The generated visual reports are:
@@ -192,7 +206,11 @@ whose complete text begins with canonical `// @`, including explicit
 `@import` declarations. It never conceals ordinary comments or a
 coincidental `@` later in prose. The Spice compiler/LSP remains the semantic
 authority for targets, arguments, module rules, descriptor metadata, and
-diagnostics; the plugin's small lexer is presentation-only.
+diagnostics. It also owns the named runtime-interface catalog, exact type
+identity, method sets, pointer/value compatibility, provider candidates, and
+all DI selection. The plugin's lexer is presentation-only. Its Go PSI use is
+limited to navigation and safe authoring for a symbol already returned or
+written by the developer; it cannot make a type injectable.
 
 ## Descriptor navigation and documentation
 

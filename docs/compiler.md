@@ -163,6 +163,17 @@ ConcreteExpression` assertion already type-checked by Go. An `@Bean` returning
 an interface is already an exact interface provider and rejects redundant
 `@Implements`.
 
+The compiler service builds one defensive, deterministic catalog of named
+runtime interfaces from that same loaded `go/packages` type universe. It walks
+selected application packages and their typed imports, retains exact package
+and type identities, type parameters, complete method sets, export
+visibility, and source locations, and excludes constraint-only interfaces.
+The catalog is available even while an incomplete `@Implements` invocation is
+being authored. LSP completion consumes the descriptor argument's
+`ValueDomainGoInterface` metadata, never an annotation-name test, and emits the
+exact Go import plus compiler-derived assertion when both can be applied
+atomically. IDE indexes are not a DI input.
+
 Catalog output is sorted by stable provider symbol ID. Multiple selectable
 beans may expose the same exact output or explicit interface; their stable
 names, aliases, qualifiers, primary/fallback state, order, and scope remain in
@@ -532,6 +543,15 @@ drive annotation/argument completion, bootstrap definitions supply allowed
 values, the module graph supplies exact module APIs, generated configuration
 metadata supplies property completion/hover, and shared suggested fixes become
 version-checked workspace edits.
+
+The projection also exposes the compiler-owned Go-interface catalog and
+provider assertion expressions. This lets every editor offer the same
+package-qualified interface candidates and safe imports without reimplementing
+type discovery. Missing-interface diagnostics and their actions are anchored
+at the visible `@` byte rather than the concealed physical `// ` prefix;
+insertion edits still target the actual line start. Partial provider authoring
+metadata may be projected for completion and fixes, but an invalid upstream
+stage never leaks a partial application model into generation.
 
 For explicit annotation imports, the service also projects the descriptor's
 real Go declaration, GoDoc, examples, compatibility, resolved module and

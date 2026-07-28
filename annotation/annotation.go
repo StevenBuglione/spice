@@ -14,6 +14,15 @@ const (
 	KindList       Kind = "list"
 )
 
+// ValueDomain identifies a compiler-owned semantic value space shared by CLI,
+// LSP, and editor clients.
+type ValueDomain string
+
+const (
+	ValueDomainNone        ValueDomain = ""
+	ValueDomainGoInterface ValueDomain = "go-interface"
+)
+
 // Value is one typed annotation argument value.
 type Value struct {
 	Kind       Kind

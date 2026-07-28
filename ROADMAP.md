@@ -102,8 +102,13 @@ bean names and aliases, repeatable qualifiers, primary/fallback selection,
 ordered slice/map injection, typed optional/lazy/provider handles, and
 singleton/prototype/request/session cleanup ownership without reflection or a
 runtime locator. Commerce proves qualifier/primary selection against a
-separate fallback implementation. The next developer-proof slice is native
-`@Implements` completion and GoLand Implement Methods integration.
+separate fallback implementation. The shared compiler now owns the complete
+named runtime-interface catalog used for `@Implements` authoring; LSP
+completion inserts exact Go imports and assertions without consulting an IDE
+index. The packaged GoLand workflow proves native generic-aware Implement
+Methods generation, pointer receiver selection, assertion authoring, and valid
+physical source. The next developer-proof slice is the independent
+third-party SDK/tool and complete commerce workflow.
 
 ## M0 — Product and compiler proof
 
