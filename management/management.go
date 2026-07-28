@@ -416,12 +416,14 @@ func (handler *Handler) exposes(endpoint Endpoint) bool {
 	return exposed
 }
 
-// Pattern returns the ServeMux subtree pattern used to mount this handler.
+// Pattern returns the GET-only ServeMux subtree pattern used to mount this
+// handler. Restricting the method prevents a management subtree from
+// conflicting with an application's ordinary GET root route.
 func (handler *Handler) Pattern() string {
 	if handler == nil {
 		return ""
 	}
-	return handler.basePath + "/"
+	return http.MethodGet + " " + handler.basePath + "/"
 }
 
 // ServeHTTP dispatches management requests without exposing other routes.

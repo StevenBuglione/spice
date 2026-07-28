@@ -17,9 +17,18 @@ Implemented foundations:
 - immutable validation results with deterministic field ordering;
 - concurrency-safe, cancellation-aware in-memory repositories;
 - defensive aggregate boundaries and stable query ordering;
-- the canonical Petclinic sample data.
+- the canonical Petclinic sample data;
+- generated direct-call dependency injection and interface assertions;
+- a complete-package executable serving the welcome and management routes.
 
-The executable web application, SQL persistence profiles, templates,
-internationalization, security, management, and installed-IDE workflow are
-delivered as subsequent bounded slices. The in-memory profile remains the
-zero-network default.
+Owner, pet, visit, and veterinarian workflows, SQL persistence profiles,
+internationalization, security, and the installed-IDE workflow are delivered
+as subsequent bounded slices. The in-memory profile remains the zero-network
+default.
+
+Generate and exercise the current target:
+
+```text
+go run ./cmd/spice generate --check --target Petclinic ./examples/petclinic/...
+go run ./cmd/spice run --target Petclinic ./examples/petclinic/... -- -check
+```

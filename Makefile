@@ -1,4 +1,10 @@
-.PHONY: fmt fuzz goland lint offline security smoke test vet verify zed
+.PHONY: check coverage fmt fuzz goland lint offline security smoke test vet verify verify-release zed
+
+check:
+	go run ./internal/qualitygate -mode=check
+
+coverage:
+	go run ./internal/qualitygate -mode=coverage
 
 fmt:
 	go run ./internal/qualitygate -mode=fmt
@@ -32,3 +38,6 @@ zed:
 
 verify:
 	go run ./internal/qualitygate -mode=verify
+
+verify-release:
+	go run ./internal/qualitygate -mode=verify-release

@@ -1,3 +1,5 @@
+// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
+
 // Package memory provides the zero-network Petclinic persistence profile.
 package memory
 

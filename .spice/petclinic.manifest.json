@@ -1,0 +1,96 @@
+{
+  "schema": 3,
+  "target": {
+    "id": "petclinic",
+    "layout": "application-package",
+    "module": "github.com/StevenBuglione/spice",
+    "package": "github.com/StevenBuglione/spice/internal/spicegen/petclinic",
+    "entrypoint_package": "github.com/StevenBuglione/spice/examples/petclinic",
+    "output_dir": "internal/spicegen/petclinic",
+    "bridge_dir": "examples/petclinic",
+    "manifest_path": ".spice/petclinic.manifest.json"
+  },
+  "generator_version": "0.1.0-dev",
+  "go_format_line": "1.26",
+  "input_sha256": "sha256:993a8444b3bce2b0f7f671283d222801db2d7ed447bab54a169c513cd89133d1",
+  "files": [
+    {
+      "path": "examples/petclinic/memory/owner_repository_petclinic_spice_gen.go",
+      "sha256": "sha256:301da0b349c4fce42e697fca600bd133ecd18592147619ecfad6b943e19328cf",
+      "role": "source-shard",
+      "sources": [
+        {
+          "path": "examples/petclinic/memory/owner_repository.go",
+          "line": 17,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository"
+        }
+      ]
+    },
+    {
+      "path": "examples/petclinic/memory/pet_type_repository_petclinic_spice_gen.go",
+      "sha256": "sha256:35620316027318a743f932fab3f9d9c9d6b0bac5cc75a23755c1316de19b8975",
+      "role": "source-shard",
+      "sources": [
+        {
+          "path": "examples/petclinic/memory/pet_type_repository.go",
+          "line": 16,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository"
+        }
+      ]
+    },
+    {
+      "path": "examples/petclinic/memory/vet_repository_petclinic_spice_gen.go",
+      "sha256": "sha256:a5ef987230a9e2a1d76383dc26b61f058caeef4ae3a11062bb336c03a9516ebf",
+      "role": "source-shard",
+      "sources": [
+        {
+          "path": "examples/petclinic/memory/vet_repository.go",
+          "line": 16,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository"
+        }
+      ]
+    },
+    {
+      "path": "examples/petclinic/zz_spice_bridge_gen.go",
+      "sha256": "sha256:3b102841ac731787baaa710a0c864315de9677dc7595556ddd432c37cb24c8cb",
+      "role": "command-bridge",
+      "sources": [
+        {
+          "path": "examples/petclinic/main.go",
+          "line": 9,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/petclinic/openapi.json",
+      "sha256": "sha256:24d1ac9dd1d6b82a0a17469dafa59db8c53abf42d4f3741b611d1ec2fd84ed01",
+      "role": "artifact",
+      "sources": [
+        {
+          "path": "examples/petclinic/main.go",
+          "line": 9,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/petclinic/zz_spice_gen.go",
+      "sha256": "sha256:6919cc5fd0c9e68d4fbfa7b442738da5126b7c3ae17f4029a1957a87edc2b132",
+      "role": "application",
+      "sources": [
+        {
+          "path": "examples/petclinic/main.go",
+          "line": 9,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
+        }
+      ]
+    }
+  ]
+}

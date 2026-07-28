@@ -9,7 +9,12 @@ import (
 	"github.com/StevenBuglione/spice/examples/petclinic/owner"
 )
 
+// @import { Implements, Repository } from "github.com/StevenBuglione/spice/annotation/core"
+
 // PetTypeRepository reads memory-backed pet type reference data.
+//
+// @Repository(constructor=NewPetTypeRepository)
+// @Implements(owner.PetTypeRepository)
 type PetTypeRepository struct {
 	database *Database
 }

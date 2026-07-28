@@ -165,7 +165,7 @@ func TestHandlerServesIsolatedManagementEndpoints(t *testing.T) {
 		t.Fatalf("NewHandler() error = %v", err)
 	}
 	info["version"] = "changed"
-	if handler.Pattern() != "/actuator/" {
+	if handler.Pattern() != "GET /actuator/" {
 		t.Fatalf("Pattern() = %q", handler.Pattern())
 	}
 
@@ -201,10 +201,21 @@ func TestHandlerServesIsolatedManagementEndpoints(t *testing.T) {
 	}
 
 	root := http.NewServeMux()
+	root.HandleFunc("GET /", func(writer http.ResponseWriter, _ *http.Request) {
+		writer.WriteHeader(http.StatusNoContent)
+	})
 	root.Handle(handler.Pattern(), handler)
 	response = serve(root, http.MethodGet, "/actuator/health/liveness")
 	if response.Code != http.StatusOK {
 		t.Fatalf("mounted liveness status = %d", response.Code)
+	}
+	response = serve(root, http.MethodGet, "/")
+	if response.Code != http.StatusNoContent {
+		t.Fatalf("mounted application root status = %d", response.Code)
+	}
+	response = serve(root, http.MethodPost, "/actuator/health")
+	if response.Code != http.StatusMethodNotAllowed {
+		t.Fatalf("mounted POST status = %d", response.Code)
 	}
 
 	metrics := NewHTTPMetrics()

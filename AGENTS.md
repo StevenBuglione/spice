@@ -34,7 +34,8 @@ For every product change:
 4. Exercise cancellation, timeout, rollback, concurrency, and failure paths when relevant.
 5. Update documentation, examples, the Spring coverage map, and benchmarks when the public behavior changes.
 6. Run issue-specific executable or integration paths.
-7. Run `make verify` from the repository root on the exact tree to be committed.
+7. Use `make check` for the edit loop, then run `make verify` from the
+   repository root on the exact tree to be committed.
 8. Never claim a command passed unless it was actually executed.
 9. Commit only a green tree. Fetch again before push and stop if `origin/main` moved unexpectedly.
 
@@ -56,6 +57,10 @@ For every product change:
 - an 85% whole-repository coverage floor;
 - offline vendor-only tests;
 - Spice CLI verification and executable example smoke tests.
+
+`make check` is the fast local feedback loop. `make coverage` isolates the
+whole-repository coverage calculation, and `make verify-release` is the
+unconditional release alias. See `docs/verification.md`.
 
 Do not weaken, skip, or broadly suppress a gate to land a change. A narrow suppression is acceptable only for a demonstrated false positive, with the reason adjacent to the suppression.
 

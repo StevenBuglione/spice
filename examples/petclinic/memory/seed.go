@@ -8,8 +8,12 @@ import (
 	"github.com/StevenBuglione/spice/examples/petclinic/vet"
 )
 
+// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
+
 // NewPetclinicDatabase returns the recognizable Spring Petclinic reference
 // data without filesystem, environment, or network access.
+//
+// @Bean
 func NewPetclinicDatabase() (*Database, error) {
 	petTypes := referencePetTypes()
 	owners := referenceOwners(petTypes)

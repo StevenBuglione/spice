@@ -10,7 +10,12 @@ import (
 	"github.com/StevenBuglione/spice/examples/petclinic/owner"
 )
 
+// @import { Implements, Repository } from "github.com/StevenBuglione/spice/annotation/core"
+
 // OwnerRepository persists owner aggregates in one Database.
+//
+// @Repository(constructor=NewOwnerRepository)
+// @Implements(owner.Repository)
 type OwnerRepository struct {
 	database *Database
 }

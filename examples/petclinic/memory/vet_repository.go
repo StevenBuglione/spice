@@ -9,7 +9,12 @@ import (
 	"github.com/StevenBuglione/spice/examples/petclinic/vet"
 )
 
+// @import { Implements, Repository } from "github.com/StevenBuglione/spice/annotation/core"
+
 // VetRepository reads memory-backed veterinarians.
+//
+// @Repository(constructor=NewVetRepository)
+// @Implements(vet.Repository)
 type VetRepository struct {
 	database *Database
 }
