@@ -56,25 +56,31 @@ func (repository *OwnerRepository) FindByID(
 func (repository *OwnerRepository) FindByLastName(
 	ctx context.Context,
 	prefix string,
+	offset int,
 	limit int,
-) ([]owner.Owner, error) {
+) ([]owner.Owner, int, error) {
 	if err := validateContext(ctx); err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	if repository == nil || repository.database == nil {
-		return nil, errors.New(
+		return nil, 0, errors.New(
 			"find owners by last name: repository is nil",
 		)
 	}
+	if offset < 0 {
+		return nil, 0, errors.New(
+			"find owners by last name: offset must not be negative",
+		)
+	}
 	if limit < 1 || limit > 100 {
-		return nil, errors.New(
+		return nil, 0, errors.New(
 			"find owners by last name: limit must be between 1 and 100",
 		)
 	}
 	normalized := strings.ToLower(strings.TrimSpace(prefix))
 	repository.database.mu.RLock()
 	defer repository.database.mu.RUnlock()
-	result := make([]owner.Owner, 0, limit)
+	result := make([]owner.Owner, 0, len(repository.database.owners))
 	for _, candidate := range repository.database.owners {
 		if strings.HasPrefix(
 			strings.ToLower(candidate.LastName),
@@ -84,10 +90,12 @@ func (repository *OwnerRepository) FindByLastName(
 		}
 	}
 	slices.SortStableFunc(result, compareOwners)
-	if len(result) > limit {
-		result = result[:limit]
+	total := len(result)
+	if offset >= total {
+		return []owner.Owner{}, total, nil
 	}
-	return result, nil
+	last := min(offset+limit, total)
+	return result[offset:last], total, nil
 }
 
 // Save atomically inserts or replaces one complete aggregate.

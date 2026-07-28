@@ -1,0 +1,85 @@
+{{define "owners/findOwners"}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Find Owners</title></head>
+<body>
+<nav><a href="/">Home</a> <a aria-current="page" href="/owners/find">Find owners</a> <a href="/vets.html">Veterinarians</a></nav>
+<main>
+  <h1>Find Owners</h1>
+  {{range .Errors}}<p role="alert">{{.Field}} {{.Message}}</p>{{end}}
+  <form action="/owners" method="get">
+    <label>Last name <input name="lastName" value="{{.LastName}}"></label>
+    <button type="submit">Find Owner</button>
+  </form>
+  <a href="/owners/new">Add Owner</a>
+</main>
+</body></html>
+{{end}}
+
+{{define "owners/ownersList"}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Owners</title></head>
+<body>
+<nav><a href="/">Home</a> <a href="/owners/find">Find owners</a> <a href="/vets.html">Veterinarians</a></nav>
+<main>
+  <h1>Owners</h1>
+  <table>
+    <thead><tr><th>Name</th><th>Address</th><th>City</th><th>Telephone</th><th>Pets</th></tr></thead>
+    <tbody>{{range .Owners}}<tr>
+      <td><a href="/owners/{{.ID}}">{{.FirstName}} {{.LastName}}</a></td>
+      <td>{{.Address}}</td><td>{{.City}}</td><td>{{.Telephone}}</td>
+      <td>{{range .Pets}}{{.Name}} {{end}}</td>
+    </tr>{{end}}</tbody>
+  </table>
+  <p>Page {{.CurrentPage}} of {{.TotalPages}} — {{.TotalItems}} owners</p>
+  {{if .HasPrevious}}<a href="/owners?lastName={{.LastName}}&page={{.PreviousPage}}">Previous</a>{{end}}
+  {{if .HasNext}}<a href="/owners?lastName={{.LastName}}&page={{.NextPage}}">Next</a>{{end}}
+</main>
+</body></html>
+{{end}}
+
+{{define "owners/createOrUpdateOwnerForm"}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>{{if .Creating}}New{{else}}Update{{end}} Owner</title></head>
+<body>
+<nav><a href="/">Home</a> <a href="/owners/find">Find owners</a> <a href="/vets.html">Veterinarians</a></nav>
+<main>
+  <h1>{{if .Creating}}New{{else}}Update{{end}} Owner</h1>
+  {{range .Errors}}<p role="alert">{{.Field}} {{.Message}}</p>{{end}}
+  <form method="post">
+    <label>First name <input name="firstName" value="{{.Owner.FirstName}}" required></label>
+    <label>Last name <input name="lastName" value="{{.Owner.LastName}}" required></label>
+    <label>Address <input name="address" value="{{.Owner.Address}}" required></label>
+    <label>City <input name="city" value="{{.Owner.City}}" required></label>
+    <label>Telephone <input name="telephone" value="{{.Owner.Telephone}}" required></label>
+    <button type="submit">{{if .Creating}}Add{{else}}Update{{end}} Owner</button>
+  </form>
+</main>
+</body></html>
+{{end}}
+
+{{define "owners/ownerDetails"}}
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Owner Information</title></head>
+<body>
+<nav><a href="/">Home</a> <a href="/owners/find">Find owners</a> <a href="/vets.html">Veterinarians</a></nav>
+<main>
+  <h1>Owner Information</h1>
+  <dl>
+    <dt>Name</dt><dd>{{.Owner.FirstName}} {{.Owner.LastName}}</dd>
+    <dt>Address</dt><dd>{{.Owner.Address}}</dd>
+    <dt>City</dt><dd>{{.Owner.City}}</dd>
+    <dt>Telephone</dt><dd>{{.Owner.Telephone}}</dd>
+  </dl>
+  <a href="/owners/{{.Owner.ID}}/edit">Edit Owner</a>
+  <a href="/owners/{{.Owner.ID}}/pets/new">Add New Pet</a>
+  <h2>Pets and Visits</h2>
+  {{range .Owner.Pets}}
+    <section><h3>{{.Name}}</h3><p>{{.BirthDate.Format "2006-01-02"}} — {{.Type.Name}}</p>
+    <a href="/owners/{{$.Owner.ID}}/pets/{{.ID}}/edit">Edit Pet</a>
+    <a href="/owners/{{$.Owner.ID}}/pets/{{.ID}}/visits/new">Add Visit</a>
+    <ul>{{range .Visits}}<li>{{.Date.Format "2006-01-02"}} — {{.Description}}</li>{{end}}</ul>
+    </section>
+  {{end}}
+</main>
+</body></html>
+{{end}}

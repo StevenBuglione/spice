@@ -30,15 +30,17 @@ func TestReferenceDatabaseMatchesPetclinicData(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	davis, err := owners.FindByLastName(
+	davis, total, err := owners.FindByLastName(
 		context.Background(),
 		"Dav",
+		0,
 		10,
 	)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(davis) != 2 ||
+	if total != 2 ||
+		len(davis) != 2 ||
 		davis[0].FirstName != "Betty" ||
 		davis[1].FirstName != "Harold" {
 		t.Fatalf("Davis owners = %#v", davis)
@@ -130,7 +132,7 @@ func TestMemoryRepositoriesHonorCancellationAndConcurrency(t *testing.T) {
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
-	if _, err := repository.FindByLastName(ctx, "", 10); !errors.Is(
+	if _, _, err := repository.FindByLastName(ctx, "", 0, 10); !errors.Is(
 		err,
 		context.Canceled,
 	) {
@@ -142,12 +144,13 @@ func TestMemoryRepositoriesHonorCancellationAndConcurrency(t *testing.T) {
 		wait.Add(1)
 		go func(id int) {
 			defer wait.Done()
-			results, findErr := repository.FindByLastName(
+			results, total, findErr := repository.FindByLastName(
 				context.Background(),
 				"",
+				0,
 				100,
 			)
-			if findErr != nil || len(results) != 10 {
+			if findErr != nil || total != 10 || len(results) != 10 {
 				t.Errorf(
 					"reader %d = %d results, %v",
 					id,

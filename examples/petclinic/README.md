@@ -19,12 +19,26 @@ Implemented foundations:
 - defensive aggregate boundaries and stable query ordering;
 - the canonical Petclinic sample data;
 - generated direct-call dependency injection and interface assertions;
-- a complete-package executable serving the welcome and management routes.
+- a complete-package executable serving the welcome and management routes;
+- the complete owner web workflow: find, paginated results, details, create,
+  edit, validation, redirects, and missing-owner problem responses.
 
-Owner, pet, visit, and veterinarian workflows, SQL persistence profiles,
+Pet, visit, and veterinarian workflows, SQL persistence profiles,
 internationalization, security, and the installed-IDE workflow are delivered
 as subsequent bounded slices. The in-memory profile remains the zero-network
 default.
+
+Current application routes:
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/` | Welcome page |
+| `GET` | `/owners/find` | Owner search form |
+| `GET` | `/owners` | Prefix search and paginated results |
+| `GET`, `POST` | `/owners/new` | Create an owner |
+| `GET` | `/owners/{ownerId}` | Owner, pets, and visits |
+| `GET`, `POST` | `/owners/{ownerId}/edit` | Edit an owner |
+| `GET` | `/actuator/*` | Generated management endpoints |
 
 Generate and exercise the current target:
 

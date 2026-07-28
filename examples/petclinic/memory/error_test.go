@@ -99,7 +99,12 @@ func TestRepositoryConstructorAndOperationBoundaries(t *testing.T) {
 	if _, _, err := owners.FindByID(context.Background(), 1); err == nil {
 		t.Fatal("nil owner repository read succeeded")
 	}
-	if _, err := owners.FindByLastName(context.Background(), "", 10); err == nil {
+	if _, _, err := owners.FindByLastName(
+		context.Background(),
+		"",
+		0,
+		10,
+	); err == nil {
 		t.Fatal("nil owner repository search succeeded")
 	}
 	if _, err := owners.Save(context.Background(), owner.Owner{}); err == nil {
@@ -122,11 +127,29 @@ func TestRepositoryConstructorAndOperationBoundaries(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, err := repository.FindByLastName(context.Background(), "", 0); err == nil {
+	if _, _, err := repository.FindByLastName(
+		context.Background(),
+		"",
+		0,
+		0,
+	); err == nil {
 		t.Fatal("zero search limit succeeded")
 	}
-	if _, err := repository.FindByLastName(context.Background(), "", 101); err == nil {
+	if _, _, err := repository.FindByLastName(
+		context.Background(),
+		"",
+		0,
+		101,
+	); err == nil {
 		t.Fatal("oversized search limit succeeded")
+	}
+	if _, _, err := repository.FindByLastName(
+		context.Background(),
+		"",
+		-1,
+		10,
+	); err == nil {
+		t.Fatal("negative search offset succeeded")
 	}
 	if _, err := repository.Save(context.Background(), owner.Owner{}); err == nil {
 		t.Fatal("invalid owner save succeeded")
