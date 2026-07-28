@@ -2,13 +2,15 @@
 
 ## Current developer-proof priority
 
-Before broader database, messaging, or starter expansion, Spice must prove one
-complete development workflow: a minimal annotated `main.go`, compile-time
-local-module discovery, stable generate/verify/build/run behavior, a
-last-known-good `spice dev` supervisor, one shared overlay-aware compiler
-service, editor-neutral LSP support, a polished primary GoLand integration, a
-supported secondary Zed integration, and one secure external mail integration
-exercised by the modular commerce application.
+The developer-proof milestone now composes one complete workflow: a minimal
+annotated `main.go`, compile-time local-module discovery, stable
+generate/verify/build/run behavior, a last-known-good `spice dev` supervisor,
+one shared overlay-aware compiler service, editor-neutral LSP support, a
+polished primary GoLand integration, a supported secondary Zed integration,
+generated exact-scope security, transaction-owned persistent data, and one
+secure mail integration exercised by the modular commerce application. The
+remaining work is release hardening and deliberately selected starter breadth,
+not replacement of this foundation.
 
 The preferred package-main discovery and same-package command bridge are now
 exercised by the commerce application; the compatible legacy layout remains
@@ -18,8 +20,8 @@ Unix. Coverage-map labels are not substitutes for executable acceptance. The
 shared `spice.diagnostics/v1` contract now backs text and machine-readable
 verification while retaining physical/source-mapped positions for editor use.
 The stable-core executable matrix is recorded in
-`docs/stable-core-acceptance.md`; remaining security/mail work is explicit
-reference integration debt rather than an untested core contract. The
+`docs/stable-core-acceptance.md`; the commerce reference now closes the
+security/data/mail vertical integration. The
 reusable dev supervisor and portable recursive watcher now provide
 deterministic debounce, unique candidate builds, last-known-good recovery, and
 bounded Windows/Unix process-group restart through `spice dev`. A native watch
@@ -56,12 +58,12 @@ boundary. The bounded test mail transport now supplies
 immutable decoded delivery snapshots, deterministic failure injection,
 explicit capacity behavior, and payload-free observations. The secure SMTP
 slice adds verified STARTTLS/implicit TLS, bounded cancellation and retry,
-ambiguous-delivery protection, and payload-free observations. The next slice is
-security plus mail composition in the final reference workflow. Commerce now
-uses generated serializable transaction ownership, an explicit repository
-interface binding, module-owned lifecycle migration, a transaction-aware
-zero-dependency development database, and a PostgreSQL restart-persistence
-integration path. Broad MongoDB,
+ambiguous-delivery protection, and payload-free observations. Commerce now
+uses generated exact-scope authorization, serializable transaction ownership,
+an explicit repository interface binding, module-owned lifecycle migration, a
+transaction-aware zero-dependency development database, a PostgreSQL
+restart-persistence integration path, an explicit `mail.Sender` binding, and a
+post-commit inspectable receipt workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 
@@ -95,7 +97,9 @@ handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
   requests. GoLand Run invokes `spice run`; Debug first runs a registered
   Spice generation task and then retains the native complete-package Go/Delve
   path. The pinned GoLand suite executes commerce through both command paths
-  on the Windows/Linux verification matrix.
+  on the Windows/Linux verification matrix. The executable commerce slice now
+  proves authentication decisions, generated authorization, persistence, and
+  test receipt delivery on the same generated application graph.
 
 The constructor graph now treats `@Service`, `@Controller`, and `@Repository`
 as constructible beans and records deterministic constructor discovery in the

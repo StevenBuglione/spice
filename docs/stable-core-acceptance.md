@@ -24,42 +24,48 @@ vendor reproduction, vet, allowlisted lint and NilAway, gosec, govulncheck,
 shuffled and race suites, fuzz smoke, the 85% coverage floor, offline vendor
 tests, module rendering/focus, generated freshness, and executable Commerce.
 
-## Developer-proof integration still open
+## Developer-proof integration
 
-The core contracts are sufficient for the dev supervisor and editor service,
-but the final reference workflow intentionally remains incomplete:
+The final reference workflow now composes the accepted contracts:
 
 - Commerce currently proves package-main discovery, exact generated DI,
   modules, typed configuration/redaction, lifecycle, generated HTTP/RFC 9457,
-  management, metrics/logging, cache, asynchronous work, scheduling, typed
-  events, generated serializable transaction ownership, explicit repository
-  interface injection, module-owned migration startup, and persisted retrieval.
-- Commerce does not yet exercise a generated security policy at its public
-  endpoint.
-- Commerce now uses a typed `storage.Orders` interface and generated direct
+  management, metrics/logging, public cache-safe metadata, asynchronous work,
+  scheduling, typed events, generated serializable transaction ownership,
+  explicit repository interface injection, module-owned migration startup,
+  and persisted retrieval.
+- Order routes now exercise generated exact-scope security policies. The
+  executable slice proves allowed decisions, safe unauthenticated 401
+  responses, insufficient-scope 403 responses, and bounded authorization
+  observations. Principal-specific order data is not placed in the shared
+  cache; the compiler rejects that unsafe combination.
+- Commerce uses a typed `storage.Orders` interface and generated direct
   binding to a reflection-free SQL repository. Its zero-dependency developer
   backend is an instance-owned transaction-aware `database/sql` connector, and
   its `integration`-tagged PostgreSQL path proves migration reconciliation,
   commit, pool close/reopen, and durable retrieval against the reviewed pgx
   starter.
-- The bounded test mail transport, deterministic failure injection, decoded
-  inspection, and payload-free observations are available. The isolated SMTP
-  starter now proves verified STARTTLS and implicit TLS, authentication after
-  TLS, cancellation/timeouts, conservative transient retry, ambiguous-delivery
-  protection, and payload-free observations. Commerce still needs to compose
-  and deliver its notification through this boundary.
+- `notifications.Delivery` is an explicit concrete `mail.Sender` binding and
+  `SystemClock` is an explicit clock binding. Commerce composes a deterministic
+  typed MIME receipt with an attachment after transaction commit, delivers it
+  through the bounded test transport in the default workflow, and can select
+  the isolated secure SMTP starter through typed secret-redacted
+  configuration. Tests inspect the decoded delivery and prove cancellation
+  plus error sanitization.
 - `spice dev`, the overlay compiler service, the editor-neutral LSP, the
   primary GoLand integration, and the supported Zed integration are available.
   GoLand's exact prefix concealment, native token colors, PSI navigation, and
   light/Darcula visual reports are repository-gated, including proof that
   concealment preserves saved and copied valid Go. Raw annotation lines receive
   exact LSP diagnostics and a versioned comment-prefix repair instead of an
-  opaque temporary-loader failure. The final editor/dev reference walkthrough
-  remains coupled to the pending security/data/mail commerce flow.
-
-Those are integration deliverables, not missing foundational runtime behavior.
-They stay visible here and in `docs/spring-coverage.md`; they must be closed
-before the decisive developer-proof workflow can be called complete.
+  opaque temporary-loader failure. Together with the commerce executable slice,
+  these gates cover the decisive invalid-edit/fix/regenerate/restart/
+  authorize/persist/deliver workflow without weakening valid Go source.
+- The documented process workflow enables an explicit secret-redacted
+  developer bearer token only on a loopback listener. It exercises the real
+  `spice dev` process and generated guards without creating a default
+  production backdoor; production authentication remains an OAuth2/OIDC
+  integration concern.
 
 ## Reproduction
 
