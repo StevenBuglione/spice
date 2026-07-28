@@ -8,6 +8,7 @@ tool github.com/StevenBuglione/spice/cmd/spice-annotation-core
 
 require (
 	github.com/coreos/go-oidc/v3 v3.20.0
+	github.com/go-sql-driver/mysql v1.10.0
 	github.com/jackc/pgx/v5 v5.10.0
 	github.com/redis/go-redis/v9 v9.21.0
 	go.opentelemetry.io/otel v1.43.0
@@ -22,6 +23,7 @@ require (
 )
 
 require (
+	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect

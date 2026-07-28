@@ -39,12 +39,15 @@ Implemented foundations:
   ownership, module-owned schema/seed migrations, explicit repository
   interface bindings, aggregate-safe transactions, and a real PostgreSQL 18.3
   workflow test.
+- a MySQL target with verified-TLS defaults, reviewed `database/sql` pool
+  ownership, advisory-locked resumable InnoDB migrations, explicit repository
+  bindings, aggregate-safe transactions, and a real MySQL 8.4 workflow test.
 
-The in-memory target remains the zero-network default. PostgreSQL is a separate
-compile-time application graph rather than a runtime service-locator branch:
-its selected concrete repositories are visible in generated Go and debugger
-stacks. MySQL, internationalization, security, and the installed-IDE workflow
-are delivered as subsequent bounded slices.
+The in-memory target remains the zero-network default. PostgreSQL and MySQL are
+separate compile-time application graphs rather than runtime service-locator
+branches: selected concrete repositories are visible in generated Go and
+debugger stacks. Internationalization, security, and the installed-IDE
+workflow are delivered as subsequent bounded slices.
 
 Current application routes:
 
@@ -93,4 +96,27 @@ database:
 ```text
 set SPICE_POSTGRES_TEST_URL=postgres://petclinic:petclinic@127.0.0.1:5432/petclinic?sslmode=disable
 go test -tags=integration -count=1 ./postgres
+```
+
+Generate the MySQL graph:
+
+```text
+cd examples/petclinic
+../../bin/spice generate --check --target Mysql ./cmd/mysql ./mysql ./owner ./presentation ./system ./vet
+set SPICE_PETCLINIC_MYSQL_URL=mysql://petclinic:petclinic@127.0.0.1:3306/petclinic?tls=disable
+set SPICE_PETCLINIC_MYSQL_ALLOW_INSECURE=true
+../../bin/spice run --target Mysql ./cmd/mysql ./mysql ./owner ./presentation ./system ./vet
+```
+
+MySQL verifies TLS certificates and hostnames by default. The `tls=disable`
+marker is accepted only with the explicit local-development opt-in. MySQL DDL
+implicitly commits, so this target truthfully uses locked, checksum-verified,
+idempotent migrations that resume after interruption instead of claiming
+cross-statement transactional DDL.
+
+Run the real MySQL workflow against an already-started MySQL 8.4 database:
+
+```text
+set SPICE_MYSQL_TEST_URL=mysql://petclinic:petclinic@127.0.0.1:3306/petclinic?tls=disable
+go test -tags=integration -count=1 ./mysql
 ```

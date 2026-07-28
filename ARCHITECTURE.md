@@ -186,6 +186,16 @@ session advisory lock, runs each parameter-free migration script and
 parameterized registry insert in one transaction, and closes the physical
 connection whenever unlock ownership cannot be confirmed.
 
+The MySQL starter constructs go-sql-driver connectors without global driver or
+TLS registration. Complete URLs, verified TLS, bounded pool lifetimes, parsed
+dates, context cancellation, and caller-owned cleanup are explicit. MySQL DDL
+is atomic per supported InnoDB statement but implicitly commits, so consumers
+must not present it as the transactional migration backend contract.
+Petclinic's MySQL target instead pins one connection, holds a database-scoped
+advisory lock, verifies immutable checksums, and replays only idempotent steps
+before recording completion. An interrupted migration is therefore observable
+and safely resumable without overstating cross-statement atomicity.
+
 Application events use immutable generic topics. `@event.Topic` marker
 functions declare exact `event.Publisher[T]` provider nodes; their parameters
 select exact provider-owned `@event.Listener` methods without executing either

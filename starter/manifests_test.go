@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/StevenBuglione/spice/starter"
+	mysqlstarter "github.com/StevenBuglione/spice/starter/mysql"
 	"github.com/StevenBuglione/spice/starter/oauth2client"
 	"github.com/StevenBuglione/spice/starter/oidc"
 	"github.com/StevenBuglione/spice/starter/otel"
@@ -28,6 +29,20 @@ func TestShippedStarterManifests(t *testing.T) {
 		feature      string
 		requirements []string
 	}{
+		{
+			name:         "mysql",
+			manifest:     mysqlstarter.Manifest,
+			entrypoints:  []any{mysqlstarter.Open},
+			capabilities: []string{"data.mysql", "data.sql"},
+			dependencies: []starter.Dependency{
+				{
+					Module:  "github.com/go-sql-driver/mysql",
+					Version: "v1.10.0",
+					License: "MPL-2.0",
+				},
+			},
+			activation: starter.ActivationExplicitConstructor,
+		},
 		{
 			name:         "oauth2client",
 			manifest:     oauth2client.Manifest,

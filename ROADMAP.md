@@ -62,7 +62,8 @@ ambiguous-delivery protection, and payload-free observations. Commerce now
 uses generated exact-scope authorization, serializable transaction ownership,
 an explicit repository interface binding, module-owned lifecycle migration, a
 transaction-aware zero-dependency development database, a PostgreSQL
-restart-persistence integration path, an explicit `mail.Sender` binding, and a
+restart-persistence integration path, reviewed secure PostgreSQL and MySQL
+pool starters, an explicit `mail.Sender` binding, and a
 post-commit inspectable receipt workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
@@ -168,8 +169,8 @@ third-party handler test harnesses without reflection or compiler imports.
 - Externalized configuration and profiles.
 - Structured logging and OpenTelemetry.
 - Security policies, OAuth2/OIDC resource server support.
-- SQL, generated typed HTTP transaction boundaries, migrations, and repository
-  support.
+- SQL, reviewed PostgreSQL/MySQL pools, generated typed HTTP transaction
+  boundaries, migrations, and repository support.
 - Cache abstraction.
 - Annotation-driven fixed-delay scheduling and asynchronous execution.
 - Restartable ordered batch execution with process-local and lease-aware
