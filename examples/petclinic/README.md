@@ -35,10 +35,16 @@ Implemented foundations:
   owner/pet not-found problem responses;
 - paginated veterinarian HTML plus a stable JSON collection with canonical
   lower-camel-case fields and ordered specialties.
+- a PostgreSQL target with required redacted configuration, reviewed pgx pool
+  ownership, module-owned schema/seed migrations, explicit repository
+  interface bindings, aggregate-safe transactions, and a real PostgreSQL 18.3
+  workflow test.
 
-SQL persistence profiles, internationalization, security, and the installed-
-IDE workflow are delivered as subsequent bounded slices. The in-memory profile
-remains the zero-network default.
+The in-memory target remains the zero-network default. PostgreSQL is a separate
+compile-time application graph rather than a runtime service-locator branch:
+its selected concrete repositories are visible in generated Go and debugger
+stacks. MySQL, internationalization, security, and the installed-IDE workflow
+are delivered as subsequent bounded slices.
 
 Current application routes:
 
@@ -62,6 +68,29 @@ Generate and exercise the current target:
 ```text
 go build -trimpath -o ./bin/spice ./cmd/spice
 cd examples/petclinic
-../../bin/spice generate --check --target Petclinic ./...
-../../bin/spice run --target Petclinic ./... -- -check
+../../bin/spice generate --check --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+../../bin/spice run --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet -- -check
+```
+
+Generate the PostgreSQL graph:
+
+```text
+cd examples/petclinic
+../../bin/spice generate --check --target Postgres ./cmd/postgres ./owner ./postgres ./presentation ./system ./vet
+set SPICE_PETCLINIC_POSTGRES_URL=postgres://petclinic:petclinic@127.0.0.1:5432/petclinic?sslmode=disable
+set SPICE_PETCLINIC_POSTGRES_ALLOW_INSECURE=true
+../../bin/spice run --target Postgres ./cmd/postgres ./owner ./postgres ./presentation ./system ./vet
+```
+
+The environment names are the same on every platform; the example above uses
+Windows `set` syntax only for brevity. Disabled TLS is accepted solely through
+the explicit local-development opt-in. Production URLs default to verified
+TLS.
+
+Run the real PostgreSQL repository workflow against an already-started test
+database:
+
+```text
+set SPICE_POSTGRES_TEST_URL=postgres://petclinic:petclinic@127.0.0.1:5432/petclinic?sslmode=disable
+go test -tags=integration -count=1 ./postgres
 ```
