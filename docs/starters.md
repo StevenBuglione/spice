@@ -252,11 +252,12 @@ Every current integration exposes a package-level `Manifest()`:
 |---|---|---|
 | `starter/postgres` | `batch.postgresql`, `data.postgresql`, `data.sql`, `event.outbox.postgresql`, `migration.postgresql` | `github.com/jackc/pgx/v5` v5.10.0 |
 | `starter/redis` | `cache.redis`, `data.redis` | `github.com/redis/go-redis/v9` v9.21.0 |
+| `starter/smtp` | `mail.smtp` | Go standard library |
 | `starter/oidc` | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
 | `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
 
-PostgreSQL, Redis, OIDC, and OAuth2-client use `explicit-constructor`
+PostgreSQL, Redis, SMTP, OIDC, and OAuth2-client use `explicit-constructor`
 activation.
 OpenTelemetry contributes `@otel.Enable` through `explicit-annotation`
 activation and maps it to the reviewed `NewHTTPObserver` entrypoint plus the

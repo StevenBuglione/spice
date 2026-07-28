@@ -54,8 +54,10 @@ and Linux for native completion, diagnostics, modifier-click navigation, quick
 fixes, and semantic-token presentation, within Zed's public no-concealment
 boundary. The bounded test mail transport now supplies
 immutable decoded delivery snapshots, deterministic failure injection,
-explicit capacity behavior, and payload-free observations. The next slice is
-secure SMTP, followed by the final reference workflow. Broad MongoDB,
+explicit capacity behavior, and payload-free observations. The secure SMTP
+slice adds verified STARTTLS/implicit TLS, bounded cancellation and retry,
+ambiguous-delivery protection, and payload-free observations. The next slice is
+the final reference workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 

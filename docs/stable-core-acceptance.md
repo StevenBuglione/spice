@@ -39,8 +39,11 @@ but the final reference workflow intentionally remains incomplete:
   persistence, migrations, and repository retrieval must be added to the final
   Docker-backed reference path.
 - The bounded test mail transport, deterministic failure injection, decoded
-  inspection, and payload-free observations are available. Secure SMTP
-  transport and retry classification remain pending.
+  inspection, and payload-free observations are available. The isolated SMTP
+  starter now proves verified STARTTLS and implicit TLS, authentication after
+  TLS, cancellation/timeouts, conservative transient retry, ambiguous-delivery
+  protection, and payload-free observations. Commerce still needs to compose
+  and deliver its notification through this boundary.
 - `spice dev`, the overlay compiler service, the editor-neutral LSP, the
   primary GoLand integration, and the supported Zed integration are available.
   GoLand's exact prefix concealment, native token colors, PSI navigation, and

@@ -84,7 +84,7 @@ type Sender interface {
 The context belongs to the caller. Transport implementations own connection
 timeouts, cancellation, retry classification, TLS policy, and bounded
 observations. They must not log message bodies, attachments, credentials, or
-recipient data. The bounded test sender and planned SMTP starter implement this
+recipient data. The bounded test sender and secure SMTP starter implement this
 same instance-owned contract.
 
 ## Test transport
@@ -131,3 +131,62 @@ race-safe. Built-in observations contain only attempt number, message ID, and
 outcome; they exclude recipient data, subject, bodies, attachments, and error
 text. The optional observer runs synchronously after the sender unlocks, so it
 may safely inspect the same sender.
+
+## Secure SMTP transport
+
+`starter/smtp` is the production transport. It is instance-owned, performs no
+network work during construction, and requires verified TLS:
+
+```go
+sender, err := smtp.New(smtp.Config{
+	Address:        "smtp.example.com:587",
+	ServerName:     "smtp.example.com",
+	Mode:           smtp.TLSModeStartTLS,
+	Username:       username,
+	Password:       password,
+	Timeout:        10 * time.Second,
+	MaxAttempts:    3,
+	InitialBackoff: 250 * time.Millisecond,
+	MaxBackoff:     2 * time.Second,
+	Observer: func(ctx context.Context, observation smtp.Observation) {
+		// Message ID, attempt, outcome, stage, status, duration, and backoff only.
+	},
+})
+if err != nil {
+	return err
+}
+if err := sender.Send(ctx, message); err != nil {
+	return err
+}
+```
+
+The zero TLS mode means required STARTTLS. `TLSModeImplicitTLS` is available
+for services that negotiate TLS before the SMTP greeting. STARTTLS absence,
+certificate verification failure, TLS below 1.2, renegotiation, cleartext
+authentication, conflicting server identity, and partially specified
+credentials all fail closed. A caller-supplied `tls.Config` is cloned;
+disabling certificate verification is always rejected.
+
+Each attempt owns one connection and uses the earlier of the caller's deadline
+and the configured timeout. Cancellation closes an in-flight connection, so it
+interrupts greeting, TLS, authentication, envelope, and body operations rather
+than merely preventing the next step.
+
+Retries are deliberately conservative. Only transient connection or SMTP 4xx
+failures before `DATA` begins are eligible. Once the server accepts `DATA`, a
+write or final-acceptance failure may represent a delivered message and is
+never replayed automatically. `DeliveryError` exposes the stage, numeric SMTP
+status, temporary classification, and replay-safety bit while keeping raw
+server text, addresses, credentials, subject, bodies, and attachments out of
+its public error string.
+
+The optional observer is synchronous and receives bounded, payload-free
+attempt metadata. It does not retain observations internally and it never owns
+a logging or telemetry global. Applications can translate it into their chosen
+structured logging, metrics, or tracing implementation.
+
+The transport intentionally supports the stable SMTP subset in Go's
+standard-library `net/smtp`: STARTTLS or implicit TLS, AUTH PLAIN after TLS, and
+ordinary ASCII envelope addresses. SMTPUTF8, custom SASL mechanisms, DSN, and
+automatic ambiguous-delivery replay are not claimed. The dependency and
+security decision is recorded in `docs/dependency-reviews/net-smtp.md`.

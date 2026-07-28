@@ -43,6 +43,9 @@ The repository currently provides:
 - An opt-in go-redis starter with secure URL/TLS/authentication policy,
   deterministic bounded pool ownership, exact cleanup, and a namespaced typed
   JSON cache store verified against a real Redis server.
+- An instance-owned secure SMTP starter with required verified TLS, bounded
+  cancellation/retry, duplicate-safe failure handling, and payload-free
+  observations.
 - Deterministic module-owned migration plans with global version ordering, normalized SHA-256 checksums, registry drift detection, and a concrete PostgreSQL advisory-lock/transaction backend.
 - Immutable generic event topics with exact payload types, deterministic
   subscriber order, cancellation/failure semantics, module-interaction
