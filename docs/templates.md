@@ -39,6 +39,25 @@ err := renderer.Render(
 )
 ```
 
+Generated controllers normally return the declarative closed result instead
+of writing through the renderer themselves:
+
+```go
+func (*Owners) Show(
+    context.Context,
+    ShowOwnerRequest,
+) (view.Result, error) {
+    return view.Render("owner-details", OwnerPage{Owner: owner})
+}
+```
+
+An exact `*view.Renderer` bean makes ownership visible in the ordinary Spice
+dependency graph. The compiler records that provider on each view route, and
+generated Go invokes `Renderer.Respond` directly. `view.SeeOther("/owners/7")`
+provides a safe bodyless 303 form redirect. Relative, cross-origin, scheme,
+network-path, fragment, control-character, and untrimmed destinations are
+rejected.
+
 Missing map keys are errors. Rendering occurs in a private bounded buffer, so
 parse, execution, cancellation, and output-limit failures do not modify the
 response. A successful render sets:

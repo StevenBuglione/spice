@@ -79,7 +79,8 @@ The repository currently provides:
   cookie defaults, and concurrent-use verification.
 - Deterministic server-side HTML templates with contextual escaping, strict
   missing-key execution, duplicate-definition rejection, bounded atomic
-  responses, cancellation, and concurrent rendering.
+  responses, cancellation, concurrent rendering, and generated form/view
+  adapters with immutable binding results and safe local 303 redirects.
 - Immutable transport-neutral mail messages with caller-owned identity and
   time, stable envelope recipients, Bcc-safe deterministic MIME, text/HTML
   alternatives, bounded attachments, defensive copies, and no hidden network
@@ -87,8 +88,8 @@ The repository currently provides:
 - An instance-owned `mail/mailtest` sender with bounded immutable attempts,
   deterministic injected failures, explicit overflow, payload-free
   observations, concurrent inspection, and typed MIME snapshots.
-- A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON decoding, content negotiation, safe scalar binding, and explicit no-content responses.
-- Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux providers, request DTO binding, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
+- A strict HTTP runtime with RFC 9457 problems, secure error mapping, bounded JSON and URL-encoded decoding, JSON/HTML negotiation, safe scalar binding, and explicit no-content responses.
+- Typed controller/route compilation and deterministic generated `net/http` adapters with exact receiver/mux/renderer providers, request DTO and form binding, closed HTML/redirect outcomes, RFC 9457 errors, ServeMux wildcard checks, and raw escape hatches.
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`,
   `generate`, `build`, `run`, last-known-good `dev`, and editor-neutral `lsp`
   commands.

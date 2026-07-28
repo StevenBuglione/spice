@@ -8,10 +8,12 @@ The runtime provides:
 
 - RFC 9457 `Problem` responses and a secure default error mapper;
 - strict, bounded JSON request decoding with unknown-field rejection;
-- JSON `Accept` negotiation;
-- safe path/query/header scalar parsing;
+- strict, bounded URL-encoded form decoding with unknown-field rejection;
+- JSON and HTML `Accept` negotiation;
+- safe path/query/header/form scalar parsing;
+- immutable binding and validation results that never retain rejected values;
 - explicit `NoContent`;
-- JSON, problem, and 204 response writers.
+- JSON, HTML view, redirect, problem, and 204 response writers.
 
 Binding errors retain an internal parser/decoder cause for server logs but
 never retain or render the raw client value. Unknown application errors map to
@@ -22,6 +24,13 @@ JSON request bodies must use `application/json` or a `+json` media type, contain
 exactly one value, fit the configured positive byte limit, match the generated
 request shape, and contain no unknown object fields. The default body limit is
 1 MiB.
+
+URL-encoded forms must use
+`application/x-www-form-urlencoded`, optionally with the UTF-8 charset. They
+share the configured request-body bound. Repeated scalar values and unknown
+fields fail closed. Generated form adapters collect those safe failures in
+`web.BindingResult` and still invoke the controller so it can re-render the
+form. Parser causes and submitted values are not retained in that result.
 
 Generated adapters own routing, DTO construction, controller invocation,
 response status selection, and error-handler calls. Applications remain free to
@@ -92,7 +101,8 @@ The ordinary exact typed signature is
 `func(context.Context, data.Executor, RequestDTO) (Response, error)` so its
 transaction-owned executor remains visible; see [`data.md`](data.md). Request
 DTOs are exported named struct values. Every exported field declares exactly
-one `path`, `query`, `header`, or `body` tag, or opts out with `web:"-"`.
+one `path`, `query`, `header`, `body`, or `form` tag, or opts out with
+`web:"-"`.
 Query and header tags may add `,required`; path values and the single JSON body
 are always required. Supported scalar bindings are strings, Booleans, signed
 integers, and `time.Duration`, including exported named forms.
@@ -108,6 +118,44 @@ The compiler rejects pointer receivers and lookalike signatures. Explicit
 `ProblemCarrier` errors retain their response policy; ordinary validator errors
 produce a safe 400 response without exposing their text. Validation always
 runs before the controller method.
+
+Server-rendered form routes make their error flow explicit:
+
+```go
+type SaveOwnerRequest struct {
+    ID        int    `path:"id"`
+    FirstName string `form:"firstName,required"`
+    Age       int    `form:"age,required"`
+}
+
+// @Post("/{id}")
+func (*Owners) Save(
+    ctx context.Context,
+    request SaveOwnerRequest,
+    binding web.BindingResult,
+) (view.Result, error) {
+    if !binding.Valid() {
+        return view.Render("owner-form", OwnerPage{
+            Owner: request,
+            Errors: binding.Errors(),
+        })
+    }
+    return view.SeeOther("/owners/" + strconv.Itoa(request.ID))
+}
+```
+
+`web.BindingResult` is legal only immediately after a request DTO containing
+at least one `form` field. Transactional form routes place
+`data.Executor` before the DTO. A form route must return exact `view.Result`,
+and every target containing a view route must provide exactly one
+`*view.Renderer` bean. The generated adapter calls that bean directly; there is
+no global renderer or runtime lookup.
+
+`view.Result` is a closed validated value: `view.Render` and
+`view.RenderStatus` select a known template outcome, while `view.SeeOther`
+selects a bodyless 303 to a safe local absolute path. HTML negotiation happens
+before binding. Rendering remains atomic within the renderer's configured
+bound.
 
 Only simple full-segment `{name}` path wildcards are supported. The compiler
 rejects missing/extra wildcard fields, duplicate bindings, duplicate routes,
@@ -131,7 +179,8 @@ Every target with controllers emits a deterministic OpenAPI 3.1 document at
 `internal/spicegen/<target>/openapi.json` for both package-main and compatible
 legacy targets. Typed operations
 include path, query, and header parameters; JSON request bodies; JSON or 204
-success responses; and the shared RFC 9457 problem schema. Component schemas
+success responses; URL-encoded form request bodies; HTML and 303 view
+outcomes; and the shared RFC 9457 problem schema. Component schemas
 preserve JSON field names, omission rules, arrays, maps, pointers, recursive
 references, `time.Time`, and `time.Duration`.
 

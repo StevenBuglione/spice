@@ -121,6 +121,8 @@ const (
 	LocationHeader Location = "header"
 	// LocationBody identifies the request body.
 	LocationBody Location = "body"
+	// LocationForm identifies a URL-encoded form field.
+	LocationForm Location = "form"
 	// LocationRequest identifies whole-request typed validation.
 	LocationRequest Location = "request"
 )
