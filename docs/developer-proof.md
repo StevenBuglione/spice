@@ -71,10 +71,12 @@ The receipt response reports a stable message ID, `transport: "test"`,
 `accepted: true`, and the attachment filename. The decoded test-transport
 acceptance test additionally verifies the exact envelope, subject, text body,
 and attachment bytes. The generated application code in
-`examples/commerce/zz_spice_gen.go` visibly contains direct constructors,
-explicit interface assignments, authorization policies, transaction
-ownership, repository calls, and route adapters; there is no reflection or
-runtime container.
+`internal/spicegen/commerce/zz_spice_gen.go` visibly contains direct
+constructors, explicit interface assignments, authorization policies,
+transaction ownership, repository calls, and route adapters. Narrow
+`*_commerce_spice_gen.go` files beside implementations contain compiler-owned
+interface assertions, and the command bridge contains no wiring. There is no
+reflection or runtime container.
 
 Run the single-process executable proof directly:
 

@@ -12,22 +12,23 @@ import (
 //
 // Every argument is a typed Go interface expression resolved against the
 // annotation's physical source file. Spice verifies the factory's exact result
-// type and requires the equivalent ordinary Go compile-time assertion. The
-// annotation never performs implicit assignability scanning: concrete
-// injection uses the exact result type, while interface injection sees only
-// explicit Implements bindings or factories that return the interface exactly.
+// type in the compiler's shared go/types universe and emits the equivalent Go
+// compile-time assertion in a manifest-owned source shard. The annotation never
+// performs implicit assignability scanning: concrete injection uses the exact
+// result type, while interface injection sees only explicit Implements bindings
+// or factories that return the interface exactly.
 //
 //	// @import { Implements, Service } from "github.com/StevenBuglione/spice/annotation/core"
+//	// @import * as payments from "example.com/commerce/payments"
+//	// @import * as health from "example.com/commerce/health"
 //	// @Service
 //	// @Implements(payments.Processor, health.Checker)
 //	type StripeProcessor struct{}
 //
-//	var _ payments.Processor = (*StripeProcessor)(nil)
-//	var _ health.Checker = (*StripeProcessor)(nil)
-//
-// Generated code calls the bean constructor directly and relies on normal Go
-// assignment to the interface parameter. No reflection, string lookup, global
-// client, or runtime package scan is introduced.
+// Generated code owns both compile-time assertions, calls the bean constructor
+// directly, and relies on normal Go assignment to the interface parameter. No
+// reflection, string lookup, global client, or runtime package scan is
+// introduced.
 func Implements() sdk.Definition {
 	return sdk.Definition{
 		Name:    "core.Implements",
@@ -44,7 +45,7 @@ func Implements() sdk.Definition {
 		}},
 		Examples: []sdk.Example{{
 			Title: "Concrete service implementing two interfaces",
-			Code:  "// @Service\n// @Implements(payments.Processor, health.Checker)\ntype StripeProcessor struct{}\n\nvar _ payments.Processor = (*StripeProcessor)(nil)\nvar _ health.Checker = (*StripeProcessor)(nil)",
+			Code:  "// @import * as payments from \"example.com/commerce/payments\"\n// @import * as health from \"example.com/commerce/health\"\n// @Service\n// @Implements(payments.Processor, health.Checker)\ntype StripeProcessor struct{}",
 		}},
 		Compatibility: sdk.Compatibility{
 			Since:        "0.2.0",

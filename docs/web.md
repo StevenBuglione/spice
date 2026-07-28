@@ -128,8 +128,8 @@ generated Spice binding and RFC 9457 policy.
 ## OpenAPI
 
 Every target with controllers emits a deterministic OpenAPI 3.1 document at
-`openapi.json` beside the preferred annotated `main.go`; compatible legacy
-targets retain `internal/spicegen/<target>/openapi.json`. Typed operations
+`internal/spicegen/<target>/openapi.json` for both package-main and compatible
+legacy targets. Typed operations
 include path, query, and header parameters; JSON request bodies; JSON or 204
 success responses; and the shared RFC 9457 problem schema. Component schemas
 preserve JSON field names, omission rules, arrays, maps, pointers, recursive

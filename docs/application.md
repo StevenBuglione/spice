@@ -84,14 +84,25 @@ process.
 The preferred target owns:
 
 ```text
-<command-directory>/zz_spice_gen.go
-<command-directory>/openapi.json   # when controllers exist
+internal/spicegen/<target>/zz_spice_gen.go
+internal/spicegen/<target>/openapi.json   # when controllers exist
+<command-directory>/zz_spice_bridge_gen.go
+<source-directory>/<source>_<target>_spice_gen.go  # source-owned checks
 .spice/<target>.manifest.json
 ```
 
-The manifest records `application-package` layout and exact SHA-256 ownership.
-Generation preserves unchanged files, refuses manual edits and unowned
-collisions, and supports read-only check and bounded diff modes.
+The full wiring lives in an importable generated package. The command bridge
+contains only aliases and the `spiceMain` call required by handwritten
+`main.go`. Source shards contain narrow compile-time contracts such as
+`@Implements` assertions in the package that owns the annotated declaration.
+They do not duplicate application wiring.
+
+The manifest records each file's role, source declaration origins, and exact
+SHA-256 ownership. Generation preserves unchanged files, refuses manual edits
+and unowned collisions, and supports read-only check and bounded diff modes.
+Generated files have standard Go source positions and direct calls into
+handwritten functions, so stepping from wiring into user code uses the normal
+Go debugger.
 
 Generated source is excluded only from regeneration analysis with the reserved
 `spice_generate` build tag. When the generated bridge is missing or stale, the
@@ -107,10 +118,12 @@ bounded shutdown context and returns zero for success, one for runtime failure,
 or two for invalid command usage.
 
 The generated `NewApplication`, `NewApplicationWithOptions`, `Start`, `Stop`,
-`Run`, and `RunCommand` seams remain available to same-package tests and
-embedded policies. They accept caller-owned contexts, sources, observers,
-middleware, writers, loggers, and shutdown policy. Reusable application APIs
-never capture process signals.
+`Run`, `Components`, and `RunCommand` seams are re-exported by the bridge for
+same-package tests and embedded policies. `Components` is a generated typed
+snapshot of singleton beans, not a reflection container or string lookup.
+They accept caller-owned contexts, sources, observers, middleware, writers,
+loggers, and shutdown policy. Reusable application APIs never capture process
+signals.
 
 ## Legacy marker compatibility
 
@@ -122,7 +135,7 @@ provider roots as parameters:
 func Commerce(*platform.Server, *orders.Service) {}
 ```
 
-Legacy markers retain `internal/spicegen/<target>`. When migrating the same
-target to annotated `main.go`, guarded generation can move schema-1 legacy
-ownership only if every old generated file is unchanged. Manual edits fail
-closed.
+Legacy parameter-root markers also retain `internal/spicegen/<target>` but do
+not need a package-main bridge. When migrating ownership, guarded generation
+only removes or replaces files whose manifest hash still matches. Manual edits
+fail closed.

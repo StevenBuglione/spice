@@ -292,10 +292,12 @@ construction form; generation emits only direct calls or allocation.
 Concrete providers are never projected to interfaces by scanning method sets.
 `@Implements(pkg.Interface)` explicitly adds a named interface candidate after
 the compiler resolves the type expression in the annotation file, verifies
-the exact pointer/value method set, and finds the corresponding ordinary Go
-compile-time assertion. A factory returning an interface already supplies that
-exact interface and needs no binding. Graph selection uses live `go/types`
-identity for exact outputs and explicit bindings, reports missing or ambiguous
+the exact pointer/value method set, and plans a source-owned generated Go
+compile-time assertion. Namespace `@import` declarations can name any package
+in the loaded Go module graph for these type expressions; GoLand's own index is
+never a DI input. A factory returning an interface already supplies that exact
+interface and needs no binding. Graph selection uses live `go/types` identity
+for exact outputs and explicit bindings, reports missing or ambiguous
 candidates deterministically, and passes concrete variables directly to
 interface constructor parameters in generated Go. There is no reflection,
 runtime service locator, string-based type lookup, or implicit package scan.

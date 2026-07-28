@@ -21,16 +21,19 @@ editor-neutral `spice lsp` compiler service:
 - exact multi-range PSI references on annotation invocations, import paths,
   imported symbols, aliases, namespaces, and already-authored Go interface
   operands provide modifier-hover underlining, `Ctrl`/`Cmd`-click, and
-  **Go to Declaration or Usages** navigation;
+  **Go to Declaration or Usages** navigation; interface operands use the
+  shared compiler while the LSP is healthy and namespace-import-aware local PSI
+  resolution while it restarts;
 - `@Implements` completion comes only from the shared Spice compiler's loaded
-  Go type universe. Accepting a named interface can atomically insert its
-  ordinary Go import and compiler-derived assertion. The plugin never scans
-  GoLand's type index to invent DI candidates;
+  Go type universe. Accepting a named interface can atomically insert a
+  namespace `@import` for any package in the Go module graph. The plugin never
+  scans GoLand's type index to invent DI candidates or writes generated
+  assertions into handwritten source;
 - `Alt+Enter` on an authored `@Implements` offers native GoLand method
   generation, including generic/embedded methods and the compiler-selected
-  pointer/value receiver, plus an offline-safe ordinary assertion action. These
-  actions author inspectable Go; only the Spice compiler validates the binding
-  and makes it selectable for injection;
+  pointer/value receiver. This action authors inspectable Go methods; only the
+  Spice compiler validates the binding, generates its compile assertion, and
+  makes it selectable for injection;
 - annotation lines carry a native gutter marker whose tooltip names the exact
   descriptor package and symbol, module version/replacement, authorized tool,
   handler, and protocol, and whose navigation target is that real Go
@@ -166,10 +169,10 @@ clean pinned GoLand profile through JetBrains Starter/Driver, and then:
 16. rejects both raw and commented Spice applications presented to GoLand's
     temporary single-file runner before any `gocommand-*` source is created;
 17. completes `@Implements` from the compiler-owned interface catalog, verifies
-    the exact Go import and assertion edits, invokes native missing-method
-    generation with a pointer receiver and inspectable body, and applies the
-    separate assertion action while every annotation remains a physical
-    comment;
+    the exact namespace import, invokes native missing-method generation with a
+    pointer receiver and inspectable body, runs Spice generation, and verifies
+    the source-owned generated assertion while handwritten annotations remain
+    physical comments;
 18. packages the plugin, validates its structure/configuration, and runs the
     JetBrains binary/API verifier.
 

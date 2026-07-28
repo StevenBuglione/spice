@@ -107,8 +107,9 @@ Windows/Linux verification matrix. The executable commerce slice now
 The constructor graph now treats `@Service`, `@Controller`, and `@Repository`
 as constructible beans and records deterministic constructor discovery in the
 immutable IR. `@Implements` resolves named and instantiated generic Go
-interfaces, validates exact pointer/value method sets, requires ordinary Go
-assertions, and exposes only those explicit bindings to dependency selection.
+interfaces from any package in the loaded module graph, validates exact
+pointer/value method sets, generates source-owned Go assertions, and exposes
+only those explicit bindings to dependency selection.
 Commerce proves concrete payment construction with interface injection and
 inspectable direct-call generated Go. The graph now also provides explicit
 bean names and aliases, repeatable qualifiers, primary/fallback selection,
@@ -117,11 +118,17 @@ singleton/prototype/request/session cleanup ownership without reflection or a
 runtime locator. Commerce proves qualifier/primary selection against a
 separate fallback implementation. The shared compiler now owns the complete
 named runtime-interface catalog used for `@Implements` authoring; LSP
-completion inserts exact Go imports and assertions without consulting an IDE
-index. The packaged GoLand workflow proves native generic-aware Implement
-Methods generation, pointer receiver selection, assertion authoring, and valid
-physical source. The next developer-proof slice is the independent
-third-party SDK/tool and complete commerce workflow.
+completion inserts namespace imports without consulting an IDE index, and the
+renderer owns source-shard assertions. The packaged GoLand workflow proves
+native generic-aware Implement Methods generation, pointer receiver selection,
+namespace-aware navigation, and valid physical source. The next
+developer-proof slice is the independent
+third-party SDK/tool and complete commerce workflow. Package-main generation
+now separates full wiring under `internal/spicegen/<target>`, a tiny command
+bridge, and source-owned assertion shards; its manifest records roles and
+source origins. Generated applications expose typed singleton `Components`,
+and `spicetest.Context` plus `annotation/sdk/sdktest` provide lifecycle and
+third-party handler test harnesses without reflection or compiler imports.
 
 ## M0 — Product and compiler proof
 

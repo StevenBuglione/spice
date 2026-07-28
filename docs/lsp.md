@@ -91,6 +91,13 @@ replacement source. Unknown annotations and `@` text in strings or ordinary
 comments never become links. Unimported annotations fail closed and do not
 receive synthetic documentation or navigation targets.
 
+For an SDK argument with `ValueDomainGoInterface`, completion and navigation
+use the same loaded Go type universe as dependency validation. An interface
+from any package in the module graph receives a namespace `@import`; definition
+and hover resolve the operand to the real Go interface declaration and method
+set. This path does not depend on the editor's Go index, and it never inserts an
+ordinary import used only by an annotation or a handwritten assertion.
+
 Code actions come from `compiler/diagnostic.SuggestedFix`. The server returns an
 action only when every edit names an open document, carries the exact current
 document version, and intersects the requested range. The first available fix

@@ -180,9 +180,11 @@ hooks must be exported and declared in importable application-module packages,
 not the process-only `main` shell.
 
 Exact concrete outputs remain exact-type candidates. A concrete output becomes
-an interface candidate only through typed `@Implements(pkg.Interface)` plus
-the corresponding ordinary Go compile-time assertion; a factory that returns
-the interface exactly needs no adapter annotation. Qualifiers,
+an interface candidate only through typed `@Implements(pkg.Interface)`.
+Namespace `@import` can bind the interface's package even when it contains no
+Spice descriptors. The shared typed compiler verifies the exact method set and
+generation emits the corresponding source-owned Go compile-time assertion; a
+factory that returns the interface exactly needs no adapter annotation. Qualifiers,
 `@Primary`/`@Fallback`, bean names and aliases resolve single values
 deterministically. Slices and maps receive every matching bean in stable
 `@Order`, name, and source order. `bean.Optional[T]`, `bean.Lazy[T]`, and

@@ -13,8 +13,8 @@ import (
 // constructor symbol, New<Type>, the unambiguous package New function, or
 // generated new(T). Dependencies remain constructor parameters and generated
 // code calls the selected constructor directly. No reflection or service
-// locator is used. Use @Implements plus a normal Go compile-time assertion to
-// expose the concrete result through an interface.
+// locator is used. Use @Implements to expose the concrete result through an
+// interface; Spice verifies it with a generated Go compile-time assertion.
 //
 //	// @import { Service } from "github.com/StevenBuglione/spice/annotation/core"
 //	// @Service(constructor=NewOrders)

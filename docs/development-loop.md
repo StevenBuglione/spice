@@ -75,8 +75,8 @@ Defaults ignore:
   build output;
 - temporary editor files;
 - `.spice` build/dev artifacts;
-- generated `zz_spice_gen.go`, generated `openapi.json`, ownership manifests,
-  and legacy `internal/spicegen` output.
+- all `*_spice_gen.go` source shards, the generated command bridge, generated
+  OpenAPI, ownership manifests, and `internal/spicegen` output.
 
 Paths are normalized to workspace-relative slash form. Unsafe absolute or
 parent-traversing include/exclude patterns fail before watching starts.

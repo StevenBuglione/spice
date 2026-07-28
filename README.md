@@ -162,19 +162,20 @@ real editor navigation, provider semantics, and inspectable generated Go.
 
 Spice never treats general Go assignability as dependency discovery. A
 concrete result becomes an interface candidate only through `@Implements` and
-its ordinary Go compile-time assertion, while a factory returning the exact
-interface type is already an interface bean.
+the compiler's exact `go/types` verification, while a factory returning the
+exact interface type is already an interface bean. Spice writes the matching
+Go compile-time assertion into a manifest-owned source shard beside the
+implementation; handwritten source stays focused on behavior.
 
 ```go
 // @import { Implements, Primary, Qualifier, Service } from "github.com/StevenBuglione/spice/annotation/core"
+// @import * as payments from "example.com/commerce/payments"
 
 // @Service(name="stripeProcessor", aliases=["payments"])
 // @Implements(payments.Processor)
 // @Qualifier("stripe")
 // @Primary
 type StripeProcessor struct{}
-
-var _ payments.Processor = (*StripeProcessor)(nil)
 
 func NewCheckout(
 	// @Qualifier("stripe")
@@ -252,8 +253,9 @@ startup and failures, owns `SIGINT`/`SIGTERM`, and creates a fresh bounded
 shutdown context. `spice.shutdown-timeout` defaults to `10s` and can be set
 with `SPICE_SHUTDOWN_TIMEOUT`.
 
-Controller targets also own `openapi.json` beside the annotated command;
-generation check/diff verifies it alongside the generated application.
+Controller targets also own `openapi.json` in the internal generated package;
+generation check/diff verifies it alongside the command bridge and generated
+application.
 
 Production services opt into only the management routes they intend to expose
 with `@management.Enable(expose=[...])`. The endpoint allowlist is exact and
@@ -372,9 +374,10 @@ Use `--target Name`, the command import path, or the stable marker symbol ID
 when the selected packages contain multiple application markers. Positional Go
 package patterns provide explicit compile-time scope in a multi-application
 monorepo; an ordinary single-application module needs no dummy imports or
-module list. Preferred package-main generation writes manifest-owned files
-beside `main.go` and `.spice/<target>.manifest.json`. Legacy marker targets
-retain `internal/spicegen/<target>` during the pre-1.0 compatibility period.
+module list. Package-main generation writes the full application into
+`internal/spicegen/<target>`, a tiny API/entrypoint bridge beside `main.go`,
+and only source-owned compile checks beside annotated implementations. Every
+file and its source origins are recorded in `.spice/<target>.manifest.json`.
 
 To start the example HTTP server:
 
@@ -394,15 +397,18 @@ codes, and fresh bounded shutdown. Its generated application also owns the
 fixed-delay audit and exposes a typed, bounded asynchronous inventory
 verification method that drains before provider cleanup. The generated
 `Application` itself never captures process signals. Generated source and
-OpenAPI are committed as `examples/commerce/zz_spice_gen.go` and
-`examples/commerce/openapi.json`; the matching ownership manifest is
-`.spice/commerce.manifest.json`.
+OpenAPI are committed under `internal/spicegen/commerce`; the command bridge is
+`examples/commerce/zz_spice_bridge_gen.go`, and source-owned interface checks
+use `*_commerce_spice_gen.go` beside their implementations. The matching
+ownership manifest is `.spice/commerce.manifest.json`.
 
 For embedding and specialized policies, the generated application retains
 `NewApplication`, `NewApplicationWithOptions`, `Application.Start`,
-`Application.Stop`, `Application.Run`, and `RunCommand`. These seams support
-caller-owned contexts, signals, configuration sources, middleware, error
-mapping, lifecycle/HTTP observers, writers, loggers, and shutdown timing.
+`Application.Stop`, `Application.Run`, `Application.Components`, and
+`RunCommand`. `Components` is a typed singleton snapshot for tests and
+embedding—not a runtime lookup container. These seams support caller-owned
+contexts, signals, configuration sources, middleware, error mapping,
+lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 
 ## Repository map
 

@@ -1,24 +1,108 @@
 {
-  "schema": 2,
+  "schema": 3,
   "target": {
     "id": "commerce",
     "layout": "application-package",
     "module": "github.com/StevenBuglione/spice",
-    "package": "github.com/StevenBuglione/spice/examples/commerce",
-    "output_dir": "examples/commerce",
+    "package": "github.com/StevenBuglione/spice/internal/spicegen/commerce",
+    "entrypoint_package": "github.com/StevenBuglione/spice/examples/commerce",
+    "output_dir": "internal/spicegen/commerce",
+    "bridge_dir": "examples/commerce",
     "manifest_path": ".spice/commerce.manifest.json"
   },
   "generator_version": "0.1.0-dev",
   "go_format_line": "1.26",
-  "input_sha256": "sha256:cc79236985df2072783c5a39b344d1ff8fc084544ad88b1ead9d9ff420067979",
+  "input_sha256": "sha256:9186ad5f5fe15f3077239de5586f6eb808d292bd6b398c88dbab0052232bdb25",
   "files": [
     {
-      "path": "examples/commerce/openapi.json",
-      "sha256": "sha256:b1e6741553dadb484dc5e66521916b95cf7cc357d018dabd2af7226d746112ba"
+      "path": "examples/commerce/notifications/notifications_commerce_spice_gen.go",
+      "sha256": "sha256:6ee9cc8aede28b3ff0321ac63fb3fedd60a31626e5ebd3540b954fed08b8b5df",
+      "role": "source-shard",
+      "sources": [
+        {
+          "path": "examples/commerce/notifications/notifications.go",
+          "line": 62,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/commerce/notifications|0:|11:SystemClock"
+        },
+        {
+          "path": "examples/commerce/notifications/notifications.go",
+          "line": 80,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/commerce/notifications|0:|8:Delivery"
+        }
+      ]
     },
     {
-      "path": "examples/commerce/zz_spice_gen.go",
-      "sha256": "sha256:4435962c17e1be2331742ef24d8c2279922b0e936918fbea09d5f60f65b86d87"
+      "path": "examples/commerce/payments/payments_commerce_spice_gen.go",
+      "sha256": "sha256:4d13ea5c25ff8e086aea77fb1ba1bdfaa0756f7299f3f3c8ff0b2dc38747e99e",
+      "role": "source-shard",
+      "sources": [
+        {
+          "path": "examples/commerce/payments/payments.go",
+          "line": 49,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|58:github.com/StevenBuglione/spice/examples/commerce/payments|0:|7:Service"
+        },
+        {
+          "path": "examples/commerce/payments/payments.go",
+          "line": 63,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|58:github.com/StevenBuglione/spice/examples/commerce/payments|0:|16:OfflineProcessor"
+        }
+      ]
+    },
+    {
+      "path": "examples/commerce/storage/storage_commerce_spice_gen.go",
+      "sha256": "sha256:97a394b9eecdbcb98b01bf887e26921072788284e084d88e8f191016cbf38ed0",
+      "role": "source-shard",
+      "sources": [
+        {
+          "path": "examples/commerce/storage/storage.go",
+          "line": 212,
+          "column": 4,
+          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/commerce/storage|0:|15:OrderRepository"
+        }
+      ]
+    },
+    {
+      "path": "examples/commerce/zz_spice_bridge_gen.go",
+      "sha256": "sha256:fa7cf9e6ebd083c036124537a5378f843754d6f6872fe5e70bd4de535d4b53ce",
+      "role": "command-bridge",
+      "sources": [
+        {
+          "path": "examples/commerce/main.go",
+          "line": 11,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/commerce/openapi.json",
+      "sha256": "sha256:b1e6741553dadb484dc5e66521916b95cf7cc357d018dabd2af7226d746112ba",
+      "role": "artifact",
+      "sources": [
+        {
+          "path": "examples/commerce/main.go",
+          "line": 11,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/commerce/zz_spice_gen.go",
+      "sha256": "sha256:0c41dc022709f08b6e6d42f45b952f7e700f1b1ea70953aa03ef8d913e0ddec1",
+      "role": "application",
+      "sources": [
+        {
+          "path": "examples/commerce/main.go",
+          "line": 11,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
+        }
+      ]
     }
   ]
 }

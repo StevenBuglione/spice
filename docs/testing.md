@@ -42,6 +42,56 @@ focused graph exits with status 0.
 
 This command is the Modulith-style package test slice.
 
+## Generated application context
+
+`spicetest.NewContext` owns construction, optional startup, and bounded
+idempotent shutdown while preserving the concrete generated application type:
+
+```go
+testContext, err := spicetest.NewContext(
+    context.Background(),
+    func(ctx context.Context) (*commerce.Application, error) {
+        return commerce.NewApplicationWithOptions(
+            ctx,
+            commerce.ApplicationOptions{
+                Sources: []config.Source{testConfiguration},
+                Logger:  slog.New(slog.DiscardHandler),
+            },
+        )
+    },
+    spicetest.ContextOptions{ShutdownTimeout: time.Second},
+)
+if err != nil {
+    t.Fatal(err)
+}
+t.Cleanup(func() {
+    if err := testContext.Close(); err != nil {
+        t.Error(err)
+    }
+})
+
+processor := testContext.Application().Components().StripeProcessor
+```
+
+Lifecycle hooks start by default. `SkipStart` retains the constructed state for
+focused slices that must not open production listeners. Startup and shutdown
+timeouts are finite and validated; cancellation and factory failures preserve
+their causes, and a factory that returns a constructed application with an
+error is stopped using a fresh bounded context.
+
+The generated `Components` value is a compile-time typed snapshot of
+constructed singleton beans. It is intended for tests and explicit embedding;
+it performs no string lookup, reflection, replacement, package scan, or hidden
+construction. Prototype/request/session beans remain available only through
+their generated typed scope owners.
+
+Annotation authors use `annotation/sdk/sdktest.RunHandlerCases` for the other
+side of the extension boundary. The public-only harness validates descriptor
+metadata, allowed targets, typed contributions, diagnostics, cancellation,
+timeouts, and deterministic repeated results. The independent annotation
+fixture module uses this harness, proving that it does not depend on compiler
+internals.
+
 ## Generated HTTP application slice
 
 `spicetest.NewHTTP` constructs an actual generated application through a typed
