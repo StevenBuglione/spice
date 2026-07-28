@@ -113,6 +113,10 @@ The repository currently provides:
   and idempotent lifecycle cleanup, plus transaction-scoped generic SQL
   subjects that always roll back.
 - A committed generated HTTP application with real provider, lifecycle, route, and graceful-drain tests.
+- An independent, consumer-owned Spring Petclinic port whose `go.mod`
+  authorizes the annotation tool and whose generated source, manifest, vendor
+  tree, tests, and executable workflow are verified outside the framework
+  module.
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
 - Product, architecture, annotation, and Spring-coverage documents.
 

@@ -5,7 +5,8 @@ without changing the quality requirements.
 
 Use `make check` while editing. It verifies the exact Go toolchain, formatting,
 module tidiness, vet, the allowlisted linter and NilAway policy, and ordinary
-compilation of every package and test. Run the feature package's focused tests
+compilation of every package and test in both the framework module and the
+independent Petclinic consumer module. Run the feature package's focused tests
 alongside it while editing; `make verify` remains responsible for executing
 the complete repository suite. Warm runs reuse Go's build and test cache.
 
@@ -20,8 +21,11 @@ runs when editor, compiler/LSP, annotation SDK, Go module/vendor, or commerce
 UI-fixture inputs changed. Broad Go compilation stages then run sequentially
 to reuse build caches; measurements showed that running race, coverage, fuzz,
 and offline builds together oversubscribes the Go compiler and increases wall
-time. Every applicable stage remains mandatory. Stage start and completion
-lines include durations so regressions are visible.
+time. The Petclinic consumer module is independently linted, vetted,
+security-scanned, shuffled/race tested, coverage exercised, and tested from its
+own vendor tree. Its generated target is also verified and executed using a
+repository-built Spice binary. Every applicable stage remains mandatory. Stage
+start and completion lines include durations so regressions are visible.
 
 Use `make verify-release` for release automation and explicit release
 ceremonies. It always includes installed GoLand verification regardless of

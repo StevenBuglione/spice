@@ -4,7 +4,7 @@
 
 package main
 
-import spicegen "github.com/StevenBuglione/spice/internal/spicegen/petclinic"
+import spicegen "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic"
 
 const (
 	TargetID    = spicegen.TargetID

@@ -11,6 +11,14 @@ application as idiomatic Go with explicit Spice annotations and inspectable
 generated code. Production source follows one named type per file so
 navigation and debugging remain direct.
 
+Petclinic is a real consuming Go module rather than a package inside the
+framework module. Its own `go.mod` authorizes the Spice annotation tool, uses a
+local `replace` only while this repository is under development, and owns its
+generated source, ownership manifest, and compact vendor tree. The repository
+quality gate verifies this module independently, including shuffled/race tests,
+security analysis, vendor-only tests, generation freshness, and an executable
+application check.
+
 Implemented foundations:
 
 - owners, pets, visits, pet types, veterinarians, and specialties;
@@ -52,6 +60,8 @@ Current application routes:
 Generate and exercise the current target:
 
 ```text
-go run ./cmd/spice generate --check --target Petclinic ./examples/petclinic/...
-go run ./cmd/spice run --target Petclinic ./examples/petclinic/... -- -check
+go build -trimpath -o ./bin/spice ./cmd/spice
+cd examples/petclinic
+../../bin/spice generate --check --target Petclinic ./...
+../../bin/spice run --target Petclinic ./... -- -check
 ```

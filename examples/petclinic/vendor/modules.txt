@@ -1,0 +1,28 @@
+# github.com/StevenBuglione/spice v0.0.0 => ../..
+## explicit; go 1.26.0
+github.com/StevenBuglione/spice/annotation
+github.com/StevenBuglione/spice/annotation/async
+github.com/StevenBuglione/spice/annotation/cache
+github.com/StevenBuglione/spice/annotation/core
+github.com/StevenBuglione/spice/annotation/coretool
+github.com/StevenBuglione/spice/annotation/data
+github.com/StevenBuglione/spice/annotation/event
+github.com/StevenBuglione/spice/annotation/lifecycle
+github.com/StevenBuglione/spice/annotation/management
+github.com/StevenBuglione/spice/annotation/modulith
+github.com/StevenBuglione/spice/annotation/observability
+github.com/StevenBuglione/spice/annotation/schedule
+github.com/StevenBuglione/spice/annotation/sdk
+github.com/StevenBuglione/spice/annotation/sdk/protocol
+github.com/StevenBuglione/spice/annotation/security
+github.com/StevenBuglione/spice/annotation/web
+github.com/StevenBuglione/spice/cmd/spice-annotation-core
+github.com/StevenBuglione/spice/config
+github.com/StevenBuglione/spice/internal/annotationcore
+github.com/StevenBuglione/spice/lifecycle
+github.com/StevenBuglione/spice/management
+github.com/StevenBuglione/spice/observability
+github.com/StevenBuglione/spice/validation
+github.com/StevenBuglione/spice/view
+github.com/StevenBuglione/spice/web
+# github.com/StevenBuglione/spice => ../..
