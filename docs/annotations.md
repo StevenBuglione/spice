@@ -30,9 +30,10 @@ New source may explicitly bind descriptor symbols per file:
 
 Named bindings permit clean `@Application` and `@Controller` spellings.
 Aliases permit `@GET`; namespace bindings permit visibly sourced
-`@web.Controller`. Imports apply to the entire file. Once a file contains an
-annotation import, every annotation in that file must be imported explicitly.
-There is no implicit fallback registry for that file.
+`@web.Controller`. Imports apply to the entire file. Every annotation in every
+file must resolve through a named or namespace import in that same file. There
+is no implicit built-in registry, package-level carryover, or name-based
+fallback.
 
 `@import` is the only import directive. The earlier `@spice.import` spelling is
 not accepted as an alias: analysis reports
@@ -41,10 +42,9 @@ clients receive a version-checked quick fix replacing exactly that token with
 `@import`. The surrounding bindings, aliases, package path, comments, and
 physical `// ` prefix are preserved.
 
-Files without imports retain the pre-1.0 built-in spelling compatibility path
-while the built-ins and commerce application migrate. See
-[`annotation-sdk.md`](annotation-sdk.md) for the static descriptor contract and
-offline module behavior.
+A file with an annotation but no matching import fails at the annotation
+position. See [`annotation-sdk.md`](annotation-sdk.md) for the static
+descriptor contract and offline module behavior.
 
 ## Arguments
 
@@ -179,7 +179,18 @@ application remains a separate explicit command layer. Providers and lifecycle
 hooks must be exported and declared in importable application-module packages,
 not the process-only `main` shell.
 
-Exact output types must have one provider; Spice rejects duplicates rather than choosing by declaration order or implicit interface assignability. Interface bindings, qualifiers, scopes, optional values, groups, and collection injection remain explicit future capabilities.
+Exact concrete outputs remain exact-type candidates. A concrete output becomes
+an interface candidate only through typed `@Implements(pkg.Interface)` plus
+the corresponding ordinary Go compile-time assertion; a factory that returns
+the interface exactly needs no adapter annotation. Qualifiers,
+`@Primary`/`@Fallback`, bean names and aliases resolve single values
+deterministically. Slices and maps receive every matching bean in stable
+`@Order`, name, and source order. `bean.Optional[T]`, `bean.Lazy[T]`, and
+`bean.Provider[T]` make absence, deferred resolution, and caller-owned
+prototype cleanup explicit. Singleton, prototype, request, and session scopes
+retain distinct generated cleanup ownership. See
+[`compiler.md`](compiler.md#typed-provider-catalog) for the
+complete selection contract.
 
 ## Lifecycle hook metadata
 

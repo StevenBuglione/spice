@@ -27,13 +27,11 @@ choose a local spelling. Namespace imports retain visible provenance where two
 starters expose similar concepts.
 
 Imports apply to the complete file regardless of their textual order. A file
-that declares at least one annotation import is fail-closed: every annotation
-in that file must resolve through a named or namespace binding. Duplicate local
-names, malformed paths, private descriptor symbols, and missing descriptor
-source are source-positioned errors. Files with no import declaration retain
-the pre-1.0 built-in spelling compatibility path. New application code should
-use explicit imports; the compatibility path has no third-party resolution and
-is scheduled for removal before 1.0.
+is fail-closed: every annotation must resolve through a named or namespace
+binding declared in that same file. Duplicate local names, malformed paths,
+private descriptor symbols, missing imports, and missing descriptor source are
+source-positioned errors. No built-in annotation registry or name-based
+semantic fallback participates in product analysis.
 
 The physical source always contains `// `. GoLand concealment is presentation
 only, so `gofmt`, Go Run, debuggers, Git, and copied text operate on valid Go.

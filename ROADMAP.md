@@ -78,26 +78,29 @@ read-only list/doctor commands are now present. The complete typed contribution
 union is validated on both sides of the protocol, every official annotation
 has a one-file descriptor and external core-tool handler, commerce uses
 explicit imports, and verify/generate/build/run/dev/LSP share the tool-aware
-compiler service. The legacy registry remains only as a pre-1.0 compatibility
-path for files without explicit imports. Descriptor-backed LSP/GoLand
-completion, documentation, definition, and implementation navigation are now
-available. The retired `@spice.import` spelling produces an exact shared
-diagnostic and versioned replacement and is neither resolved nor concealed. A
-separate fixture module now proves public-SDK-only descriptors and
+compiler service. Annotation semantics now fail closed: every invocation must
+resolve through an explicit file-scoped import to a statically decoded
+descriptor and a validated typed tool contribution. No product path consults a
+built-in registry or infers behavior from an annotation name.
+Descriptor-backed LSP/GoLand completion, documentation, definition, and
+implementation navigation are now available. The retired `@spice.import`
+spelling produces an exact shared diagnostic and versioned replacement and is
+neither resolved nor concealed. A separate fixture module now proves
+public-SDK-only descriptors and
 handlers, named aliases, namespace discovery, tool-owned diagnostics, provider
-  generation, real source navigation, and offline build/run. Pre-import
-  completion now discovers descriptors across the target module graph,
-  workspace modules, replacements, vendor source, and populated module cache
-  without network access or implicit bindings. Undeclared tools now use a
-  two-step LSP quick fix: `go get -tool` runs against a temporary modfile, the
-  exact module-file diff is shown without mutation, and a separate confirmed
-  action applies only the content-derived plan while both original hashes
-  match. Tool negotiation also declares and validates every public descriptor
-  package. Installation commands remain cancellable while the LSP reads new
-  requests. GoLand Run invokes `spice run`; Debug first runs a registered
-  Spice generation task and then retains the native complete-package Go/Delve
-  path. The pinned GoLand suite executes commerce through both command paths
-  on the Windows/Linux verification matrix. The executable commerce slice now
+generation, real source navigation, and offline build/run. Pre-import
+completion now discovers descriptors across the target module graph,
+workspace modules, replacements, vendor source, and populated module cache
+without network access or implicit bindings. Undeclared tools now use a
+two-step LSP quick fix: `go get -tool` runs against a temporary modfile, the
+exact module-file diff is shown without mutation, and a separate confirmed
+action applies only the content-derived plan while both original hashes
+match. Tool negotiation also declares and validates every public descriptor
+package. Installation commands remain cancellable while the LSP reads new
+requests. GoLand Run invokes `spice run`; Debug first runs a registered Spice
+generation task and then retains the native complete-package Go/Delve path.
+The pinned GoLand suite executes commerce through both command paths on the
+Windows/Linux verification matrix. The executable commerce slice now
   proves authentication decisions, generated authorization, persistence, and
   test receipt delivery on the same generated application graph.
 

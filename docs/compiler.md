@@ -115,7 +115,10 @@ typed program. Descriptor functions are statically decoded from one returned
 `sdk.Definition` composite literal and are never executed. The service performs
 a bounded lexical import preflight solely to add those exact descriptor package
 paths to the one semantic load. Analysis disables module downloads and selects
-read-only or vendor mode. See [`annotation-sdk.md`](annotation-sdk.md).
+read-only or vendor mode. Every invocation must have a matching import in its
+own file; resolution never consults a built-in registry or infers semantics
+from the annotation spelling. See
+[`annotation-sdk.md`](annotation-sdk.md).
 
 `compiler/annotationhost` is the only native annotation process boundary. It
 requires an exact tool declaration in the target module, resolves standard Go
@@ -125,8 +128,8 @@ declared handler source symbols, and reuses one serialized process per
 workspace/tool. Cancellation terminates the full Windows Job Object or Unix
 process group; failed calls are never replayed.
 
-After ordinary target and argument validation, every explicitly imported
-occurrence is analyzed by that declared handler. The host strictly decodes the
+After ordinary target and argument validation, every occurrence is analyzed by
+its imported descriptor's declared handler. The host strictly decodes the
 public typed contribution union before attaching immutable defensive copies to
 the resolved occurrence. Application, provider, configuration, module,
 lifecycle, web, security, data, scheduling, event, cache, and bootstrap

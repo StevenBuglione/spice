@@ -88,8 +88,8 @@ function selected by the current file's named, aliased, or namespace import.
 by that descriptor. The compiler resolves both locations offline through the
 same target module graph used for analysis, including vendor and local
 replacement source. Unknown annotations and `@` text in strings or ordinary
-comments never become links. Legacy unimported built-ins retain documentation
-links only during the documented pre-1.0 compatibility window.
+comments never become links. Unimported annotations fail closed and do not
+receive synthetic documentation or navigation targets.
 
 Code actions come from `compiler/diagnostic.SuggestedFix`. The server returns an
 action only when every edit names an open document, carries the exact current
