@@ -18,7 +18,7 @@ Unix. Coverage-map labels are not substitutes for executable acceptance. The
 shared `spice.diagnostics/v1` contract now backs text and machine-readable
 verification while retaining physical/source-mapped positions for editor use.
 The stable-core executable matrix is recorded in
-`docs/stable-core-acceptance.md`; remaining security/data/mail work is explicit
+`docs/stable-core-acceptance.md`; remaining security/mail work is explicit
 reference integration debt rather than an untested core contract. The
 reusable dev supervisor and portable recursive watcher now provide
 deterministic debounce, unique candidate builds, last-known-good recovery, and
@@ -57,7 +57,11 @@ immutable decoded delivery snapshots, deterministic failure injection,
 explicit capacity behavior, and payload-free observations. The secure SMTP
 slice adds verified STARTTLS/implicit TLS, bounded cancellation and retry,
 ambiguous-delivery protection, and payload-free observations. The next slice is
-the final reference workflow. Broad MongoDB,
+security plus mail composition in the final reference workflow. Commerce now
+uses generated serializable transaction ownership, an explicit repository
+interface binding, module-owned lifecycle migration, a transaction-aware
+zero-dependency development database, and a PostgreSQL restart-persistence
+integration path. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 

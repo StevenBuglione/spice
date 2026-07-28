@@ -31,13 +31,17 @@ but the final reference workflow intentionally remains incomplete:
 
 - Commerce currently proves package-main discovery, exact generated DI,
   modules, typed configuration/redaction, lifecycle, generated HTTP/RFC 9457,
-  management, metrics/logging, cache, asynchronous work, scheduling, and typed
-  events.
+  management, metrics/logging, cache, asynchronous work, scheduling, typed
+  events, generated serializable transaction ownership, explicit repository
+  interface injection, module-owned migration startup, and persisted retrieval.
 - Commerce does not yet exercise a generated security policy at its public
   endpoint.
-- Commerce uses instance-owned in-memory order state; transactional SQL
-  persistence, migrations, and repository retrieval must be added to the final
-  Docker-backed reference path.
+- Commerce now uses a typed `storage.Orders` interface and generated direct
+  binding to a reflection-free SQL repository. Its zero-dependency developer
+  backend is an instance-owned transaction-aware `database/sql` connector, and
+  its `integration`-tagged PostgreSQL path proves migration reconciliation,
+  commit, pool close/reopen, and durable retrieval against the reviewed pgx
+  starter.
 - The bounded test mail transport, deterministic failure injection, decoded
   inspection, and payload-free observations are available. The isolated SMTP
   starter now proves verified STARTTLS and implicit TLS, authentication after
