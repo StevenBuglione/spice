@@ -158,7 +158,12 @@ Server-side views compile from caller-owned filesystems through
 bounded and validated; parsing and name order are deterministic. Execution
 uses a private buffer so template or cancellation failures do not partially
 commit HTTP state. Contextual escaping remains mandatory unless an application
-explicitly supplies a trusted-content template type.
+explicitly supplies a trusted-content template type. An optional exact error
+template maps only validated RFC 9457 problem fields into browser responses;
+failed or canceled rendering falls back to the safe JSON problem writer.
+Immutable UTF-8 properties catalogs provide bounded locale/message counts,
+quality-aware `Accept-Language` matching, locale-to-default key fallback, and
+explicit constructor injection without a global locale or message registry.
 
 Mail composition is transport-neutral and instance-owned. A caller supplies
 the message ID, date, envelope, bodies, and attachment bytes; construction

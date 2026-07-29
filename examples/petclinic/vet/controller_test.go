@@ -34,10 +34,10 @@ func (repository controllerRepository) FindPage(
 func TestControllerRepresentationsAndPagination(t *testing.T) {
 	t.Parallel()
 
-	if _, err := NewController(nil); err == nil {
+	if _, err := NewController(nil, testCatalog(t)); err == nil {
 		t.Fatal("NewController(nil) succeeded")
 	}
-	controller, err := NewController(successfulControllerRepository())
+	controller, err := NewController(successfulControllerRepository(), testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -89,7 +89,7 @@ func TestControllerRepositoryFailures(t *testing.T) {
 	) ([]Vet, int, error) {
 		return nil, 0, errVetRepository
 	}
-	controller, err := NewController(repository)
+	controller, err := NewController(repository, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -104,7 +104,7 @@ func TestControllerRepositoryFailures(t *testing.T) {
 	repository.findAll = func(context.Context) ([]Vet, error) {
 		return nil, errVetRepository
 	}
-	controller, err = NewController(repository)
+	controller, err = NewController(repository, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}

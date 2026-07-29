@@ -44,10 +44,10 @@ func (repository controllerRepository) Save(
 func TestControllerConstructionAndStaticForms(t *testing.T) {
 	t.Parallel()
 
-	if _, err := NewController(nil); err == nil {
+	if _, err := NewController(nil, testCatalog(t)); err == nil {
 		t.Fatal("NewController(nil) succeeded")
 	}
-	controller, err := NewController(successfulControllerRepository())
+	controller, err := NewController(successfulControllerRepository(), testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -77,7 +77,7 @@ func TestControllerCreate(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	controller, err := NewController(successfulControllerRepository())
+	controller, err := NewController(successfulControllerRepository(), testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -108,7 +108,7 @@ func TestControllerCreate(t *testing.T) {
 	failing.save = func(context.Context, Owner) (Owner, error) {
 		return Owner{}, errRepository
 	}
-	controller, err = NewController(failing)
+	controller, err = NewController(failing, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -190,7 +190,7 @@ func TestControllerFindBranches(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			controller, err := NewController(test.repository)
+			controller, err := NewController(test.repository, testCatalog(t))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -221,7 +221,7 @@ func TestControllerShowEditAndUpdate(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	controller, err := NewController(successfulControllerRepository())
+	controller, err := NewController(successfulControllerRepository(), testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -302,7 +302,7 @@ func TestControllerLookupAndUpdateFailures(t *testing.T) {
 		t.Fatal(err)
 	}
 	notFound := repositoryWithOwners(nil, 0)
-	controller, err := NewController(notFound)
+	controller, err := NewController(notFound, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -322,7 +322,7 @@ func TestControllerLookupAndUpdateFailures(t *testing.T) {
 	) (Owner, bool, error) {
 		return Owner{}, false, errRepository
 	}
-	controller, err = NewController(failing)
+	controller, err = NewController(failing, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -337,7 +337,7 @@ func TestControllerLookupAndUpdateFailures(t *testing.T) {
 	failing.save = func(context.Context, Owner) (Owner, error) {
 		return Owner{}, errRepository
 	}
-	controller, err = NewController(failing)
+	controller, err = NewController(failing, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}

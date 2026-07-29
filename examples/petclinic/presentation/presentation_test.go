@@ -10,12 +10,22 @@ import (
 func TestPresentationInfrastructureIsInstanceOwned(t *testing.T) {
 	t.Parallel()
 
-	first := NewMux()
-	second := NewMux()
+	first, err := NewMux()
+	if err != nil {
+		t.Fatal(err)
+	}
+	second, err := NewMux()
+	if err != nil {
+		t.Fatal(err)
+	}
 	if first == nil || second == nil || first == second {
 		t.Fatal("NewMux() did not return distinct muxes")
 	}
-	renderer, err := NewRenderer()
+	catalog, err := NewCatalog()
+	if err != nil {
+		t.Fatal(err)
+	}
+	renderer, err := NewRenderer(catalog)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,12 +35,21 @@ func TestPresentationInfrastructureIsInstanceOwned(t *testing.T) {
 		response,
 		"welcome",
 		http.StatusOK,
-		struct{}{},
+		struct{ Page Page }{Page: NewPage(catalog, "en", "home")},
 	); err != nil {
 		t.Fatal(err)
 	}
 	if response.Code != http.StatusOK ||
 		!strings.Contains(response.Body.String(), "<h1>Welcome</h1>") {
 		t.Fatalf("welcome response = %d %s", response.Code, response.Body)
+	}
+	staticResponse := httptest.NewRecorder()
+	first.ServeHTTP(
+		staticResponse,
+		httptest.NewRequest(http.MethodGet, "/resources/petclinic.css", nil),
+	)
+	if staticResponse.Code != http.StatusOK ||
+		!strings.Contains(staticResponse.Body.String(), "--petclinic-green") {
+		t.Fatalf("static response = %d %s", staticResponse.Code, staticResponse.Body)
 	}
 }

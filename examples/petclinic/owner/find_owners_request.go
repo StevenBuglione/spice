@@ -4,4 +4,5 @@ package owner
 type FindOwnersRequest struct {
 	LastName string `query:"lastName"`
 	Page     int    `query:"page"`
+	Language string `header:"Accept-Language"`
 }

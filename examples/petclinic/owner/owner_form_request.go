@@ -4,6 +4,7 @@ import "github.com/StevenBuglione/spice/examples/petclinic/model"
 
 // OwnerFormRequest binds only the editable owner fields.
 type OwnerFormRequest struct {
+	Language  string `header:"Accept-Language"`
 	FirstName string `form:"firstName,required"`
 	LastName  string `form:"lastName,required"`
 	Address   string `form:"address,required"`

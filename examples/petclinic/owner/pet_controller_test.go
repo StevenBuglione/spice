@@ -24,18 +24,20 @@ func TestPetControllerConstruction(t *testing.T) {
 	t.Parallel()
 
 	types := successfulPetTypeRepository()
-	if _, err := NewPetController(nil, types); err == nil {
+	if _, err := NewPetController(nil, types, testCatalog(t)); err == nil {
 		t.Fatal("nil owner repository succeeded")
 	}
 	if _, err := NewPetController(
 		successfulPetControllerRepository(),
 		nil,
+		testCatalog(t),
 	); err == nil {
 		t.Fatal("nil pet type repository succeeded")
 	}
 	if _, err := NewPetController(
 		successfulPetControllerRepository(),
 		types,
+		testCatalog(t),
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -149,6 +151,7 @@ func TestPetControllerEditAndFailureBoundaries(t *testing.T) {
 	controller, err = NewPetController(
 		successfulPetControllerRepository(),
 		failingTypes,
+		testCatalog(t),
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -188,6 +191,7 @@ func TestPetControllerEditAndFailureBoundaries(t *testing.T) {
 	controller, err = NewPetController(
 		failingOwners,
 		successfulPetTypeRepository(),
+		testCatalog(t),
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -206,6 +210,7 @@ func TestPetControllerEditAndFailureBoundaries(t *testing.T) {
 	controller, err = NewPetController(
 		failingOwners,
 		successfulPetTypeRepository(),
+		testCatalog(t),
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -268,6 +273,7 @@ func TestPetControllerEditAndFailureBoundaries(t *testing.T) {
 	controller, err = NewPetController(
 		duplicateOwners,
 		successfulPetTypeRepository(),
+		testCatalog(t),
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -297,11 +303,12 @@ func TestPetControllerEditAndFailureBoundaries(t *testing.T) {
 func TestVisitControllerWorkflow(t *testing.T) {
 	t.Parallel()
 
-	if _, err := NewVisitController(nil); err == nil {
+	if _, err := NewVisitController(nil, testCatalog(t)); err == nil {
 		t.Fatal("NewVisitController(nil) succeeded")
 	}
 	controller, err := NewVisitController(
 		successfulPetControllerRepository(),
+		testCatalog(t),
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -350,7 +357,7 @@ func TestVisitControllerWorkflow(t *testing.T) {
 	failing.save = func(context.Context, Owner) (Owner, error) {
 		return Owner{}, errRepository
 	}
-	controller, err = NewVisitController(failing)
+	controller, err = NewVisitController(failing, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -378,7 +385,7 @@ func TestVisitControllerWorkflow(t *testing.T) {
 	) (Owner, bool, error) {
 		return Owner{}, false, errRepository
 	}
-	controller, err = NewVisitController(failing)
+	controller, err = NewVisitController(failing, testCatalog(t))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -397,6 +404,7 @@ func newTestPetController(t *testing.T) *PetController {
 	controller, err := NewPetController(
 		successfulPetControllerRepository(),
 		successfulPetTypeRepository(),
+		testCatalog(t),
 	)
 	if err != nil {
 		t.Fatal(err)

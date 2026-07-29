@@ -3,6 +3,7 @@ package owner
 // EditOwnerRequest binds a protected path identity and editable fields.
 type EditOwnerRequest struct {
 	OwnerID   int    `path:"ownerId"`
+	Language  string `header:"Accept-Language"`
 	FirstName string `form:"firstName,required"`
 	LastName  string `form:"lastName,required"`
 	Address   string `form:"address,required"`

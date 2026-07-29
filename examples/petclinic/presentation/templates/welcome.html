@@ -1,23 +1,15 @@
 {{define "welcome"}}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Petclinic</title>
-</head>
-<body>
-  <header>
-    <nav aria-label="Primary">
-      <a aria-current="page" href="/">Home</a>
-      <a href="/owners/find">Find owners</a>
-      <a href="/vets.html">Veterinarians</a>
-    </nav>
-  </header>
-  <main>
-    <h1>Welcome</h1>
-    <p>Spring Petclinic, implemented with inspectable generated Go.</p>
-  </main>
-</body>
-</html>
+{{template "layout/header" .Page}}
+<section class="hero">
+  <div>
+    <h1>{{msg .Page.Locale "welcome"}}</h1>
+    <p>{{msg .Page.Locale "welcomeDetail"}}</p>
+    <div class="actions">
+      <a class="button" href="/owners/find">{{msg .Page.Locale "findOwners"}}</a>
+      <a class="button secondary" href="/vets.html">{{msg .Page.Locale "vets"}}</a>
+    </div>
+  </div>
+  <img src="/resources/pets.svg" alt="A friendly dog and cat">
+</section>
+{{template "layout/footer" .Page}}
 {{end}}

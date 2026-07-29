@@ -3,7 +3,10 @@ package system
 
 import (
 	"context"
+	"errors"
 
+	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	"github.com/StevenBuglione/spice/i18n"
 	"github.com/StevenBuglione/spice/view"
 )
 
@@ -13,19 +16,28 @@ import (
 // WelcomeController serves the recognizable Petclinic landing page.
 //
 // @Controller
-type WelcomeController struct{}
+type WelcomeController struct {
+	messages *i18n.Catalog
+}
 
 // NewWelcomeController constructs the stateless landing-page controller.
-func NewWelcomeController() *WelcomeController {
-	return &WelcomeController{}
+func NewWelcomeController(messages *i18n.Catalog) (*WelcomeController, error) {
+	if messages == nil {
+		return nil, errors.New(
+			"construct welcome controller: message catalog is nil",
+		)
+	}
+	return &WelcomeController{messages: messages}, nil
 }
 
 // Show renders the Petclinic welcome page.
 //
 // @Get("/")
-func (*WelcomeController) Show(
+func (controller *WelcomeController) Show(
 	_ context.Context,
-	_ WelcomeRequest,
+	request WelcomeRequest,
 ) (view.Result, error) {
-	return view.Render("welcome", struct{}{})
+	return view.Render("welcome", WelcomeModel{
+		Page: presentation.NewPage(controller.messages, request.Language, "home"),
+	})
 }

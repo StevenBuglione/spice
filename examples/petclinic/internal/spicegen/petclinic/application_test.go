@@ -43,6 +43,36 @@ func TestGeneratedPetclinicServesWelcomeAndManagement(t *testing.T) {
 		!strings.Contains(welcome.Body.String(), "<h1>Welcome</h1>") {
 		t.Fatalf("welcome response = %d %s", welcome.Code, welcome.Body)
 	}
+	localizedRequest := httptest.NewRequest(http.MethodGet, "/", nil)
+	localizedRequest.Header.Set("Accept-Language", "de-DE,de;q=0.9")
+	localized := httptest.NewRecorder()
+	handler.ServeHTTP(localized, localizedRequest)
+	if localized.Code != http.StatusOK ||
+		!strings.Contains(localized.Body.String(), `<html lang="de">`) ||
+		!strings.Contains(localized.Body.String(), "<h1>Willkommen</h1>") {
+		t.Fatalf("localized response = %d %s", localized.Code, localized.Body)
+	}
+
+	asset := httptest.NewRecorder()
+	handler.ServeHTTP(
+		asset,
+		httptest.NewRequest(http.MethodGet, "/resources/petclinic.css", nil),
+	)
+	if asset.Code != http.StatusOK ||
+		asset.Header().Get("X-Content-Type-Options") != "nosniff" ||
+		!strings.Contains(asset.Body.String(), "--petclinic-green") {
+		t.Fatalf("asset response = %d %v %s", asset.Code, asset.Header(), asset.Body)
+	}
+
+	missingRequest := httptest.NewRequest(http.MethodGet, "/owners/999", nil)
+	missingRequest.Header.Set("Accept-Language", "es")
+	missing := httptest.NewRecorder()
+	handler.ServeHTTP(missing, missingRequest)
+	if missing.Code != http.StatusNotFound ||
+		missing.Header().Get("Content-Type") != "text/html; charset=utf-8" ||
+		!strings.Contains(missing.Body.String(), "No se encontró la página solicitada.") {
+		t.Fatalf("HTML error response = %d %v %s", missing.Code, missing.Header(), missing.Body)
+	}
 
 	health := httptest.NewRecorder()
 	handler.ServeHTTP(
@@ -60,7 +90,10 @@ func TestGeneratedPetclinicOwnerWorkflow(t *testing.T) {
 
 	application, err := NewApplicationWithOptions(
 		t.Context(),
-		ApplicationOptions{Logger: testLogger()},
+		ApplicationOptions{
+			Logger:  testLogger(),
+			Sources: []config.Source{ephemeralServerSource(t)},
+		},
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -1012,7 +1045,10 @@ func TestGeneratedPetclinicLifecycleAndTypedComponents(t *testing.T) {
 
 	application, err := NewApplicationWithOptions(
 		t.Context(),
-		ApplicationOptions{Logger: testLogger()},
+		ApplicationOptions{
+			Logger:  testLogger(),
+			Sources: []config.Source{ephemeralServerSource(t)},
+		},
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -1255,6 +1291,9 @@ func TestGeneratedPetclinicRunCommandLifecycle(t *testing.T) {
 	if exit := RunCommand(CommandOptions{
 		Context: ctx,
 		Logger:  testLogger(),
+		Application: ApplicationOptions{
+			Sources: []config.Source{ephemeralServerSource(t)},
+		},
 	}); exit != ExitSuccess {
 		t.Fatalf("run exit = %d", exit)
 	}
@@ -1289,6 +1328,17 @@ func (*errorResponseWriter) WriteHeader(int) {}
 
 func testLogger() *slog.Logger {
 	return slog.New(slog.DiscardHandler)
+}
+
+func ephemeralServerSource(t *testing.T) config.Source {
+	t.Helper()
+	source, err := config.NewMapSource("test-server", map[string]string{
+		"petclinic.server.address": "127.0.0.1:0",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	return source
 }
 
 func servePetclinic(

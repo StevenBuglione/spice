@@ -68,6 +68,14 @@ post-commit inspectable receipt workflow. Broad MongoDB,
 OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
 that workflow is repeatable on Windows and Linux.
 
+Petclinic now serves through a generated lifecycle-owned HTTP listener with
+bounded timeouts and graceful drain. Its shared responsive layout, embedded
+assets, immutable English/German/Spanish message catalogs, typed
+`Accept-Language` binding, localized HTML error pages, and canonical owner
+browser workflow have passed real installed-browser visual and interaction
+verification. Security policy and the decisive Petclinic GoLand/dev-loop
+workflow remain the next reference-application gates.
+
 The Go-native extension migration has begun with the hard-cut `@import`
 directive and explicit named, aliased, and namespace annotation bindings, the
 public statically decoded descriptor SDK,

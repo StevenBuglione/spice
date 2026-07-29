@@ -1,4 +1,6 @@
 package system
 
-// WelcomeRequest is the empty typed request for the home page.
-type WelcomeRequest struct{}
+// WelcomeRequest binds browser language preferences for the home page.
+type WelcomeRequest struct {
+	Language string `header:"Accept-Language"`
+}

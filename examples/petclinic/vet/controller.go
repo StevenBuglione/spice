@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	"github.com/StevenBuglione/spice/i18n"
 	"github.com/StevenBuglione/spice/view"
 	"github.com/StevenBuglione/spice/web"
 )
@@ -18,17 +20,26 @@ const vetPageSize = 5
 //
 // @Controller
 type Controller struct {
-	vets Repository
+	vets     Repository
+	messages *i18n.Catalog
 }
 
 // NewController constructs the veterinarian HTTP boundary.
-func NewController(vets Repository) (*Controller, error) {
+func NewController(
+	vets Repository,
+	messages *i18n.Catalog,
+) (*Controller, error) {
 	if vets == nil {
 		return nil, errors.New(
 			"construct veterinarian controller: repository is nil",
 		)
 	}
-	return &Controller{vets: vets}, nil
+	if messages == nil {
+		return nil, errors.New(
+			"construct veterinarian controller: message catalog is nil",
+		)
+	}
+	return &Controller{vets: vets, messages: messages}, nil
 }
 
 // ListHTML renders one veterinarian page.
@@ -64,6 +75,7 @@ func (controller *Controller) ListHTML(
 		)
 	}
 	return view.Render("vets/vetList", ListModel{
+		Page:         presentation.NewPage(controller.messages, request.Language, "vets"),
 		Vets:         values,
 		CurrentPage:  page,
 		TotalPages:   totalPages,

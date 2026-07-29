@@ -16,6 +16,8 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+
+	"github.com/StevenBuglione/spice/web"
 )
 
 const (
@@ -34,15 +36,21 @@ var ErrOutputLimit = errors.New("template output limit exceeded")
 // Options configures an immutable renderer.
 type Options struct {
 	MaxOutputBytes int
+	// ErrorTemplate enables HTML problem rendering through WriteError.
+	ErrorTemplate string
+	// ErrorModel converts a safe problem and request into template data.
+	ErrorModel func(*http.Request, web.Problem) any
 }
 
 // Renderer is an immutable parsed HTML template set. It is safe for concurrent
 // execution when caller-provided template functions are also safe.
 type Renderer struct {
-	templates *template.Template
-	names     []string
-	nameSet   map[string]struct{}
-	maxOutput int
+	templates  *template.Template
+	names      []string
+	nameSet    map[string]struct{}
+	maxOutput  int
+	errorName  string
+	errorModel func(*http.Request, web.Problem) any
 }
 
 // Parse expands patterns against source, reads matched regular files within a
@@ -102,11 +110,26 @@ func Parse(
 		available = append(available, name)
 	}
 	slices.Sort(available)
+	if (options.ErrorTemplate == "") != (options.ErrorModel == nil) {
+		return nil, errors.New(
+			"parse HTML templates: error template and model must be configured together",
+		)
+	}
+	if options.ErrorTemplate != "" {
+		if _, exists := names[options.ErrorTemplate]; !exists {
+			return nil, fmt.Errorf(
+				"parse HTML templates: error template %q is not defined",
+				options.ErrorTemplate,
+			)
+		}
+	}
 	return &Renderer{
-		templates: compiled,
-		names:     available,
-		nameSet:   namesToSet(available),
-		maxOutput: maxOutput,
+		templates:  compiled,
+		names:      available,
+		nameSet:    namesToSet(available),
+		maxOutput:  maxOutput,
+		errorName:  options.ErrorTemplate,
+		errorModel: options.ErrorModel,
 	}, nil
 }
 

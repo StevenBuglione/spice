@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"github.com/StevenBuglione/spice/examples/petclinic/model"
+	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	"github.com/StevenBuglione/spice/i18n"
 	"github.com/StevenBuglione/spice/view"
 	"github.com/StevenBuglione/spice/web"
 )
@@ -23,6 +25,7 @@ import (
 type PetController struct {
 	owners   Repository
 	petTypes PetTypeRepository
+	messages *i18n.Catalog
 	today    func() time.Time
 }
 
@@ -30,6 +33,7 @@ type PetController struct {
 func NewPetController(
 	owners Repository,
 	petTypes PetTypeRepository,
+	messages *i18n.Catalog,
 ) (*PetController, error) {
 	if owners == nil {
 		return nil, errors.New("construct pet controller: owner repository is nil")
@@ -37,9 +41,13 @@ func NewPetController(
 	if petTypes == nil {
 		return nil, errors.New("construct pet controller: pet type repository is nil")
 	}
+	if messages == nil {
+		return nil, errors.New("construct pet controller: message catalog is nil")
+	}
 	return &PetController{
 		owners:   owners,
 		petTypes: petTypes,
+		messages: messages,
 		today:    time.Now,
 	}, nil
 }
@@ -60,6 +68,7 @@ func (controller *PetController) NewForm(
 		return view.Result{}, err
 	}
 	return view.Render("pets/createOrUpdatePetForm", PetFormModel{
+		Page:     controller.page(request.Language),
 		Owner:    value,
 		PetTypes: types,
 		Creating: true,
@@ -104,6 +113,7 @@ func (controller *PetController) Create(
 	}
 	if !result.Valid() {
 		return view.Render("pets/createOrUpdatePetForm", PetFormModel{
+			Page:     controller.page(request.Language),
 			Owner:    value,
 			Pet:      pet,
 			PetTypes: types,
@@ -140,6 +150,7 @@ func (controller *PetController) EditForm(
 		return view.Result{}, err
 	}
 	return view.Render("pets/createOrUpdatePetForm", PetFormModel{
+		Page:     controller.page(request.Language),
 		Owner:    value,
 		Pet:      pet,
 		PetTypes: types,
@@ -191,6 +202,7 @@ func (controller *PetController) Update(
 	}
 	if !result.Valid() {
 		return view.Render("pets/createOrUpdatePetForm", PetFormModel{
+			Page:     controller.page(request.Language),
 			Owner:    value,
 			Pet:      pet,
 			PetTypes: types,
@@ -207,6 +219,10 @@ func (controller *PetController) Update(
 		return view.Result{}, fmt.Errorf("save edited pet: %w", err)
 	}
 	return ownerRedirect(value.ID)
+}
+
+func (controller *PetController) page(language string) presentation.Page {
+	return presentation.NewPage(controller.messages, language, "owners")
 }
 
 func (controller *PetController) pet(

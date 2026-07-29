@@ -35,6 +35,12 @@ Implemented foundations:
   owner/pet not-found problem responses;
 - paginated veterinarian HTML plus a stable JSON collection with canonical
   lower-camel-case fields and ordered specialties.
+- a lifecycle-owned HTTP listener with typed address/timeout configuration,
+  dependency-ordered startup, process-signal ownership, graceful drain, and
+  browser security headers;
+- a shared responsive Petclinic layout, embedded immutable CSS/SVG assets,
+  English/German/Spanish `Accept-Language` negotiation, and localized HTML
+  problem pages with safe RFC 9457 fallback;
 - a PostgreSQL target with required redacted configuration, reviewed pgx pool
   ownership, module-owned schema/seed migrations, explicit repository
   interface bindings, aggregate-safe transactions, and a real PostgreSQL 18.3
@@ -46,7 +52,7 @@ Implemented foundations:
 The in-memory target remains the zero-network default. PostgreSQL and MySQL are
 separate compile-time application graphs rather than runtime service-locator
 branches: selected concrete repositories are visible in generated Go and
-debugger stacks. Internationalization, security, and the installed-IDE
+debugger stacks. Generated authorization policy and the installed-IDE/dev-loop
 workflow are delivered as subsequent bounded slices.
 
 Current application routes:
@@ -74,6 +80,16 @@ cd examples/petclinic
 ../../bin/spice generate --check --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
 ../../bin/spice run --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet -- -check
 ```
+
+Run the complete in-memory web application:
+
+```text
+set SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080
+../../bin/spice run --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+```
+
+Open `http://127.0.0.1:8080/`. The same environment name works on every
+platform; the example uses Windows `set` syntax only for brevity.
 
 Generate the PostgreSQL graph:
 

@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	"github.com/StevenBuglione/spice/i18n"
 	"github.com/StevenBuglione/spice/view"
 	"github.com/StevenBuglione/spice/web"
 )
@@ -17,17 +19,26 @@ import (
 //
 // @Controller
 type VisitController struct {
-	owners Repository
+	owners   Repository
+	messages *i18n.Catalog
 }
 
 // NewVisitController constructs the visit HTTP boundary.
-func NewVisitController(owners Repository) (*VisitController, error) {
+func NewVisitController(
+	owners Repository,
+	messages *i18n.Catalog,
+) (*VisitController, error) {
 	if owners == nil {
 		return nil, errors.New(
 			"construct visit controller: owner repository is nil",
 		)
 	}
-	return &VisitController{owners: owners}, nil
+	if messages == nil {
+		return nil, errors.New(
+			"construct visit controller: message catalog is nil",
+		)
+	}
+	return &VisitController{owners: owners, messages: messages}, nil
 }
 
 // NewForm renders a visit form with the pet's visit history.
@@ -46,6 +57,7 @@ func (controller *VisitController) NewForm(
 		return view.Result{}, err
 	}
 	return view.Render("pets/createOrUpdateVisitForm", VisitFormModel{
+		Page:  controller.page(request.Language),
 		Owner: value,
 		Pet:   pet,
 	})
@@ -99,6 +111,7 @@ func (controller *VisitController) Create(
 	}
 	if !binding.Valid() {
 		return view.Render("pets/createOrUpdateVisitForm", VisitFormModel{
+			Page:   controller.page(request.Language),
 			Owner:  value,
 			Pet:    pet,
 			Visit:  visit,
@@ -112,6 +125,10 @@ func (controller *VisitController) Create(
 		return view.Result{}, fmt.Errorf("save pet visit: %w", err)
 	}
 	return ownerRedirect(value.ID)
+}
+
+func (controller *VisitController) page(language string) presentation.Page {
+	return presentation.NewPage(controller.messages, language, "owners")
 }
 
 func (controller *VisitController) ownerPet(

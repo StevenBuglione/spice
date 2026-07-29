@@ -8,6 +8,8 @@ import (
 	"strconv"
 
 	"github.com/StevenBuglione/spice/examples/petclinic/model"
+	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	"github.com/StevenBuglione/spice/i18n"
 	"github.com/StevenBuglione/spice/validation"
 	"github.com/StevenBuglione/spice/view"
 	"github.com/StevenBuglione/spice/web"
@@ -22,25 +24,33 @@ const ownerPageSize = 5
 //
 // @Controller
 type Controller struct {
-	owners Repository
+	owners   Repository
+	messages *i18n.Catalog
 }
 
 // NewController constructs the owner HTTP boundary.
-func NewController(owners Repository) (*Controller, error) {
+func NewController(
+	owners Repository,
+	messages *i18n.Catalog,
+) (*Controller, error) {
 	if owners == nil {
 		return nil, errors.New("construct owner controller: repository is nil")
 	}
-	return &Controller{owners: owners}, nil
+	if messages == nil {
+		return nil, errors.New("construct owner controller: message catalog is nil")
+	}
+	return &Controller{owners: owners, messages: messages}, nil
 }
 
 // NewForm renders an empty owner form.
 //
 // @Get("/owners/new")
-func (*Controller) NewForm(
+func (controller *Controller) NewForm(
 	_ context.Context,
-	_ NewOwnerRequest,
+	request NewOwnerRequest,
 ) (view.Result, error) {
 	return view.Render("owners/createOrUpdateOwnerForm", OwnerFormModel{
+		Page:     controller.page(request.Language),
 		Creating: true,
 	})
 }
@@ -60,6 +70,7 @@ func (controller *Controller) Create(
 	}
 	if !result.Valid() {
 		return view.Render("owners/createOrUpdateOwnerForm", OwnerFormModel{
+			Page:     controller.page(request.Language),
 			Owner:    value,
 			Errors:   result.Errors().All(),
 			Creating: true,
@@ -78,11 +89,13 @@ func (controller *Controller) Create(
 // FindForm renders the owner search form.
 //
 // @Get("/owners/find")
-func (*Controller) FindForm(
+func (controller *Controller) FindForm(
 	_ context.Context,
-	_ FindOwnerFormRequest,
+	request FindOwnerFormRequest,
 ) (view.Result, error) {
-	return view.Render("owners/findOwners", FindOwnersModel{})
+	return view.Render("owners/findOwners", FindOwnersModel{
+		Page: controller.page(request.Language),
+	})
 }
 
 // Find searches owners by last-name prefix with Petclinic pagination.
@@ -98,6 +111,7 @@ func (controller *Controller) Find(
 	}
 	if page < 1 {
 		return view.Render("owners/findOwners", FindOwnersModel{
+			Page:     controller.page(request.Language),
 			LastName: request.LastName,
 			Errors: []validation.Violation{{
 				Field:   "page",
@@ -117,6 +131,7 @@ func (controller *Controller) Find(
 	}
 	if total == 0 {
 		return view.Render("owners/findOwners", FindOwnersModel{
+			Page:     controller.page(request.Language),
 			LastName: request.LastName,
 			Errors: []validation.Violation{{
 				Field:   "lastName",
@@ -133,6 +148,7 @@ func (controller *Controller) Find(
 	}
 	totalPages := (total + ownerPageSize - 1) / ownerPageSize
 	return view.Render("owners/ownersList", OwnersListModel{
+		Page:         controller.page(request.Language),
 		Owners:       owners,
 		LastName:     request.LastName,
 		CurrentPage:  page,
@@ -157,6 +173,7 @@ func (controller *Controller) EditForm(
 		return view.Result{}, err
 	}
 	return view.Render("owners/createOrUpdateOwnerForm", OwnerFormModel{
+		Page:  controller.page(request.Language),
 		Owner: value,
 	})
 }
@@ -180,6 +197,7 @@ func (controller *Controller) Update(
 	}
 	if !result.Valid() {
 		return view.Render("owners/createOrUpdateOwnerForm", OwnerFormModel{
+			Page:   controller.page(request.Language),
 			Owner:  value,
 			Errors: result.Errors().All(),
 		})
@@ -205,8 +223,13 @@ func (controller *Controller) Show(
 		return view.Result{}, err
 	}
 	return view.Render("owners/ownerDetails", OwnerDetailsModel{
+		Page:  controller.page(request.Language),
 		Owner: value,
 	})
+}
+
+func (controller *Controller) page(language string) presentation.Page {
+	return presentation.NewPage(controller.messages, language, "owners")
 }
 
 func (controller *Controller) owner(

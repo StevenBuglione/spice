@@ -25,6 +25,7 @@ github.com/StevenBuglione/spice/cmd/spice-annotation-core
 github.com/StevenBuglione/spice/config
 github.com/StevenBuglione/spice/data
 github.com/StevenBuglione/spice/event/outbox
+github.com/StevenBuglione/spice/i18n
 github.com/StevenBuglione/spice/internal/annotationcore
 github.com/StevenBuglione/spice/lifecycle
 github.com/StevenBuglione/spice/management

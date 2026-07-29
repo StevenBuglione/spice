@@ -1,0 +1,14 @@
+{{define "error"}}
+{{template "layout/header" .Page}}
+<section class="error-page">
+  <img src="/resources/pets.svg" alt="">
+  <h1>{{msg .Page.Locale "somethingHappened"}}</h1>
+  {{if eq .Status 404}}<p>{{msg .Page.Locale "error.404"}}</p>
+  {{else if eq .Status 500}}<p>{{msg .Page.Locale "error.500"}}</p>
+  {{else}}<p>{{msg .Page.Locale "error.general"}}</p>{{end}}
+  <p><strong>{{.Status}} · {{.Title}}</strong></p>
+  <p>{{.Detail}}</p>
+  <a class="button" href="/">{{msg .Page.Locale "home"}}</a>
+</section>
+{{template "layout/footer" .Page}}
+{{end}}

@@ -12,7 +12,7 @@
   },
   "generator_version": "0.1.0-dev",
   "go_format_line": "1.26",
-  "input_sha256": "sha256:61af3a4904b8d855fbbfd08f30aca1ac1295c735b88b9a6f88197eb060e23b9f",
+  "input_sha256": "sha256:2236027743273916bb102c734349ed8ad7af6599fa5f139cefa92c8057458830",
   "files": [
     {
       "path": "cmd/postgres/zz_spice_bridge_gen.go",
@@ -29,7 +29,7 @@
     },
     {
       "path": "internal/spicegen/postgres/openapi.json",
-      "sha256": "sha256:6eb290bc662cf88950fc5a6a5df0a01f8b37f64c6873c7e9056cef78c50f6f03",
+      "sha256": "sha256:dc86d0309616d832efc96f460b86a74c21e0818555e7f00c2a10406bd119342c",
       "role": "artifact",
       "sources": [
         {
@@ -42,7 +42,7 @@
     },
     {
       "path": "internal/spicegen/postgres/zz_spice_gen.go",
-      "sha256": "sha256:030a47b04280c0253b4c9bb5a0ebedd49cb3af4671b1304887a9e8cbd4153f23",
+      "sha256": "sha256:ef64054795ae0a2dcc7f71355bc2f22b74f7db69e75cfb2632bb976434dca577",
       "role": "application",
       "sources": [
         {

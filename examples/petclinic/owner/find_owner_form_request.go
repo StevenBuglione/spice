@@ -1,4 +1,6 @@
 package owner
 
-// FindOwnerFormRequest is the explicit empty owner-search form request.
-type FindOwnerFormRequest struct{}
+// FindOwnerFormRequest binds browser language preferences for owner search.
+type FindOwnerFormRequest struct {
+	Language string `header:"Accept-Language"`
+}

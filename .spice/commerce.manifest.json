@@ -93,7 +93,7 @@
     },
     {
       "path": "internal/spicegen/commerce/zz_spice_gen.go",
-      "sha256": "sha256:6756d38562a364443925a60b56f687999a25c06ea05fdb09b847ee736fcdfbdc",
+      "sha256": "sha256:05fd7a2e1e46f000ca601472146ff1de0e473f56165f5b352cff229c660f4f89",
       "role": "application",
       "sources": [
         {

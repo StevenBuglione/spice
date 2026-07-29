@@ -4,6 +4,7 @@ package owner
 type VisitFormRequest struct {
 	OwnerID     int    `path:"ownerId"`
 	PetID       int    `path:"petId"`
+	Language    string `header:"Accept-Language"`
 	Date        string `form:"date,required"`
 	Description string `form:"description,required"`
 }

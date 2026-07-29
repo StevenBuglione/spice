@@ -12,7 +12,7 @@
   },
   "generator_version": "0.1.0-dev",
   "go_format_line": "1.26",
-  "input_sha256": "sha256:f52d4b2e274e8b4d471a141645cc5bb6257475d843f38292b0c26ca3e633858b",
+  "input_sha256": "sha256:cef61a13cbc2373a0dea672157fc92ae12e5c1d7664c3ff726d3672841cac594",
   "files": [
     {
       "path": "cmd/mysql/zz_spice_bridge_gen.go",
@@ -29,7 +29,7 @@
     },
     {
       "path": "internal/spicegen/mysql/openapi.json",
-      "sha256": "sha256:f8f8b364ee1b70f1b99e36f08fcfb8f9adaab6b4e7c34aa2f8abd5481e935220",
+      "sha256": "sha256:3b3378d7223745e40b64e5e86b547f154237ca13a36bd3e4d6c62c6a557d6e30",
       "role": "artifact",
       "sources": [
         {
@@ -42,7 +42,7 @@
     },
     {
       "path": "internal/spicegen/mysql/zz_spice_gen.go",
-      "sha256": "sha256:66de14837c0ac982e348563ad957d63d07eaf6d6b704f77d312c16c63f11e5da",
+      "sha256": "sha256:d2cf04d5773811b289807e28540d7d1d83fd72db2784e59d5a37ba6ccadbb777",
       "role": "application",
       "sources": [
         {
