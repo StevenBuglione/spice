@@ -158,14 +158,19 @@ runtime locator. Commerce proves qualifier/primary selection against a
 separate fallback implementation. The shared compiler now owns the complete
 named runtime-interface catalog used for `@Implements` authoring; LSP
 completion inserts namespace imports without consulting an IDE index, and the
-renderer owns source-shard assertions. The packaged GoLand workflow proves
+renderer owns mirrored source units. Each contributing source file maps to one
+generated file below `internal/spicegen/<target>/sources`; direct provider
+construction, configuration binding, and interface assertions execute there,
+while target-wide coordination is explicitly separate. The schema-4 ownership
+manifest records primary source, related sources, and exact generated ranges,
+and guarded migration removes only hash-matching schema-3 adjacent shards.
+The packaged GoLand workflow proves
 native generic-aware Implement Methods generation, pointer receiver selection,
 namespace-aware navigation, and valid physical source. The next
 developer-proof slice is the independent
 third-party SDK/tool and complete commerce workflow. Package-main generation
 now separates full wiring under `internal/spicegen/<target>`, a tiny command
-bridge, and source-owned assertion shards; its manifest records roles and
-source origins. Generated applications expose typed singleton `Components`,
+bridge, and source-owned units. Generated applications expose typed singleton `Components`,
 and `spicetest.Context` plus `annotation/sdk/sdktest` provide lifecycle and
 third-party handler test harnesses without reflection or compiler imports.
 

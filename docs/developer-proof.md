@@ -66,12 +66,12 @@ response reports a stable message ID, `transport: "test"`,
 `accepted: true`, and the attachment filename. The decoded test-transport
 acceptance test additionally verifies the exact envelope, subject, text body,
 and attachment bytes. The generated application code in
-`internal/spicegen/commerce/zz_spice_gen.go` visibly contains direct
-constructors, explicit interface assignments, authorization policies,
-transaction ownership, repository calls, and route adapters. Narrow
-`*_commerce_spice_gen.go` files beside implementations contain compiler-owned
-interface assertions, and the command bridge contains no wiring. There is no
-reflection or runtime container.
+`internal/spicegen/commerce/zz_spice_gen.go` visibly contains target-wide
+coordination. Mirrored files under
+`internal/spicegen/commerce/sources/<package>` contain source-owned direct
+constructors, configuration binders, and explicit interface assignments.
+The schema-4 manifest provides exact source/generated locations, and the
+command bridge contains no wiring. There is no reflection or runtime container.
 
 Run the focused executable proofs directly:
 
@@ -97,6 +97,7 @@ go test -run TestNotifierDeliversInspectableTestReceipt ./examples/commerce/noti
 
 `make verify` runs the complete mandatory set under Go 1.26.5, including
 formatting, vet, lint/NilAway, gosec, govulncheck, shuffled/race tests, fuzz
-smoke, the 85% repository coverage floor, vendor-offline tests, packaged plugin
+smoke, the 85% handwritten-product repository coverage floor (generated files
+remain compile/execution tested), vendor-offline tests, packaged plugin
 verification, installed-GoLand interaction tests, generated freshness, and
 executable smoke paths.

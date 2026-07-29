@@ -89,21 +89,25 @@ The preferred target owns:
 
 ```text
 internal/spicegen/<target>/zz_spice_gen.go
-internal/spicegen/<target>/openapi.json   # when controllers exist
+internal/spicegen/<target>/sources/<source-directory>/<source>_spice_gen.go
+internal/spicegen/<target>/artifacts/openapi.json   # when controllers exist
 <command-directory>/zz_spice_bridge_gen.go
-<source-directory>/<source>_<target>_spice_gen.go  # source-owned checks
 .spice/<target>.manifest.json
 ```
 
-The full wiring lives in an importable generated package. The command bridge
-contains only aliases and the `spiceMain` call required by handwritten
-`main.go`. Source shards contain narrow compile-time contracts such as
-`@Implements` assertions in the package that owns the annotated declaration.
-They do not duplicate application wiring.
+The target-wide orchestrator lives in the importable generated package. The
+command bridge contains only aliases and the `spiceMain` call required by
+handwritten `main.go`. Every contributing handwritten file owns one mirrored
+source unit; providers, configuration binders, and `@Implements` assertions
+derived from that file live together there. Source units use generated
+packages rather than appearing beside handwritten Go, and the orchestrator
+calls their typed exported adapters.
 
-The manifest records each file's role, source declaration origins, and exact
-SHA-256 ownership. Generation preserves unchanged files, refuses manual edits
-and unowned collisions, and supports read-only check and bounded diff modes.
+The schema-4 manifest records each file's role, primary source, related source
+declarations, exact generated ranges, and SHA-256 ownership. Generation
+preserves unchanged files, refuses manual edits and unowned collisions, and
+supports read-only check and bounded diff modes. Migration removes legacy
+adjacent schema-3 shards only when their recorded hash still matches.
 Generated files have standard Go source positions and direct calls into
 handwritten functions, so stepping from wiring into user code uses the normal
 Go debugger.

@@ -11,8 +11,10 @@ alongside it while editing; `make verify` remains responsible for executing
 the complete repository suite. Warm runs reuse Go's build and test cache.
 
 Use `make coverage` when a slice adds meaningful production code. It computes
-the exact whole-repository 85% floor without also launching IDE, security,
-offline, race, fuzz, or executable suites.
+the exact whole-repository handwritten-product 85% floor without also launching
+IDE, security, offline, race, fuzz, or executable suites. Canonical Spice
+generated files remain mandatory compilation/execution inputs but are excluded
+from the duplicate statement denominator.
 
 Use `make benchmark` when compiler, generation, editor-analysis, or CLI
 boundary behavior changes. The repository runs each budgeted benchmark five

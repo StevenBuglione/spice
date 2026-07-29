@@ -16,6 +16,7 @@ import (
 	time "time"
 
 	component "example.com/spice-annotation-app/component"
+	spicesource0 "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app/sources/component"
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
@@ -99,7 +100,15 @@ func NewApplicationWithOptions(ctx context.Context, options ApplicationOptions) 
 	if application.shutdownTimeout <= 0 {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("decode shutdown timeout for application spice_annotation_app: duration must be positive"))
 	}
-	provider0 := component.ProvideMessage()
+	provider0, cleanup0, err := spicesource0.Construct031f9b839d45()
+	if err != nil {
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage (example.com/spice-annotation-app/component.Message): %w", err))
+	}
+	if cleanup0 != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage", cleanup0); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage: %w", err))
+		}
+	}
 	_ = provider0
 	application.components = Components{
 		ProvideMessage: provider0,

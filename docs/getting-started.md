@@ -59,10 +59,16 @@ application:
 same command without `--check`. The output has three clear roles:
 
 ```text
-internal/spicegen/petclinic/zz_spice_gen.go  complete direct-call wiring
-zz_spice_bridge_gen.go                      small package-main bridge
-<source>_petclinic_spice_gen.go             source-owned type assertions
-.spice/petclinic.manifest.json              hashes, roles, and origins
+internal/spicegen/petclinic/zz_spice_gen.go
+    target-wide graph and lifecycle orchestration
+internal/spicegen/petclinic/sources/<package>/<source>_spice_gen.go
+    one source-owned unit with direct construction, binding, and assertions
+internal/spicegen/petclinic/artifacts/openapi.json
+    generated non-Go contracts
+zz_spice_bridge_gen.go
+    small package-main bridge
+.spice/petclinic.manifest.json
+    hashes, roles, source origins, and generated ranges
 ```
 
 Generated files are committed, formatted Go. The ownership manifest prevents
@@ -129,4 +135,3 @@ See [testing.md](testing.md) for complete examples and cleanup behavior.
 - [goland.md](goland.md) installs and verifies the primary editor experience.
 - [spring-to-spice.md](spring-to-spice.md) maps familiar Spring concepts.
 - [developer-proof.md](developer-proof.md) runs the decisive editor/dev proof.
-

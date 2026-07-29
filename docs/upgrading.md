@@ -53,7 +53,7 @@ go test ./...
 `--diff` is read-only and bounded. Generation refuses an owned file whose
 current hash differs from its manifest, so a framework upgrade cannot silently
 erase a manual edit. Review the full wiring package, command bridge,
-source-owned assertion shards, OpenAPI document, and manifest together.
+mirrored source units, OpenAPI document, and manifest together.
 
 For a service with multiple application targets, pass the same `--target` and
 package scope used by its build. Never generate a broad module and assume it
@@ -119,4 +119,3 @@ compatibility policy. After v1, SemVer will govern public Go APIs, annotation
 syntax and descriptor/protocol contracts. Generated file layout is an
 inspectable implementation detail protected by manifests, so consumers should
 call generated public seams rather than parse generated source.
-

@@ -54,7 +54,9 @@ For every product change:
 - NilAway, gosec, and govulncheck;
 - shuffled and race-enabled tests;
 - parser, decoder, and validation fuzz smoke;
-- an 85% whole-repository coverage floor;
+- an 85% whole-repository handwritten-product coverage floor; canonical Spice
+  generated files remain compilation/execution inputs but are not duplicate
+  statement-coverage denominator;
 - offline vendor-only tests;
 - Spice CLI verification and executable example smoke tests.
 

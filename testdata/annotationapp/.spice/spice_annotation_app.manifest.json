@@ -1,5 +1,5 @@
 {
-  "schema": 3,
+  "schema": 4,
   "target": {
     "id": "spice_annotation_app",
     "layout": "application-package",
@@ -12,13 +12,48 @@
   },
   "generator_version": "0.1.0-dev",
   "go_format_line": "1.26",
-  "input_sha256": "sha256:7bba408f725a71a90007fe0c560fd96846785421b4acbe19d48ebdc5956b68f1",
+  "input_sha256": "sha256:efcde66e7dcde075f419561a9fcd4ad6187b1199bee7e6c38219a1d68c86c185",
   "files": [
     {
+      "path": "internal/spicegen/spice_annotation_app/sources/component/message_spice_gen.go",
+      "sha256": "sha256:5988f7afcff096f0709ae4da001fe2fae484214ca5d78202290eb7a91f8b9b12",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "component/message.go",
+        "line": 9,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage"
+      },
+      "mappings": [
+        {
+          "kind": "provider-construction",
+          "contribution": "spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage",
+          "source": {
+            "path": "component/message.go",
+            "line": 9,
+            "column": 4,
+            "symbol": "spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage"
+          },
+          "generated": {
+            "start_line": 13,
+            "start_column": 4,
+            "end_line": 13,
+            "end_column": 25
+          }
+        }
+      ]
+    },
+    {
       "path": "internal/spicegen/spice_annotation_app/zz_spice_gen.go",
-      "sha256": "sha256:68d819e6c4db59bf69076ae54cb77c53e732e8b5b326a5e907fae94b2660da22",
-      "role": "application",
-      "sources": [
+      "sha256": "sha256:0c682f80451d9bdd1f122355a2befd1c7ab1477cac54773fce43849ffe7a4e69",
+      "role": "target-orchestrator",
+      "related_sources": [
+        {
+          "path": "component/message.go",
+          "line": 9,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage"
+        },
         {
           "path": "main.go",
           "line": 10,
@@ -31,14 +66,12 @@
       "path": "zz_spice_bridge_gen.go",
       "sha256": "sha256:8dc24acd148ff978a59ab05aa9ef835272db35920dd8b59ea43fa8e7de8962f6",
       "role": "command-bridge",
-      "sources": [
-        {
-          "path": "main.go",
-          "line": 10,
-          "column": 4,
-          "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
-        }
-      ]
+      "primary_source": {
+        "path": "main.go",
+        "line": 10,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+      }
     }
   ]
 }

@@ -176,7 +176,7 @@ generated Spice binding and RFC 9457 policy.
 ## OpenAPI
 
 Every target with controllers emits a deterministic OpenAPI 3.1 document at
-`internal/spicegen/<target>/openapi.json` for both package-main and compatible
+`internal/spicegen/<target>/artifacts/openapi.json` for both package-main and compatible
 legacy targets. Typed operations
 include path, query, and header parameters; JSON request bodies; JSON or 204
 success responses; URL-encoded form request bodies; HTML and 303 view
