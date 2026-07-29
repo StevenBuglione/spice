@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/StevenBuglione/spice/starter"
+	kafkastarter "github.com/StevenBuglione/spice/starter/kafka"
 	mysqlstarter "github.com/StevenBuglione/spice/starter/mysql"
 	"github.com/StevenBuglione/spice/starter/oauth2client"
 	"github.com/StevenBuglione/spice/starter/oidc"
@@ -29,6 +30,18 @@ func TestShippedStarterManifests(t *testing.T) {
 		feature      string
 		requirements []string
 	}{
+		{
+			name:         "kafka",
+			manifest:     kafkastarter.Manifest,
+			entrypoints:  []any{kafkastarter.Open},
+			capabilities: []string{"messaging.kafka.producer"},
+			dependencies: []starter.Dependency{{
+				Module:  "github.com/twmb/franz-go",
+				Version: "v1.21.0",
+				License: "BSD-3-Clause",
+			}},
+			activation: starter.ActivationExplicitConstructor,
+		},
 		{
 			name:         "mysql",
 			manifest:     mysqlstarter.Manifest,

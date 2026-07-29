@@ -55,6 +55,9 @@ The repository currently provides:
 - Immutable bounded external-message envelopes plus explicit publisher,
   handler, and acknowledgement/retry/reject settlement contracts for isolated
   broker starters.
+- An opt-in franz-go Kafka producer with verified TLS/authentication defaults,
+  all-ISR synchronous delivery, idempotent production, bounded configuration,
+  lifecycle flushing, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts, a bounded in-memory LRU/TTL cache, and compile-time
   `@cache.Cacheable` typed-read generation with configured capacity/TTL,

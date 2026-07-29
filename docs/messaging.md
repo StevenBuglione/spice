@@ -41,3 +41,22 @@ This is deliberately not JMS. Ordering, consumer groups, partitions,
 exchanges, routing keys, dead letters, exactly-once claims, and broker
 transactions are starter/application policy and must be explicit. Package
 presence never creates a connection or listener.
+
+## Kafka producer
+
+`starter/kafka` is the first reviewed transport. `Open` constructs a
+caller-owned franz-go v1.21 client without network I/O and returns lifecycle
+cleanup. It requires verified TLS 1.2+ and authentication by default; plaintext
+and unauthenticated local development require separate explicit flags. The
+producer retains franz-go's idempotent behavior, requires all in-sync replica
+acknowledgements, publishes synchronously with caller cancellation, and emits
+payload-free observations.
+
+The starter maps `Message.Topic`, `Key`, and payload directly and adds reserved
+`content-type`, `spice-message-id`, and `spice-occurred-at` headers. Application
+headers may not shadow those names. Shutdown first flushes with the supplied
+lifecycle context and then closes the client exactly once.
+
+Consumer groups, retry/dead-letter policy, transactions, and real-broker
+acceptance remain explicit follow-up work; the producer manifest is therefore
+classified as an integration rather than a complete Kafka platform.
