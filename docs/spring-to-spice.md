@@ -104,6 +104,6 @@ generated web adapters, localization, management, and ordinary Go tests.
 The detailed implementation status for each capability is maintained in
 [spring-coverage.md](spring-coverage.md). `available` means the documented
 Spice contract is executable; `integration` means a useful core exists but a
-broader ecosystem or operational path remains explicit; `planned` is not a
-shipping contract.
-
+broader ecosystem or operational path remains explicit; `not-planned` records
+a deliberate Java-specific non-goal and the Go-native replacement. Release
+verification rejects unresolved `planned` and `in-progress` rows.

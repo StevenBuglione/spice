@@ -12,6 +12,12 @@ secure mail integration exercised by the modular commerce application. The
 remaining work is release hardening and deliberately selected starter breadth,
 not replacement of this foundation.
 
+The Spring coverage map is now contract-closed: every capability is classified
+as executable `available`, bounded `integration`, or deliberately
+`not-planned`. Repository verification rejects unresolved states. This does not
+claim Java class-for-class parity; it freezes the practical Go-native boundary
+and keeps ecosystem breadth visible as integration work.
+
 Release hardening now includes a repository-owned offline artifact builder:
 clean exact tags produce deterministic `-trimpath` CLI archives for
 Windows/Linux/macOS on amd64/arm64, a vendor-derived SPDX 2.3 SBOM, SHA-256
