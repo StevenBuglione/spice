@@ -16,7 +16,7 @@
   "files": [
     {
       "path": "cmd/postgres/zz_spice_bridge_gen.go",
-      "sha256": "sha256:c0780ae8385d4ee7ad3639e0de5b4c730a6acf6eb5ca0d36eeb0ef4dbf6f292c",
+      "sha256": "sha256:f6a53ecb907009d385e4a26b91f663b5f87e5feb327da13a65b620a0409b10c1",
       "role": "command-bridge",
       "sources": [
         {
@@ -42,7 +42,7 @@
     },
     {
       "path": "internal/spicegen/postgres/zz_spice_gen.go",
-      "sha256": "sha256:ef64054795ae0a2dcc7f71355bc2f22b74f7db69e75cfb2632bb976434dca577",
+      "sha256": "sha256:4e2f34598f22b580aa971b88a3d2413d9c30306ad5741f4b9995741868f79f22",
       "role": "application",
       "sources": [
         {
@@ -55,7 +55,7 @@
     },
     {
       "path": "postgres/owner_repository_postgres_spice_gen.go",
-      "sha256": "sha256:2953ec819fbecdad8f3059a8a14d5374cbf9a88138dab3cf7680324d7150ccb3",
+      "sha256": "sha256:38376b9552c13584ba20105e3d896c715f7ffc250c02c90129176fc3a8a990f2",
       "role": "source-shard",
       "sources": [
         {
@@ -68,7 +68,7 @@
     },
     {
       "path": "postgres/pet_type_repository_postgres_spice_gen.go",
-      "sha256": "sha256:81a03105f600ace78b98276716b83a664290470a6d3cd613ce44fc59ac041566",
+      "sha256": "sha256:f8b1a5ecdeaa9367e2503842ffff715c0bfef967595b96380a4aa17965ebb0f4",
       "role": "source-shard",
       "sources": [
         {
@@ -81,7 +81,7 @@
     },
     {
       "path": "postgres/vet_repository_postgres_spice_gen.go",
-      "sha256": "sha256:9072bf3ac6f069991a09b110e502707c8a501c8ba59b491535a8b0b911d687b7",
+      "sha256": "sha256:64e3a7c46e3e30da05c48072767c2da9977980b431a943edea206dcc48f68bef",
       "role": "source-shard",
       "sources": [
         {

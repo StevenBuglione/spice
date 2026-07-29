@@ -73,8 +73,13 @@ bounded timeouts and graceful drain. Its shared responsive layout, embedded
 assets, immutable English/German/Spanish message catalogs, typed
 `Accept-Language` binding, localized HTML error pages, and canonical owner
 browser workflow have passed real installed-browser visual and interaction
-verification. Security policy and the decisive Petclinic GoLand/dev-loop
-workflow remain the next reference-application gates.
+verification. The packaged GoLand 2026.2 suite now opens that real Petclinic
+module, uses an exact freshly built Spice executable, proves physical-comment
+preservation, zero-width concealment, light/dark token colors, navigation and
+documentation, and executes multi-package Run/Debug without a single-file
+`gocommand-*` path or false `spiceMain` error. Security policy and the decisive
+Petclinic live `spice dev` edit/restart workflow remain the next
+reference-application gates.
 
 The Go-native extension migration has begun with the hard-cut `@import`
 directive and explicit named, aliased, and namespace annotation bindings, the
@@ -108,7 +113,7 @@ match. Tool negotiation also declares and validates every public descriptor
 package. Installation commands remain cancellable while the LSP reads new
 requests. GoLand Run invokes `spice run`; Debug first runs a registered Spice
 generation task and then retains the native complete-package Go/Delve path.
-The pinned GoLand suite executes commerce through both command paths on the
+The pinned GoLand suite executes Petclinic through both command paths on the
 Windows/Linux verification matrix. The executable commerce slice now
   proves authentication decisions, generated authorization, persistence, and
   test receipt delivery on the same generated application graph.

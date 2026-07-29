@@ -29,7 +29,7 @@
     },
     {
       "path": "internal/spicegen/petclinic/zz_spice_gen.go",
-      "sha256": "sha256:b156bf76a8122c31ee07e9d4fce9111a7dcac5ad312cb0b84f5f50074918875d",
+      "sha256": "sha256:a0bc0f32f658b2db784e67f993f6bcee1eb6501596c968444d77b6ab00bc0263",
       "role": "application",
       "sources": [
         {
@@ -42,7 +42,7 @@
     },
     {
       "path": "memory/owner_repository_petclinic_spice_gen.go",
-      "sha256": "sha256:9d7a68009250c6d9da31df83f01d6a2b211cef1eb44a3325102ff8f6a8e6c9ea",
+      "sha256": "sha256:318428be246e77854e096bd4656504408b62a94d51d5b5a0993a553590ec16ff",
       "role": "source-shard",
       "sources": [
         {
@@ -55,7 +55,7 @@
     },
     {
       "path": "memory/pet_type_repository_petclinic_spice_gen.go",
-      "sha256": "sha256:c5c7a0f0dad8e33d462015c8ae8d1fc1b700ecca76a4b71601487988131968dd",
+      "sha256": "sha256:8055caed739ffdfb431cd2a05ee362d52ebda58e9697c787ca812936379792bb",
       "role": "source-shard",
       "sources": [
         {
@@ -68,7 +68,7 @@
     },
     {
       "path": "memory/vet_repository_petclinic_spice_gen.go",
-      "sha256": "sha256:672497da405d352ef5edf24fea6383c7f71ab5ba6fe15187beb5cc0d04d81a59",
+      "sha256": "sha256:e755e80be7ba1f98d6b35b99445a3aef0c71d66a5ad32234fc78ceda571f9db8",
       "role": "source-shard",
       "sources": [
         {
@@ -81,7 +81,7 @@
     },
     {
       "path": "zz_spice_bridge_gen.go",
-      "sha256": "sha256:ba0578120a1df9b0c16a97edd6ca14f316748512e49e0b3840760446ef1eb501",
+      "sha256": "sha256:42ad5b683dfbe7ab14fa52377a5442b48a5c33e193ae42d7dac64ac42685d647",
       "role": "command-bridge",
       "sources": [
         {

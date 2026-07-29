@@ -154,10 +154,10 @@ clean pinned GoLand profile through JetBrains Starter/Driver, and then:
 11. verifies that empty LSP diagnostic publications contain
     `diagnostics: []`, so GoLand clears stale errors instead of rejecting a
     null payload;
-12. builds a real Spice CLI, executes the folded commerce target through the
-   exact Run command, generates it through the Debug prerequisite, builds the
-   full package with debug flags, executes that binary, and rechecks the
-   physical annotation comments;
+12. builds a real Spice CLI, executes the folded Petclinic target with its
+   complete multi-package pattern set through the exact Run command, generates
+   it through the Debug prerequisite, builds the full package with debug
+   flags, executes that binary, and rechecks the physical annotation comments;
 13. moves the real mouse with the platform modifier held, proves the exact
     annotation range visibly underlines, and Ctrl-clicks through to the real
     descriptor source;
@@ -195,14 +195,26 @@ and antialiasing drift without silently accepting a missing fold, theme-wide
 color regression, blank render, or major layout shift. The build reports
 remain the exact current render for human inspection on Windows and Linux.
 
-The commerce execution test is part of ordinary `make goland` and therefore of
+The Petclinic execution test is part of ordinary `make goland` and therefore of
 the `make verify` matrix. Windows and Linux also run the installed-plugin UI
 suite; macOS currently runs compile, unit, execution, packaging, and Plugin
 Verifier coverage while its stable UI runner remains pending. The UI suite
-prepends a freshly built repository Spice binary to the launched IDE's `PATH`,
-so it cannot silently validate against a stale globally installed language
-server. It uses platform-native process invocation and temporary output paths;
-no shell-specific command or fixture binary is hidden in the plugin.
+sets `SPICE_EXECUTABLE` to the exact freshly built repository binary in
+addition to prepending its directory to `PATH`, so Windows executable lookup
+cannot silently select a stale globally installed language server. The suite
+opens the real Petclinic module and its committed generated bridge before
+checking the application source. It uses platform-native process invocation
+and temporary output paths; no shell-specific command or fixture binary is
+hidden in the plugin.
+
+Generation analysis uses the `spice_generate` build tag, which deliberately
+excludes committed generated files. The shared loader supplies a typed,
+analysis-only `spiceMain` declaration in the in-memory overlay for an
+explicitly imported `@Application` entrypoint; it never writes that declaration
+or exposes it as a user symbol. Both the LSP and plugin reject every unrelated
+undefined reference. A narrow editor guard removes only GoLand's transient
+`gocommand-*` bridge diagnostic when the open source structurally proves the
+annotated generated-bridge contract.
 
 The folding parser is intentionally narrow: it recognizes declaration comments
 whose complete text begins with canonical `// @`, including explicit

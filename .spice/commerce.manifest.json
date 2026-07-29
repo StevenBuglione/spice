@@ -16,7 +16,7 @@
   "files": [
     {
       "path": "examples/commerce/notifications/notifications_commerce_spice_gen.go",
-      "sha256": "sha256:6ee9cc8aede28b3ff0321ac63fb3fedd60a31626e5ebd3540b954fed08b8b5df",
+      "sha256": "sha256:684e59e05d80d05b85896dcb6ea5661e5532adc58d530ae7363dc57b65042824",
       "role": "source-shard",
       "sources": [
         {
@@ -35,7 +35,7 @@
     },
     {
       "path": "examples/commerce/payments/payments_commerce_spice_gen.go",
-      "sha256": "sha256:4d13ea5c25ff8e086aea77fb1ba1bdfaa0756f7299f3f3c8ff0b2dc38747e99e",
+      "sha256": "sha256:5b17c002a326d11c7d161d2382c7a0864124d87e59608b9860ffdc6898fc03c4",
       "role": "source-shard",
       "sources": [
         {
@@ -54,7 +54,7 @@
     },
     {
       "path": "examples/commerce/storage/storage_commerce_spice_gen.go",
-      "sha256": "sha256:97a394b9eecdbcb98b01bf887e26921072788284e084d88e8f191016cbf38ed0",
+      "sha256": "sha256:8f9e2567f938f425402a778d65584f4e29c033f8f2eb97fe4ba08b66d1432be8",
       "role": "source-shard",
       "sources": [
         {
@@ -67,7 +67,7 @@
     },
     {
       "path": "examples/commerce/zz_spice_bridge_gen.go",
-      "sha256": "sha256:fa7cf9e6ebd083c036124537a5378f843754d6f6872fe5e70bd4de535d4b53ce",
+      "sha256": "sha256:cdbb586b91e85ad636c023e3704253419bbc020a6d4fbc7ba92b35b2ac0a3797",
       "role": "command-bridge",
       "sources": [
         {
@@ -93,7 +93,7 @@
     },
     {
       "path": "internal/spicegen/commerce/zz_spice_gen.go",
-      "sha256": "sha256:05fd7a2e1e46f000ca601472146ff1de0e473f56165f5b352cff229c660f4f89",
+      "sha256": "sha256:5e8c1d0a36b92f9e0574f3a4aa9e345df9dd41af1e95e49b1288dc24bf31c14d",
       "role": "application",
       "sources": [
         {

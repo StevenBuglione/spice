@@ -16,7 +16,7 @@
   "files": [
     {
       "path": "cmd/mysql/zz_spice_bridge_gen.go",
-      "sha256": "sha256:221f25b526806a63ff37ceeb9081dd4fa03f78c3fd41cd4d4616c4e24cbd2177",
+      "sha256": "sha256:d097cde253a5e1db05e0218f55df79f5426beb1e7ec24428fc22897c102ff985",
       "role": "command-bridge",
       "sources": [
         {
@@ -42,7 +42,7 @@
     },
     {
       "path": "internal/spicegen/mysql/zz_spice_gen.go",
-      "sha256": "sha256:d2cf04d5773811b289807e28540d7d1d83fd72db2784e59d5a37ba6ccadbb777",
+      "sha256": "sha256:14d8a7e1294293de73e4828f31cae0777099a26050fa366b1982080ebd064ff4",
       "role": "application",
       "sources": [
         {
@@ -55,7 +55,7 @@
     },
     {
       "path": "mysql/owner_repository_mysql_spice_gen.go",
-      "sha256": "sha256:0e5c1bc619578edfd1e9ec7ca2bdf2d7b73b41e971d0ba8f92348e696b4e1e79",
+      "sha256": "sha256:194de2aabe46fb9aa8dd6b8ff4b1af79429bb777bd36df309cc295b946661971",
       "role": "source-shard",
       "sources": [
         {
@@ -68,7 +68,7 @@
     },
     {
       "path": "mysql/pet_type_repository_mysql_spice_gen.go",
-      "sha256": "sha256:a81c3bb57f0e6ec841110c92e1cfb112449f27a3a81dd1cee9441b9e8cfccf80",
+      "sha256": "sha256:731e56ebb6e0f267eaff3ded4614bc1d7f263b2697f4cb4f381a729e3d0f7236",
       "role": "source-shard",
       "sources": [
         {
@@ -81,7 +81,7 @@
     },
     {
       "path": "mysql/vet_repository_mysql_spice_gen.go",
-      "sha256": "sha256:da4f59182587f0d6e8f70c06af4c665752e6eedb9c0d91e71a61c6822f5ef425",
+      "sha256": "sha256:7283d3004d3ffca5f0966f90479f36fd45d2d012a3acb0997b38c6656cd1c91b",
       "role": "source-shard",
       "sources": [
         {

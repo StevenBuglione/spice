@@ -16,7 +16,7 @@
   "files": [
     {
       "path": "internal/spicegen/spice_annotation_app/zz_spice_gen.go",
-      "sha256": "sha256:6b30442d68670de18ef862a1096fb11c6178118c32164c9588cf1b4a59523fc8",
+      "sha256": "sha256:68d819e6c4db59bf69076ae54cb77c53e732e8b5b326a5e907fae94b2660da22",
       "role": "application",
       "sources": [
         {
@@ -29,7 +29,7 @@
     },
     {
       "path": "zz_spice_bridge_gen.go",
-      "sha256": "sha256:f5908751904577ed7d0dc5fdd1b8d934227851807534dd3968f0b5b7e3b733bc",
+      "sha256": "sha256:8dc24acd148ff978a59ab05aa9ef835272db35920dd8b59ea43fa8e7de8962f6",
       "role": "command-bridge",
       "sources": [
         {
