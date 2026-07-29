@@ -7,6 +7,7 @@ toolchain go1.26.5
 tool github.com/StevenBuglione/spice/cmd/spice-annotation-core
 
 require (
+	github.com/coder/websocket v1.8.15
 	github.com/coreos/go-oidc/v3 v3.20.0
 	github.com/go-sql-driver/mysql v1.10.0
 	github.com/jackc/pgx/v5 v5.10.0

@@ -61,6 +61,9 @@ The repository currently provides:
 - An opt-in grpc-go server/client starter with TLS-by-default transport,
   bounded messages and streams, ordinary generated-protobuf registration,
   standard health, graceful lifecycle drain, and payload-free observations.
+- An opt-in RFC 6455 WebSocket server/client starter with same-origin and
+  TLS-by-default policy, bounded messages/connections/close, explicit
+  subprotocols and compression, and payload-free session observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts, a bounded in-memory LRU/TTL cache, and compile-time
   `@cache.Cacheable` typed-read generation with configured capacity/TTL,

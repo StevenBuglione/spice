@@ -252,6 +252,7 @@ Every current integration exposes a package-level `Manifest()`:
 |---|---|---|
 | `starter/grpc` | `rpc.grpc.client`, `rpc.grpc.server` | `google.golang.org/grpc` v1.82.1 |
 | `starter/kafka` | `messaging.kafka.consumer-group`, `messaging.kafka.producer` | `github.com/twmb/franz-go` v1.21.0 |
+| `starter/websocket` | `web.websocket.client`, `web.websocket.server` | `github.com/coder/websocket` v1.8.15 |
 | `starter/postgres` | `batch.postgresql`, `data.postgresql`, `data.sql`, `event.outbox.postgresql`, `migration.postgresql` | `github.com/jackc/pgx/v5` v5.10.0 |
 | `starter/redis` | `cache.redis`, `data.redis` | `github.com/redis/go-redis/v9` v9.21.0 |
 | `starter/smtp` | `mail.smtp` | Go standard library |
@@ -259,7 +260,7 @@ Every current integration exposes a package-level `Manifest()`:
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
 | `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
 
-gRPC, Kafka, PostgreSQL, Redis, SMTP, OIDC, and OAuth2-client use
+gRPC, Kafka, WebSocket, PostgreSQL, Redis, SMTP, OIDC, and OAuth2-client use
 `explicit-constructor` activation.
 OpenTelemetry contributes `@otel.Enable` through `explicit-annotation`
 activation and maps it to the reviewed `NewHTTPObserver` entrypoint plus the

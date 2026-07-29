@@ -16,6 +16,7 @@ import (
 	"github.com/StevenBuglione/spice/starter/postgres"
 	redisstarter "github.com/StevenBuglione/spice/starter/redis"
 	smtpstarter "github.com/StevenBuglione/spice/starter/smtp"
+	websocketstarter "github.com/StevenBuglione/spice/starter/websocket"
 )
 
 func TestShippedStarterManifests(t *testing.T) {
@@ -31,6 +32,24 @@ func TestShippedStarterManifests(t *testing.T) {
 		feature      string
 		requirements []string
 	}{
+		{
+			name:     "websocket",
+			manifest: websocketstarter.Manifest,
+			entrypoints: []any{
+				websocketstarter.NewHandler,
+				websocketstarter.Dial,
+			},
+			capabilities: []string{
+				"web.websocket.client",
+				"web.websocket.server",
+			},
+			dependencies: []starter.Dependency{{
+				Module:  "github.com/coder/websocket",
+				Version: "v1.8.15",
+				License: "ISC",
+			}},
+			activation: starter.ActivationExplicitConstructor,
+		},
 		{
 			name:     "grpc",
 			manifest: grpcstarter.Manifest,
