@@ -207,6 +207,9 @@ third-party handler test harnesses without reflection or compiler imports.
 - Focused module execution plus generated HTTP and transaction-rollback data
   test slices.
 - Typed application events and durable publication.
+- Immutable transport-neutral external messages and explicit single-settlement
+  delivery contracts; client-specific broker starters and generated listeners
+  remain M4 work.
 
 ## M4 — Broad Spring Boot coverage
 

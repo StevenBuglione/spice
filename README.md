@@ -52,6 +52,9 @@ The repository currently provides:
   observations, and compile-time `@event.Topic`/`@event.Listener` graph
   metadata rendered as direct, rollback-safe topic construction.
 - A transactional outbox with immutable bounded messages, a driver-neutral SQL store, atomic enqueue/lease contracts, at-least-once dispatch, explicit failure delay, and payload-free observations.
+- Immutable bounded external-message envelopes plus explicit publisher,
+  handler, and acknowledgement/retry/reject settlement contracts for isolated
+  broker starters.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts, a bounded in-memory LRU/TTL cache, and compile-time
   `@cache.Cacheable` typed-read generation with configured capacity/TTL,
@@ -356,6 +359,9 @@ OAuth2 service-client integration is documented in
 
 Transactional outbox storage and dispatch semantics are documented in
 [`docs/outbox.md`](docs/outbox.md).
+
+Transport-neutral external messaging contracts are documented in
+[`docs/messaging.md`](docs/messaging.md).
 
 Module-owned database migration planning is documented in
 [`docs/migrations.md`](docs/migrations.md).
