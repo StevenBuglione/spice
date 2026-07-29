@@ -1,6 +1,6 @@
 # ADR 0006: Pure Deterministic Generation Plans
 
-Status: Accepted
+Status: Accepted (amended for manifest schema 5)
 
 ## Decision
 
@@ -12,16 +12,28 @@ network.
 The preferred package-main target layout is:
 
 ```text
-<application-package>/zz_spice_gen.go
+internal/spicegen/<target>/spice_contracts_gen.go
+internal/spicegen/<target>/spice_configuration_gen.go
+internal/spicegen/<target>/spice_providers_gen.go
+internal/spicegen/<target>/spice_assembly_gen.go
+internal/spicegen/<target>/spice_features_gen.go
+internal/spicegen/<target>/spice_http_gen.go
+internal/spicegen/<target>/spice_http_route_<symbol>_<id>_gen.go
+internal/spicegen/<target>/spice_lifecycle_gen.go
+internal/spicegen/<target>/spice_command_gen.go
+internal/spicegen/<target>/sources/<source-directory>/<source>_spice_gen.go
 .spice/<target>.manifest.json
 ```
 
-The command package import-path base supplies the default target name and
-portable ID. Compatible legacy markers retain
-`internal/spicegen/<target>/zz_spice_gen.go` and function-name IDs.
-Target IDs use the portable `[a-z][a-z0-9_]*` form. A target records one module
-root as an execution-only field; the root is never serialized. Manifest schema
-2 records `application-package` or `generated-package` layout explicitly.
+There is no catch-all target file. Concern-named units make execution boundaries
+obvious, the assembly unit only sequences bounded phases, and every HTTP route
+uses a readable stable symbol-and-hash-derived filename. Every contributing handwritten file
+owns one mirrored source unit. The command package import-path base supplies
+the default target name and portable ID. Target IDs use the portable
+`[a-z][a-z0-9_]*` form. A target records one module root as an execution-only
+field; the root is never serialized. Manifest schema 5 records the application
+package layout, concern roles, exact source ownership, and generated ranges.
+Schema-4 monoliths remain accepted only for guarded migration.
 
 ## Generated source
 
@@ -51,7 +63,8 @@ The canonical JSON manifest records:
 - schema, target, module, package, output, and manifest identities;
 - Spice generator and Go formatter compatibility versions;
 - a SHA-256 hash of canonical application IR and target inputs;
-- sorted generated paths and exact SHA-256 content hashes.
+- sorted generated paths, concern roles, source mappings, and exact SHA-256
+  content hashes.
 
 It contains no timestamps, absolute paths, raw environment values, random data,
 or host information. Manifest bytes and generated Go are byte-identical for the

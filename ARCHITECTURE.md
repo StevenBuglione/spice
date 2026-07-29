@@ -88,9 +88,25 @@ The preferred `@Application` is the ordinary parameterless `func main()` in
 package `main`. The selected Go package scope is already bounded by the
 standard package driver; Spice discovers package-documentation modules and
 annotated application features within that scope, resolves exact types, and
-emits their real imports and calls beside `main.go`. Multi-application
-repositories use explicit target/package scope. This is compile-time analysis,
-not runtime scanning, `init` registration, or implicit dependency resolution.
+emits their real imports and calls in an importable
+`internal/spicegen/<target>` package. Multi-application repositories use
+explicit target/package scope. This is compile-time analysis, not runtime
+scanning, `init` registration, or implicit dependency resolution.
+
+Generated execution is intentionally decomposed rather than collected in one
+target monolith. Named files own contracts, configuration, dependency
+construction, bounded assembly, optional features, HTTP coordination,
+lifecycle, and process commands. Each HTTP route owns a readable, stable
+symbol-and-hash-derived target file. Separately, every contributing handwritten
+file owns exactly one
+mirrored unit below `sources/<source-directory>/<source>_spice_gen.go`; that is
+where its direct factory adapter, configuration binder, application metadata,
+and interface assertions live. This gives Go debuggers truthful physical
+frames and gives developers predictable source-to-generated navigation without
+pretending generated execution occurred in handwritten code. Repository
+reference applications enforce a 400-line ceiling on every target-level
+generated unit; growth beyond that budget requires another semantic shard,
+not a larger catch-all file.
 
 `@Application` supplies safe command conventions. Explicitly imported
 companion annotations opt into behavior with exposure or operational

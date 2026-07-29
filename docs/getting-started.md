@@ -61,8 +61,16 @@ application:
 same command without `--check`. The output has three clear roles:
 
 ```text
-internal/spicegen/petclinic/zz_spice_gen.go
-    target-wide graph and lifecycle orchestration
+internal/spicegen/petclinic/spice_assembly_gen.go
+    bounded construction-phase sequencing
+internal/spicegen/petclinic/spice_{contracts,configuration,providers}_gen.go
+    typed contracts, configuration metadata, and dependency construction
+internal/spicegen/petclinic/spice_http_gen.go
+    HTTP and management coordination
+internal/spicegen/petclinic/spice_http_route_<symbol>_<id>_gen.go
+    one stable, source-linked route adapter
+internal/spicegen/petclinic/spice_{features,lifecycle,command}_gen.go
+    optional features, reusable lifecycle, and process entrypoint behavior
 internal/spicegen/petclinic/sources/<package>/<source>_spice_gen.go
     one source-owned unit with direct construction, binding, and assertions
 internal/spicegen/petclinic/artifacts/openapi.json

@@ -2,6 +2,10 @@
 
 Date: 2026-07-24
 
+> Historical research input. ADR 0006's schema-5 amendment is authoritative:
+> current targets use concern-named files, stable per-route units, and mirrored
+> source-owned units rather than the single filenames illustrated below.
+
 ## Question
 
 After Spice has one typed Go program, resolved annotations, a validated provider catalog, and a deterministic provider dependency graph, what generated-code contract should it use so application bootstrap remains ordinary Go while generation is reproducible, reviewable, safe to apply, easy to verify in CI, and compatible with Go modules, workspaces, build constraints, and offline builds?

@@ -95,25 +95,45 @@ process.
 The preferred target owns:
 
 ```text
-internal/spicegen/<target>/zz_spice_gen.go
+internal/spicegen/<target>/spice_contracts_gen.go
+internal/spicegen/<target>/spice_configuration_gen.go
+internal/spicegen/<target>/spice_providers_gen.go
+internal/spicegen/<target>/spice_assembly_gen.go
+internal/spicegen/<target>/spice_features_gen.go       # when needed
+internal/spicegen/<target>/spice_http_gen.go           # when HTTP is enabled
+internal/spicegen/<target>/spice_http_route_<symbol>_<id>_gen.go
+internal/spicegen/<target>/spice_lifecycle_gen.go
+internal/spicegen/<target>/spice_command_gen.go
 internal/spicegen/<target>/sources/<source-directory>/<source>_spice_gen.go
 internal/spicegen/<target>/artifacts/openapi.json   # when controllers exist
 .spice/<target>.manifest.json
 ```
 
-The target-wide orchestrator lives in the importable generated package. The
-handwritten command imports that package directly. Every contributing
+There is deliberately no catch-all generated file. Contracts, configuration,
+provider-graph construction, phase assembly, optional features, HTTP
+coordination, lifecycle methods, and process commands each have one named
+boundary. Every HTTP route has a readable, stable symbol-and-hash-derived file,
+so a breakpoint or route edit does not require navigating an application-sized
+renderer output.
+The small assembly unit invokes these bounded phases in validated order. The
+repository quality gate caps target-level generated units in the reference
+applications at 400 lines so future features must add a semantic shard instead
+of rebuilding the monolith.
+
+The handwritten command imports the target package directly. Every contributing
 handwritten file—including the application marker—owns one mirrored source
 unit; providers, configuration binders, application metadata, and
 `@Implements` assertions derived from that file live together there. Source
 units use nested generated packages rather than appearing beside handwritten
-Go, and the orchestrator calls their typed exported adapters.
+Go, and target provider wiring calls their typed exported adapters.
 
-The schema-4 manifest records each file's role, primary source, related source
-declarations, exact generated ranges, and SHA-256 ownership. Generation
+The schema-5 manifest records each file's concern role—including a distinct
+`target-http-route` role—primary source, related source declarations, exact
+generated ranges, and SHA-256 ownership. Generation
 preserves unchanged files, refuses manual edits and unowned collisions, and
 supports read-only check and bounded diff modes. Migration removes legacy
-adjacent schema-3 shards only when their recorded hash still matches.
+schema-4 monoliths and adjacent schema-3 shards only when their recorded hash
+still matches.
 Generated files have standard Go source positions and direct calls into
 handwritten functions, so stepping from wiring into user code uses the normal
 Go debugger. `spice generated --source path.go --line n` and the reverse

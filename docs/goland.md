@@ -215,7 +215,7 @@ suppresses an undefined symbol. Both the LSP and plugin reject every unrelated
 Go error. Run and Debug always execute the complete package, so no
 `gocommand-*` file fragment or bridge-specific inspection suppression exists.
 
-The schema-4 ownership manifest is the source/generated navigation contract.
+The schema-5 ownership manifest is the source/generated navigation contract.
 `spice generated --source ...` and `--generated ...` expose the same mapping in
 stable text or JSON for IDE and debugger integrations.
 

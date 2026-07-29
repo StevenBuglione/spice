@@ -161,9 +161,12 @@ completion inserts namespace imports without consulting an IDE index, and the
 renderer owns mirrored source units. Each contributing source file maps to one
 generated file below `internal/spicegen/<target>/sources`; direct provider
 construction, configuration binding, and interface assertions execute there,
-while target-wide coordination is explicitly separate. The schema-4 ownership
-manifest records primary source, related sources, and exact generated ranges,
-and guarded migration removes only hash-matching schema-3 adjacent shards.
+while target-wide coordination is explicitly decomposed into contracts,
+configuration, providers, bounded assembly, features, HTTP, stable per-route
+units, lifecycle, and command files. The schema-5 ownership manifest records
+concern roles, primary source, related sources, and exact generated ranges.
+Guarded migration removes only hash-matching schema-4 monoliths and schema-3
+adjacent shards.
 The packaged GoLand workflow proves
 native generic-aware Implement Methods generation, pointer receiver selection,
 namespace-aware navigation, and valid physical source. The next

@@ -410,12 +410,16 @@ Use `--target Name`, the command import path, or the stable marker symbol ID
 when the selected packages contain multiple application markers. Positional Go
 package patterns provide explicit compile-time scope in a multi-application
 monorepo; an ordinary single-application module needs no dummy imports or
-module list. Package-main generation writes the target-wide application into
-`internal/spicegen/<target>` and mirrors each contributing handwritten file to
-one nested `sources/.../<source>_spice_gen.go` unit. No generated Go is written
-beside handwritten code. Every file, source origin, and generated range is
-recorded in `.spice/<target>.manifest.json`; `spice generated` queries that
-mapping in either direction.
+module list. Package-main generation writes an importable
+`internal/spicegen/<target>` package split into contracts, configuration,
+providers, bounded assembly, optional features, HTTP coordination, readable
+stable per-route files, lifecycle, and command behavior. It mirrors each
+contributing handwritten file to one nested
+`sources/.../<source>_spice_gen.go` unit. No generated Go is written beside
+handwritten code, and there is no catch-all target file. Every concern role,
+source origin, and generated range is recorded in the schema-5
+`.spice/<target>.manifest.json`; `spice generated` queries that mapping in
+either direction.
 
 To start the example HTTP server:
 

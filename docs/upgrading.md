@@ -58,6 +58,13 @@ package-main targets have no adjacent command bridge; the handwritten
 entrypoint imports the generated target package directly. A legacy bridge is
 removed only when its old manifest hash still matches.
 
+Manifest schema 5 replaces the schema-4 `zz_spice_gen.go` target monolith with
+named concern files and stable per-route units. The first schema-5 generation
+removes the old file only when its schema-4 recorded hash still matches. If it
+was manually edited, Spice stops with a conflict so that work can be recovered
+or intentionally moved before regeneration. Do not delete the manifest or the
+old file to bypass this check.
+
 For a service with multiple application targets, pass the same `--target` and
 package scope used by its build. Never generate a broad module and assume it
 represents every target.

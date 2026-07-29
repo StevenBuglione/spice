@@ -65,12 +65,14 @@ The separate commerce integration remains the polished mail proof. Its receipt
 response reports a stable message ID, `transport: "test"`,
 `accepted: true`, and the attachment filename. The decoded test-transport
 acceptance test additionally verifies the exact envelope, subject, text body,
-and attachment bytes. The generated application code in
-`internal/spicegen/commerce/zz_spice_gen.go` visibly contains target-wide
-coordination. Mirrored files under
+and attachment bytes. The generated application package in
+`internal/spicegen/commerce` visibly separates contracts, configuration,
+providers, bounded assembly, features, HTTP coordination, one stable file per
+route, lifecycle, and command behavior. Mirrored files under
 `internal/spicegen/commerce/sources/<package>` contain source-owned direct
 constructors, configuration binders, and explicit interface assignments.
-The schema-4 manifest provides exact source/generated locations, and the
+The schema-5 manifest provides exact source/generated locations and concern
+roles, and the
 `spice generated` command exposes those locations to humans and IDE clients.
 There is no adjacent bridge, reflection, or runtime container.
 

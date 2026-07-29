@@ -1,5 +1,5 @@
 {
-  "schema": 4,
+  "schema": 5,
   "target": {
     "id": "spice_annotation_app",
     "layout": "application-package",
@@ -12,7 +12,7 @@
   },
   "generator_version": "0.1.0-dev",
   "go_format_line": "1.26",
-  "input_sha256": "sha256:efcde66e7dcde075f419561a9fcd4ad6187b1199bee7e6c38219a1d68c86c185",
+  "input_sha256": "sha256:99e369c764c11397ab9e964135894e348ee8272db330d7da609ef64b18a4641c",
   "files": [
     {
       "path": "internal/spicegen/spice_annotation_app/sources/_root/main_spice_gen.go",
@@ -73,9 +73,86 @@
       ]
     },
     {
-      "path": "internal/spicegen/spice_annotation_app/zz_spice_gen.go",
-      "sha256": "sha256:c6b7c178aedb71e8a9f60cbfbf41c34ad6051c48743267c5147f826ef59c3a67",
-      "role": "target-orchestrator",
+      "path": "internal/spicegen/spice_annotation_app/spice_assembly_gen.go",
+      "sha256": "sha256:77fe304f60f4cee511abd9c666383cf39d73ad1bb7787cc877d5fd4741e678b1",
+      "role": "target-assembly",
+      "related_sources": [
+        {
+          "path": "component/message.go",
+          "line": 9,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage"
+        },
+        {
+          "path": "main.go",
+          "line": 16,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice_annotation_app/spice_command_gen.go",
+      "sha256": "sha256:25ffdc50a6914ee3ebcf1c357cd15e714cd262e3d31b586f96142be5e11a7733",
+      "role": "target-command",
+      "related_sources": [
+        {
+          "path": "main.go",
+          "line": 16,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice_annotation_app/spice_configuration_gen.go",
+      "sha256": "sha256:d0208266d1581656c57a519438e04a391dbfffa010a62bfa7487c381cafb1333",
+      "role": "target-configuration",
+      "related_sources": [
+        {
+          "path": "main.go",
+          "line": 16,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice_annotation_app/spice_contracts_gen.go",
+      "sha256": "sha256:937c995d002b5c6028df034414db291950a3ff663d6894bc09d200cc8ea1eacb",
+      "role": "target-contracts",
+      "related_sources": [
+        {
+          "path": "component/message.go",
+          "line": 9,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage"
+        },
+        {
+          "path": "main.go",
+          "line": 16,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice_annotation_app/spice_lifecycle_gen.go",
+      "sha256": "sha256:3b2fc7bb7dd530bbd5fbc5f950a8d9912d0e4a6b82a417326f789d5d96b0554d",
+      "role": "target-lifecycle",
+      "related_sources": [
+        {
+          "path": "main.go",
+          "line": 16,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice_annotation_app/spice_providers_gen.go",
+      "sha256": "sha256:02f1559eb843c7751c61e5cc862d7b1c08e052b811f3538839917cc21b1b1160",
+      "role": "target-providers",
       "related_sources": [
         {
           "path": "component/message.go",
