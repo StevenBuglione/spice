@@ -42,7 +42,7 @@ exchanges, routing keys, dead letters, exactly-once claims, and broker
 transactions are starter/application policy and must be explicit. Package
 presence never creates a connection or listener.
 
-## Kafka producer
+## Kafka
 
 `starter/kafka` is the first reviewed transport. `Open` constructs a
 caller-owned franz-go v1.21 client without network I/O and returns lifecycle
@@ -57,6 +57,15 @@ The starter maps `Message.Topic`, `Key`, and payload directly and adds reserved
 headers may not shadow those names. Shutdown first flushes with the supplied
 lifecycle context and then closes the client exactly once.
 
-Consumer groups, retry/dead-letter policy, transactions, and real-broker
-acceptance remain explicit follow-up work; the producer manifest is therefore
+`OpenConsumer` constructs an instance-owned consumer group with the same secure
+transport defaults. `Run` uses bounded polling and sequential handling: an
+acknowledged delivery commits synchronously, a retryable handler failure remains
+uncommitted and returns control for caller-owned backoff/restart, and an explicit
+rejection commits so poison messages do not loop silently. Kafka records must
+carry the reserved metadata written by the producer. Malformed envelopes fail
+closed without committing. Consumer observers receive only group, topic,
+partition, duration, and error facts.
+
+Retry/dead-letter routing, transactions, generated listeners, and real-broker
+acceptance remain explicit follow-up work; the starter manifest is therefore
 classified as an integration rather than a complete Kafka platform.

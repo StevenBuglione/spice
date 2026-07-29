@@ -31,10 +31,16 @@ func TestShippedStarterManifests(t *testing.T) {
 		requirements []string
 	}{
 		{
-			name:         "kafka",
-			manifest:     kafkastarter.Manifest,
-			entrypoints:  []any{kafkastarter.Open},
-			capabilities: []string{"messaging.kafka.producer"},
+			name:     "kafka",
+			manifest: kafkastarter.Manifest,
+			entrypoints: []any{
+				kafkastarter.Open,
+				kafkastarter.OpenConsumer,
+			},
+			capabilities: []string{
+				"messaging.kafka.consumer-group",
+				"messaging.kafka.producer",
+			},
 			dependencies: []starter.Dependency{{
 				Module:  "github.com/twmb/franz-go",
 				Version: "v1.21.0",

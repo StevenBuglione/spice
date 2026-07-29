@@ -250,7 +250,7 @@ Every current integration exposes a package-level `Manifest()`:
 
 | Package | Capabilities | Reviewed dependency |
 |---|---|---|
-| `starter/kafka` | `messaging.kafka.producer` | `github.com/twmb/franz-go` v1.21.0 |
+| `starter/kafka` | `messaging.kafka.consumer-group`, `messaging.kafka.producer` | `github.com/twmb/franz-go` v1.21.0 |
 | `starter/postgres` | `batch.postgresql`, `data.postgresql`, `data.sql`, `event.outbox.postgresql`, `migration.postgresql` | `github.com/jackc/pgx/v5` v5.10.0 |
 | `starter/redis` | `cache.redis`, `data.redis` | `github.com/redis/go-redis/v9` v9.21.0 |
 | `starter/smtp` | `mail.smtp` | Go standard library |
