@@ -12,8 +12,8 @@ import (
 	postgres "github.com/StevenBuglione/spice/examples/petclinic/postgres"
 )
 
-// Bind15f2ccd06674 binds the validated configuration declared by spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|8:Settings.
-func Bind15f2ccd06674(configurationSnapshot spiceconfig.Snapshot) (postgres.Settings, error) {
+// BindSettings_15f2ccd0 binds the validated configuration declared by spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|8:Settings.
+func BindSettings_15f2ccd0(configurationSnapshot spiceconfig.Snapshot) (postgres.Settings, error) {
 	value := postgres.Settings{}
 	if _, configured := configurationSnapshot.Lookup("petclinic.datasource.url"); configured {
 		rawValue, valueErr := configurationSnapshot.RequiredString("petclinic.datasource.url")

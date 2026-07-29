@@ -5,5 +5,5 @@
 
 package spicegen
 
-// ApplicationTarget064f99508fba identifies the generated target selected by spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main.
-const ApplicationTarget064f99508fba = "spice_annotation_app"
+// ApplicationTargetSpiceAnnotationApp_064f9950 identifies the generated target selected by spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main.
+const ApplicationTargetSpiceAnnotationApp_064f9950 = "spice_annotation_app"

@@ -101,7 +101,7 @@
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/inventory/inventory_spice_gen.go",
-      "sha256": "sha256:d75a4116e0807f3fc4947efa310c3eefb60f5caa51fbdc323f6239d7942013f5",
+      "sha256": "sha256:e95a2196b23bede8d33d47d8b6a6850d661c114c1a0714880c8adbea52ddc602",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/inventory/inventory.go",
@@ -123,7 +123,7 @@
             "start_line": 17,
             "start_column": 4,
             "end_line": 17,
-            "end_column": 25
+            "end_column": 29
           }
         },
         {
@@ -136,17 +136,17 @@
             "symbol": "spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/commerce/inventory|0:|8:Settings"
           },
           "generated": {
-            "start_line": 27,
+            "start_line": 28,
             "start_column": 4,
-            "end_line": 27,
-            "end_column": 20
+            "end_line": 28,
+            "end_column": 25
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/main_spice_gen.go",
-      "sha256": "sha256:b968da64a8d7a6402d9d3b0c4eca1b807d926ebc25c2e765fa2729818c6725f8",
+      "sha256": "sha256:8bd5311083e414771b1e82c4e3b27df8d07522d7552674f1b53c83105a0d863b",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/main.go",
@@ -168,14 +168,14 @@
             "start_line": 8,
             "start_column": 4,
             "end_line": 8,
-            "end_column": 33
+            "end_column": 38
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/notifications/notifications_spice_gen.go",
-      "sha256": "sha256:3e38ddcd680e36c314a271573a9d61ce93ce5a1cdcc06d6730173b980d2891e9",
+      "sha256": "sha256:b2ee1599e462b25fc6c6467e2dd464cda16a63bca8aea19f6a016299403cd630",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/notifications/notifications.go",
@@ -197,7 +197,7 @@
             "start_line": 21,
             "start_column": 4,
             "end_line": 21,
-            "end_column": 25
+            "end_column": 33
           }
         },
         {
@@ -210,10 +210,10 @@
             "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/commerce/notifications|0:|11:SystemClock"
           },
           "generated": {
-            "start_line": 27,
+            "start_line": 28,
             "start_column": 4,
-            "end_line": 27,
-            "end_column": 31
+            "end_line": 28,
+            "end_column": 46
           }
         },
         {
@@ -226,10 +226,10 @@
             "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/commerce/notifications|0:|8:Delivery"
           },
           "generated": {
-            "start_line": 30,
+            "start_line": 31,
             "start_column": 4,
-            "end_line": 30,
-            "end_column": 25
+            "end_line": 31,
+            "end_column": 30
           }
         },
         {
@@ -242,10 +242,10 @@
             "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/commerce/notifications|0:|8:Delivery"
           },
           "generated": {
-            "start_line": 40,
+            "start_line": 42,
             "start_column": 4,
-            "end_line": 40,
-            "end_column": 31
+            "end_line": 42,
+            "end_column": 44
           }
         },
         {
@@ -258,10 +258,10 @@
             "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/commerce/notifications|0:|8:Notifier"
           },
           "generated": {
-            "start_line": 43,
+            "start_line": 45,
             "start_column": 4,
-            "end_line": 43,
-            "end_column": 25
+            "end_line": 45,
+            "end_column": 30
           }
         },
         {
@@ -274,17 +274,17 @@
             "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/commerce/notifications|0:|8:Settings"
           },
           "generated": {
-            "start_line": 53,
+            "start_line": 56,
             "start_column": 4,
-            "end_line": 53,
-            "end_column": 20
+            "end_line": 56,
+            "end_column": 25
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/orders/events_spice_gen.go",
-      "sha256": "sha256:515a18b53429a173695b48a786deaa9e427928b98b4b556e449e5cb1f00ebc6d",
+      "sha256": "sha256:6b11f63a8dd5b4750bddf5967fb499e2570fa074fef02e8833dd88228319237f",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/orders/events.go",
@@ -306,14 +306,14 @@
             "start_line": 13,
             "start_column": 4,
             "end_line": 13,
-            "end_column": 25
+            "end_column": 31
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/orders/http_spice_gen.go",
-      "sha256": "sha256:51f26be241b0186741e8da0da0ca8ac24f945bc125f687b99c0ab7836bb5fa50",
+      "sha256": "sha256:40a218ce367041a1d91d414cfb88f811b268e9fd14a9d5d0bf85101629e39f93",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/orders/http.go",
@@ -335,14 +335,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 32
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/orders/orders_spice_gen.go",
-      "sha256": "sha256:8b6dc5a24511deb3061eda07e9393567396f692e9cba966b0f377084ce8154bf",
+      "sha256": "sha256:5615f425aec27bf93a993b7ef4e53cb63f6e32cdf2852a6cbfc52d81133bdcab",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/orders/orders.go",
@@ -364,7 +364,7 @@
             "start_line": 22,
             "start_column": 4,
             "end_line": 22,
-            "end_column": 25
+            "end_column": 29
           }
         },
         {
@@ -377,17 +377,17 @@
             "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/commerce/orders|0:|8:Settings"
           },
           "generated": {
-            "start_line": 32,
+            "start_line": 33,
             "start_column": 4,
-            "end_line": 32,
-            "end_column": 20
+            "end_line": 33,
+            "end_column": 25
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/payments/payments_spice_gen.go",
-      "sha256": "sha256:6a5ac93f05f6a880eff15e6e2d36cf9a2426aa010149b6d27efa24bd1ddd71f7",
+      "sha256": "sha256:375f593486872180083421e51491ded20c0fe88b2141e75a7dd1fd886113d3e2",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/payments/payments.go",
@@ -409,7 +409,7 @@
             "start_line": 18,
             "start_column": 4,
             "end_line": 18,
-            "end_column": 25
+            "end_column": 38
           }
         },
         {
@@ -422,10 +422,10 @@
             "symbol": "spice:symbol:v1|type|58:github.com/StevenBuglione/spice/examples/commerce/payments|0:|16:OfflineProcessor"
           },
           "generated": {
-            "start_line": 23,
+            "start_line": 24,
             "start_column": 4,
-            "end_line": 23,
-            "end_column": 31
+            "end_line": 24,
+            "end_column": 55
           }
         },
         {
@@ -438,10 +438,10 @@
             "symbol": "spice:symbol:v1|type|58:github.com/StevenBuglione/spice/examples/commerce/payments|0:|7:Service"
           },
           "generated": {
-            "start_line": 26,
+            "start_line": 27,
             "start_column": 4,
-            "end_line": 26,
-            "end_column": 25
+            "end_line": 27,
+            "end_column": 37
           }
         },
         {
@@ -454,10 +454,10 @@
             "symbol": "spice:symbol:v1|type|58:github.com/StevenBuglione/spice/examples/commerce/payments|0:|7:Service"
           },
           "generated": {
-            "start_line": 36,
+            "start_line": 38,
             "start_column": 4,
-            "end_line": 36,
-            "end_column": 31
+            "end_line": 38,
+            "end_column": 54
           }
         },
         {
@@ -470,17 +470,17 @@
             "symbol": "spice:symbol:v1|type|58:github.com/StevenBuglione/spice/examples/commerce/payments|0:|8:Settings"
           },
           "generated": {
-            "start_line": 39,
+            "start_line": 41,
             "start_column": 4,
-            "end_line": 39,
-            "end_column": 20
+            "end_line": 41,
+            "end_column": 25
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/platform/platform_spice_gen.go",
-      "sha256": "sha256:62bddd1239e0bf3ba4711e93d0338ca2adf06ce68b508929fbe736f81ed4b1a0",
+      "sha256": "sha256:3babd8809a462f8a5f37172d0f450f21f309e708bf9b8f3ef5dd894c2e59330e",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/platform/platform.go",
@@ -515,10 +515,10 @@
             "symbol": "spice:symbol:v1|function|58:github.com/StevenBuglione/spice/examples/commerce/platform|0:|9:NewServer"
           },
           "generated": {
-            "start_line": 27,
+            "start_line": 28,
             "start_column": 4,
-            "end_line": 27,
-            "end_column": 25
+            "end_line": 28,
+            "end_column": 28
           }
         },
         {
@@ -531,17 +531,17 @@
             "symbol": "spice:symbol:v1|type|58:github.com/StevenBuglione/spice/examples/commerce/platform|0:|8:Settings"
           },
           "generated": {
-            "start_line": 37,
+            "start_line": 39,
             "start_column": 4,
-            "end_line": 37,
-            "end_column": 20
+            "end_line": 39,
+            "end_column": 25
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/storage/storage_spice_gen.go",
-      "sha256": "sha256:3b96343fd5cf6cb64b06a4df8d7243f4a150b3ec4da42dad9b65d545a8bdec42",
+      "sha256": "sha256:e9eb24faa351a1f94676326c91eeb3ac075f400155c87c8b6978970835a7a110",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/storage/storage.go",
@@ -563,7 +563,7 @@
             "start_line": 23,
             "start_column": 4,
             "end_line": 23,
-            "end_column": 25
+            "end_column": 34
           }
         },
         {
@@ -576,10 +576,10 @@
             "symbol": "spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/commerce/storage|0:|12:ReadExecutor"
           },
           "generated": {
-            "start_line": 33,
+            "start_line": 34,
             "start_column": 4,
-            "end_line": 33,
-            "end_column": 25
+            "end_line": 34,
+            "end_column": 34
           }
         },
         {
@@ -592,10 +592,10 @@
             "symbol": "spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/commerce/storage|0:|12:Transactions"
           },
           "generated": {
-            "start_line": 39,
+            "start_line": 41,
             "start_column": 4,
-            "end_line": 39,
-            "end_column": 25
+            "end_line": 41,
+            "end_column": 34
           }
         },
         {
@@ -608,10 +608,10 @@
             "symbol": "spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/commerce/storage|0:|6:Native"
           },
           "generated": {
-            "start_line": 49,
+            "start_line": 52,
             "start_column": 4,
-            "end_line": 49,
-            "end_column": 25
+            "end_line": 52,
+            "end_column": 28
           }
         },
         {
@@ -624,10 +624,10 @@
             "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/commerce/storage|0:|15:OrderRepository"
           },
           "generated": {
-            "start_line": 59,
+            "start_line": 63,
             "start_column": 4,
-            "end_line": 59,
-            "end_column": 25
+            "end_line": 63,
+            "end_column": 37
           }
         },
         {
@@ -640,10 +640,10 @@
             "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/commerce/storage|0:|15:OrderRepository"
           },
           "generated": {
-            "start_line": 69,
+            "start_line": 74,
             "start_column": 4,
-            "end_line": 69,
-            "end_column": 31
+            "end_line": 74,
+            "end_column": 51
           }
         },
         {
@@ -656,17 +656,17 @@
             "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/commerce/storage|0:|8:Settings"
           },
           "generated": {
-            "start_line": 72,
+            "start_line": 77,
             "start_column": 4,
-            "end_line": 72,
-            "end_column": 20
+            "end_line": 77,
+            "end_column": 25
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/spice_assembly_gen.go",
-      "sha256": "sha256:49c3f067c6cc757c95321f2c98fbc0c3c943ce45984b2a85cfde03cbe5b6a185",
+      "sha256": "sha256:525c0e8f09a60351d97eb479ef783d7d6d95ff6b5a00077fb19d2dae7fc0a72d",
       "role": "target-assembly",
       "related_sources": [
         {
@@ -1281,7 +1281,7 @@
     },
     {
       "path": "internal/spicegen/commerce/spice_contracts_gen.go",
-      "sha256": "sha256:5e229c774b63f9549ecf39640111b69a58af2882bf8d3efd8353ad5fab458347",
+      "sha256": "sha256:187d60ef30cdc6a7a33e849fb1e474dd423b0a2d2f8db7f16e3f9bf1872dd283",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -1618,7 +1618,7 @@
     },
     {
       "path": "internal/spicegen/commerce/spice_features_gen.go",
-      "sha256": "sha256:724bc21629259c857fdc31a238e9146833a6b3401d9f4d326bce61b4ff85ac9b",
+      "sha256": "sha256:c34c37229477278c3afa8b2268f41813bc3655ab730f35f62a5c35a1db1e110e",
       "role": "target-features",
       "related_sources": [
         {
@@ -1661,7 +1661,7 @@
     },
     {
       "path": "internal/spicegen/commerce/spice_http_gen.go",
-      "sha256": "sha256:2805928718b58d7b1c4d6584f67733782c4ef1b98cf9a57d710f76647675fe92",
+      "sha256": "sha256:08ac3d097664eed5d86ed8e962a2e08e8e787c5c5d9c2ed2ca95f57282a8e7a7",
       "role": "target-http",
       "related_sources": [
         {
@@ -1752,7 +1752,7 @@
     },
     {
       "path": "internal/spicegen/commerce/spice_http_route_orders_controller_catalog_125c6a7a37a0_gen.go",
-      "sha256": "sha256:ddbcf8cb6ca917b2056ee11c21931d48925f06b6efe7716fb0aed6a78a8e7467",
+      "sha256": "sha256:53690048c7144d669a7731f0c3b51eadc0384f28775efb52eba1401dea02085b",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -1782,14 +1782,14 @@
             "start_line": 19,
             "start_column": 6,
             "end_line": 19,
-            "end_column": 40
+            "end_column": 60
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/spice_http_route_orders_controller_get_8c548c3f0ad4_gen.go",
-      "sha256": "sha256:877fe5af30e3b442c5fb5ec4814f2d50b9b830c4324c266e9cf8495f22f3d2e1",
+      "sha256": "sha256:ab71d9504eb73f1043cd1dc09301ae62d9a4d385ac6e2a356d680b7b939fc1e7",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -1825,14 +1825,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 56
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/spice_http_route_orders_controller_place_fbc15ec550e7_gen.go",
-      "sha256": "sha256:4be8bb9dbf69e0e0e9654e4489027c2f88acd64114b87d64c291d4622df0ad09",
+      "sha256": "sha256:b49371d79a1357f6d61c0e43ce795b5651b9cf909335f9913808dfaa480904b2",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -1874,14 +1874,14 @@
             "start_line": 20,
             "start_column": 6,
             "end_line": 20,
-            "end_column": 40
+            "end_column": 58
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/commerce/spice_http_route_orders_controller_sendreceipt_04b28d782ae7_gen.go",
-      "sha256": "sha256:869601940cb273c087954b190ab627d8bff7d7895b00b0cbb6e2c03d2a4be021",
+      "sha256": "sha256:4d656662ea18bb02d32767e469b749e0cbe71b960806e716fcc6da0fc6f75ceb",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -1917,7 +1917,7 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 64
           }
         }
       ]
@@ -1967,7 +1967,7 @@
     },
     {
       "path": "internal/spicegen/commerce/spice_providers_gen.go",
-      "sha256": "sha256:b9afe8274bd16c8f590da06c7d503a974bb71b833df08c6d22e6629958216b4b",
+      "sha256": "sha256:2690462fe37d58631039e43d20987b2b0ce4b8a8df6e46fef6801f29eee11964",
       "role": "target-providers",
       "related_sources": [
         {

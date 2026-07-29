@@ -16,7 +16,7 @@
   "files": [
     {
       "path": "internal/spicegen/spice_annotation_app/sources/_root/main_spice_gen.go",
-      "sha256": "sha256:0b05b57deeafd76917abca733e4ff9b6e61dcb65b56d7d5781d972de5a22a5c5",
+      "sha256": "sha256:bf75135edd0dac6702a56ce2681f49de412b58e076495518b1d06f5bc577ce83",
       "role": "source-unit",
       "primary_source": {
         "path": "main.go",
@@ -38,14 +38,14 @@
             "start_line": 8,
             "start_column": 4,
             "end_line": 8,
-            "end_column": 33
+            "end_column": 48
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/spice_annotation_app/sources/component/message_spice_gen.go",
-      "sha256": "sha256:5988f7afcff096f0709ae4da001fe2fae484214ca5d78202290eb7a91f8b9b12",
+      "sha256": "sha256:27ce8449b506dfc405db6f53902acb6eacc0e0cbbdc7184f1eb51241885e4798",
       "role": "source-unit",
       "primary_source": {
         "path": "component/message.go",
@@ -67,14 +67,14 @@
             "start_line": 13,
             "start_column": 4,
             "end_line": 13,
-            "end_column": 25
+            "end_column": 36
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_assembly_gen.go",
-      "sha256": "sha256:77fe304f60f4cee511abd9c666383cf39d73ad1bb7787cc877d5fd4741e678b1",
+      "sha256": "sha256:2ee117e5bfe0a5b5631922cb329055a65a57ee351ce14eb0d56d79b9eb44251c",
       "role": "target-assembly",
       "related_sources": [
         {
@@ -119,7 +119,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_contracts_gen.go",
-      "sha256": "sha256:937c995d002b5c6028df034414db291950a3ff663d6894bc09d200cc8ea1eacb",
+      "sha256": "sha256:63b1c3a7d04b17a16407b8c35f1defef59c20ecbcd948794a03211077263ee93",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -151,7 +151,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_providers_gen.go",
-      "sha256": "sha256:02f1559eb843c7751c61e5cc862d7b1c08e052b811f3538839917cc21b1b1160",
+      "sha256": "sha256:092405cb5070f8c1ab5bbcb0aca8c24ab0314de842f33e051ec1f496d508f932",
       "role": "target-providers",
       "related_sources": [
         {

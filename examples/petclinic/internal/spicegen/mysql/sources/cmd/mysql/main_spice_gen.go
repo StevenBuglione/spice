@@ -5,5 +5,5 @@
 
 package spicegen
 
-// ApplicationTarget47bdf520c582 identifies the generated target selected by spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main.
-const ApplicationTarget47bdf520c582 = "mysql"
+// ApplicationTargetMysql_47bdf520 identifies the generated target selected by spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main.
+const ApplicationTargetMysql_47bdf520 = "mysql"

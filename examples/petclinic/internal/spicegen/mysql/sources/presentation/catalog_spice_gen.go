@@ -13,12 +13,13 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct6e1785b3036b performs the direct construction selected for spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog.
-func Construct6e1785b3036b() (*i18n.Catalog, spicelifecycle.Cleanup, error) {
+// ConstructCatalog_6e1785b3 performs the direct construction selected for bean "newCatalog".
+// Spice source identity: spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog.
+func ConstructCatalog_6e1785b3() (*i18n.Catalog, spicelifecycle.Cleanup, error) {
 	value, err := presentation.NewCatalog()
 	if err != nil {
 		var zero *i18n.Catalog
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog (*github.com/StevenBuglione/spice/i18n.Catalog): %w", err)
+		return zero, nil, fmt.Errorf("construct bean newCatalog (*github.com/StevenBuglione/spice/i18n.Catalog, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog): %w", err)
 	}
 	return value, nil, nil
 }

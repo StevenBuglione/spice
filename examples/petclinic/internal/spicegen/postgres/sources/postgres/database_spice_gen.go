@@ -12,12 +12,13 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct0bab1f0e04ba performs the direct construction selected for spice:symbol:v1|function|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|12:OpenDatabase.
-func Construct0bab1f0e04ba(dependency0 postgres.Settings) (*postgres.Database, spicelifecycle.Cleanup, error) {
+// ConstructOpenDatabase_0bab1f0e performs the direct construction selected for bean "openDatabase".
+// Spice source identity: spice:symbol:v1|function|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|12:OpenDatabase.
+func ConstructOpenDatabase_0bab1f0e(dependency0 postgres.Settings) (*postgres.Database, spicelifecycle.Cleanup, error) {
 	value, cleanup, err := postgres.OpenDatabase(dependency0)
 	if err != nil {
 		var zero *postgres.Database
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|function|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|12:OpenDatabase (*github.com/StevenBuglione/spice/examples/petclinic/postgres.Database): %w", err)
+		return zero, nil, fmt.Errorf("construct bean openDatabase (*github.com/StevenBuglione/spice/examples/petclinic/postgres.Database, source spice:symbol:v1|function|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|12:OpenDatabase): %w", err)
 	}
 	return value, cleanup, nil
 }

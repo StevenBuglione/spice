@@ -138,6 +138,10 @@ Generated files have standard Go source positions and direct calls into
 handwritten functions, so stepping from wiring into user code uses the normal
 Go debugger. `spice generated --source path.go --line n` and the reverse
 `--generated` form query the manifest without compiling or changing files.
+Generated dependency variables, source adapter imports, and route functions
+use stable semantic names. Short deterministic suffixes disambiguate exported
+cross-file helpers; opaque ordinal names such as `provider17` are not the
+ordinary wiring contract.
 
 Generated source is excluded only from regeneration analysis with the reserved
 `spice_generate` build tag. During analysis, Spice verifies that annotated

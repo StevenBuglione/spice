@@ -12,12 +12,13 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Constructfc953d95bba0 performs the direct construction selected for spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase.
-func Constructfc953d95bba0(dependency0 mysql.Settings) (*mysql.Database, spicelifecycle.Cleanup, error) {
+// ConstructOpenDatabase_fc953d95 performs the direct construction selected for bean "openDatabase".
+// Spice source identity: spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase.
+func ConstructOpenDatabase_fc953d95(dependency0 mysql.Settings) (*mysql.Database, spicelifecycle.Cleanup, error) {
 	value, cleanup, err := mysql.OpenDatabase(dependency0)
 	if err != nil {
 		var zero *mysql.Database
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase (*github.com/StevenBuglione/spice/examples/petclinic/mysql.Database): %w", err)
+		return zero, nil, fmt.Errorf("construct bean openDatabase (*github.com/StevenBuglione/spice/examples/petclinic/mysql.Database, source spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase): %w", err)
 	}
 	return value, cleanup, nil
 }

@@ -13,8 +13,8 @@ import (
 	presentation "github.com/StevenBuglione/spice/examples/petclinic/presentation"
 )
 
-// Bind450eac750bad binds the validated configuration declared by spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.
-func Bind450eac750bad(configurationSnapshot spiceconfig.Snapshot) (presentation.ServerSettings, error) {
+// BindServerSettings_450eac75 binds the validated configuration declared by spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.
+func BindServerSettings_450eac75(configurationSnapshot spiceconfig.Snapshot) (presentation.ServerSettings, error) {
 	value := presentation.ServerSettings{}
 	if _, configured := configurationSnapshot.Lookup("petclinic.server.address"); configured {
 		rawValue, valueErr := configurationSnapshot.RequiredString("petclinic.server.address")

@@ -443,7 +443,7 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/cmd/mysql/main_spice_gen.go",
-      "sha256": "sha256:37bb4dfb9911d0af1408391c9ead2e12cff482388b4533e5186d594286b36e86",
+      "sha256": "sha256:7104a97254c244214727ff2f4237e75db46b2291bf3440d91188776b0b7eb027",
       "role": "source-unit",
       "primary_source": {
         "path": "cmd/mysql/main.go",
@@ -465,14 +465,14 @@
             "start_line": 8,
             "start_column": 4,
             "end_line": 8,
-            "end_column": 33
+            "end_column": 35
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/database_spice_gen.go",
-      "sha256": "sha256:40a3fcbdbdbc6e106cb9bc11b7e987420fc1fcad18f33769be0e76f97b90246d",
+      "sha256": "sha256:3b4d5333e03516e5b5eb6c4f22f491dceee582c120c924e0f388cfdb589069dc",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/database.go",
@@ -494,14 +494,14 @@
             "start_line": 15,
             "start_column": 4,
             "end_line": 15,
-            "end_column": 25
+            "end_column": 34
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/owner_repository_spice_gen.go",
-      "sha256": "sha256:5a9d763ba5954c73c316860cc90954ff247e880db1bad996a4a5736460515d0a",
+      "sha256": "sha256:aadfc013c03a4588456379e830eb2979435504b5b886a564be578cee0c9c9640",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/owner_repository.go",
@@ -523,7 +523,7 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 37
           }
         },
         {
@@ -536,17 +536,17 @@
             "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
           },
           "generated": {
-            "start_line": 26,
+            "start_line": 27,
             "start_column": 4,
-            "end_line": 26,
-            "end_column": 31
+            "end_line": 27,
+            "end_column": 55
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/pet_type_repository_spice_gen.go",
-      "sha256": "sha256:0d4e88949704a6a675e6da01e9ee686bfbb3fc3da396f73e087ea5664fb2f504",
+      "sha256": "sha256:f49d54757bf2f3358d700df04e47027814c69964b1c7993cb4626a41835d1a5c",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/pet_type_repository.go",
@@ -568,7 +568,7 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 39
           }
         },
         {
@@ -581,17 +581,17 @@
             "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
           },
           "generated": {
-            "start_line": 26,
+            "start_line": 27,
             "start_column": 4,
-            "end_line": 26,
-            "end_column": 31
+            "end_line": 27,
+            "end_column": 64
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/settings_spice_gen.go",
-      "sha256": "sha256:9ec27b51afdef6aa91cc31ae15cb11b87a4dacca517909cd9196229a5567463e",
+      "sha256": "sha256:1801c14a020733205706163e0d8f3c6f6b93aeef4d5f8c0fe4b035b45b25be31",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/settings.go",
@@ -613,14 +613,14 @@
             "start_line": 15,
             "start_column": 4,
             "end_line": 15,
-            "end_column": 20
+            "end_column": 25
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/vet_repository_spice_gen.go",
-      "sha256": "sha256:63e88cc7974815d45670d15784957b79f623c8467f7d28c69b88a749b0154271",
+      "sha256": "sha256:d4f1f5ed74f45da0c73ce3102361a46abe5b69b5bbef7b9cc213b1065d80e212",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/vet_repository.go",
@@ -642,7 +642,7 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 35
           }
         },
         {
@@ -655,17 +655,17 @@
             "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository"
           },
           "generated": {
-            "start_line": 26,
+            "start_line": 27,
             "start_column": 4,
-            "end_line": 26,
-            "end_column": 31
+            "end_line": 27,
+            "end_column": 53
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/owner/controller_spice_gen.go",
-      "sha256": "sha256:837890b09c60c79a24eada410c8f23e5b0d473882981c8ac51eeb89967525f31",
+      "sha256": "sha256:909cae541726f0c4899d3ae02f3e7c3790b47b3f6bc496387caaae19dab309e9",
       "role": "source-unit",
       "primary_source": {
         "path": "owner/controller.go",
@@ -687,14 +687,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 32
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/owner/pet_controller_spice_gen.go",
-      "sha256": "sha256:9fbf4855355f246c9d1d57883a135207aa01a7c3491989f1479406b41c9971e0",
+      "sha256": "sha256:4ded6c12499cfa23bb60c5bc748714185fd08d6856103b911497deed3b5000e6",
       "role": "source-unit",
       "primary_source": {
         "path": "owner/pet_controller.go",
@@ -716,14 +716,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 35
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/owner/visit_controller_spice_gen.go",
-      "sha256": "sha256:d480e95d991b486d64086758667a6f3eee8a85fc0e7110392940504d42155cb6",
+      "sha256": "sha256:085152119daf4e3816cfc60e52f91479b2277bbf1d95dbdb3574591c252dbfa2",
       "role": "source-unit",
       "primary_source": {
         "path": "owner/visit_controller.go",
@@ -745,14 +745,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 37
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/catalog_spice_gen.go",
-      "sha256": "sha256:afc1e7712343b9c147de0badfa1565b8145d1d82e399257ef376a1e3be575fee",
+      "sha256": "sha256:44540ae126f0b1bcec86e28ae337de850fe9f51c74f93a055fa394fd4a211d25",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/catalog.go",
@@ -774,14 +774,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 29
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/mux_spice_gen.go",
-      "sha256": "sha256:a2c1b769ea8cfb57d4438436fe8f4d09c08bc177e4aa47001e90dad609882a69",
+      "sha256": "sha256:54762e12db48ea908187367040b1699f5d621134cb59334c21abb8d904f61564",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/mux.go",
@@ -810,7 +810,7 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/renderer_spice_gen.go",
-      "sha256": "sha256:f45b640eb248aec5aacaa2fc9160fbd8798a9bbe76e01c43e07a3d37350548a7",
+      "sha256": "sha256:941c48d597d0da496184bdb5c88e93c56d4be383d82a410f1289a0aa0dfce688",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/renderer.go",
@@ -832,14 +832,14 @@
             "start_line": 17,
             "start_column": 4,
             "end_line": 17,
-            "end_column": 25
+            "end_column": 30
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/server_settings_spice_gen.go",
-      "sha256": "sha256:8ef816606282fe537f4009316f2239218d4e97cefa1952bd6c3f6b32a06e3a22",
+      "sha256": "sha256:42fb1af3eeb2a2b37347fdffaf6fe9ec00c5a5fa52bf4db9705af970000919e1",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/server_settings.go",
@@ -861,14 +861,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 20
+            "end_column": 31
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/server_spice_gen.go",
-      "sha256": "sha256:f89d675d12167ef76d235ad0b7a04dbda1d8f26522a3e00bf03874bb4b258728",
+      "sha256": "sha256:f95cb84d94117a7c32ebdc613ead91a5d04610cfb6861b694d928bf7960c303b",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/server.go",
@@ -890,14 +890,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 28
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/system/welcome_controller_spice_gen.go",
-      "sha256": "sha256:2fabcb1e53d7cd654494c2069c64c6cfeb7288bcde994a9ebb93ecf95163b2ca",
+      "sha256": "sha256:c410a174a38818ab4cf70c5200975640f2f03f2802fd6f12a952039dd3b01613",
       "role": "source-unit",
       "primary_source": {
         "path": "system/welcome_controller.go",
@@ -919,14 +919,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 39
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/vet/controller_spice_gen.go",
-      "sha256": "sha256:a89f354e2eac572ef7fe701e52fc1fac6abed9706070b9f29d3639561bfc7887",
+      "sha256": "sha256:d9fff0c54f627cb6e9d1e59ee403c2215651df8e70a8d7b3042a150408f5e41d",
       "role": "source-unit",
       "primary_source": {
         "path": "vet/controller.go",
@@ -948,14 +948,14 @@
             "start_line": 16,
             "start_column": 4,
             "end_line": 16,
-            "end_column": 25
+            "end_column": 32
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_assembly_gen.go",
-      "sha256": "sha256:18ad8ba1cb59b57aaa3ffe2d96545ed7e82e84796f2de79103e78448655397b4",
+      "sha256": "sha256:98977b6ac5d606b2a443bdd3237edf983844ae4fff12e95d67eb7237c122e5cb",
       "role": "target-assembly",
       "related_sources": [
         {
@@ -1588,7 +1588,7 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_contracts_gen.go",
-      "sha256": "sha256:c8be8bec4b0bdf647c12d7d8836a3fed8f63a9ad092ce69c12de32cf41e3904b",
+      "sha256": "sha256:758e041bafe6df37e7c4c4303a7cb3ac8eaa8c8a46205b6de88a241e42a5b680",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -1751,7 +1751,7 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_features_gen.go",
-      "sha256": "sha256:e398e1b8bcb2cc8b07de6834b6cc8700c3f313ecd7e82182edacabfcbc0d543d",
+      "sha256": "sha256:54981348c14e159efb53ea1b6324a9ac6b8302d2529b9e36fce5e05869c54b7e",
       "role": "target-features",
       "related_sources": [
         {
@@ -1782,7 +1782,7 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_http_gen.go",
-      "sha256": "sha256:ea8d103c2c692c0ae09b4f4d1dbdd0210dfb710b3abee6d5f968762340680c35",
+      "sha256": "sha256:09e2c1e0ea780bc10d3af529c26d60935853b7c7564886b784d7d86c8d1cc450",
       "role": "target-http",
       "related_sources": [
         {
@@ -2215,7 +2215,7 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_controller_create_92cf9af698cf_gen.go",
-      "sha256": "sha256:f2d31add782c12db73caee52104522e1baee939693010b241672e0f06cf04bc8",
+      "sha256": "sha256:1622873fb251c190b92302bcdd70f640d08d67b4e6cf86566c3139d905b0c415",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2275,14 +2275,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 58
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_controller_editform_7455f8a2cde9_gen.go",
-      "sha256": "sha256:f686d4bf53a1b23299909f69e0ea88f1b7110e7845e4c89b86d00e869bfc4f62",
+      "sha256": "sha256:15484cdf66dc49c0f274d9de789ba5cfee0ab41f44f361b9a3137855acaf90f1",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2318,14 +2318,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 60
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_controller_find_49afddd06269_gen.go",
-      "sha256": "sha256:edfe7948d909bfec2bb8949ee152c8c29d8107c8765a25fe2c88fd7e51ec5709",
+      "sha256": "sha256:66ff7dcccbd0d0c3d36ae25c5700fa2a453da804242c1769935cfeb28432c2da",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2367,14 +2367,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 56
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_controller_findform_d73d965f3f4b_gen.go",
-      "sha256": "sha256:b0cb4f853876a2a74189a246e951b57f5fc83453372400406b615be1b5232f09",
+      "sha256": "sha256:815f6eeafc1312bb08e769cbbbad07bf2c392f3970e789d25a199ca3af1636d6",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2404,14 +2404,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 60
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_controller_newform_ebdcb72a1c6d_gen.go",
-      "sha256": "sha256:a83728a5e7aa428e8e10418dd8dff625948c29d8edef6edd44ef7f0a4c20d78d",
+      "sha256": "sha256:55301a306ac357ea3976e164c6a9e784d5784b6e43d190dc6aebc48e17e46641",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2441,14 +2441,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 59
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_controller_show_b5b989aec353_gen.go",
-      "sha256": "sha256:159ff223ac4c2562d2a2fae9e62e128aeb75ded3e9eb764e0dc0b6ca622941f9",
+      "sha256": "sha256:85bbc3775288e7030d4685260540fe8107ea86febd65ad926d1081421a83a923",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2484,14 +2484,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 56
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_controller_update_85d595d32bb4_gen.go",
-      "sha256": "sha256:0d73c32d40eb6b3e88cbe034ba138b6df1061fd454061d358a1324d74317009f",
+      "sha256": "sha256:6221c4d210c7bbeda2428697e99332d9b112c4ab0ad91e72b75608bd48282999",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2557,14 +2557,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 58
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_create_55f9d3e7faa6_gen.go",
-      "sha256": "sha256:66bf074779f83104e6ab488fb54621fe0eb541b5a437e9adb683dd4bd366d4d3",
+      "sha256": "sha256:32f81c278f2fea6d2f55d9156d72e255bf0ef0613009bee52886311b38a14b03",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2618,14 +2618,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 61
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_editform_d35ff46f5f41_gen.go",
-      "sha256": "sha256:9cd4a5fd44bccbfd0100c7f9385a2d716e66c4e016417d93d5ab4db22e910b8d",
+      "sha256": "sha256:2506d2af45b5fdb723b0f72653a45e9c8336a52dd5225e13f54394edc98a6a41",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2667,14 +2667,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 63
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_newform_9df899efc147_gen.go",
-      "sha256": "sha256:3362ad77773e21daf4840c49e53a25ba431a461d56abb2043dd6a81e8fd10105",
+      "sha256": "sha256:c321760cd0c0d16e194742cd1335757b25a4fbd5ad10f31152cbc282cdc28ce6",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2710,14 +2710,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 62
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_update_4692814b13b8_gen.go",
-      "sha256": "sha256:ae6b6c044a729c68363202d5a5a768bc115aab38f4dcd74ec8e47ccc6afa9733",
+      "sha256": "sha256:fff2ce16014e789aa3c5de30a510363142a3c76ed8b7c3887def11005d3da132",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2777,14 +2777,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 61
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_visitcontroller_create_6208272f914d_gen.go",
-      "sha256": "sha256:5b546b77e82aa7455585bb4e9dc43249af1b5d5336920f63a59b270a52c6d8e8",
+      "sha256": "sha256:ef4609dc64f0469925c189f1dd1997cfd49f94eeb873b2efdd046f8e82226888",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2838,14 +2838,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 63
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_owner_visitcontroller_newform_415f0e672062_gen.go",
-      "sha256": "sha256:7a1542495c62fe2e475f6f70aa7fdfc51cb8eb29c501502866d9a10732451dc9",
+      "sha256": "sha256:c8edc57be7614bb96e039b21388b21b421ac1be25b699ddbac80879bd2773a94",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2887,14 +2887,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 64
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_system_welcomecontroller_show_94e120b72418_gen.go",
-      "sha256": "sha256:b1c7157fa4089342d9253e9da194245a7d9bae8f35f69226f5afadfffa215e04",
+      "sha256": "sha256:731133a0b7ce1e99277ae5fb96b6f348b224b3682407f7a034f2914d5a8fbb85",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2924,14 +2924,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 64
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_vet_controller_listhtml_d306b13c6a4b_gen.go",
-      "sha256": "sha256:251b0178bcf3d72814916c9b6f129b24ee2ef66de7924d505adfc34ad75e32d0",
+      "sha256": "sha256:9feab0c4a90554ee074a8075287e93d9d658b05004b0476b1862d2cf4f4ba6a4",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2967,14 +2967,14 @@
             "start_line": 18,
             "start_column": 6,
             "end_line": 18,
-            "end_column": 40
+            "end_column": 58
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_route_vet_controller_listjson_5badfbece45c_gen.go",
-      "sha256": "sha256:ea6fd20113e1d8ab979185ca6c64fd68c12aa618ee54fe7c01a8dfd752b76159",
+      "sha256": "sha256:b85ffe1594c31ce906d464ea42ca942267b10f4410d76ea117a6f1e43a278a2b",
       "role": "target-http-route",
       "related_sources": [
         {
@@ -2998,7 +2998,7 @@
             "start_line": 17,
             "start_column": 6,
             "end_line": 17,
-            "end_column": 40
+            "end_column": 58
           }
         }
       ]
@@ -3036,7 +3036,7 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_providers_gen.go",
-      "sha256": "sha256:03089885f62eebd3125b420fbd827288c582024ecb695ff6b3c42d7c9680654f",
+      "sha256": "sha256:586b28c831435ba937370862de61252168b875630589a22d7a206e0b31bd7954",
       "role": "target-providers",
       "related_sources": [
         {

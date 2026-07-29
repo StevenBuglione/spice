@@ -10,11 +10,11 @@ import (
 	http "net/http"
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
-	spicesource0 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/memory"
-	spicesource1 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/owner"
-	spicesource2 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/presentation"
-	spicesource3 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/system"
-	spicesource4 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/vet"
+	spiceMemory "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/memory"
+	spiceOwner "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/owner"
+	spicePresentation "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/presentation"
+	spiceSystem "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/system"
+	spiceVet "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/vet"
 	memory "github.com/StevenBuglione/spice/examples/petclinic/memory"
 	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
 	presentation "github.com/StevenBuglione/spice/examples/petclinic/presentation"
@@ -25,20 +25,20 @@ import (
 )
 
 type applicationDependencies struct {
-	provider0  *memory.Database
-	provider1  *i18n.Catalog
-	provider2  *spiceview.Renderer
-	provider3  *http.ServeMux
-	provider4  *memory.VetRepository
-	provider5  *vet.Controller
-	provider6  *memory.OwnerRepository
-	provider7  *owner.Controller
-	provider8  *owner.VisitController
-	provider9  *memory.PetTypeRepository
-	provider10 *owner.PetController
-	provider11 *system.WelcomeController
-	provider12 presentation.ServerSettings
-	provider13 *presentation.Server
+	petclinicDatabase *memory.Database
+	catalog           *i18n.Catalog
+	renderer          *spiceview.Renderer
+	mux               *http.ServeMux
+	vetRepository     *memory.VetRepository
+	vetController     *vet.Controller
+	ownerRepository   *memory.OwnerRepository
+	ownerController   *owner.Controller
+	visitController   *owner.VisitController
+	petTypeRepository *memory.PetTypeRepository
+	petController     *owner.PetController
+	welcomeController *system.WelcomeController
+	serverSettings    presentation.ServerSettings
+	server            *presentation.Server
 }
 
 func constructApplicationDependencies(
@@ -51,155 +51,155 @@ func constructApplicationDependencies(
 	_ = application
 	_ = options
 	_ = configurationSnapshot
-	provider0, cleanup0, err := spicesource0.Construct75fb0ba1ff59()
+	petclinicDatabase, petclinicDatabaseCleanup, err := spiceMemory.ConstructPetclinicDatabase_75fb0ba1()
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase (*github.com/StevenBuglione/spice/examples/petclinic/memory.Database): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newPetclinicDatabase (*github.com/StevenBuglione/spice/examples/petclinic/memory.Database, source spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase): %w", err))
 	}
-	if cleanup0 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase", cleanup0); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase: %w", err))
+	if petclinicDatabaseCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase", petclinicDatabaseCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean newPetclinicDatabase (source spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase): %w", err))
 		}
 	}
-	_ = provider0
-	provider1, cleanup1, err := spicesource2.Construct6e1785b3036b()
+	_ = petclinicDatabase
+	catalog, catalogCleanup, err := spicePresentation.ConstructCatalog_6e1785b3()
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog (*github.com/StevenBuglione/spice/i18n.Catalog): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newCatalog (*github.com/StevenBuglione/spice/i18n.Catalog, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog): %w", err))
 	}
-	if cleanup1 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog", cleanup1); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog: %w", err))
+	if catalogCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog", catalogCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean newCatalog (source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog): %w", err))
 		}
 	}
-	_ = provider1
-	provider2, cleanup2, err := spicesource2.Construct3dddedb0bd5d(provider1)
+	_ = catalog
+	renderer, rendererCleanup, err := spicePresentation.ConstructRenderer_3dddedb0(catalog)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer (*github.com/StevenBuglione/spice/view.Renderer): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newRenderer (*github.com/StevenBuglione/spice/view.Renderer, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer): %w", err))
 	}
-	if cleanup2 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer", cleanup2); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer: %w", err))
+	if rendererCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer", rendererCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean newRenderer (source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer): %w", err))
 		}
 	}
-	_ = provider2
-	provider3, cleanup3, err := spicesource2.Construct1ec2a68a9590()
+	_ = renderer
+	mux, muxCleanup, err := spicePresentation.ConstructMux_1ec2a68a()
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux (*net/http.ServeMux): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newMux (*net/http.ServeMux, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux): %w", err))
 	}
-	if cleanup3 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux", cleanup3); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux: %w", err))
+	if muxCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux", muxCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean newMux (source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux): %w", err))
 		}
 	}
-	_ = provider3
-	provider4, cleanup4, err := spicesource0.Construct3a6aad84dbc1(provider0)
+	_ = mux
+	vetRepository, vetRepositoryCleanup, err := spiceMemory.ConstructVetRepository_3a6aad84(petclinicDatabase)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.VetRepository): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean vetRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.VetRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository): %w", err))
 	}
-	if cleanup4 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository", cleanup4); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository: %w", err))
+	if vetRepositoryCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository", vetRepositoryCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean vetRepository (source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository): %w", err))
 		}
 	}
-	_ = provider4
-	provider5, cleanup5, err := spicesource4.Construct8580f4b8ff52(provider4, provider1)
+	_ = vetRepository
+	vetController, vetControllerCleanup, err := spiceVet.ConstructController_8580f4b8(vetRepository, catalog)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller (*github.com/StevenBuglione/spice/examples/petclinic/vet.Controller): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean controller (*github.com/StevenBuglione/spice/examples/petclinic/vet.Controller, source spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller): %w", err))
 	}
-	if cleanup5 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller", cleanup5); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller: %w", err))
+	if vetControllerCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller", vetControllerCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean controller (source spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller): %w", err))
 		}
 	}
-	_ = provider5
-	provider6, cleanup6, err := spicesource0.Construct2966447be465(provider0)
+	_ = vetController
+	ownerRepository, ownerRepositoryCleanup, err := spiceMemory.ConstructOwnerRepository_2966447b(petclinicDatabase)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.OwnerRepository): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean ownerRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.OwnerRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository): %w", err))
 	}
-	if cleanup6 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository", cleanup6); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository: %w", err))
+	if ownerRepositoryCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository", ownerRepositoryCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean ownerRepository (source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository): %w", err))
 		}
 	}
-	_ = provider6
-	provider7, cleanup7, err := spicesource1.Construct6d9e55b64a8b(provider6, provider1)
+	_ = ownerRepository
+	ownerController, ownerControllerCleanup, err := spiceOwner.ConstructController_6d9e55b6(ownerRepository, catalog)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller (*github.com/StevenBuglione/spice/examples/petclinic/owner.Controller): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean controller (*github.com/StevenBuglione/spice/examples/petclinic/owner.Controller, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller): %w", err))
 	}
-	if cleanup7 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller", cleanup7); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller: %w", err))
+	if ownerControllerCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller", ownerControllerCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean controller (source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller): %w", err))
 		}
 	}
-	_ = provider7
-	provider8, cleanup8, err := spicesource1.Construct6bd173f54d1a(provider6, provider1)
+	_ = ownerController
+	visitController, visitControllerCleanup, err := spiceOwner.ConstructVisitController_6bd173f5(ownerRepository, catalog)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController (*github.com/StevenBuglione/spice/examples/petclinic/owner.VisitController): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean visitController (*github.com/StevenBuglione/spice/examples/petclinic/owner.VisitController, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController): %w", err))
 	}
-	if cleanup8 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController", cleanup8); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController: %w", err))
+	if visitControllerCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController", visitControllerCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean visitController (source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController): %w", err))
 		}
 	}
-	_ = provider8
-	provider9, cleanup9, err := spicesource0.Constructeaa83bf0245a(provider0)
+	_ = visitController
+	petTypeRepository, petTypeRepositoryCleanup, err := spiceMemory.ConstructPetTypeRepository_eaa83bf0(petclinicDatabase)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.PetTypeRepository): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.PetTypeRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository): %w", err))
 	}
-	if cleanup9 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository", cleanup9); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository: %w", err))
+	if petTypeRepositoryCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository", petTypeRepositoryCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean petTypeRepository (source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository): %w", err))
 		}
 	}
-	_ = provider9
-	provider10, cleanup10, err := spicesource1.Constructfb101c0a66ac(provider6, provider9, provider1)
+	_ = petTypeRepository
+	petController, petControllerCleanup, err := spiceOwner.ConstructPetController_fb101c0a(ownerRepository, petTypeRepository, catalog)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController (*github.com/StevenBuglione/spice/examples/petclinic/owner.PetController): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean petController (*github.com/StevenBuglione/spice/examples/petclinic/owner.PetController, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController): %w", err))
 	}
-	if cleanup10 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController", cleanup10); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController: %w", err))
+	if petControllerCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController", petControllerCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean petController (source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController): %w", err))
 		}
 	}
-	_ = provider10
-	provider11, cleanup11, err := spicesource3.Construct0b0c501d7cba(provider1)
+	_ = petController
+	welcomeController, welcomeControllerCleanup, err := spiceSystem.ConstructWelcomeController_0b0c501d(catalog)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController (*github.com/StevenBuglione/spice/examples/petclinic/system.WelcomeController): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean welcomeController (*github.com/StevenBuglione/spice/examples/petclinic/system.WelcomeController, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController): %w", err))
 	}
-	if cleanup11 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController", cleanup11); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController: %w", err))
+	if welcomeControllerCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController", welcomeControllerCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean welcomeController (source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController): %w", err))
 		}
 	}
-	_ = provider11
-	provider12, err := spicesource2.Bind450eac750bad(configurationSnapshot)
+	_ = welcomeController
+	serverSettings, err := spicePresentation.BindServerSettings_450eac75(configurationSnapshot)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("bind configuration github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings for provider spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings: %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("bind configuration github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings for bean ServerSettings (source spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings): %w", err))
 	}
-	_ = provider12
-	provider13, cleanup13, err := spicesource2.Construct2f66240e3f13(provider12, provider3)
+	_ = serverSettings
+	server, serverCleanup, err := spicePresentation.ConstructServer_2f66240e(serverSettings, mux)
 	if err != nil {
-		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer (*github.com/StevenBuglione/spice/examples/petclinic/presentation.Server): %w", err))
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newServer (*github.com/StevenBuglione/spice/examples/petclinic/presentation.Server, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer): %w", err))
 	}
-	if cleanup13 != nil {
-		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer", cleanup13); err != nil {
-			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer: %w", err))
+	if serverCleanup != nil {
+		if err := application.coordinator.RegisterModuleCleanup("", "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer", serverCleanup); err != nil {
+			return nil, application.coordinator.Abort(ctx, fmt.Errorf("register cleanup for bean newServer (source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer): %w", err))
 		}
 	}
-	_ = provider13
+	_ = server
 	return &applicationDependencies{
-		provider0:  provider0,
-		provider1:  provider1,
-		provider2:  provider2,
-		provider3:  provider3,
-		provider4:  provider4,
-		provider5:  provider5,
-		provider6:  provider6,
-		provider7:  provider7,
-		provider8:  provider8,
-		provider9:  provider9,
-		provider10: provider10,
-		provider11: provider11,
-		provider12: provider12,
-		provider13: provider13,
+		petclinicDatabase: petclinicDatabase,
+		catalog:           catalog,
+		renderer:          renderer,
+		mux:               mux,
+		vetRepository:     vetRepository,
+		vetController:     vetController,
+		ownerRepository:   ownerRepository,
+		ownerController:   ownerController,
+		visitController:   visitController,
+		petTypeRepository: petTypeRepository,
+		petController:     petController,
+		welcomeController: welcomeController,
+		serverSettings:    serverSettings,
+		server:            server,
 	}, nil
 }

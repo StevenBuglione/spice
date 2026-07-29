@@ -23,8 +23,8 @@ func configureGeneratedLifecycle(
 		{
 			ID:     "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer",
 			Module: "",
-			Start:  dependencies.provider13.Start,
-			Stop:   dependencies.provider13.Stop,
+			Start:  dependencies.server.Start,
+			Stop:   dependencies.server.Stop,
 		},
 	}
 	return application, nil

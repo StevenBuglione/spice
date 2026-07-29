@@ -13,15 +13,16 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct3fa14a0e2160 performs the direct construction selected for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository.
-func Construct3fa14a0e2160(dependency0 *postgres.Database) (*postgres.OwnerRepository, spicelifecycle.Cleanup, error) {
+// ConstructOwnerRepository_3fa14a0e performs the direct construction selected for bean "ownerRepository".
+// Spice source identity: spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository.
+func ConstructOwnerRepository_3fa14a0e(dependency0 *postgres.Database) (*postgres.OwnerRepository, spicelifecycle.Cleanup, error) {
 	value, err := postgres.NewOwnerRepository(dependency0)
 	if err != nil {
 		var zero *postgres.OwnerRepository
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository (*github.com/StevenBuglione/spice/examples/petclinic/postgres.OwnerRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean ownerRepository (*github.com/StevenBuglione/spice/examples/petclinic/postgres.OwnerRepository, source spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplements55b41c6d3e05 verifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository.
-var spiceImplements55b41c6d3e05 owner.Repository = *new(*postgres.OwnerRepository)
+// spiceImplementsOwnerRepositoryAsRepository_55b41c6d verifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository.
+var spiceImplementsOwnerRepositoryAsRepository_55b41c6d owner.Repository = *new(*postgres.OwnerRepository)

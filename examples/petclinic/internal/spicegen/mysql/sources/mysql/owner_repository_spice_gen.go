@@ -13,15 +13,16 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct055f554318eb performs the direct construction selected for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
-func Construct055f554318eb(dependency0 *mysql.Database) (*mysql.OwnerRepository, spicelifecycle.Cleanup, error) {
+// ConstructOwnerRepository_055f5543 performs the direct construction selected for bean "ownerRepository".
+// Spice source identity: spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
+func ConstructOwnerRepository_055f5543(dependency0 *mysql.Database) (*mysql.OwnerRepository, spicelifecycle.Cleanup, error) {
 	value, err := mysql.NewOwnerRepository(dependency0)
 	if err != nil {
 		var zero *mysql.OwnerRepository
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository (*github.com/StevenBuglione/spice/examples/petclinic/mysql.OwnerRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean ownerRepository (*github.com/StevenBuglione/spice/examples/petclinic/mysql.OwnerRepository, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplements3593c16a667f verifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
-var spiceImplements3593c16a667f owner.Repository = *new(*mysql.OwnerRepository)
+// spiceImplementsOwnerRepositoryAsRepository_3593c16a verifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
+var spiceImplementsOwnerRepositoryAsRepository_3593c16a owner.Repository = *new(*mysql.OwnerRepository)

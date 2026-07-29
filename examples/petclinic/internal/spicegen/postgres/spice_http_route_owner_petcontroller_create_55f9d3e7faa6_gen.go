@@ -15,7 +15,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-func registerGeneratedRoute55f9d3e7faa6(
+func registerGeneratedRouteOwnerPetControllerCreate_55f9d3e7(
 	ctx context.Context,
 	application *Application,
 	options ApplicationOptions,
@@ -33,7 +33,7 @@ func registerGeneratedRoute55f9d3e7faa6(
 	}
 	if routeErr := spiceweb.RegisterObserved(routeMux, "POST /owners/{ownerId}/pets/new", http.HandlerFunc(func(writer http.ResponseWriter, httpRequest *http.Request) {
 		writeRouteError := func(routeError error) error {
-			return dependencies.provider1.WriteError(writer, httpRequest, routeError, options.ErrorMapper)
+			return dependencies.renderer.WriteError(writer, httpRequest, routeError, options.ErrorMapper)
 		}
 		if !spiceview.AcceptsHTML(httpRequest.Header.Get("Accept")) {
 			problem := spiceweb.Problem{
@@ -127,12 +127,12 @@ func registerGeneratedRoute55f9d3e7faa6(
 				requestValue.TypeID = int(parsed4)
 			}
 		}
-		responseValue, routeErr := dependencies.provider12.Create(httpRequest.Context(), requestValue, bindingResult)
+		responseValue, routeErr := dependencies.petController.Create(httpRequest.Context(), requestValue, bindingResult)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return
 		}
-		_ = dependencies.provider1.Respond(httpRequest.Context(), writer, responseValue)
+		_ = dependencies.renderer.Respond(httpRequest.Context(), writer, responseValue)
 	}), routeObservation0, options.Middleware...); routeErr != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("register generated route POST /owners/{ownerId}/pets/new: %w", routeErr))
 	}

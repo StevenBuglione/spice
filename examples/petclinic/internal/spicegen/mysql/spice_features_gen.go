@@ -23,13 +23,13 @@ func configureGeneratedLifecycle(
 		{
 			ID:     "spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase",
 			Module: "",
-			Start:  dependencies.provider4.Migrate,
+			Start:  dependencies.openDatabase.Migrate,
 		},
 		{
 			ID:     "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer",
 			Module: "",
-			Start:  dependencies.provider14.Start,
-			Stop:   dependencies.provider14.Stop,
+			Start:  dependencies.server.Start,
+			Stop:   dependencies.server.Stop,
 		},
 	}
 	return application, nil

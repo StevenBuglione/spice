@@ -10,8 +10,9 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct031f9b839d45 performs the direct construction selected for spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage.
-func Construct031f9b839d45() (component.Message, spicelifecycle.Cleanup, error) {
+// ConstructProvideMessage_031f9b83 performs the direct construction selected for bean "provideMessage".
+// Spice source identity: spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage.
+func ConstructProvideMessage_031f9b83() (component.Message, spicelifecycle.Cleanup, error) {
 	value := component.ProvideMessage()
 	return value, nil, nil
 }

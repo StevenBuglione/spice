@@ -14,12 +14,13 @@ import (
 	view "github.com/StevenBuglione/spice/view"
 )
 
-// Construct3dddedb0bd5d performs the direct construction selected for spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer.
-func Construct3dddedb0bd5d(dependency0 *i18n.Catalog) (*view.Renderer, spicelifecycle.Cleanup, error) {
+// ConstructRenderer_3dddedb0 performs the direct construction selected for bean "newRenderer".
+// Spice source identity: spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer.
+func ConstructRenderer_3dddedb0(dependency0 *i18n.Catalog) (*view.Renderer, spicelifecycle.Cleanup, error) {
 	value, err := presentation.NewRenderer(dependency0)
 	if err != nil {
 		var zero *view.Renderer
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer (*github.com/StevenBuglione/spice/view.Renderer): %w", err)
+		return zero, nil, fmt.Errorf("construct bean newRenderer (*github.com/StevenBuglione/spice/view.Renderer, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer): %w", err)
 	}
 	return value, nil, nil
 }

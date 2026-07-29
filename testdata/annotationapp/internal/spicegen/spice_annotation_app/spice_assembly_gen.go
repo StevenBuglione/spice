@@ -56,7 +56,7 @@ func NewApplicationWithOptions(ctx context.Context, options ApplicationOptions) 
 	}
 	_ = dependencies
 	application.components = Components{
-		ProvideMessage: dependencies.provider0,
+		ProvideMessage: dependencies.provideMessage,
 	}
 	return application, nil
 }

@@ -15,7 +15,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-func registerGeneratedRouteebdcb72a1c6d(
+func registerGeneratedRouteOwnerControllerNewForm_ebdcb72a(
 	ctx context.Context,
 	application *Application,
 	options ApplicationOptions,
@@ -33,7 +33,7 @@ func registerGeneratedRouteebdcb72a1c6d(
 	}
 	if routeErr := spiceweb.RegisterObserved(routeMux, "GET /owners/new", http.HandlerFunc(func(writer http.ResponseWriter, httpRequest *http.Request) {
 		writeRouteError := func(routeError error) error {
-			return dependencies.provider2.WriteError(writer, httpRequest, routeError, options.ErrorMapper)
+			return dependencies.renderer.WriteError(writer, httpRequest, routeError, options.ErrorMapper)
 		}
 		if !spiceview.AcceptsHTML(httpRequest.Header.Get("Accept")) {
 			problem := spiceweb.Problem{
@@ -54,12 +54,12 @@ func registerGeneratedRouteebdcb72a1c6d(
 		if present0 {
 			requestValue.Language = string(raw0)
 		}
-		responseValue, routeErr := dependencies.provider7.NewForm(httpRequest.Context(), requestValue)
+		responseValue, routeErr := dependencies.ownerController.NewForm(httpRequest.Context(), requestValue)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return
 		}
-		_ = dependencies.provider2.Respond(httpRequest.Context(), writer, responseValue)
+		_ = dependencies.renderer.Respond(httpRequest.Context(), writer, responseValue)
 	}), routeObservation0, options.Middleware...); routeErr != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("register generated route GET /owners/new: %w", routeErr))
 	}

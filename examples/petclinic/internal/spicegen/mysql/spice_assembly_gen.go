@@ -79,21 +79,21 @@ func NewApplicationWithOptions(ctx context.Context, options ApplicationOptions) 
 	}
 	_ = dependencies
 	application.components = Components{
-		Catalog:           dependencies.provider0,
-		Renderer:          dependencies.provider1,
-		Mux:               dependencies.provider2,
-		Settings:          dependencies.provider3,
-		OpenDatabase:      dependencies.provider4,
-		VetRepository:     dependencies.provider5,
-		VetController:     dependencies.provider6,
-		OwnerRepository:   dependencies.provider7,
-		PetTypeRepository: dependencies.provider8,
-		OwnerController:   dependencies.provider9,
-		PetController:     dependencies.provider10,
-		VisitController:   dependencies.provider11,
-		WelcomeController: dependencies.provider12,
-		ServerSettings:    dependencies.provider13,
-		Server:            dependencies.provider14,
+		Catalog:           dependencies.catalog,
+		Renderer:          dependencies.renderer,
+		Mux:               dependencies.mux,
+		Settings:          dependencies.settings,
+		OpenDatabase:      dependencies.openDatabase,
+		VetRepository:     dependencies.vetRepository,
+		VetController:     dependencies.vetController,
+		OwnerRepository:   dependencies.ownerRepository,
+		PetTypeRepository: dependencies.petTypeRepository,
+		OwnerController:   dependencies.ownerController,
+		PetController:     dependencies.petController,
+		VisitController:   dependencies.visitController,
+		WelcomeController: dependencies.welcomeController,
+		ServerSettings:    dependencies.serverSettings,
+		Server:            dependencies.server,
 	}
 	if _, err := configureGeneratedLifecycle(ctx, application, options, dependencies); err != nil {
 		return nil, err

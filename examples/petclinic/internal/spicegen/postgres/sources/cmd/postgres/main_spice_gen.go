@@ -5,5 +5,5 @@
 
 package spicegen
 
-// ApplicationTarget6bc99d889cc3 identifies the generated target selected by spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main.
-const ApplicationTarget6bc99d889cc3 = "postgres"
+// ApplicationTargetPostgres_6bc99d88 identifies the generated target selected by spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main.
+const ApplicationTargetPostgres_6bc99d88 = "postgres"

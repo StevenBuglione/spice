@@ -22,7 +22,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-const TargetID = spiceentrypoint.ApplicationTarget2898e5e73c02
+const TargetID = spiceentrypoint.ApplicationTargetPetclinic_2898e5e7
 
 const (
 	ExitSuccess = 0

@@ -27,10 +27,10 @@ func configureGeneratedHTTP(
 	_ = configurationSnapshot
 	_ = dependencies
 	_ = httpObservers
-	routeMux := dependencies.provider2
+	routeMux := dependencies.mux
 	application.mux = routeMux
 	application.handler = routeMux
-	if _, err := registerGeneratedRoute5badfbece45c(
+	if _, err := registerGeneratedRouteVetControllerListJSON_5badfbec(
 		ctx,
 		application,
 		options,
@@ -41,7 +41,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRouted306b13c6a4b(
+	if _, err := registerGeneratedRouteVetControllerListHTML_d306b13c(
 		ctx,
 		application,
 		options,
@@ -52,7 +52,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute49afddd06269(
+	if _, err := registerGeneratedRouteOwnerControllerFind_49afddd0(
 		ctx,
 		application,
 		options,
@@ -63,7 +63,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRouted73d965f3f4b(
+	if _, err := registerGeneratedRouteOwnerControllerFindForm_d73d965f(
 		ctx,
 		application,
 		options,
@@ -74,7 +74,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRouteebdcb72a1c6d(
+	if _, err := registerGeneratedRouteOwnerControllerNewForm_ebdcb72a(
 		ctx,
 		application,
 		options,
@@ -85,7 +85,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRouteb5b989aec353(
+	if _, err := registerGeneratedRouteOwnerControllerShow_b5b989ae(
 		ctx,
 		application,
 		options,
@@ -96,7 +96,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute7455f8a2cde9(
+	if _, err := registerGeneratedRouteOwnerControllerEditForm_7455f8a2(
 		ctx,
 		application,
 		options,
@@ -107,7 +107,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute92cf9af698cf(
+	if _, err := registerGeneratedRouteOwnerControllerCreate_92cf9af6(
 		ctx,
 		application,
 		options,
@@ -118,7 +118,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute85d595d32bb4(
+	if _, err := registerGeneratedRouteOwnerControllerUpdate_85d595d3(
 		ctx,
 		application,
 		options,
@@ -129,7 +129,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute9df899efc147(
+	if _, err := registerGeneratedRouteOwnerPetControllerNewForm_9df899ef(
 		ctx,
 		application,
 		options,
@@ -140,7 +140,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRouted35ff46f5f41(
+	if _, err := registerGeneratedRouteOwnerPetControllerEditForm_d35ff46f(
 		ctx,
 		application,
 		options,
@@ -151,7 +151,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute55f9d3e7faa6(
+	if _, err := registerGeneratedRouteOwnerPetControllerCreate_55f9d3e7(
 		ctx,
 		application,
 		options,
@@ -162,7 +162,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute4692814b13b8(
+	if _, err := registerGeneratedRouteOwnerPetControllerUpdate_4692814b(
 		ctx,
 		application,
 		options,
@@ -173,7 +173,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute415f0e672062(
+	if _, err := registerGeneratedRouteOwnerVisitControllerNewForm_415f0e67(
 		ctx,
 		application,
 		options,
@@ -184,7 +184,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute6208272f914d(
+	if _, err := registerGeneratedRouteOwnerVisitControllerCreate_6208272f(
 		ctx,
 		application,
 		options,
@@ -195,7 +195,7 @@ func configureGeneratedHTTP(
 	); err != nil {
 		return nil, err
 	}
-	if _, err := registerGeneratedRoute94e120b72418(
+	if _, err := registerGeneratedRouteSystemWelcomeControllerShow_94e120b7(
 		ctx,
 		application,
 		options,

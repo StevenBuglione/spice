@@ -13,15 +13,16 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Constructcc9e2d73b4b9 performs the direct construction selected for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
-func Constructcc9e2d73b4b9(dependency0 *postgres.Database) (*postgres.PetTypeRepository, spicelifecycle.Cleanup, error) {
+// ConstructPetTypeRepository_cc9e2d73 performs the direct construction selected for bean "petTypeRepository".
+// Spice source identity: spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
+func ConstructPetTypeRepository_cc9e2d73(dependency0 *postgres.Database) (*postgres.PetTypeRepository, spicelifecycle.Cleanup, error) {
 	value, err := postgres.NewPetTypeRepository(dependency0)
 	if err != nil {
 		var zero *postgres.PetTypeRepository
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/postgres.PetTypeRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/postgres.PetTypeRepository, source spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsce8e4c99400e verifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
-var spiceImplementsce8e4c99400e owner.PetTypeRepository = *new(*postgres.PetTypeRepository)
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_ce8e4c99 verifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
+var spiceImplementsPetTypeRepositoryAsPetTypeRepository_ce8e4c99 owner.PetTypeRepository = *new(*postgres.PetTypeRepository)

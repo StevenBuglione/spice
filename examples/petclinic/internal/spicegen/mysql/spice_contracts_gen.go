@@ -22,7 +22,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-const TargetID = spiceentrypoint.ApplicationTarget47bdf520c582
+const TargetID = spiceentrypoint.ApplicationTargetMysql_47bdf520
 
 const (
 	ExitSuccess = 0

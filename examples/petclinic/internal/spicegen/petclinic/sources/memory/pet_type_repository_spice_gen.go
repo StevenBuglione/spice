@@ -13,15 +13,16 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Constructeaa83bf0245a performs the direct construction selected for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
-func Constructeaa83bf0245a(dependency0 *memory.Database) (*memory.PetTypeRepository, spicelifecycle.Cleanup, error) {
+// ConstructPetTypeRepository_eaa83bf0 performs the direct construction selected for bean "petTypeRepository".
+// Spice source identity: spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
+func ConstructPetTypeRepository_eaa83bf0(dependency0 *memory.Database) (*memory.PetTypeRepository, spicelifecycle.Cleanup, error) {
 	value, err := memory.NewPetTypeRepository(dependency0)
 	if err != nil {
 		var zero *memory.PetTypeRepository
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.PetTypeRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.PetTypeRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplements03415e64d85b verifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
-var spiceImplements03415e64d85b owner.PetTypeRepository = *new(*memory.PetTypeRepository)
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_03415e64 verifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
+var spiceImplementsPetTypeRepositoryAsPetTypeRepository_03415e64 owner.PetTypeRepository = *new(*memory.PetTypeRepository)

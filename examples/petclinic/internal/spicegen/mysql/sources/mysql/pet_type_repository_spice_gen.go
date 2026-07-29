@@ -13,15 +13,16 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct1ad039a76607 performs the direct construction selected for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
-func Construct1ad039a76607(dependency0 *mysql.Database) (*mysql.PetTypeRepository, spicelifecycle.Cleanup, error) {
+// ConstructPetTypeRepository_1ad039a7 performs the direct construction selected for bean "petTypeRepository".
+// Spice source identity: spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
+func ConstructPetTypeRepository_1ad039a7(dependency0 *mysql.Database) (*mysql.PetTypeRepository, spicelifecycle.Cleanup, error) {
 	value, err := mysql.NewPetTypeRepository(dependency0)
 	if err != nil {
 		var zero *mysql.PetTypeRepository
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/mysql.PetTypeRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/mysql.PetTypeRepository, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsda9a4220854d verifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
-var spiceImplementsda9a4220854d owner.PetTypeRepository = *new(*mysql.PetTypeRepository)
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_da9a4220 verifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
+var spiceImplementsPetTypeRepositoryAsPetTypeRepository_da9a4220 owner.PetTypeRepository = *new(*mysql.PetTypeRepository)

@@ -14,7 +14,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-func registerGeneratedRoute5badfbece45c(
+func registerGeneratedRouteVetControllerListJSON_5badfbec(
 	ctx context.Context,
 	application *Application,
 	options ApplicationOptions,
@@ -45,7 +45,7 @@ func registerGeneratedRoute5badfbece45c(
 			return
 		}
 		requestValue := vet.AllRequest{}
-		responseValue, routeErr := dependencies.provider6.ListJSON(httpRequest.Context(), requestValue)
+		responseValue, routeErr := dependencies.vetController.ListJSON(httpRequest.Context(), requestValue)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return

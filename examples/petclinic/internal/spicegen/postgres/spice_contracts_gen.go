@@ -22,7 +22,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-const TargetID = spiceentrypoint.ApplicationTarget6bc99d889cc3
+const TargetID = spiceentrypoint.ApplicationTargetPostgres_6bc99d88
 
 const (
 	ExitSuccess = 0

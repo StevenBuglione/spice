@@ -415,6 +415,9 @@ declaration origins, exact source-to-generated ranges,
 generator/formatter compatibility, a canonical model-input SHA-256, and exact
 generated-file SHA-256 values. Repeated rendering is byte-identical and contains
 no timestamps, absolute paths, raw environment, random values, or host data.
+Generated dependency fields, source adapter imports, and route helpers are
+named from their bean, package, controller, and method identities. Collision
+digests supplement those names rather than replacing them.
 
 Providers stay in importable application-module packages rather than the
 process shell, and generated calls still require exported providers and hooks.

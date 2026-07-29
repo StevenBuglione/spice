@@ -13,7 +13,7 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-const TargetID = spiceentrypoint.ApplicationTarget064f99508fba
+const TargetID = spiceentrypoint.ApplicationTargetSpiceAnnotationApp_064f9950
 
 const (
 	ExitSuccess = 0

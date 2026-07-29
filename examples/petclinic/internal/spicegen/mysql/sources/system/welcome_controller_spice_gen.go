@@ -13,12 +13,13 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct0b0c501d7cba performs the direct construction selected for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController.
-func Construct0b0c501d7cba(dependency0 *i18n.Catalog) (*system.WelcomeController, spicelifecycle.Cleanup, error) {
+// ConstructWelcomeController_0b0c501d performs the direct construction selected for bean "welcomeController".
+// Spice source identity: spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController.
+func ConstructWelcomeController_0b0c501d(dependency0 *i18n.Catalog) (*system.WelcomeController, spicelifecycle.Cleanup, error) {
 	value, err := system.NewWelcomeController(dependency0)
 	if err != nil {
 		var zero *system.WelcomeController
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController (*github.com/StevenBuglione/spice/examples/petclinic/system.WelcomeController): %w", err)
+		return zero, nil, fmt.Errorf("construct bean welcomeController (*github.com/StevenBuglione/spice/examples/petclinic/system.WelcomeController, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController): %w", err)
 	}
 	return value, nil, nil
 }

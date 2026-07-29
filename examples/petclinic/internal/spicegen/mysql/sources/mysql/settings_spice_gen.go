@@ -12,8 +12,8 @@ import (
 	mysql "github.com/StevenBuglione/spice/examples/petclinic/mysql"
 )
 
-// Binde87de823b82e binds the validated configuration declared by spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.
-func Binde87de823b82e(configurationSnapshot spiceconfig.Snapshot) (mysql.Settings, error) {
+// BindSettings_e87de823 binds the validated configuration declared by spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.
+func BindSettings_e87de823(configurationSnapshot spiceconfig.Snapshot) (mysql.Settings, error) {
 	value := mysql.Settings{}
 	if _, configured := configurationSnapshot.Lookup("petclinic.datasource.url"); configured {
 		rawValue, valueErr := configurationSnapshot.RequiredString("petclinic.datasource.url")

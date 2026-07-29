@@ -13,12 +13,13 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct1ec2a68a9590 performs the direct construction selected for spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux.
-func Construct1ec2a68a9590() (*http.ServeMux, spicelifecycle.Cleanup, error) {
+// ConstructMux_1ec2a68a performs the direct construction selected for bean "newMux".
+// Spice source identity: spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux.
+func ConstructMux_1ec2a68a() (*http.ServeMux, spicelifecycle.Cleanup, error) {
 	value, err := presentation.NewMux()
 	if err != nil {
 		var zero *http.ServeMux
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux (*net/http.ServeMux): %w", err)
+		return zero, nil, fmt.Errorf("construct bean newMux (*net/http.ServeMux, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux): %w", err)
 	}
 	return value, nil, nil
 }

@@ -13,15 +13,16 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct3a6aad84dbc1 performs the direct construction selected for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
-func Construct3a6aad84dbc1(dependency0 *memory.Database) (*memory.VetRepository, spicelifecycle.Cleanup, error) {
+// ConstructVetRepository_3a6aad84 performs the direct construction selected for bean "vetRepository".
+// Spice source identity: spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
+func ConstructVetRepository_3a6aad84(dependency0 *memory.Database) (*memory.VetRepository, spicelifecycle.Cleanup, error) {
 	value, err := memory.NewVetRepository(dependency0)
 	if err != nil {
 		var zero *memory.VetRepository
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.VetRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean vetRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.VetRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsf75617ef7566 verifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
-var spiceImplementsf75617ef7566 vet.Repository = *new(*memory.VetRepository)
+// spiceImplementsVetRepositoryAsRepository_f75617ef verifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
+var spiceImplementsVetRepositoryAsRepository_f75617ef vet.Repository = *new(*memory.VetRepository)

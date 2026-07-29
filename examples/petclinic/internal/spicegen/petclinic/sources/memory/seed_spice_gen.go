@@ -12,12 +12,13 @@ import (
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-// Construct75fb0ba1ff59 performs the direct construction selected for spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase.
-func Construct75fb0ba1ff59() (*memory.Database, spicelifecycle.Cleanup, error) {
+// ConstructPetclinicDatabase_75fb0ba1 performs the direct construction selected for bean "newPetclinicDatabase".
+// Spice source identity: spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase.
+func ConstructPetclinicDatabase_75fb0ba1() (*memory.Database, spicelifecycle.Cleanup, error) {
 	value, err := memory.NewPetclinicDatabase()
 	if err != nil {
 		var zero *memory.Database
-		return zero, nil, fmt.Errorf("construct provider spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase (*github.com/StevenBuglione/spice/examples/petclinic/memory.Database): %w", err)
+		return zero, nil, fmt.Errorf("construct bean newPetclinicDatabase (*github.com/StevenBuglione/spice/examples/petclinic/memory.Database, source spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase): %w", err)
 	}
 	return value, nil, nil
 }

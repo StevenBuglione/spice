@@ -108,6 +108,14 @@ reference applications enforce a 400-line ceiling on every target-level
 generated unit; growth beyond that budget requires another semantic shard,
 not a larger catch-all file.
 
+Generated identifiers are semantic first. Dependency fields and locals use
+stable bean/type names, source adapters identify the constructed bean, source
+package aliases identify their owning package, and route functions identify
+the package, controller, and method. A short deterministic digest is retained
+only where an exported cross-file identifier needs collision resistance.
+Stable compiler symbol identities remain in ownership metadata and error
+provenance; they are not the only human-visible debugger name.
+
 `@Application` supplies safe command conventions. Explicitly imported
 companion annotations opt into behavior with exposure or operational
 consequences. The compiler resolves and validates those annotations once,
