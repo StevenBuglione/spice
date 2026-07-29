@@ -30,7 +30,10 @@ start and completion lines include durations so regressions are visible.
 Use `make verify-release` for release automation and explicit release
 ceremonies. It always includes installed GoLand verification regardless of
 changed paths, so commit-time dependency scoping cannot weaken release
-acceptance.
+acceptance. After it passes, the repository-owned `cmd/spice-release` command
+creates deterministic cross-platform archives, an SPDX SBOM, signed SHA-256
+checksums, and a public verification key as documented in
+[`releasing.md`](releasing.md).
 
 No command downloads modules implicitly. A failed or canceled stage never
 produces a green result.

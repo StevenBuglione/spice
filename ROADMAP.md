@@ -12,6 +12,13 @@ secure mail integration exercised by the modular commerce application. The
 remaining work is release hardening and deliberately selected starter breadth,
 not replacement of this foundation.
 
+Release hardening now includes a repository-owned offline artifact builder:
+clean exact tags produce deterministic `-trimpath` CLI archives for
+Windows/Linux/macOS on amd64/arm64, a vendor-derived SPDX 2.3 SBOM, SHA-256
+checksums, and an Ed25519 signature. Tag automation repeats the full release
+gate before publishing; Go's module/vendor graph remains the only dependency
+and build input.
+
 The preferred package-main discovery and same-package command bridge are now
 exercised by the commerce application; the compatible legacy layout remains
 available pre-1.0. `spice run` now applies guarded generation, builds a unique

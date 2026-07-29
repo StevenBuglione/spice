@@ -118,6 +118,17 @@ forwards interrupt/termination, waits for the generated graceful shutdown, and
 preserves nonzero application exit codes. It never makes a legacy metadata
 package look executable.
 
+### Release construction
+
+Release construction is also Go-owned and offline. `cmd/spice-release`
+cross-builds the ordinary CLI from the committed vendor graph with
+`CGO_ENABLED=0`, `-trimpath`, and no VCS path embedding; writes deterministic
+ZIP/tar metadata from the source commit epoch; derives an SPDX 2.3 dependency
+document from `vendor/modules.txt`; and signs the exact archive/SBOM checksum
+set with an operator-supplied Ed25519 key. It refuses an existing output path,
+a dirty or incorrectly tagged release checkout, and an unsigned non-rehearsal
+build. Release packaging never becomes a second dependency resolver.
+
 `spice dev` builds on a reusable supervisor with injected watcher, clock/timer,
 preparation, launcher, process-stop, and event-sink boundaries. Relevant
 recursive file changes are content-hashed and deterministically coalesced by a

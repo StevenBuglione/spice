@@ -424,6 +424,8 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `compiler/generate/`: pure generated Go and ownership-manifest planning.
 - `compiler/scan/`: compatibility source-tree scanner.
 - `cmd/spice/`: CLI entry point.
+- `cmd/spice-release/` and [`docs/releasing.md`](docs/releasing.md):
+  reproducible signed cross-platform release construction and ceremony.
 - `internal/cli/`: CLI implementation.
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
@@ -450,4 +452,8 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 
 ## Status
 
-Spice is pre-alpha. The active program is completing deterministic application generation and lifecycle, Modulith-style architecture enforcement, the production web/configuration platform, and reviewed opt-in enterprise starters before freezing a v1.0 compatibility policy.
+Spice is pre-1.0. Its developer-proof core, generated application lifecycle,
+Modulith enforcement, web/configuration/security/data foundations, Petclinic
+reference workflow, and primary GoLand integration are executable and locally
+gated. Public contracts may still evolve until every coverage row is resolved
+and the v1.0 compatibility policy is frozen.
