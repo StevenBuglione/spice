@@ -18,20 +18,29 @@ import (
 // as application routes.
 //
 //	// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
-//	// @Enable(expose=["health", "liveness", "readiness", "info"])
+//	// @Enable(expose=["health", "liveness", "readiness", "info"], access="loopback")
 func Enable() sdk.Definition {
 	return sdk.Definition{
 		Name:    "management.Enable",
 		Summary: "Selects generated management endpoints for an application.",
 		Targets: []sdk.Target{sdk.TargetFunction},
-		Arguments: []sdk.Argument{{
-			Name:             "expose",
-			Kinds:            []sdk.Kind{sdk.KindList},
-			ListElementKinds: []sdk.Kind{sdk.KindString},
-			AllowedValues:    []string{"health", "liveness", "readiness", "info", "metrics", "configprops", "modules"},
-			Description:      "Explicit management endpoint identifiers to expose.",
-			Required:         true,
-		}},
+		Arguments: []sdk.Argument{
+			{
+				Name:             "expose",
+				Kinds:            []sdk.Kind{sdk.KindList},
+				ListElementKinds: []sdk.Kind{sdk.KindString},
+				AllowedValues:    []string{"health", "liveness", "readiness", "info", "metrics", "configprops", "modules"},
+				Description:      "Explicit management endpoint identifiers to expose.",
+				Required:         true,
+			},
+			{
+				Name:          "access",
+				Kinds:         []sdk.Kind{sdk.KindString},
+				AllowedValues: []string{"public", "loopback"},
+				Description:   "Direct network origins allowed to use management endpoints.",
+				Default:       "public",
+			},
+		},
 		Examples: []sdk.Example{{
 			Title: "Health endpoints",
 			Code:  "// @Enable(expose=[\"health\", \"liveness\", \"readiness\"])",
@@ -59,7 +68,7 @@ func ManagementEnableHandler(
 	); err != nil {
 		return sdk.Result{}, err
 	}
-	arguments, err := sdk.BindArguments(invocation, "", "expose")
+	arguments, err := sdk.BindArguments(invocation, "", "expose", "access")
 	if err != nil {
 		return sdk.Result{}, err
 	}
@@ -79,17 +88,31 @@ func ManagementEnableHandler(
 			String: endpoint,
 		}
 	}
+	options := []sdk.BootstrapOption{{
+		Name: "expose",
+		Value: sdk.ContributionValue{
+			Kind: sdk.KindList,
+			List: values,
+		},
+	}}
+	access, err := arguments.String("access", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
+	if access != "" {
+		options = append(options, sdk.BootstrapOption{
+			Name: "access",
+			Value: sdk.ContributionValue{
+				Kind:   sdk.KindString,
+				String: access,
+			},
+		})
+	}
 	return sdk.OneContribution(sdk.Contribution{
 		Kind: sdk.ContributionBootstrap,
 		Bootstrap: &sdk.BootstrapContribution{
 			Capability: "management",
-			Options: []sdk.BootstrapOption{{
-				Name: "expose",
-				Value: sdk.ContributionValue{
-					Kind: sdk.KindList,
-					List: values,
-				},
-			}},
+			Options:    options,
 		},
 	})
 }

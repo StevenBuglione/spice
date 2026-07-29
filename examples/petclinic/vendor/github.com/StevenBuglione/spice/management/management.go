@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"maps"
+	"net"
 	"net/http"
 	"path"
 	"slices"
@@ -200,7 +201,19 @@ type HandlerOptions struct {
 	Configuration *ConfigurationReport
 	Modules       *ModuleReport
 	Expose        []Endpoint
+	Access        Access
 }
+
+// Access controls the network-origin policy for management requests.
+type Access string
+
+const (
+	// AccessPublic accepts management requests from any network origin.
+	AccessPublic Access = "public"
+	// AccessLoopback accepts only direct IPv4 or IPv6 loopback peers. Proxy
+	// forwarding headers are intentionally ignored.
+	AccessLoopback Access = "loopback"
+)
 
 // Endpoint identifies one explicitly exposed management HTTP endpoint.
 type Endpoint string
@@ -290,6 +303,7 @@ type Handler struct {
 	configuration *ConfigurationReport
 	modules       *ModuleReport
 	exposed       map[Endpoint]struct{}
+	access        Access
 	mux           *http.ServeMux
 }
 
@@ -304,6 +318,16 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 	}
 	if !validBasePath(basePath) {
 		return nil, fmt.Errorf("construct management handler: base path %q must be a clean absolute path below root", basePath)
+	}
+	access := options.Access
+	if access == "" {
+		access = AccessPublic
+	}
+	if access != AccessPublic && access != AccessLoopback {
+		return nil, fmt.Errorf(
+			"construct management handler: access %q is unsupported",
+			access,
+		)
 	}
 	exposed, err := exposedEndpoints(
 		options.Expose,
@@ -322,6 +346,7 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 		configuration: cloneConfigurationReport(options.Configuration),
 		modules:       cloneModuleReport(options.Modules),
 		exposed:       exposed,
+		access:        access,
 		mux:           http.NewServeMux(),
 	}
 	if handler.exposes(EndpointHealth) {
@@ -432,7 +457,27 @@ func (handler *Handler) ServeHTTP(writer http.ResponseWriter, request *http.Requ
 		http.Error(writer, http.StatusText(http.StatusServiceUnavailable), http.StatusServiceUnavailable)
 		return
 	}
+	if handler.access == AccessLoopback && !loopbackPeer(request.RemoteAddr) {
+		if err := web.WriteProblem(writer, web.Problem{
+			Type:   "urn:spice:management:loopback-required",
+			Title:  http.StatusText(http.StatusForbidden),
+			Status: http.StatusForbidden,
+			Detail: "Management access is restricted to the loopback interface.",
+		}); err != nil {
+			return
+		}
+		return
+	}
 	handler.mux.ServeHTTP(writer, request)
+}
+
+func loopbackPeer(remoteAddress string) bool {
+	host, _, err := net.SplitHostPort(remoteAddress)
+	if err != nil {
+		host = remoteAddress
+	}
+	ip := net.ParseIP(host)
+	return ip != nil && ip.IsLoopback()
 }
 
 func (handler *Handler) serveReport(group Group) http.HandlerFunc {

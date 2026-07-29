@@ -25,11 +25,21 @@ func TestManagementEnableHandler(t *testing.T) {
 			Name:  "expose",
 			Kind:  sdk.KindList,
 			Value: json.RawMessage(`["health","metrics"]`),
+		}, {
+			Name:  "access",
+			Kind:  sdk.KindString,
+			Value: json.RawMessage(`"loopback"`),
 		}},
 	})
 	if err != nil || len(result.Contributions) != 1 ||
-		len(result.Contributions[0].Bootstrap.Options) != 1 {
+		len(result.Contributions[0].Bootstrap.Options) != 2 {
 		t.Fatalf("ManagementEnableHandler() = %#v, %v", result, err)
+	}
+	options := result.Contributions[0].Bootstrap.Options
+	if options[1].Name != "access" ||
+		options[1].Value.Kind != sdk.KindString ||
+		options[1].Value.String != "loopback" {
+		t.Fatalf("ManagementEnableHandler() options = %#v", options)
 	}
 	if _, err := ManagementEnableHandler(context.Background(), sdk.Invocation{
 		DescriptorPackage: "example.com/wrong",

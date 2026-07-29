@@ -41,6 +41,9 @@ Implemented foundations:
 - a shared responsive Petclinic layout, embedded immutable CSS/SVG assets,
   English/German/Spanish `Accept-Language` negotiation, and localized HTML
   problem pages with safe RFC 9457 fallback;
+- public application routes matching upstream Petclinic, plus compile-time
+  loopback-only management exposure that rejects remote peers and forged
+  forwarding headers;
 - a PostgreSQL target with required redacted configuration, reviewed pgx pool
   ownership, module-owned schema/seed migrations, explicit repository
   interface bindings, aggregate-safe transactions, and a real PostgreSQL 18.3
@@ -73,7 +76,7 @@ Current application routes:
 | `GET`, `POST` | `/owners/{ownerId}/pets/{petId}/visits/new` | Add a visit |
 | `GET` | `/vets.html` | Paginated veterinarian browser view |
 | `GET` | `/vets` | Veterinarian JSON collection |
-| `GET` | `/actuator/*` | Generated management endpoints |
+| `GET` | `/actuator/*` | Generated loopback-only management endpoints |
 
 Generate and exercise the current target:
 
@@ -93,6 +96,9 @@ set SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080
 
 Open `http://127.0.0.1:8080/`. The same environment name works on every
 platform; the example uses Windows `set` syntax only for brevity.
+Petclinic intentionally keeps the same public user-route behavior as the
+upstream reference. Its generated `/actuator/*` routes accept only a direct
+loopback peer, regardless of forwarding headers.
 
 Run the watched development loop:
 

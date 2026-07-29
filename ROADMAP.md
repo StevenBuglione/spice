@@ -80,7 +80,10 @@ documentation, and executes multi-package Run/Debug without a single-file
 `gocommand-*` path or false `spiceMain` error. A cross-platform CLI integration
 test now runs the same isolated Petclinic module through the invalid-edit,
 last-known-good, fix, guarded-regeneration, and graceful-restart sequence.
-Security policy remains the next reference-application gate.
+Petclinic deliberately retains upstream's public user routes while its
+compile-time management policy restricts every generated actuator endpoint to
+direct IPv4/IPv6 loopback peers and ignores forgeable forwarding headers.
+Release hardening remains the next reference-application gate.
 
 The Go-native extension migration has begun with the hard-cut `@import`
 directive and explicit named, aliased, and namespace annotation bindings, the

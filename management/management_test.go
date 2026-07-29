@@ -247,6 +247,12 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 	if _, err := NewHandler(HandlerOptions{}); err == nil {
 		t.Fatal("NewHandler(nil manager) error = nil")
 	}
+	if _, err := NewHandler(HandlerOptions{
+		Manager: manager,
+		Access:  Access("proxy"),
+	}); err == nil {
+		t.Fatal("NewHandler(unsupported access) error = nil")
+	}
 	for _, test := range []struct {
 		name    string
 		expose  []Endpoint
@@ -277,6 +283,83 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 	handler.ServeHTTP(response, httptest.NewRequest(http.MethodGet, "/", nil))
 	if response.Code != http.StatusServiceUnavailable {
 		t.Fatalf("nil handler status = %d", response.Code)
+	}
+}
+
+func TestHandlerLoopbackAccessRejectsRemotePeersAndForwardingHeaders(
+	t *testing.T,
+) {
+	t.Parallel()
+	manager, err := New(Check{
+		Name:   "application",
+		Groups: []Group{GroupHealth},
+		Probe:  func(context.Context) error { return nil },
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler, err := NewHandler(HandlerOptions{
+		Manager: manager,
+		Expose:  []Endpoint{EndpointHealth},
+		Access:  AccessLoopback,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	tests := []struct {
+		name       string
+		remoteAddr string
+		status     int
+		forwarded  string
+	}{
+		{name: "IPv4 loopback", remoteAddr: "127.0.0.1:49152", status: http.StatusOK},
+		{name: "IPv6 loopback", remoteAddr: "[::1]:49152", status: http.StatusOK},
+		{name: "bare loopback", remoteAddr: "127.0.0.1", status: http.StatusOK},
+		{name: "remote", remoteAddr: "192.0.2.10:49152", status: http.StatusForbidden},
+		{
+			name:       "untrusted forwarding header",
+			remoteAddr: "192.0.2.10:49152",
+			forwarded:  "127.0.0.1",
+			status:     http.StatusForbidden,
+		},
+		{name: "missing peer", status: http.StatusForbidden},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			request := httptest.NewRequest(
+				http.MethodGet,
+				"/actuator/health",
+				nil,
+			)
+			request.RemoteAddr = test.remoteAddr
+			if test.forwarded != "" {
+				request.Header.Set("X-Forwarded-For", test.forwarded)
+			}
+			response := httptest.NewRecorder()
+			handler.ServeHTTP(response, request)
+			if response.Code != test.status {
+				t.Fatalf(
+					"status = %d, want %d: %s",
+					response.Code,
+					test.status,
+					response.Body,
+				)
+			}
+			if test.status == http.StatusForbidden &&
+				(response.Header().Get("Content-Type") !=
+					"application/problem+json" ||
+					!strings.Contains(
+						response.Body.String(),
+						"loopback-required",
+					)) {
+				t.Fatalf(
+					"forbidden response = %v %s",
+					response.Header(),
+					response.Body,
+				)
+			}
+		})
 	}
 }
 

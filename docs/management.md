@@ -7,15 +7,21 @@ For generated applications, exposure must be declared explicitly on the
 application marker:
 
 ```go
+// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
+
 // @Application
-// @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
+// @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"], access="loopback")
 func main() {
 	os.Exit(spiceMain(os.Args[1:]))
 }
 ```
 
 Valid names are `health`, `liveness`, `readiness`, `info`, `metrics`,
-`configprops`, and `modules`.
+`configprops`, and `modules`. The optional `access` setting is either `public`
+or `loopback`; it defaults to `public` for compatibility. Production
+applications should normally select `loopback` or place a public handler
+behind an independently authenticated management listener.
 The compiler rejects unknown or duplicate names with source positions,
 normalizes order deterministically, and verifies that the selected application
 graph owns the required `*http.ServeMux`. The generated handler registers
@@ -55,6 +61,14 @@ An isolated handler serves:
 Down reports use HTTP 503; up reports and info use HTTP 200. Responses use the
 same secure JSON writer as generated controllers. The default base path is
 `/actuator`; a custom path must be a clean absolute path below `/`.
+
+With `access="loopback"`, every management route requires the direct TCP peer
+address to be IPv4 or IPv6 loopback and otherwise returns an RFC 9457 403
+problem. The check deliberately ignores `Forwarded`, `X-Forwarded-For`, and
+similar headers: trusting those headers without a configured trusted-proxy
+boundary would let a remote caller forge loopback provenance. This policy
+protects only management routes; it does not invent authentication semantics
+for application routes.
 
 `configprops` is never part of the runtime default set and is generated only
 when explicitly allowlisted. Generation combines the exact schema and resolved
@@ -98,6 +112,7 @@ if err != nil {
 handler, err := management.NewHandler(management.HandlerOptions{
     Manager: manager,
     Metrics: metrics,
+    Access:  management.AccessLoopback,
     Expose: []management.Endpoint{
         management.EndpointHealth,
         management.EndpointReadiness,

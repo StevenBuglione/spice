@@ -15,7 +15,7 @@ import (
 // @import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
 
 // @Application
-// @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
+// @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"], access="loopback")
 // @Logging
 func main() {
 	// This package-main boundary alone owns the process status.

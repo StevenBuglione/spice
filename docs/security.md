@@ -41,6 +41,11 @@ OIDC or other authentication middleware can attach the principal. The route
 observation middleware remains outside both and records 401/403 outcomes.
 Unannotated routes receive no authorization guard.
 
+Management-route network exposure is configured independently through
+`@Enable(access="loopback")`; it evaluates the direct peer and does not trust
+proxy headers. This boundary is intentionally separate from generated
+application-route authentication and authorization.
+
 For applications with both public and protected routes, the OIDC starter's
 `OptionalMiddleware` is the safe global adapter: no credentials means no
 principal, while any presented credentials must verify successfully. Its

@@ -75,13 +75,25 @@ func TestGeneratedPetclinicServesWelcomeAndManagement(t *testing.T) {
 	}
 
 	health := httptest.NewRecorder()
-	handler.ServeHTTP(
-		health,
-		httptest.NewRequest(http.MethodGet, "/actuator/health", nil),
-	)
+	healthRequest := httptest.NewRequest(http.MethodGet, "/actuator/health", nil)
+	healthRequest.RemoteAddr = "127.0.0.1:12345"
+	handler.ServeHTTP(health, healthRequest)
 	if health.Code != http.StatusOK ||
 		!strings.Contains(health.Body.String(), `"status":"UP"`) {
 		t.Fatalf("health response = %d %s", health.Code, health.Body)
+	}
+
+	remoteRequest := httptest.NewRequest(http.MethodGet, "/actuator/health", nil)
+	remoteRequest.RemoteAddr = "203.0.113.9:54321"
+	remoteRequest.Header.Set("X-Forwarded-For", "127.0.0.1")
+	remote := httptest.NewRecorder()
+	handler.ServeHTTP(remote, remoteRequest)
+	if remote.Code != http.StatusForbidden ||
+		!strings.Contains(
+			remote.Body.String(),
+			`"type":"urn:spice:management:loopback-required"`,
+		) {
+		t.Fatalf("remote health response = %d %s", remote.Code, remote.Body)
 	}
 }
 

@@ -1481,6 +1481,7 @@ func NewApplicationWithOptions(ctx context.Context, options ApplicationOptions) 
 			spicemanagement.EndpointModules,
 			spicemanagement.EndpointReadiness,
 		},
+		Access: spicemanagement.Access("loopback"),
 	})
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("configure management handler: %w", err))
