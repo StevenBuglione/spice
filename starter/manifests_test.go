@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/StevenBuglione/spice/starter"
+	grpcstarter "github.com/StevenBuglione/spice/starter/grpc"
 	kafkastarter "github.com/StevenBuglione/spice/starter/kafka"
 	mysqlstarter "github.com/StevenBuglione/spice/starter/mysql"
 	"github.com/StevenBuglione/spice/starter/oauth2client"
@@ -30,6 +31,24 @@ func TestShippedStarterManifests(t *testing.T) {
 		feature      string
 		requirements []string
 	}{
+		{
+			name:     "grpc",
+			manifest: grpcstarter.Manifest,
+			entrypoints: []any{
+				grpcstarter.OpenServer,
+				grpcstarter.OpenClient,
+			},
+			capabilities: []string{
+				"rpc.grpc.client",
+				"rpc.grpc.server",
+			},
+			dependencies: []starter.Dependency{{
+				Module:  "google.golang.org/grpc",
+				Version: "v1.82.1",
+				License: "Apache-2.0",
+			}},
+			activation: starter.ActivationExplicitConstructor,
+		},
 		{
 			name:     "kafka",
 			manifest: kafkastarter.Manifest,

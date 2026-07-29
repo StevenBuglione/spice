@@ -76,9 +76,10 @@ an explicit repository interface binding, module-owned lifecycle migration, a
 transaction-aware zero-dependency development database, a PostgreSQL
 restart-persistence integration path, reviewed secure PostgreSQL and MySQL
 pool starters, an explicit `mail.Sender` binding, and a
-post-commit inspectable receipt workflow. Broad MongoDB,
-OpenSearch, Kafka, RabbitMQ, GraphQL, and WebSocket work remains paused until
-that workflow is repeatable on Windows and Linux.
+post-commit inspectable receipt workflow. That workflow is now repeatable on
+Windows and Linux. Reviewed Kafka producer/consumer-group and gRPC
+server/client integrations have resumed M4; MongoDB, OpenSearch, RabbitMQ,
+GraphQL, and WebSocket remain bounded follow-up slices.
 
 Petclinic now serves through a generated lifecycle-owned HTTP listener with
 bounded timeouts and graceful drain. Its shared responsive layout, embedded

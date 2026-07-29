@@ -58,6 +58,9 @@ The repository currently provides:
 - An opt-in franz-go Kafka producer and sequential consumer group with verified
   TLS/authentication defaults, explicit settlement, bounded polling, lifecycle
   ownership, and payload-free observations.
+- An opt-in grpc-go server/client starter with TLS-by-default transport,
+  bounded messages and streams, ordinary generated-protobuf registration,
+  standard health, graceful lifecycle drain, and payload-free observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
 - Generic cache contracts, a bounded in-memory LRU/TTL cache, and compile-time
   `@cache.Cacheable` typed-read generation with configured capacity/TTL,
