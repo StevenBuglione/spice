@@ -113,7 +113,7 @@ syntax with a caller-owned base registry; `Catalog.BootstrapDefinitions`
 supplies immutable feature definitions to `application.BuildWithOptions`.
 Compiled features retain manifest identity, version, normalized options,
 runtime requirements, and exported entrypoints. Those inputs participate in
-the generated ownership hash, so changing a selected starter invalidates
+the generated ownership hash, so changing selected integration metadata invalidates
 `spice generate --check`.
 
 `provider.BuildEntrypoints` is the explicit construction adapter. Given
@@ -140,113 +140,74 @@ records, and replacements that do not resolve to the same reviewed module
 identity and version fail deterministically. Selected manifests cannot publish
 conflicting version or license reviews for the same dependency.
 
-## Repository selection
+## Go-native auto-configuration
 
-An application opts into third-party compiler metadata by committing
-`.spice/starters.json` at the CLI invocation root. The strict
-`spice.starters/v1` document embeds one or more complete `spice.starter/v1`
-manifests:
+A library may publish a dedicated package whose final import-path element is
+`autoconfigure`. Applications select its defaults with an ordinary explicit Go
+blank import:
 
-```json
-{
-  "schema": "spice.starters/v1",
-  "manifests": [
-    {
-      "schema": "spice.starter/v1",
-      "id": "example.com/acme/starter/search",
-      "version": "1.2.0",
-      "module": "example.com/acme",
-      "spice_api": "v1alpha1",
-      "minimum_go": "1.26.0",
-      "license": "Apache-2.0",
-      "review": "docs/dependency-review.md",
-      "activation": {
-        "mode": "explicit-annotation",
-        "entry_points": [
-          {
-            "package": "example.com/acme/starter/search",
-            "symbol": "New"
-          }
-        ]
-      },
-      "capabilities": ["search.client"],
-      "annotations": [
-        {
-          "name": "search.Enable",
-          "targets": ["function"],
-          "arguments": [
-            {
-              "name": "indexes",
-              "kinds": ["list"],
-              "list_element_kinds": ["string"],
-              "required": true
-            }
-          ]
-        }
-      ],
-      "application_features": [
-        {
-          "annotation": "search.Enable",
-          "capability": "search.client",
-          "entry_points": [
-            {
-              "package": "example.com/acme/starter/search",
-              "symbol": "New"
-            }
-          ],
-          "options": [
-            {
-              "name": "indexes",
-              "kind": "list",
-              "list_item_kinds": ["string"],
-              "required": true,
-              "unique_items": true,
-              "minimum_items": 1,
-              "sort_items": true
-            }
-          ]
-        }
-      ]
+```go
+import _ "example.com/acme/search/autoconfigure"
+```
+
+The package exposes one canonical, navigable descriptor:
+
+```go
+package autoconfigure
+
+import (
+    "example.com/acme/search"
+    "github.com/StevenBuglione/spice/starter"
+)
+
+func DefaultClient(options search.Options) (*search.Client, error) {
+    return search.New(options)
+}
+
+func SpiceAutoConfiguration() starter.AutoConfiguration {
+    return starter.AutoConfiguration{
+        Review: "docs/dependency-review.md",
+        Beans: []starter.AutoBean{{
+            Factory:  DefaultClient,
+            Fallback: true,
+        }},
     }
-  ]
 }
 ```
 
-`spice verify`, `spice modules`, `spice test --module`, `spice generate`, and
-`spice build` strictly parse the selection, compose its annotation registry,
-and carry application features into generation freshness. The file is bounded
-to 4 MiB, must be a regular file, rejects unknown fields and trailing values,
-and fails before filesystem generation on any invalid or incompatible manifest.
+The compiler statically decodes the returned composite literal from its one
+typed program. It never calls the descriptor or its factories during analysis,
+never executes `init`, and never scans packages at runtime. Factory references
+must be exported package-level Go functions in the descriptor package and
+must satisfy the same typed provider signature contract as `@Bean`.
 
-Selection is explicit repository configuration, not dependency discovery.
-Spice does not search module caches, call `Manifest()` functions, load plugins,
-or infer activation from imports. Before its one typed package load, the CLI
-adds every declared constructor package as an auxiliary root. Auxiliary symbols
-remain available for exact provider analysis while their comments and package
-structure cannot become application annotations or modules.
+Auto-configuration is conditional before construction:
 
-An `explicit-constructor` manifest activates every declared entrypoint when the
-manifest is selected. An `explicit-annotation` manifest activates only the
-entrypoint subset mapped to each qualified annotation actually present in
-source on an `@Application` marker; absent or misplaced annotations emit no
-constructor. Active functions must exist as exported package-level symbols and
-satisfy the ordinary provider signature contract. The resulting exact-type
-nodes participate in graph diagnostics, direct generated calls, immediate
-cleanup registration, reverse rollback, executable builds, and
-provenance-sensitive freshness checks.
+- an application bean with the exact output type replaces the library default;
+- defaults whose required inputs are unavailable back off;
+- optional and collection inputs do not force activation;
+- selected defaults enter the ordinary exact-type graph and direct generated
+  Go with normal cleanup, rollback, scopes, and deterministic errors.
 
-Before provider analysis, the CLI checks dependencies declared by those active
-starters against `go list -mod=readonly -m -json all`. This snapshot is
-shell-free, bounded, and forced offline with `GOPROXY=off` and `GOSUMDB=off`.
-Exact reviewed versions are required, and replacements fail closed unless both
-their module identity and version match the review. An inactive
-explicit-annotation starter imposes no dependency requirement. If the local Go
-module cache cannot answer the read-only query, Spice reports the inspection
-failure; users retain control over any separate dependency download.
+`spice beans --explain` reports every selected, replaced, or inactive default,
+its reason, output type, resolved module/version or replacement, and dependency
+review reference. This is a Go-native condition-evaluation report without
+classpath scanning.
+
+The retired `.spice/starters.json` file is rejected with a migration diagnostic.
+`go.mod`, `go.sum`, `vendor`, and normal Go imports are the only dependency and
+activation mechanism. Merely requiring a module is not activation; the
+dedicated blank import is.
+
+Selected factory source identity and module provenance participate in generated
+ownership and freshness. Package loading remains read-only and offline; if the
+normal Go module cache or vendor tree cannot satisfy the explicit import, Spice
+reports the missing Go dependency and never downloads it.
 
 ## Shipped starter metadata
 
-Every current integration exposes a package-level `Manifest()`:
+Every current integration retains a package-level `Manifest()` compatibility
+and dependency-review record. These records do not activate behavior:
 
 | Package | Capabilities | Reviewed dependency |
 |---|---|---|
@@ -260,20 +221,19 @@ Every current integration exposes a package-level `Manifest()`:
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
 | `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.module-events`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
 
-gRPC, Kafka, WebSocket, PostgreSQL, Redis, SMTP, OIDC, and OAuth2-client use
-`explicit-constructor` activation.
-OpenTelemetry contributes `@otel.Enable` through `explicit-annotation`
-activation and maps it to the reviewed `NewHTTPObserver` entrypoint plus the
-reserved `observability.http-server` generator role. Tests compile those
-symbols, parse every canonical manifest, verify the Go 1.26.5 compatibility
-decision, and require each review document to exist.
+Applications call explicit constructors directly or select separately published
+auto-configuration packages. OpenTelemetry contributes `@otel.Enable` through
+the annotation SDK and maps it to the reviewed `NewHTTPObserver` entrypoint plus
+the reserved `observability.http-server` generator role. Tests compile those
+symbols, validate every canonical compatibility record, and require each review
+document to exist.
 
 An HTTP-observation feature is not an unchecked interface plug-in. Its selected
 entrypoint must produce the exact structural `web.HTTPObserver` contract and
 the selected application graph must provide the declared `http.serve-mux`
 capability. The compiler reports either defect at the application annotation
 before rendering. Generated composition uses the provider already constructed
-from the explicit manifest; it performs no runtime lookup or registration.
+from the typed application model; it performs no runtime lookup or registration.
 
 ## Review policy
 

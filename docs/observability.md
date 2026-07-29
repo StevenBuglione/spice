@@ -54,10 +54,10 @@ another handler or observer set can omit the annotation and use
 ## OpenTelemetry starter
 
 `starter/otel` adapts generated route and typed module-event seams to the
-stable OpenTelemetry Go trace and metric APIs. Its manifest contributes the qualified
-`@otel.Enable` application annotation. After explicitly embedding that manifest
-in `.spice/starters.json`, provide the application-owned OpenTelemetry inputs
-as an exact bean and enable the feature:
+stable OpenTelemetry Go trace and metric APIs. Its annotation descriptor
+contributes the qualified `@otel.Enable` application annotation. Provide the
+application-owned OpenTelemetry inputs as an exact bean and explicitly import
+the descriptor before enabling the feature:
 
 ```go
 // @Bean
@@ -82,7 +82,7 @@ generation hash. Generated code constructs the observer through the ordinary
 provider graph and installs it before route middleware is created. Invalid
 provider inputs, a missing mux capability, or an incompatible observer output
 fail before generated files are written. Importing the package, adding its
-module dependency, or selecting its manifest without the annotation does
+module dependency, or retaining its compatibility manifest without the annotation does
 nothing.
 
 Every request creates a server span named from the method and route template.

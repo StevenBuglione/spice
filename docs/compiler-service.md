@@ -38,7 +38,7 @@ No provider or marker body executes. Source failures become the same immutable
 `compiler/diagnostic.Set` consumed by `spice verify`; cancellation and invalid
 service requests remain ordinary Go errors.
 
-An explicitly selected starter catalog is part of the service configuration,
+An explicitly supplied legacy feature catalog is part of service configuration,
 not command-specific post-processing. The service composes its annotation and
 bootstrap definitions, loads only its declared constructor packages, validates
 only dependencies activated by the application source against the caller's Go

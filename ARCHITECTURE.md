@@ -296,32 +296,26 @@ caller-owned clients/providers, install no global state, and must not make
 network calls during construction unless their documented contract explicitly
 requires it.
 
-Built-in bootstrap features use the same qualified, typed definition model
-available to the public starter manifest SDK. Manifests provide strict,
-deterministic compatibility, dependency, entrypoint, annotation, feature, and
-review metadata without registering global behavior. An application-owned
-`.spice/starters.json` document explicitly selects embedded manifests for CLI
-and compiler composition. Spice does not scan dependencies or execute manifest
-functions; importing a starter alone has no activation semantics. Selected
-constructor packages join the compiler's one typed load as auxiliary roots, so
-their exported symbols can become exact provider nodes without their own
-comments or package structure entering application annotation or Modulith
-discovery. Explicit-constructor manifests select all declared entrypoints;
-explicit-annotation manifests select only feature-mapped subsets whose
-qualified annotation is present on an application marker. Generation emits
-ordinary direct calls with the same cleanup and rollback contract as
-application beans. Before provider analysis, dependencies declared by active
-starters are checked against a bounded, read-only Go module graph snapshot with
-proxy and checksum-database access disabled. Version and replacement identity
-must match the manifest review exactly; inactive annotation features do not
-impose dependencies and Spice never downloads them implicitly.
+Built-in bootstrap features use the same qualified annotation SDK model
+available to third parties. Library-owned default beans use explicit Go imports
+instead of a Spice selection file: a blank-imported `.../autoconfigure` package
+exposes one statically decoded `SpiceAutoConfiguration` descriptor containing
+typed factory references. Candidate packages join the compiler's one typed
+load as auxiliary roots, while typed primary-source inspection decides which
+imports actually activate. Application exact-output beans replace defaults
+before construction, and defaults whose required inputs are unavailable back
+off. Generation emits ordinary direct calls with the same cleanup and rollback
+contract as application beans. Descriptor bodies and factories never execute
+during analysis; no `init`, runtime scan, module-presence activation, or hidden
+download occurs. `spice beans --explain` exposes every selection decision and
+its resolved Go module/replacement and review provenance.
 
-The reserved `observability.http-server` feature role composes selected starter
+The reserved `observability.http-server` feature role composes selected typed
 entrypoint outputs into generated route observers. The compiler requires each
 mapped output to implement the exact `web.HTTPObserver` contract, and the
 renderer appends the already constructed provider before route middleware is
 created. `starter/otel` uses this role for `@otel.Enable`; neither importing
-OpenTelemetry nor selecting its manifest activates telemetry without the
+OpenTelemetry nor retaining its compatibility manifest activates telemetry without the
 application annotation.
 
 Outbound OAuth2 service clients receive separate caller-owned token and

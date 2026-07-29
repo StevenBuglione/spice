@@ -48,8 +48,8 @@ The isolated overlay compiler service now returns the shared diagnostics,
 resolved annotations, exact provider/application/module/configuration models,
 safe fixes, and pure generation readiness with cancellation, stale-sequence
 rejection, and bounded content-keyed caching. Generate, build, run, and dev
-now consume that service, including selected-starter metadata and reviewed
-module-version enforcement. `spice lsp` now publishes the same versioned
+now consume that service, including imported auto-configuration decisions and
+Go module/replacement provenance. `spice lsp` now publishes the same versioned
 diagnostics and provides compiler-derived annotation, module, configuration,
 hover, safe-edit, and semantic-token metadata over bounded stdio JSON-RPC.
 The repository-owned GoLand plugin is now the primary editor target. Its native

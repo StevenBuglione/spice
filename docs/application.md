@@ -42,7 +42,8 @@ scope it discovers:
 - typed configuration declarations;
 - controllers, routes, authorization, and transaction boundaries;
 - lifecycle hooks, jobs, asynchronous methods, caches, and events;
-- explicitly selected starter entrypoints and application features.
+- explicitly imported library auto-configuration defaults and application
+  features.
 
 Every generated import and call is ordinary inspectable Go. Discovery does not
 use reflection, runtime package scanning, `init`, a service locator, a global
