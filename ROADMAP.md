@@ -77,9 +77,10 @@ verification. The packaged GoLand 2026.2 suite now opens that real Petclinic
 module, uses an exact freshly built Spice executable, proves physical-comment
 preservation, zero-width concealment, light/dark token colors, navigation and
 documentation, and executes multi-package Run/Debug without a single-file
-`gocommand-*` path or false `spiceMain` error. Security policy and the decisive
-Petclinic live `spice dev` edit/restart workflow remain the next
-reference-application gates.
+`gocommand-*` path or false `spiceMain` error. A cross-platform CLI integration
+test now runs the same isolated Petclinic module through the invalid-edit,
+last-known-good, fix, guarded-regeneration, and graceful-restart sequence.
+Security policy remains the next reference-application gate.
 
 The Go-native extension migration has begun with the hard-cut `@import`
 directive and explicit named, aliased, and namespace annotation bindings, the

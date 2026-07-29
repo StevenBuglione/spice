@@ -1,4 +1,4 @@
-# Commerce developer proof
+# Petclinic developer proof
 
 This walkthrough proves the complete Spice development loop without changing
 the physical Go language. The source always retains `// @...`; GoLand folds
@@ -9,29 +9,31 @@ only the comment prefix for presentation.
 - Go 1.26.5;
 - the packaged Spice plugin installed in the pinned GoLand 2026.2 build;
 - the repository opened at its module root;
-- no external database or mail server.
+- no external database.
 
-The default `memory://commerce` database and `test` mail transport are
-instance-owned, bounded, and perform no network I/O outside the loopback HTTP
-slice.
+The default Petclinic target uses instance-owned in-memory repositories and
+performs no network I/O outside its loopback HTTP listener.
 
 ## Edit and restart loop
 
-Start the reference application from the repository root. Use a local token
-with at least 16 bytes:
+Build the current CLI, then start the real multi-package Petclinic target:
 
 ```powershell
-$env:SPICE_COMMERCE_DEVELOPER_TOKEN = "commerce-local-token"
-go run ./cmd/spice dev --target Commerce ./examples/commerce/...
+go build -trimpath -o ./bin/spice.exe ./cmd/spice
+Set-Location examples/petclinic
+$env:SPICE_PETCLINIC_ADDRESS = "127.0.0.1:8080"
+../../bin/spice.exe dev --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
 ```
 
 ```sh
-SPICE_COMMERCE_DEVELOPER_TOKEN=commerce-local-token \
-  go run ./cmd/spice dev --target Commerce ./examples/commerce/...
+go build -trimpath -o ./bin/spice ./cmd/spice
+cd examples/petclinic
+SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080 \
+  ../../bin/spice dev --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
 ```
 
-In `examples/commerce/main.go`, temporarily change `// @Application` to the
-invalid `// @Application(unknown=true)`.
+In `examples/petclinic/main.go`, add invalid `// @Unknown` immediately after
+`// @Application`.
 
 1. GoLand immediately shows the shared source-positioned Spice diagnostic.
 2. The physical document remains valid Go and still contains `// `.
@@ -51,23 +53,16 @@ preservation, and complete-package Run/Debug.
 
 ## Exercise the vertical application
 
-With the restarted process listening on `127.0.0.1:8081`:
+With the restarted process listening on `127.0.0.1:8080`, open `/owners/find`,
+create or edit an owner, add a pet and visit, then inspect `/vets` and the
+generated `/actuator/*` endpoints. The in-memory workflow proves generated
+configuration, interface DI, validation, HTML/JSON routing, localization,
+lifecycle, management, and persistence boundaries. PostgreSQL and MySQL
+profiles select different repository implementations at compile time and are
+covered by real-database workflow tests.
 
-```text
-curl -H "Authorization: Bearer commerce-local-token" \
-  -H "Content-Type: application/json" \
-  -d "{\"quantity\":2}" \
-  http://127.0.0.1:8081/orders
-
-curl -H "Authorization: Bearer commerce-local-token" \
-  http://127.0.0.1:8081/orders/order-000001
-
-curl -X POST \
-  -H "Authorization: Bearer commerce-local-token" \
-  http://127.0.0.1:8081/orders/order-000001/receipt
-```
-
-The receipt response reports a stable message ID, `transport: "test"`,
+The separate commerce integration remains the polished mail proof. Its receipt
+response reports a stable message ID, `transport: "test"`,
 `accepted: true`, and the attachment filename. The decoded test-transport
 acceptance test additionally verifies the exact envelope, subject, text body,
 and attachment bytes. The generated application code in
@@ -78,9 +73,10 @@ transaction ownership, repository calls, and route adapters. Narrow
 interface assertions, and the command bridge contains no wiring. There is no
 reflection or runtime container.
 
-Run the single-process executable proof directly:
+Run the focused executable proofs directly:
 
 ```text
+go test -run TestPetclinicDevelopmentWorkflowKeepsLastKnownGoodAndRestarts ./internal/cli
 go test -run TestCommerceDeveloperProof ./examples/commerce
 go test -run TestNotifierDeliversInspectableTestReceipt ./examples/commerce/notifications
 ```
@@ -90,7 +86,8 @@ go test -run TestNotifierDeliversInspectableTestReceipt ./examples/commerce/noti
 | Workflow evidence | Repository gate |
 | --- | --- |
 | Invalid overlay diagnostic, versioned clear, stale rejection | `internal/lsp` server tests |
-| Debounce, failed-candidate retention, graceful replacement | `internal/devloop` engine tests |
+| Real Petclinic invalid edit, last-known-good retention, generated restart | `TestPetclinicDevelopmentWorkflowKeepsLastKnownGoodAndRestarts` |
+| Debounce, cancellation, timeout, and process replacement boundaries | `internal/devloop` engine tests |
 | Physical `// ` preservation, concealment width, themes, hover/click, docs | packaged GoLand Starter/Driver suite |
 | Complete-package Run/Debug with generated files | GoLand run-configuration integration tests |
 | Generated authorization, transaction, persistence, test mail, management | `TestCommerceDeveloperProof` |

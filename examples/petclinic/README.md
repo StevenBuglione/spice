@@ -52,8 +52,11 @@ Implemented foundations:
 The in-memory target remains the zero-network default. PostgreSQL and MySQL are
 separate compile-time application graphs rather than runtime service-locator
 branches: selected concrete repositories are visible in generated Go and
-debugger stacks. Generated authorization policy and the installed-IDE/dev-loop
-workflow are delivered as subsequent bounded slices.
+debugger stacks. The packaged GoLand 2026.2 test opens this real module and
+proves concealment, colors, navigation, documentation, and complete-package
+Run/Debug. The CLI integration test performs the decisive invalid-annotation,
+last-known-good, fix, regenerate, and graceful-restart workflow against an
+isolated copy of this module.
 
 Current application routes:
 
@@ -90,6 +93,18 @@ set SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080
 
 Open `http://127.0.0.1:8080/`. The same environment name works on every
 platform; the example uses Windows `set` syntax only for brevity.
+
+Run the watched development loop:
+
+```text
+set SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080
+../../bin/spice dev --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+```
+
+Adding invalid `// @Unknown` below `// @Application` keeps the running revision
+alive and reports the shared compiler diagnostic. Removing it regenerates and
+gracefully restarts the complete package without ever creating naked `@`
+source or a temporary single-file command.
 
 Generate the PostgreSQL graph:
 
