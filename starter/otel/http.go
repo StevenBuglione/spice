@@ -1,5 +1,6 @@
-// Package otel provides an opt-in OpenTelemetry adapter for generated Spice
-// HTTP routes. It uses caller-owned providers and never installs global state.
+// Package otel provides opt-in OpenTelemetry adapters for generated Spice HTTP
+// routes and typed module-event interactions. It uses caller-owned providers
+// and never installs global state.
 package otel
 
 import (

@@ -28,6 +28,7 @@ func Manifest() spicestarter.Manifest {
 		Capabilities: []string{
 			"observability.http-server",
 			"observability.metrics",
+			"observability.module-events",
 			"observability.tracing",
 		},
 		Annotations: []spicestarter.AnnotationSpec{

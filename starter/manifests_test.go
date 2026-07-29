@@ -131,6 +131,7 @@ func TestShippedStarterManifests(t *testing.T) {
 			capabilities: []string{
 				"observability.http-server",
 				"observability.metrics",
+				"observability.module-events",
 				"observability.tracing",
 			},
 			dependencies: []starter.Dependency{

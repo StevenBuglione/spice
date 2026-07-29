@@ -258,7 +258,7 @@ Every current integration exposes a package-level `Manifest()`:
 | `starter/smtp` | `mail.smtp` | Go standard library |
 | `starter/oidc` | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
-| `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
+| `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.module-events`, `observability.tracing` | OpenTelemetry API modules v1.43.0 |
 
 gRPC, Kafka, WebSocket, PostgreSQL, Redis, SMTP, OIDC, and OAuth2-client use
 `explicit-constructor` activation.

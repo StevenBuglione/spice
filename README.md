@@ -79,7 +79,8 @@ The repository currently provides:
   a driver-neutral lease-aware SQL persistence protocol, and a real-container
   verified PostgreSQL backend.
 - An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric
-  starter with exact generated observer-role validation and
+  starter with exact generated observer-role validation, plus explicit
+  payload-free module-event interaction spans and metrics, with
   application-owned providers/exporters.
 - Immutable authenticated principals plus compile-time `@security.Authorize`
   route policies that generate deny-by-default RFC 9457 guards, stable

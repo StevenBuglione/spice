@@ -53,8 +53,8 @@ another handler or observer set can omit the annotation and use
 
 ## OpenTelemetry starter
 
-`starter/otel` adapts the same generated route seam to the stable OpenTelemetry
-Go trace and metric APIs. Its manifest contributes the qualified
+`starter/otel` adapts generated route and typed module-event seams to the
+stable OpenTelemetry Go trace and metric APIs. Its manifest contributes the qualified
 `@otel.Enable` application annotation. After explicitly embedding that manifest
 in `.spice/starters.json`, provide the application-owned OpenTelemetry inputs
 as an exact bean and enable the feature:
@@ -89,6 +89,34 @@ Every request creates a server span named from the method and route template.
 Spans include stable route ID, module, method, template, response status, and
 panic state. The starter records request count, active requests, duration, and
 response body size with the same bounded generated labels.
+
+Typed events expose compiler-owned publisher and subscriber module identities.
+`NewEventObserver` turns each synchronous delivery into one internal span plus
+delivery count, active-delivery, and duration metrics. Attributes contain only
+the event ID, module IDs, subscriber ID/order, and a bounded
+`success`/`error`/`panic` outcome; event values and error text are never
+recorded.
+
+`NewObserver` composes the HTTP and event adapters when one caller-owned value
+should observe both seams:
+
+```go
+telemetry, err := spiceotel.NewObserver(options)
+if err != nil {
+    return err
+}
+application, err := generated.NewApplicationWithOptions(ctx, generated.ApplicationOptions{
+    HTTPObservers:  []web.HTTPObserver{telemetry},
+    EventObservers: []event.Observer{telemetry},
+})
+```
+
+Generated event topics already carry publishing and subscribing module
+identity and accept `ApplicationOptions.EventObservers`; no runtime module
+registry or payload reflection is involved. `@otel.Enable` continues to
+compose the HTTP adapter automatically. Event observation remains an explicit
+application option so applications can independently choose its sampling and
+export lifecycle.
 
 The starter does not install global OpenTelemetry providers, select an
 exporter, read environment variables, or contact a collector. Applications own
