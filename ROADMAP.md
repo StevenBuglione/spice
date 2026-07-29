@@ -18,6 +18,11 @@ Windows/Linux/macOS on amd64/arm64, a vendor-derived SPDX 2.3 SBOM, SHA-256
 checksums, and an Ed25519 signature. Tag automation repeats the full release
 gate before publishing; Go's module/vendor graph remains the only dependency
 and build input.
+Release acceptance also enforces repository-owned median time, memory, and
+allocation budgets for immutable model construction, deterministic rendering,
+warm editor analysis, and CLI parsing. The getting-started tutorial,
+Spring-to-Spice migration map, and pre-1.0 upgrade procedure make the generated
+and operational contracts independently usable without repository history.
 
 The preferred package-main discovery and same-package command bridge are now
 exercised by the commerce application; the compatible legacy layout remains

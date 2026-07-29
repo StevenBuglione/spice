@@ -207,8 +207,13 @@ closed by application code—there is no global session registry.
 
 Install Go 1.26.5 and GNU Make, then run:
 
+New users should begin with the executable
+[`getting-started.md`](docs/getting-started.md) walkthrough. Spring developers
+can use [`spring-to-spice.md`](docs/spring-to-spice.md) as a concept and
+migration map.
+
 ```bash
-make verify
+make check
 go run ./cmd/spice version
 go run ./cmd/spice annotations list ./examples/commerce/...
 go run ./cmd/spice annotations doctor ./examples/commerce/...
@@ -219,6 +224,10 @@ go run ./cmd/spice generate --check --target Commerce ./examples/commerce/...
 go run ./cmd/spice run --target Commerce ./examples/commerce/... -- -check
 go run ./cmd/spice dev --target Commerce ./examples/commerce/...
 ```
+
+Use `make check` for the fast edit loop. Run the complete `make verify` on the
+exact tree before committing; release automation additionally runs
+`make verify-release` and the benchmark budgets.
 
 In an application module containing one typed `@Application` marker:
 
@@ -271,6 +280,9 @@ activates it. See
 The preferred annotated `main.go`, compile-time discovery scope, generated
 bridge, and legacy migration contract are documented in
 [`docs/application.md`](docs/application.md).
+
+Pre-1.0 module, generated-source, tool, and editor upgrade procedures are
+documented in [`docs/upgrading.md`](docs/upgrading.md).
 
 Explicit imports, static descriptors, `go.mod` tool authorization, typed
 contributions, offline behavior, and extension security are documented in
