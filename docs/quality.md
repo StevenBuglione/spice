@@ -10,6 +10,9 @@ toolchains through GNU Make on Windows, Linux, and macOS.
 
 ```text
 make fmt       # apply goimports and gofumpt
+make check     # fast formatting, analysis, and compilation feedback
+make coverage  # exact whole-repository coverage floor
+make benchmark # median performance and allocation budgets
 make goland    # native tests, visual renders, archive checks, Plugin Verifier
 make lint      # golangci-lint plus NilAway
 make security  # gosec plus govulncheck
@@ -19,6 +22,7 @@ make offline   # product tests with GOPROXY=off and vendor only
 make smoke     # Spice CLI and executable example checks
 make zed       # Rust format/test/Clippy and Zed WASM release build
 make verify    # every required gate
+make verify-release # verify plus unconditional IDE and benchmark acceptance
 ```
 
 `make verify` also checks both modules with `go mod tidy -diff`, regenerates vendor contents into a temporary directory and compares them byte-for-byte, enforces 85% whole-repository statement coverage, and verifies the exact Go toolchain version.
@@ -27,6 +31,14 @@ render, physical-source/save/copy preservation checks, packaging, structural,
 and binary compatibility checks. It also runs
 `make zed`'s equivalent checks against the locked extension graph and current
 Zed `wasm32-wasip2` target.
+
+`make benchmark` measures immutable application-model construction,
+deterministic rendering, warm overlay analysis, and the CLI run-argument
+boundary. Each benchmark runs five times and the repository compares median
+time, bytes, and allocations with `benchmarks/budgets.json`. Reference values
+record the reviewed workstation baseline; deliberately looser ceilings
+accommodate supported CI hosts. A ceiling may change only with a specific
+reviewed rationale in that file.
 
 ## Pinned tools
 
