@@ -91,21 +91,26 @@ The preferred application declaration is the ordinary Go process entrypoint:
 ```go
 package main
 
-import "os"
+import (
+	"os"
+
+	spiceapp "example.com/shop/internal/spicegen/shop"
+)
 
 // @Application
 // @management.Enable(expose=["health", "readiness", "info"])
 // @observability.Logging
 func main() {
-	os.Exit(spiceMain(os.Args[1:]))
+	os.Exit(spiceapp.Main(os.Args[1:]))
 }
 ```
 
 The preferred marker must be the parameterless, result-free, non-generic
-`func main()` in package `main`. `spiceMain` is generated beside it and is the
-only framework invocation handwritten at the process boundary. During safe
-regeneration, the typed loader permits only that exact temporarily unresolved
-call inside the annotated function; every other Go load error remains fatal.
+`func main()` in package `main`. It explicitly imports the generated target
+package and calls `Main`; Spice writes no generated declarations beside it.
+During safe regeneration, the typed loader validates that exact import and
+call and supplies an in-memory generated-package stub. Every actual Go load
+error remains fatal.
 
 Spice analyzes the selected local Go package scope, discovers
 package-documentation `@Module` roots and supported annotated features, builds
@@ -140,7 +145,7 @@ companions opt into behavior with exposure or operational consequences:
 // @management.Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
 // @observability.Logging
 func main() {
-	os.Exit(spiceMain(os.Args[1:]))
+	os.Exit(spiceapp.Main(os.Args[1:]))
 }
 ```
 

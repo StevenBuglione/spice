@@ -15,17 +15,6 @@
   "input_sha256": "sha256:0367b1394b6cc0b7b7c2d00eb72373b23f9fbda48220eb74ad77e7a5a29dde84",
   "files": [
     {
-      "path": "examples/commerce/zz_spice_bridge_gen.go",
-      "sha256": "sha256:cdbb586b91e85ad636c023e3704253419bbc020a6d4fbc7ba92b35b2ac0a3797",
-      "role": "command-bridge",
-      "primary_source": {
-        "path": "examples/commerce/main.go",
-        "line": 11,
-        "column": 4,
-        "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
-      }
-    },
-    {
       "path": "internal/spicegen/commerce/artifacts/openapi.json",
       "sha256": "sha256:b1e6741553dadb484dc5e66521916b95cf7cc357d018dabd2af7226d746112ba",
       "role": "artifact",
@@ -74,7 +63,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 11,
+          "line": 13,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },
@@ -511,6 +500,35 @@
             "start_column": 4,
             "end_line": 27,
             "end_column": 20
+          }
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/commerce/sources/examples/commerce/main_spice_gen.go",
+      "sha256": "sha256:b968da64a8d7a6402d9d3b0c4eca1b807d926ebc25c2e765fa2729818c6725f8",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "examples/commerce/main.go",
+        "line": 13,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
+      },
+      "mappings": [
+        {
+          "kind": "application-target",
+          "contribution": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main",
+          "source": {
+            "path": "examples/commerce/main.go",
+            "line": 13,
+            "column": 4,
+            "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
+          },
+          "generated": {
+            "start_line": 8,
+            "start_column": 4,
+            "end_line": 8,
+            "end_column": 33
           }
         }
       ]
@@ -1008,7 +1026,7 @@
     },
     {
       "path": "internal/spicegen/commerce/zz_spice_gen.go",
-      "sha256": "sha256:cd6ccf1efd492fc89f54c24683a6efcb01ebfd772742cd33cad0c19f602e696c",
+      "sha256": "sha256:dbbcd224ae22ba8f21520e9593a5d171b4ede46ea9c61400070c63b461d2c402",
       "role": "target-orchestrator",
       "related_sources": [
         {
@@ -1055,7 +1073,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 11,
+          "line": 13,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },

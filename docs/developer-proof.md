@@ -71,7 +71,8 @@ coordination. Mirrored files under
 `internal/spicegen/commerce/sources/<package>` contain source-owned direct
 constructors, configuration binders, and explicit interface assignments.
 The schema-4 manifest provides exact source/generated locations, and the
-command bridge contains no wiring. There is no reflection or runtime container.
+`spice generated` command exposes those locations to humans and IDE clients.
+There is no adjacent bridge, reflection, or runtime container.
 
 Run the focused executable proofs directly:
 

@@ -7,7 +7,11 @@ framework assembly:
 ```go
 package main
 
-import "os"
+import (
+	"os"
+
+	spiceapp "example.com/shop/internal/spicegen/shop"
+)
 
 // @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
 // @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
@@ -17,12 +21,15 @@ import "os"
 // @Enable(expose=["health", "liveness", "readiness", "info", "metrics"], access="loopback")
 // @Logging
 func main() {
-	os.Exit(spiceMain(os.Args[1:]))
+	os.Exit(spiceapp.Main(os.Args[1:]))
 }
 ```
 
-`spiceMain` is generated into the same package. It returns a stable exit code
-and never calls `os.Exit`.
+The generated target package is an explicit ordinary Go dependency. Its
+`Main` returns a stable exit code and never calls `os.Exit`. This makes the
+process boundary, generated implementation, Go-to-definition behavior, and
+debugger transition visible without writing generated declarations beside
+handwritten source.
 
 ## Compile-time discovery
 
@@ -91,17 +98,16 @@ The preferred target owns:
 internal/spicegen/<target>/zz_spice_gen.go
 internal/spicegen/<target>/sources/<source-directory>/<source>_spice_gen.go
 internal/spicegen/<target>/artifacts/openapi.json   # when controllers exist
-<command-directory>/zz_spice_bridge_gen.go
 .spice/<target>.manifest.json
 ```
 
 The target-wide orchestrator lives in the importable generated package. The
-command bridge contains only aliases and the `spiceMain` call required by
-handwritten `main.go`. Every contributing handwritten file owns one mirrored
-source unit; providers, configuration binders, and `@Implements` assertions
-derived from that file live together there. Source units use generated
-packages rather than appearing beside handwritten Go, and the orchestrator
-calls their typed exported adapters.
+handwritten command imports that package directly. Every contributing
+handwritten file—including the application marker—owns one mirrored source
+unit; providers, configuration binders, application metadata, and
+`@Implements` assertions derived from that file live together there. Source
+units use nested generated packages rather than appearing beside handwritten
+Go, and the orchestrator calls their typed exported adapters.
 
 The schema-4 manifest records each file's role, primary source, related source
 declarations, exact generated ranges, and SHA-256 ownership. Generation
@@ -110,25 +116,29 @@ supports read-only check and bounded diff modes. Migration removes legacy
 adjacent schema-3 shards only when their recorded hash still matches.
 Generated files have standard Go source positions and direct calls into
 handwritten functions, so stepping from wiring into user code uses the normal
-Go debugger.
+Go debugger. `spice generated --source path.go --line n` and the reverse
+`--generated` form query the manifest without compiling or changing files.
 
 Generated source is excluded only from regeneration analysis with the reserved
-`spice_generate` build tag. When the generated bridge is missing or stale, the
-loader permits exactly the unresolved `spiceMain` call at its source position
-inside the annotated `func main`; every other load error remains fatal. This
-allows safe first generation and recovery without weakening ordinary builds.
+`spice_generate` build tag. During analysis, Spice verifies that annotated
+`func main` imports the exact generated target package and calls its `Main`
+function. If that package is not available under the analysis tag, the loader
+adds a pure in-memory stub package at that exact import path. It does not write
+a bridge, suppress an undefined identifier, or accept any other load error.
+This permits safe first generation while ordinary Go commands remain strict.
 
 ## Process and reusable ownership
 
-`spiceMain` owns conventional `SPICE_` environment loading and
+The generated target package's `Main` owns conventional `SPICE_` environment loading and
 `SIGINT`/`SIGTERM` because it is the process boundary. It creates a fresh
 bounded shutdown context and returns zero for success, one for runtime failure,
 or two for invalid command usage.
 
 The generated `NewApplication`, `NewApplicationWithOptions`, `Start`, `Stop`,
-`Run`, `Components`, and `RunCommand` seams are re-exported by the bridge for
-same-package tests and embedded policies. `Components` is a generated typed
-snapshot of singleton beans, not a reflection container or string lookup.
+`Run`, `Components`, `RunCommand`, and `Main` seams are exported directly by
+the generated target package for tests and embedded policies. `Components` is
+a generated typed snapshot of singleton beans, not a reflection container or
+string lookup.
 They accept caller-owned contexts, sources, observers, middleware, writers,
 loggers, and shutdown policy. Reusable application APIs never capture process
 signals.
@@ -143,7 +153,6 @@ provider roots as parameters:
 func Commerce(*platform.Server, *orders.Service) {}
 ```
 
-Legacy parameter-root markers also retain `internal/spicegen/<target>` but do
-not need a package-main bridge. When migrating ownership, guarded generation
-only removes or replaces files whose manifest hash still matches. Manual edits
-fail closed.
+Legacy parameter-root markers also retain `internal/spicegen/<target>`. During
+ownership migration, guarded generation removes old same-package bridges only
+when their manifest hash still matches. Manual edits fail closed.

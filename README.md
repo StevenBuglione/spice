@@ -254,12 +254,16 @@ spice dev ./...
 ```
 
 Application-platform conventions live on the ordinary process entrypoint and
-compile into direct-call Go beside it:
+compile into a directly imported generated target package:
 
 ```go
 package main
 
-import "os"
+import (
+    "os"
+
+    spiceapp "github.com/StevenBuglione/spice/internal/spicegen/commerce"
+)
 
 // @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
 // @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
@@ -269,20 +273,19 @@ import "os"
 // @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])
 // @Logging
 func main() {
-    os.Exit(spiceMain(os.Args[1:]))
+    os.Exit(spiceapp.Main(os.Args[1:]))
 }
 ```
 
-`spiceMain` is generated into the same package and returns an exit code; it
-does not call `os.Exit`. It resolves
+The generated `Main` returns an exit code and does not call `os.Exit`. It resolves
 the generated schema from the `SPICE_` environment convention, logs command
 startup and failures, owns `SIGINT`/`SIGTERM`, and creates a fresh bounded
 shutdown context. `spice.shutdown-timeout` defaults to `10s` and can be set
 with `SPICE_SHUTDOWN_TIMEOUT`.
 
-Controller targets also own `openapi.json` in the internal generated package;
-generation check/diff verifies it alongside the command bridge and generated
-application.
+Controller targets also own `artifacts/openapi.json` in the internal generated
+package; generation check/diff verifies it alongside the orchestrator and
+source-owned units.
 
 Production services opt into only the management routes they intend to expose
 with `@management.Enable(expose=[...])`. The endpoint allowlist is exact and
@@ -290,8 +293,8 @@ validated at compile time; package presence or a `go.mod` dependency never
 activates it. See
 [`docs/management.md`](docs/management.md).
 
-The preferred annotated `main.go`, compile-time discovery scope, generated
-bridge, and legacy migration contract are documented in
+The preferred annotated `main.go`, compile-time discovery scope, explicit
+generated-package boundary, and legacy migration contract are documented in
 [`docs/application.md`](docs/application.md).
 
 Pre-1.0 module, generated-source, tool, and editor upgrade procedures are
@@ -407,10 +410,12 @@ Use `--target Name`, the command import path, or the stable marker symbol ID
 when the selected packages contain multiple application markers. Positional Go
 package patterns provide explicit compile-time scope in a multi-application
 monorepo; an ordinary single-application module needs no dummy imports or
-module list. Package-main generation writes the full application into
-`internal/spicegen/<target>`, a tiny API/entrypoint bridge beside `main.go`,
-and only source-owned compile checks beside annotated implementations. Every
-file and its source origins are recorded in `.spice/<target>.manifest.json`.
+module list. Package-main generation writes the target-wide application into
+`internal/spicegen/<target>` and mirrors each contributing handwritten file to
+one nested `sources/.../<source>_spice_gen.go` unit. No generated Go is written
+beside handwritten code. Every file, source origin, and generated range is
+recorded in `.spice/<target>.manifest.json`; `spice generated` queries that
+mapping in either direction.
 
 To start the example HTTP server:
 
@@ -430,10 +435,10 @@ codes, and fresh bounded shutdown. Its generated application also owns the
 fixed-delay audit and exposes a typed, bounded asynchronous inventory
 verification method that drains before provider cleanup. The generated
 `Application` itself never captures process signals. Generated source and
-OpenAPI are committed under `internal/spicegen/commerce`; the command bridge is
-`examples/commerce/zz_spice_bridge_gen.go`, and source-owned interface checks
-use `*_commerce_spice_gen.go` beside their implementations. The matching
-ownership manifest is `.spice/commerce.manifest.json`.
+OpenAPI are committed under `internal/spicegen/commerce`; source-owned
+application metadata, configuration binders, constructors, and interface
+checks use mirrored files below `internal/spicegen/commerce/sources`. The
+matching ownership manifest is `.spice/commerce.manifest.json`.
 
 For embedding and specialized policies, the generated application retains
 `NewApplication`, `NewApplicationWithOptions`, `Application.Start`,

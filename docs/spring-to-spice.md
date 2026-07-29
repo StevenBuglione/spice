@@ -9,7 +9,7 @@ application context.
 
 | Spring concept | Spice contract | Important difference |
 | --- | --- | --- |
-| `@SpringBootApplication` | `// @Application` on `func main()` | The marker body remains ordinary Go; generated `spiceMain` owns process conventions. |
+| `@SpringBootApplication` | `// @Application` on `func main()` | The marker body remains ordinary Go and explicitly calls the generated target package's `Main`. |
 | `@Component`, `@Service`, `@Repository`, `@Controller` | Explicit Spice stereotypes | Discovery is bounded to the selected package scope and validated at compile time. |
 | Constructor injection | Constructor parameters | This is the only injection style; fields and setters are not injected. |
 | Interface autowiring | `@Implements(pkg.Interface)` or an exact interface-returning bean | General Go assignability does not silently create candidates. |

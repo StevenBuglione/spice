@@ -37,13 +37,15 @@ The process entrypoint in `examples/petclinic/main.go` is valid Go:
 // @Application
 // @Enable(expose=["health", "readiness", "info"], access="loopback")
 func main() {
-	os.Exit(spiceMain(os.Args[1:]))
+	os.Exit(spiceapp.Main(os.Args[1:]))
 }
 ```
 
 `@import` is file-scoped and explicit. The imported descriptor is a real Go
 function that the compiler decodes without executing. The target module's
 `go.mod` is the only authority that permits its handler tool to run.
+`spiceapp` is the ordinary Go import alias for
+`github.com/StevenBuglione/spice-petclinic/internal/spicegen/petclinic`.
 
 ## Verify and generate
 
@@ -65,14 +67,14 @@ internal/spicegen/petclinic/sources/<package>/<source>_spice_gen.go
     one source-owned unit with direct construction, binding, and assertions
 internal/spicegen/petclinic/artifacts/openapi.json
     generated non-Go contracts
-zz_spice_bridge_gen.go
-    small package-main bridge
 .spice/petclinic.manifest.json
     hashes, roles, source origins, and generated ranges
 ```
 
 Generated files are committed, formatted Go. The ownership manifest prevents
-Spice from overwriting manual edits or unrelated files.
+Spice from overwriting manual edits or unrelated files. Run
+`spice generated --source main.go` to locate the source-owned application unit,
+or pass that generated path with `--generated` for the reverse mapping.
 
 ## Run and debug
 

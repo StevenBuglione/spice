@@ -15,6 +15,35 @@
   "input_sha256": "sha256:efcde66e7dcde075f419561a9fcd4ad6187b1199bee7e6c38219a1d68c86c185",
   "files": [
     {
+      "path": "internal/spicegen/spice_annotation_app/sources/_root/main_spice_gen.go",
+      "sha256": "sha256:0b05b57deeafd76917abca733e4ff9b6e61dcb65b56d7d5781d972de5a22a5c5",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "main.go",
+        "line": 16,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+      },
+      "mappings": [
+        {
+          "kind": "application-target",
+          "contribution": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main",
+          "source": {
+            "path": "main.go",
+            "line": 16,
+            "column": 4,
+            "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
+          },
+          "generated": {
+            "start_line": 8,
+            "start_column": 4,
+            "end_line": 8,
+            "end_column": 33
+          }
+        }
+      ]
+    },
+    {
       "path": "internal/spicegen/spice_annotation_app/sources/component/message_spice_gen.go",
       "sha256": "sha256:5988f7afcff096f0709ae4da001fe2fae484214ca5d78202290eb7a91f8b9b12",
       "role": "source-unit",
@@ -45,7 +74,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/zz_spice_gen.go",
-      "sha256": "sha256:0c682f80451d9bdd1f122355a2befd1c7ab1477cac54773fce43849ffe7a4e69",
+      "sha256": "sha256:c6b7c178aedb71e8a9f60cbfbf41c34ad6051c48743267c5147f826ef59c3a67",
       "role": "target-orchestrator",
       "related_sources": [
         {
@@ -56,22 +85,11 @@
         },
         {
           "path": "main.go",
-          "line": 10,
+          "line": 16,
           "column": 4,
           "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
         }
       ]
-    },
-    {
-      "path": "zz_spice_bridge_gen.go",
-      "sha256": "sha256:8dc24acd148ff978a59ab05aa9ef835272db35920dd8b59ea43fa8e7de8962f6",
-      "role": "command-bridge",
-      "primary_source": {
-        "path": "main.go",
-        "line": 10,
-        "column": 4,
-        "symbol": "spice:symbol:v1|function|32:example.com/spice-annotation-app|0:|4:main"
-      }
     }
   ]
 }

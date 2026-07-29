@@ -17,6 +17,7 @@ import (
 	time "time"
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
+	spiceentrypoint "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/postgres/sources/cmd/postgres"
 	spicesource0 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/postgres/sources/owner"
 	spicesource1 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/postgres/sources/postgres"
 	spicesource2 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/postgres/sources/presentation"
@@ -35,7 +36,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-const TargetID = "postgres"
+const TargetID = spiceentrypoint.ApplicationTarget6bc99d889cc3
 
 const (
 	ExitSuccess = 0

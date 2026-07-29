@@ -15,24 +15,13 @@
   "input_sha256": "sha256:7b49415e76d12c356f11706be45bf265f64f9a13208b382d367cec6401df56ef",
   "files": [
     {
-      "path": "cmd/postgres/zz_spice_bridge_gen.go",
-      "sha256": "sha256:f6a53ecb907009d385e4a26b91f663b5f87e5feb327da13a65b620a0409b10c1",
-      "role": "command-bridge",
-      "primary_source": {
-        "path": "cmd/postgres/main.go",
-        "line": 17,
-        "column": 4,
-        "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main"
-      }
-    },
-    {
       "path": "internal/spicegen/postgres/artifacts/openapi.json",
       "sha256": "sha256:dc86d0309616d832efc96f460b86a74c21e0818555e7f00c2a10406bd119342c",
       "role": "artifact",
       "related_sources": [
         {
           "path": "cmd/postgres/main.go",
-          "line": 17,
+          "line": 18,
           "column": 4,
           "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main"
         },
@@ -579,6 +568,35 @@
       ]
     },
     {
+      "path": "internal/spicegen/postgres/sources/cmd/postgres/main_spice_gen.go",
+      "sha256": "sha256:eaeab18f6635a5cc2d7df3ed6dbb5eb2d1c59ac825d7825fd031a8b1dfa91e34",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "cmd/postgres/main.go",
+        "line": 18,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main"
+      },
+      "mappings": [
+        {
+          "kind": "application-target",
+          "contribution": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main",
+          "source": {
+            "path": "cmd/postgres/main.go",
+            "line": 18,
+            "column": 4,
+            "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main"
+          },
+          "generated": {
+            "start_line": 8,
+            "start_column": 4,
+            "end_line": 8,
+            "end_column": 33
+          }
+        }
+      ]
+    },
+    {
       "path": "internal/spicegen/postgres/sources/owner/controller_spice_gen.go",
       "sha256": "sha256:837890b09c60c79a24eada410c8f23e5b0d473882981c8ac51eeb89967525f31",
       "role": "source-unit",
@@ -1063,12 +1081,12 @@
     },
     {
       "path": "internal/spicegen/postgres/zz_spice_gen.go",
-      "sha256": "sha256:5d04c7fd95e621d5fdefc83090d8ee73d9c88e28ac1b1a4e166885f18cac7018",
+      "sha256": "sha256:b54be6bd6eb062250e8e6e7888279011749ecf98da982b1ef32c13a7d3714c3a",
       "role": "target-orchestrator",
       "related_sources": [
         {
           "path": "cmd/postgres/main.go",
-          "line": 17,
+          "line": 18,
           "column": 4,
           "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/cmd/postgres|0:|4:main"
         },

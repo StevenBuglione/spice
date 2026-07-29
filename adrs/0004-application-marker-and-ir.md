@@ -9,20 +9,26 @@ The preferred `@Application` marks the ordinary process entrypoint:
 ```go
 package main
 
-import "os"
+import (
+    "os"
+
+    spiceapp "example.com/shop/internal/spicegen/shop"
+)
 
 // @Application
 func main() {
-    os.Exit(spiceMain(os.Args[1:]))
+    os.Exit(spiceapp.Main(os.Args[1:]))
 }
 ```
 
 The preferred marker is package `main`'s parameterless, result-free,
 non-generic `func main()`. Its selected local Go package scope supplies
 compile-time discovery of package-documentation modules and supported annotated
-application features. The generated `spiceMain` bridge is emitted into that
-same package. There is no runtime scan, registration hook, reflection, or dummy
-module import.
+application features. The handwritten command explicitly imports the generated
+target package and calls its exported `Main`. Every annotation-derived unit is
+emitted under that target's nested `sources` tree; generated code is never
+written beside handwritten source. There is no runtime scan, registration
+hook, reflection, or dummy module import.
 
 During the pre-1.0 compatibility period, a non-main package-level marker may
 retain exact parameter roots:

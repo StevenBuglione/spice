@@ -21,7 +21,7 @@
       "related_sources": [
         {
           "path": "main.go",
-          "line": 9,
+          "line": 13,
           "column": 4,
           "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
         },
@@ -540,6 +540,35 @@
           "line": 6,
           "column": 2,
           "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/petclinic/sources/_root/main_spice_gen.go",
+      "sha256": "sha256:7e4c91d7572aaf9ccf7980cffcd56127d16dc0e94bf1a431da1afeb6196d75e2",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "main.go",
+        "line": 13,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
+      },
+      "mappings": [
+        {
+          "kind": "application-target",
+          "contribution": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main",
+          "source": {
+            "path": "main.go",
+            "line": 13,
+            "column": 4,
+            "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
+          },
+          "generated": {
+            "start_line": 8,
+            "start_column": 4,
+            "end_line": 8,
+            "end_column": 33
+          }
         }
       ]
     },
@@ -999,12 +1028,12 @@
     },
     {
       "path": "internal/spicegen/petclinic/zz_spice_gen.go",
-      "sha256": "sha256:1357b0446535e52b5a7fc509ed311c9f78b512f9ed33e3d675004b61bc573dc0",
+      "sha256": "sha256:06dcadcc4d2a3e599d7c487f48fc5a1dc5765c52e4582973225a7a6a1e9831cf",
       "role": "target-orchestrator",
       "related_sources": [
         {
           "path": "main.go",
-          "line": 9,
+          "line": 13,
           "column": 4,
           "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
         },
@@ -1525,17 +1554,6 @@
           "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
         }
       ]
-    },
-    {
-      "path": "zz_spice_bridge_gen.go",
-      "sha256": "sha256:42ad5b683dfbe7ab14fa52377a5442b48a5c33e193ae42d7dac64ac42685d647",
-      "role": "command-bridge",
-      "primary_source": {
-        "path": "main.go",
-        "line": 9,
-        "column": 4,
-        "symbol": "spice:symbol:v1|function|50:github.com/StevenBuglione/spice/examples/petclinic|0:|4:main"
-      }
     }
   ]
 }

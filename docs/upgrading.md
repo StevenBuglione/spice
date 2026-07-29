@@ -52,8 +52,11 @@ go test ./...
 
 `--diff` is read-only and bounded. Generation refuses an owned file whose
 current hash differs from its manifest, so a framework upgrade cannot silently
-erase a manual edit. Review the full wiring package, command bridge,
-mirrored source units, OpenAPI document, and manifest together.
+erase a manual edit. Review the full target-wide wiring package, mirrored
+source units, OpenAPI document, and manifest together. New
+package-main targets have no adjacent command bridge; the handwritten
+entrypoint imports the generated target package directly. A legacy bridge is
+removed only when its old manifest hash still matches.
 
 For a service with multiple application targets, pass the same `--target` and
 package scope used by its build. Never generate a broad module and assume it

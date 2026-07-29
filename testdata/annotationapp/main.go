@@ -1,5 +1,11 @@
 package main
 
+import (
+	"os"
+
+	spiceapp "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app"
+)
+
 // @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
 // @import { Factory as Construct } from "example.com/spice-annotation-fixture/annotation/wiring"
 // @import * as fixture from "example.com/spice-annotation-fixture/annotation/policy"
@@ -8,4 +14,6 @@ package main
 type Message string
 
 // @Application
-func main() {}
+func main() {
+	os.Exit(spiceapp.Main(os.Args[1:]))
+}

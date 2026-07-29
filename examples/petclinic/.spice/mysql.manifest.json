@@ -15,24 +15,13 @@
   "input_sha256": "sha256:261433e5aafdadd55101675db3490d7b92a4d512f98d621fb328d13615139532",
   "files": [
     {
-      "path": "cmd/mysql/zz_spice_bridge_gen.go",
-      "sha256": "sha256:d097cde253a5e1db05e0218f55df79f5426beb1e7ec24428fc22897c102ff985",
-      "role": "command-bridge",
-      "primary_source": {
-        "path": "cmd/mysql/main.go",
-        "line": 17,
-        "column": 4,
-        "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
-      }
-    },
-    {
       "path": "internal/spicegen/mysql/artifacts/openapi.json",
       "sha256": "sha256:3b3378d7223745e40b64e5e86b547f154237ca13a36bd3e4d6c62c6a557d6e30",
       "role": "artifact",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
-          "line": 17,
+          "line": 18,
           "column": 4,
           "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
@@ -579,6 +568,35 @@
       ]
     },
     {
+      "path": "internal/spicegen/mysql/sources/cmd/mysql/main_spice_gen.go",
+      "sha256": "sha256:37bb4dfb9911d0af1408391c9ead2e12cff482388b4533e5186d594286b36e86",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "cmd/mysql/main.go",
+        "line": 18,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+      },
+      "mappings": [
+        {
+          "kind": "application-target",
+          "contribution": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main",
+          "source": {
+            "path": "cmd/mysql/main.go",
+            "line": 18,
+            "column": 4,
+            "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          },
+          "generated": {
+            "start_line": 8,
+            "start_column": 4,
+            "end_line": 8,
+            "end_column": 33
+          }
+        }
+      ]
+    },
+    {
       "path": "internal/spicegen/mysql/sources/mysql/database_spice_gen.go",
       "sha256": "sha256:40a3fcbdbdbc6e106cb9bc11b7e987420fc1fcad18f33769be0e76f97b90246d",
       "role": "source-unit",
@@ -1063,12 +1081,12 @@
     },
     {
       "path": "internal/spicegen/mysql/zz_spice_gen.go",
-      "sha256": "sha256:29f5e3e5dd41ba30795f0d85345bd1d5c4cb49dbc40cffabc1573b7e5e91d87b",
+      "sha256": "sha256:f2ed577b444b6b9fa5bdfec6e8de4ad1eecd2b81e0a335d82fc9c1a6d23bd964",
       "role": "target-orchestrator",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
-          "line": 17,
+          "line": 18,
           "column": 4,
           "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },

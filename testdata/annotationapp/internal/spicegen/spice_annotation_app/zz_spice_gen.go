@@ -16,12 +16,13 @@ import (
 	time "time"
 
 	component "example.com/spice-annotation-app/component"
+	spiceentrypoint "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app/sources/_root"
 	spicesource0 "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app/sources/component"
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
-const TargetID = "spice_annotation_app"
+const TargetID = spiceentrypoint.ApplicationTarget064f99508fba
 
 const (
 	ExitSuccess = 0

@@ -1,6 +1,10 @@
 package main
 
-import "os"
+import (
+	"os"
+
+	spiceapp "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic"
+)
 
 // @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
 // @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
@@ -11,6 +15,6 @@ import "os"
 // @Logging
 func main() {
 	// This package-main boundary alone owns the process status.
-	//nolint:forbidigo // Generated spiceMain returns the portable exit code.
-	os.Exit(spiceMain(os.Args[1:]))
+	//nolint:forbidigo // Generated Main returns the portable exit code.
+	os.Exit(spiceapp.Main(os.Args[1:]))
 }

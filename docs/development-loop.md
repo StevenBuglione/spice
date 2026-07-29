@@ -75,8 +75,8 @@ Defaults ignore:
   build output;
 - temporary editor files;
 - `.spice` build/dev artifacts;
-- all mirrored `*_spice_gen.go` source units, the generated command bridge,
-  generated OpenAPI, ownership manifests, and `internal/spicegen` output.
+- all mirrored `*_spice_gen.go` source units, target orchestrators, generated
+  OpenAPI, ownership manifests, and `internal/spicegen` output.
 
 Paths are normalized to workspace-relative slash form. Unsafe absolute or
 parent-traversing include/exclude patterns fail before watching starts.

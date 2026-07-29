@@ -30,9 +30,9 @@ warm editor analysis, and CLI parsing. The getting-started tutorial,
 Spring-to-Spice migration map, and pre-1.0 upgrade procedure make the generated
 and operational contracts independently usable without repository history.
 
-The preferred package-main discovery and same-package command bridge are now
-exercised by the commerce application; the compatible legacy layout remains
-available pre-1.0. `spice run` now applies guarded generation, builds a unique
+The preferred package-main discovery and explicit generated-package entrypoint
+are now exercised by Commerce and Petclinic; no generated declaration is
+written beside handwritten source. `spice run` applies guarded generation and builds a unique
 trimpath candidate, and relays the selected package-main process on Windows and
 Unix. Coverage-map labels are not substitutes for executable acceptance. The
 shared `spice.diagnostics/v1` contract now backs text and machine-readable
@@ -169,8 +169,9 @@ native generic-aware Implement Methods generation, pointer receiver selection,
 namespace-aware navigation, and valid physical source. The next
 developer-proof slice is the independent
 third-party SDK/tool and complete commerce workflow. Package-main generation
-now separates full wiring under `internal/spicegen/<target>`, a tiny command
-bridge, and source-owned units. Generated applications expose typed singleton `Components`,
+now separates target-wide wiring from one nested source unit per contributing
+handwritten file, and `spice generated` provides deterministic two-way
+source/range lookup. Generated applications expose typed singleton `Components`,
 and `spicetest.Context` plus `annotation/sdk/sdktest` provide lifecycle and
 third-party handler test harnesses without reflection or compiler imports.
 

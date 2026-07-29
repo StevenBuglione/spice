@@ -202,19 +202,22 @@ Verifier coverage while its stable UI runner remains pending. The UI suite
 sets `SPICE_EXECUTABLE` to the exact freshly built repository binary in
 addition to prepending its directory to `PATH`, so Windows executable lookup
 cannot silently select a stale globally installed language server. The suite
-opens the real Petclinic module and its committed generated bridge before
-checking the application source. It uses platform-native process invocation
+opens the real Petclinic module and its committed nested application source
+unit before checking the application source. It uses platform-native process invocation
 and temporary output paths; no shell-specific command or fixture binary is
 hidden in the plugin.
 
 Generation analysis uses the `spice_generate` build tag, which deliberately
-excludes committed generated files. The shared loader supplies a typed,
-analysis-only `spiceMain` declaration in the in-memory overlay for an
-explicitly imported `@Application` entrypoint; it never writes that declaration
-or exposes it as a user symbol. Both the LSP and plugin reject every unrelated
-undefined reference. A narrow editor guard removes only GoLand's transient
-`gocommand-*` bridge diagnostic when the open source structurally proves the
-annotated generated-bridge contract.
+excludes committed generated files. The shared loader verifies the annotated
+entrypoint's exact generated-package import and `Main` call, then supplies that
+package through the in-memory analysis overlay. It never writes a stub or
+suppresses an undefined symbol. Both the LSP and plugin reject every unrelated
+Go error. Run and Debug always execute the complete package, so no
+`gocommand-*` file fragment or bridge-specific inspection suppression exists.
+
+The schema-4 ownership manifest is the source/generated navigation contract.
+`spice generated --source ...` and `--generated ...` expose the same mapping in
+stable text or JSON for IDE and debugger integrations.
 
 The folding parser is intentionally narrow: it recognizes declaration comments
 whose complete text begins with canonical `// @`, including explicit

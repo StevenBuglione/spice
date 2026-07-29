@@ -17,6 +17,7 @@ import (
 	time "time"
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
+	spiceentrypoint "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql/sources/cmd/mysql"
 	spicesource0 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql/sources/mysql"
 	spicesource1 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql/sources/owner"
 	spicesource2 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql/sources/presentation"
@@ -35,7 +36,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-const TargetID = "mysql"
+const TargetID = spiceentrypoint.ApplicationTarget47bdf520c582
 
 const (
 	ExitSuccess = 0

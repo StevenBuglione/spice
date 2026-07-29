@@ -17,6 +17,7 @@ import (
 	time "time"
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
+	spiceentrypoint "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/_root"
 	spicesource0 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/memory"
 	spicesource1 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/owner"
 	spicesource2 "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/presentation"
@@ -35,7 +36,7 @@ import (
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
-const TargetID = "petclinic"
+const TargetID = spiceentrypoint.ApplicationTarget2898e5e73c02
 
 const (
 	ExitSuccess = 0

@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	spiceapp "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql"
 	_ "github.com/StevenBuglione/spice/examples/petclinic/mysql"
 	_ "github.com/StevenBuglione/spice/examples/petclinic/owner"
 	_ "github.com/StevenBuglione/spice/examples/petclinic/presentation"
@@ -19,6 +20,6 @@ import (
 // @Logging
 func main() {
 	// This package-main boundary alone owns the process status.
-	//nolint:forbidigo // Generated spiceMain returns the portable exit code.
-	os.Exit(spiceMain(os.Args[1:]))
+	//nolint:forbidigo // Generated Main returns the portable exit code.
+	os.Exit(spiceapp.Main(os.Args[1:]))
 }
