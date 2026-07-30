@@ -226,6 +226,7 @@ can use [`spring-to-spice.md`](docs/spring-to-spice.md) as a concept and
 migration map.
 
 ```bash
+make fast
 make check
 go run ./cmd/spice version
 go run ./cmd/spice annotations list ./examples/commerce/...
@@ -238,7 +239,8 @@ go run ./cmd/spice run --target Commerce ./examples/commerce/... -- -check
 go run ./cmd/spice dev --target Commerce ./examples/commerce/...
 ```
 
-Use `make check` for the fast edit loop. Run the complete `make verify` on the
+Use `make fast` for affected-package feedback and `make check` for the broader
+edit loop. Run the complete `make verify` on the
 exact tree before committing; release automation additionally runs
 `make verify-release` and the benchmark budgets.
 

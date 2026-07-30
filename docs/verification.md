@@ -3,6 +3,11 @@
 Spice separates fast developer feedback from commit and release acceptance
 without changing the quality requirements.
 
+Use `make fast` after an edit. It derives affected packages from Go's package
+and test-import graph rather than a maintained allowlist, includes cross-module
+reverse dependencies, and fails safe to broader work whenever ownership is
+uncertain. This target is an edit-time correctness loop, not the commit gate.
+
 Use `make check` while editing. It verifies the exact Go toolchain, formatting,
 module tidiness, vet, the allowlisted linter and NilAway policy, and ordinary
 compilation of every package and test in both the framework module and the

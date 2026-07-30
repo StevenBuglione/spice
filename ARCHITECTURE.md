@@ -35,6 +35,20 @@ Valid Go source
 
 ## Major subsystems
 
+### Package invalidation boundaries
+
+Spice is one synchronized product module composed of independently cacheable
+Go packages. Each public capability, annotation family, compiler feature,
+renderer, and opt-in integration owns its smallest cohesive package boundary;
+there is no aggregate runtime or starter registry. Broad facade packages keep
+stable imports while implementation phases live in compiler-internal packages.
+
+Edit-time verification obtains the actual package and test-import graph from
+Go and executes the reverse dependency closure of changed source. Unknown
+ownership, module inputs, and vendor inputs widen rather than under-select.
+This follows [ADR 0011](adrs/0011-package-oriented-incremental-builds.md);
+complete verification remains the commit contract.
+
 ### Compiler front end
 
 - Annotation lexical and syntactic parser.

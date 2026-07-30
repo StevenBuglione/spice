@@ -34,8 +34,9 @@ For every product change:
 4. Exercise cancellation, timeout, rollback, concurrency, and failure paths when relevant.
 5. Update documentation, examples, the Spring coverage map, and benchmarks when the public behavior changes.
 6. Run issue-specific executable or integration paths.
-7. Use `make check` for the edit loop, then run `make verify` from the
-   repository root on the exact tree to be committed.
+7. Use `make fast` for affected-package feedback and `make check` for the
+   broader edit loop, then run `make verify` from the repository root on the
+   exact tree to be committed.
 8. Never claim a command passed unless it was actually executed.
 9. Commit only a green tree. Fetch again before push and stop if `origin/main` moved unexpectedly.
 

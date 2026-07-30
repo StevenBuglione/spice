@@ -1,4 +1,4 @@
-.PHONY: benchmark bootstrap check coverage dogfood fmt fuzz goland lint offline security smoke test vet verify verify-release zed
+.PHONY: benchmark bootstrap check coverage dogfood fast fmt fuzz goland lint offline security smoke test vet verify verify-release zed
 
 benchmark:
 	go run ./internal/qualitygate -mode=benchmark
@@ -14,6 +14,9 @@ coverage:
 
 dogfood:
 	go run ./internal/qualitygate -mode=dogfood
+
+fast:
+	go run ./internal/qualitygate -mode=fast
 
 fmt:
 	go run ./internal/qualitygate -mode=fmt

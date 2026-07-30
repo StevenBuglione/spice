@@ -10,6 +10,7 @@ toolchains through GNU Make on Windows, Linux, and macOS.
 
 ```text
 make fmt       # apply goimports and gofumpt
+make fast      # affected formatting, generation boundaries, vet, and tests
 make check     # fast formatting, analysis, and compilation feedback
 make dogfood   # bounded self-hosted CLI/module/LSP/dev-loop proof
 make bootstrap # offline two-stage self-hosting and zero-output recovery proof
@@ -26,6 +27,15 @@ make zed       # Rust format/test/Clippy and Zed WASM release build
 make verify    # every required gate
 make verify-release # verify plus unconditional IDE and benchmark acceptance
 ```
+
+`make fast` is the edit-time package loop. It asks Git for committed, staged,
+unstaged, and untracked changes relative to the merge base with `origin/main`,
+loads Go's real package and test-import graph, and runs formatting plus the
+complete reverse dependency closure. An explicit `-base=<revision>` may be
+passed to `internal/qualitygate` for automation. Module, vendor, build-policy,
+new-package, deleted-package, or otherwise ambiguous changes widen
+conservatively; unavailable Git history fails instead of under-selecting.
+Workspace-owned `.tmp` data and build output are not product inputs.
 
 `make dogfood` is the normal feedback loop for Spice framework and CLI work.
 It checks generated-file boundaries and formatting, runs focused tests for
