@@ -1281,7 +1281,7 @@
     },
     {
       "path": "internal/spicegen/commerce/spice_contracts_gen.go",
-      "sha256": "sha256:187d60ef30cdc6a7a33e849fb1e474dd423b0a2d2f8db7f16e3f9bf1872dd283",
+      "sha256": "sha256:0c32c01f86125fab24398f6689dfcbc4872069c6560db12815ee5ad7af7ba701",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -1967,7 +1967,7 @@
     },
     {
       "path": "internal/spicegen/commerce/spice_providers_gen.go",
-      "sha256": "sha256:2690462fe37d58631039e43d20987b2b0ce4b8a8df6e46fef6801f29eee11964",
+      "sha256": "sha256:20059fb2ee962e8f3860a8ee614653e403a3b437243e046717549c26746b0257",
       "role": "target-providers",
       "related_sources": [
         {

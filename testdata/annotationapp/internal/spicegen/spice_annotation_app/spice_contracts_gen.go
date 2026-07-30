@@ -9,6 +9,7 @@ import (
 
 	component "example.com/spice-annotation-app/component"
 	spiceentrypoint "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app/sources/_root"
+	spicebean "github.com/StevenBuglione/spice/bean"
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
@@ -28,6 +29,13 @@ type Components struct {
 	ProvideMessage component.Message
 }
 
+// BeanOverrides provides compile-time-typed singleton replacements.
+// Replacements use the normal generated cleanup and rollback path.
+type BeanOverrides struct {
+	// ProvideMessage replaces bean "provideMessage".
+	ProvideMessage spicebean.Override[component.Message]
+}
+
 type Application struct {
 	coordinator     *spicelifecycle.Coordinator
 	hooks           []spicelifecycle.Hook
@@ -36,6 +44,7 @@ type Application struct {
 }
 
 type ApplicationOptions struct {
+	Overrides                 BeanOverrides
 	Profiles                  []string
 	Sources                   []spiceconfig.Source
 	AllowUnknownConfiguration bool

@@ -9,6 +9,7 @@ import (
 	http "net/http"
 	time "time"
 
+	spicebean "github.com/StevenBuglione/spice/bean"
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	spiceentrypoint "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic/sources/_root"
 	memory "github.com/StevenBuglione/spice/examples/petclinic/memory"
@@ -63,6 +64,37 @@ type Components struct {
 	Server *presentation.Server
 }
 
+// BeanOverrides provides compile-time-typed singleton replacements.
+// Replacements use the normal generated cleanup and rollback path.
+type BeanOverrides struct {
+	// PetclinicDatabase replaces bean "newPetclinicDatabase".
+	PetclinicDatabase spicebean.Override[*memory.Database]
+	// Catalog replaces bean "newCatalog".
+	Catalog spicebean.Override[*i18n.Catalog]
+	// Renderer replaces bean "newRenderer".
+	Renderer spicebean.Override[*spiceview.Renderer]
+	// Mux replaces bean "newMux".
+	Mux spicebean.Override[*http.ServeMux]
+	// VetRepository replaces bean "vetRepository".
+	VetRepository spicebean.Override[*memory.VetRepository]
+	// VetController replaces bean "controller".
+	VetController spicebean.Override[*vet.Controller]
+	// OwnerRepository replaces bean "ownerRepository".
+	OwnerRepository spicebean.Override[*memory.OwnerRepository]
+	// OwnerController replaces bean "controller".
+	OwnerController spicebean.Override[*owner.Controller]
+	// VisitController replaces bean "visitController".
+	VisitController spicebean.Override[*owner.VisitController]
+	// PetTypeRepository replaces bean "petTypeRepository".
+	PetTypeRepository spicebean.Override[*memory.PetTypeRepository]
+	// PetController replaces bean "petController".
+	PetController spicebean.Override[*owner.PetController]
+	// WelcomeController replaces bean "welcomeController".
+	WelcomeController spicebean.Override[*system.WelcomeController]
+	// Server replaces bean "newServer".
+	Server spicebean.Override[*presentation.Server]
+}
+
 type Application struct {
 	coordinator     *spicelifecycle.Coordinator
 	hooks           []spicelifecycle.Hook
@@ -73,6 +105,7 @@ type Application struct {
 }
 
 type ApplicationOptions struct {
+	Overrides                 BeanOverrides
 	Profiles                  []string
 	Sources                   []spiceconfig.Source
 	AllowUnknownConfiguration bool

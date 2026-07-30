@@ -3,6 +3,7 @@ package bean
 import (
 	"context"
 	"errors"
+	"strings"
 	"sync/atomic"
 	"testing"
 
@@ -80,5 +81,80 @@ func TestHandlesFailClosedOnNilState(t *testing.T) {
 	var provider Provider[string]
 	if _, _, err := provider.Acquire(context.Background()); err == nil {
 		t.Fatal("nil provider error = nil")
+	}
+}
+
+func TestOverrideValueAndFactory(t *testing.T) {
+	t.Parallel()
+	value := Replace("test")
+	if !value.Enabled() {
+		t.Fatal("Replace() returned a disabled override")
+	}
+	got, cleanup, err := value.Acquire(t.Context())
+	if err != nil || got != "test" || cleanup != nil {
+		t.Fatalf("value Acquire() = %q, %v, %v", got, cleanup, err)
+	}
+
+	var cleaned atomic.Bool
+	factory := ReplaceFactory(func(
+		context.Context,
+	) (string, lifecycle.Cleanup, error) {
+		return "factory", func(context.Context) error {
+			cleaned.Store(true)
+			return nil
+		}, nil
+	})
+	got, cleanup, err = factory.Acquire(t.Context())
+	if err != nil || got != "factory" || cleanup == nil {
+		t.Fatalf("factory Acquire() = %q, %v, %v", got, cleanup, err)
+	}
+	if err := cleanup(t.Context()); err != nil {
+		t.Fatal(err)
+	}
+	if !cleaned.Load() {
+		t.Fatal("override cleanup did not run")
+	}
+}
+
+func TestOverrideRejectsInvalidState(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name     string
+		override Override[string]
+		nilCtx   bool
+		want     string
+	}{
+		{
+			name:     "nil context",
+			override: Replace("value"),
+			nilCtx:   true,
+			want:     "context is nil",
+		},
+		{
+			name:     "disabled",
+			override: Override[string]{},
+			want:     "disabled",
+		},
+		{
+			name:     "nil factory",
+			override: ReplaceFactory[string](nil),
+			want:     "factory is nil",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			if test.override.Enabled() != (test.name != "disabled") {
+				t.Fatalf("Enabled() = %t", test.override.Enabled())
+			}
+			ctx := t.Context()
+			if test.nilCtx {
+				ctx = nil
+			}
+			_, _, err := test.override.Acquire(ctx)
+			if err == nil || !strings.Contains(err.Error(), test.want) {
+				t.Fatalf("Acquire() error = %v, want %q", err, test.want)
+			}
+		})
 	}
 }

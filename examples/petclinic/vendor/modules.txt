@@ -21,6 +21,7 @@ github.com/StevenBuglione/spice/annotation/sdk/protocol
 github.com/StevenBuglione/spice/annotation/security
 github.com/StevenBuglione/spice/annotation/web
 github.com/StevenBuglione/spice/batch
+github.com/StevenBuglione/spice/bean
 github.com/StevenBuglione/spice/cmd/spice-annotation-core
 github.com/StevenBuglione/spice/config
 github.com/StevenBuglione/spice/data

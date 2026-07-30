@@ -1588,7 +1588,7 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_contracts_gen.go",
-      "sha256": "sha256:758e041bafe6df37e7c4c4303a7cb3ac8eaa8c8a46205b6de88a241e42a5b680",
+      "sha256": "sha256:17eb0d2c4757059db659153dd099625aeeeb7b43e2d00ef699d57fcb238a9379",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -3036,7 +3036,7 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_providers_gen.go",
-      "sha256": "sha256:586b28c831435ba937370862de61252168b875630589a22d7a206e0b31bd7954",
+      "sha256": "sha256:eb99eef8c623c45602ba4e5bc24dc33fa20cb6c215defaad5e281ccb6e747828",
       "role": "target-providers",
       "related_sources": [
         {

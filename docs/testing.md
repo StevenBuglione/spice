@@ -81,9 +81,66 @@ error is stopped using a fresh bounded context.
 
 The generated `Components` value is a compile-time typed snapshot of
 constructed singleton beans. It is intended for tests and explicit embedding;
-it performs no string lookup, reflection, replacement, package scan, or hidden
-construction. Prototype/request/session beans remain available only through
-their generated typed scope owners.
+it performs no string lookup, reflection, package scan, or hidden construction.
+Prototype/request/session beans remain available only through their generated
+typed scope owners.
+
+## Typed bean overrides
+
+Every generated application also exposes a target-specific `BeanOverrides`
+structure. Its fields are generated only for application-constructed singleton
+beans whose exact Go types can be named by callers. Tests replace a bean by
+assigning a value of that exact type:
+
+```go
+replacement := orders.NewViewAudit()
+testContext, err := spicetest.NewContext(
+    context.Background(),
+    func(ctx context.Context) (*commerce.Application, error) {
+        return commerce.NewApplicationWithOptions(
+            ctx,
+            commerce.ApplicationOptions{
+                Overrides: commerce.BeanOverrides{
+                    ViewAudit: bean.Replace(replacement),
+                },
+                Sources: []config.Source{testConfiguration},
+                Logger:  slog.New(slog.DiscardHandler),
+            },
+        )
+    },
+    spicetest.ContextOptions{ShutdownTimeout: time.Second},
+)
+```
+
+The Go compiler checks the replacement type. There is no bean-name string,
+interface conversion, mutable registry, reflection, or runtime lookup.
+Downstream generated constructors receive the replacement through the same
+direct calls as the production bean.
+
+Use `bean.ReplaceFactory` when a replacement needs construction failure or
+cleanup behavior:
+
+```go
+Repository: bean.ReplaceFactory(func(ctx context.Context) (
+    *storage.OrderRepository,
+    lifecycle.Cleanup,
+    error,
+) {
+    repository, err := newTestRepository(ctx)
+    return repository, cleanupTestRepository(repository), err
+}),
+```
+
+Generated construction registers a successful factory cleanup immediately
+under the original bean's module. Startup failure rolls it back in reverse
+order, and normal `Stop` owns the same idempotent lifecycle path. The zero
+value of every override is disabled, so ordinary production
+`ApplicationOptions` are unchanged.
+
+Configuration remains replaceable through explicit test `config.Source`
+values. Prototype, request, and session values retain their generated typed
+scope/provider contracts rather than being promoted to process-wide
+singletons for tests.
 
 Annotation authors use `annotation/sdk/sdktest.RunHandlerCases` for the other
 side of the extension boundary. The public-only harness validates descriptor

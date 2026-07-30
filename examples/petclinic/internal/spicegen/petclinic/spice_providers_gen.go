@@ -21,6 +21,7 @@ import (
 	system "github.com/StevenBuglione/spice/examples/petclinic/system"
 	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
 	i18n "github.com/StevenBuglione/spice/i18n"
+	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 	spiceview "github.com/StevenBuglione/spice/view"
 )
 
@@ -51,7 +52,12 @@ func constructApplicationDependencies(
 	_ = application
 	_ = options
 	_ = configurationSnapshot
-	petclinicDatabase, petclinicDatabaseCleanup, err := spiceMemory.ConstructPetclinicDatabase_75fb0ba1()
+	petclinicDatabase, petclinicDatabaseCleanup, err := func() (*memory.Database, spicelifecycle.Cleanup, error) {
+		if options.Overrides.PetclinicDatabase.Enabled() {
+			return options.Overrides.PetclinicDatabase.Acquire(ctx)
+		}
+		return spiceMemory.ConstructPetclinicDatabase_75fb0ba1()
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newPetclinicDatabase (*github.com/StevenBuglione/spice/examples/petclinic/memory.Database, source spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase): %w", err))
 	}
@@ -61,7 +67,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = petclinicDatabase
-	catalog, catalogCleanup, err := spicePresentation.ConstructCatalog_6e1785b3()
+	catalog, catalogCleanup, err := func() (*i18n.Catalog, spicelifecycle.Cleanup, error) {
+		if options.Overrides.Catalog.Enabled() {
+			return options.Overrides.Catalog.Acquire(ctx)
+		}
+		return spicePresentation.ConstructCatalog_6e1785b3()
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newCatalog (*github.com/StevenBuglione/spice/i18n.Catalog, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog): %w", err))
 	}
@@ -71,7 +82,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = catalog
-	renderer, rendererCleanup, err := spicePresentation.ConstructRenderer_3dddedb0(catalog)
+	renderer, rendererCleanup, err := func() (*spiceview.Renderer, spicelifecycle.Cleanup, error) {
+		if options.Overrides.Renderer.Enabled() {
+			return options.Overrides.Renderer.Acquire(ctx)
+		}
+		return spicePresentation.ConstructRenderer_3dddedb0(catalog)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newRenderer (*github.com/StevenBuglione/spice/view.Renderer, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer): %w", err))
 	}
@@ -81,7 +97,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = renderer
-	mux, muxCleanup, err := spicePresentation.ConstructMux_1ec2a68a()
+	mux, muxCleanup, err := func() (*http.ServeMux, spicelifecycle.Cleanup, error) {
+		if options.Overrides.Mux.Enabled() {
+			return options.Overrides.Mux.Acquire(ctx)
+		}
+		return spicePresentation.ConstructMux_1ec2a68a()
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newMux (*net/http.ServeMux, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux): %w", err))
 	}
@@ -91,7 +112,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = mux
-	vetRepository, vetRepositoryCleanup, err := spiceMemory.ConstructVetRepository_3a6aad84(petclinicDatabase)
+	vetRepository, vetRepositoryCleanup, err := func() (*memory.VetRepository, spicelifecycle.Cleanup, error) {
+		if options.Overrides.VetRepository.Enabled() {
+			return options.Overrides.VetRepository.Acquire(ctx)
+		}
+		return spiceMemory.ConstructVetRepository_3a6aad84(petclinicDatabase)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean vetRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.VetRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository): %w", err))
 	}
@@ -101,7 +127,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = vetRepository
-	vetController, vetControllerCleanup, err := spiceVet.ConstructController_8580f4b8(vetRepository, catalog)
+	vetController, vetControllerCleanup, err := func() (*vet.Controller, spicelifecycle.Cleanup, error) {
+		if options.Overrides.VetController.Enabled() {
+			return options.Overrides.VetController.Acquire(ctx)
+		}
+		return spiceVet.ConstructController_8580f4b8(vetRepository, catalog)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean controller (*github.com/StevenBuglione/spice/examples/petclinic/vet.Controller, source spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller): %w", err))
 	}
@@ -111,7 +142,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = vetController
-	ownerRepository, ownerRepositoryCleanup, err := spiceMemory.ConstructOwnerRepository_2966447b(petclinicDatabase)
+	ownerRepository, ownerRepositoryCleanup, err := func() (*memory.OwnerRepository, spicelifecycle.Cleanup, error) {
+		if options.Overrides.OwnerRepository.Enabled() {
+			return options.Overrides.OwnerRepository.Acquire(ctx)
+		}
+		return spiceMemory.ConstructOwnerRepository_2966447b(petclinicDatabase)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean ownerRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.OwnerRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository): %w", err))
 	}
@@ -121,7 +157,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = ownerRepository
-	ownerController, ownerControllerCleanup, err := spiceOwner.ConstructController_6d9e55b6(ownerRepository, catalog)
+	ownerController, ownerControllerCleanup, err := func() (*owner.Controller, spicelifecycle.Cleanup, error) {
+		if options.Overrides.OwnerController.Enabled() {
+			return options.Overrides.OwnerController.Acquire(ctx)
+		}
+		return spiceOwner.ConstructController_6d9e55b6(ownerRepository, catalog)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean controller (*github.com/StevenBuglione/spice/examples/petclinic/owner.Controller, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller): %w", err))
 	}
@@ -131,7 +172,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = ownerController
-	visitController, visitControllerCleanup, err := spiceOwner.ConstructVisitController_6bd173f5(ownerRepository, catalog)
+	visitController, visitControllerCleanup, err := func() (*owner.VisitController, spicelifecycle.Cleanup, error) {
+		if options.Overrides.VisitController.Enabled() {
+			return options.Overrides.VisitController.Acquire(ctx)
+		}
+		return spiceOwner.ConstructVisitController_6bd173f5(ownerRepository, catalog)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean visitController (*github.com/StevenBuglione/spice/examples/petclinic/owner.VisitController, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController): %w", err))
 	}
@@ -141,7 +187,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = visitController
-	petTypeRepository, petTypeRepositoryCleanup, err := spiceMemory.ConstructPetTypeRepository_eaa83bf0(petclinicDatabase)
+	petTypeRepository, petTypeRepositoryCleanup, err := func() (*memory.PetTypeRepository, spicelifecycle.Cleanup, error) {
+		if options.Overrides.PetTypeRepository.Enabled() {
+			return options.Overrides.PetTypeRepository.Acquire(ctx)
+		}
+		return spiceMemory.ConstructPetTypeRepository_eaa83bf0(petclinicDatabase)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.PetTypeRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository): %w", err))
 	}
@@ -151,7 +202,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = petTypeRepository
-	petController, petControllerCleanup, err := spiceOwner.ConstructPetController_fb101c0a(ownerRepository, petTypeRepository, catalog)
+	petController, petControllerCleanup, err := func() (*owner.PetController, spicelifecycle.Cleanup, error) {
+		if options.Overrides.PetController.Enabled() {
+			return options.Overrides.PetController.Acquire(ctx)
+		}
+		return spiceOwner.ConstructPetController_fb101c0a(ownerRepository, petTypeRepository, catalog)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean petController (*github.com/StevenBuglione/spice/examples/petclinic/owner.PetController, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController): %w", err))
 	}
@@ -161,7 +217,12 @@ func constructApplicationDependencies(
 		}
 	}
 	_ = petController
-	welcomeController, welcomeControllerCleanup, err := spiceSystem.ConstructWelcomeController_0b0c501d(catalog)
+	welcomeController, welcomeControllerCleanup, err := func() (*system.WelcomeController, spicelifecycle.Cleanup, error) {
+		if options.Overrides.WelcomeController.Enabled() {
+			return options.Overrides.WelcomeController.Acquire(ctx)
+		}
+		return spiceSystem.ConstructWelcomeController_0b0c501d(catalog)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean welcomeController (*github.com/StevenBuglione/spice/examples/petclinic/system.WelcomeController, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController): %w", err))
 	}
@@ -176,7 +237,12 @@ func constructApplicationDependencies(
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("bind configuration github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings for bean ServerSettings (source spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings): %w", err))
 	}
 	_ = serverSettings
-	server, serverCleanup, err := spicePresentation.ConstructServer_2f66240e(serverSettings, mux)
+	server, serverCleanup, err := func() (*presentation.Server, spicelifecycle.Cleanup, error) {
+		if options.Overrides.Server.Enabled() {
+			return options.Overrides.Server.Acquire(ctx)
+		}
+		return spicePresentation.ConstructServer_2f66240e(serverSettings, mux)
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean newServer (*github.com/StevenBuglione/spice/examples/petclinic/presentation.Server, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer): %w", err))
 	}

@@ -1517,7 +1517,7 @@
     },
     {
       "path": "internal/spicegen/petclinic/spice_contracts_gen.go",
-      "sha256": "sha256:1dcc782cb417e0827be7c4c10afd81459f3acb100553d7fea99c48112b9939c9",
+      "sha256": "sha256:b4d30cd28153ace793781f74a359cf6102f257b10ac7cfeccfee5279cdefa74d",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -2929,7 +2929,7 @@
     },
     {
       "path": "internal/spicegen/petclinic/spice_providers_gen.go",
-      "sha256": "sha256:f359f3aa5f796b11a566e9acb092b5e0fbec9f0d14caf95904a53269daee30c6",
+      "sha256": "sha256:27ae0aab6816238cdcfe907dd773215243e248c5625630a53ca30ed266c4889c",
       "role": "target-providers",
       "related_sources": [
         {

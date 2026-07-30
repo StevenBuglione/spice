@@ -11,6 +11,7 @@ import (
 	component "example.com/spice-annotation-app/component"
 	spiceComponent "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app/sources/component"
 	spiceconfig "github.com/StevenBuglione/spice/config"
+	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 )
 
 type applicationDependencies struct {
@@ -27,7 +28,12 @@ func constructApplicationDependencies(
 	_ = application
 	_ = options
 	_ = configurationSnapshot
-	provideMessage, provideMessageCleanup, err := spiceComponent.ConstructProvideMessage_031f9b83()
+	provideMessage, provideMessageCleanup, err := func() (component.Message, spicelifecycle.Cleanup, error) {
+		if options.Overrides.ProvideMessage.Enabled() {
+			return options.Overrides.ProvideMessage.Acquire(ctx)
+		}
+		return spiceComponent.ConstructProvideMessage_031f9b83()
+	}()
 	if err != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct bean provideMessage (example.com/spice-annotation-app/component.Message, source spice:symbol:v1|function|42:example.com/spice-annotation-app/component|0:|14:ProvideMessage): %w", err))
 	}

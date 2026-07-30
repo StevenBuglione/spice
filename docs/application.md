@@ -163,10 +163,17 @@ The generated `NewApplication`, `NewApplicationWithOptions`, `Start`, `Stop`,
 `Run`, `Components`, `RunCommand`, and `Main` seams are exported directly by
 the generated target package for tests and embedded policies. `Components` is
 a generated typed snapshot of singleton beans, not a reflection container or
-string lookup.
-They accept caller-owned contexts, sources, observers, middleware, writers,
-loggers, and shutdown policy. Reusable application APIs never capture process
-signals.
+string lookup. `BeanOverrides` is a generated compile-time-typed test and
+embedding seam for public singleton beans. `bean.Replace` supplies an exact
+value; `bean.ReplaceFactory` supplies a value plus lifecycle cleanup. Generated
+construction uses the replacement at the original provider position, so
+dependencies, rollback, module cleanup ownership, and shutdown ordering remain
+unchanged. Disabled zero values preserve production behavior; there is no
+mutable application context or string-addressed bean replacement.
+
+The reusable APIs accept caller-owned contexts, configuration sources,
+overrides, observers, middleware, writers, loggers, and shutdown policy. They
+never capture process signals.
 
 ## Legacy marker compatibility
 

@@ -1588,7 +1588,7 @@
     },
     {
       "path": "internal/spicegen/postgres/spice_contracts_gen.go",
-      "sha256": "sha256:9b4be7d018d5b493535aaa42d3b811a687c0897cf3c42d66b779ad01f324224b",
+      "sha256": "sha256:24d3e79b15f0de27067b22f6b40f9e479a0423dd06b926e8d443a937d4eb51d2",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -3036,7 +3036,7 @@
     },
     {
       "path": "internal/spicegen/postgres/spice_providers_gen.go",
-      "sha256": "sha256:bf33ce1ca0d143fe5097728d32aaaa1b6b8cf0c35696164b1d1de8a80f4183fd",
+      "sha256": "sha256:8adf18c5ac47e029240d695b8a09dd14421ea4b26bd4366543cf0c6192180a23",
       "role": "target-providers",
       "related_sources": [
         {
