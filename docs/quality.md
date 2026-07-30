@@ -32,10 +32,11 @@ make verify-release # verify plus unconditional IDE and benchmark acceptance
 unstaged, and untracked changes relative to the merge base with `origin/main`,
 loads Go's real package and test-import graph, and runs formatting plus the
 complete reverse dependency closure. An explicit `-base=<revision>` may be
-passed to `internal/qualitygate` for automation. Module, vendor, build-policy,
+passed to `internal/qualitygate/fast` for automation. Module, vendor, build-policy,
 new-package, deleted-package, or otherwise ambiguous changes widen
 conservatively; unavailable Git history fails instead of under-selecting.
 Workspace-owned `.tmp` data and build output are not product inputs.
+If all reported paths are ignored, it returns before loading package metadata.
 
 `make dogfood` is the normal feedback loop for Spice framework and CLI work.
 It checks generated-file boundaries and formatting, runs focused tests for

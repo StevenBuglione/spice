@@ -7,6 +7,8 @@ Use `make fast` after an edit. It derives affected packages from Go's package
 and test-import graph rather than a maintained allowlist, includes cross-module
 reverse dependencies, and fails safe to broader work whenever ownership is
 uncertain. This target is an edit-time correctness loop, not the commit gate.
+When Git reports no relevant paths, the planner returns before loading any Go
+package graph, keeping the no-op check independent of repository size.
 
 Use `make check` while editing. It verifies the exact Go toolchain, formatting,
 module tidiness, vet, the allowlisted linter and NilAway policy, and ordinary
@@ -27,6 +29,15 @@ times for 500 milliseconds, takes the median of time, bytes, and allocations,
 and compares it with the reviewed ceilings in `benchmarks/budgets.json`.
 Changing a ceiling requires an adjacent engineering rationale; a noisy
 single sample cannot fail or conceal a regression.
+
+`spice dev` independently fingerprints the valid-Go structure of watched
+sources. A change confined to function or method bodies reuses the last
+validated immutable generation plan and proceeds directly to `go build`.
+Annotation comments, imports, declarations, signatures, fields, types, and
+top-level values remain in the fingerprint, so any compiler-relevant edit
+still performs complete analysis and guarded generation. The development
+event stream reports generation/build duration and whether structural reuse
+occurred.
 
 Use `make verify` before every commit. After deterministic formatting,
 module, and vendor prerequisites, independent analysis, security, editor,

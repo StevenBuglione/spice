@@ -98,6 +98,14 @@ application. The pure renderer consumes the immutable application IR, emits
 canonical target-scoped Go plus SHA-256 ownership metadata, and performs no
 filesystem or network mutation.
 
+The development loop records a structural SHA-256 fingerprint for each
+handwritten Go source after successful generation. Function and method bodies
+are canonicalized out of that fingerprint; annotation comments, imports,
+declarations, signatures, types, fields, and top-level values are retained.
+Consequently, `spice dev` can send a body-only edit directly through Go's
+incremental builder while every compiler-relevant change still rebuilds the
+single immutable model and passes through guarded generation.
+
 The preferred `@Application` is the ordinary parameterless `func main()` in
 package `main`. The selected Go package scope is already bounded by the
 standard package driver; Spice discovers package-documentation modules and

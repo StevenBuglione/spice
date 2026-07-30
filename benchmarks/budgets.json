@@ -13,11 +13,11 @@
     {
       "name": "BenchmarkRenderPackageMainApplication",
       "package": "./compiler/generate",
-      "reference_ns_per_op": 715000,
+      "reference_ns_per_op": 1320000,
       "maximum_ns_per_op": 3000000,
-      "maximum_bytes_per_op": 350000,
-      "maximum_allocs_per_op": 5000,
-      "rationale": "Bounds deterministic generated-Go rendering without measuring package loading or filesystem application."
+      "maximum_bytes_per_op": 550000,
+      "maximum_allocs_per_op": 10000,
+      "rationale": "Bounds deterministic generated-Go rendering after source-mapped per-file debug units, interface assertions, and production feature renderers expanded the reviewed output model; the 3 ms latency ceiling remains unchanged."
     },
     {
       "name": "BenchmarkServiceCachedOverlayAnalysis",
@@ -36,6 +36,15 @@
       "maximum_bytes_per_op": 64,
       "maximum_allocs_per_op": 4,
       "rationale": "Bounds the process-boundary argument parser independently of compilation and application startup."
+    },
+    {
+      "name": "BenchmarkStructuralFingerprint",
+      "package": "./internal/devloop",
+      "reference_ns_per_op": 5200,
+      "maximum_ns_per_op": 100000,
+      "maximum_bytes_per_op": 20000,
+      "maximum_allocs_per_op": 150,
+      "rationale": "Bounds body-insensitive source classification used to bypass compiler analysis and generation during spice dev."
     }
   ]
 }
