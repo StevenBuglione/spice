@@ -183,8 +183,10 @@ Catalog output is sorted by stable provider symbol ID. Multiple selectable
 beans may expose the same exact output or explicit interface; their stable
 names, aliases, qualifiers, primary/fallback state, order, and scope remain in
 the immutable provider record for graph selection. Non-selectable synthetic
-configuration/event/starter providers still fail on exact-output conflicts.
-Distinct named types remain distinct even when their underlying
+configuration and event providers still fail on exact-output conflicts.
+Explicit starter and auto-configuration factories are selectable beans and may
+contribute ordered collections when their identities are distinct. Distinct
+named types remain distinct even when their underlying
 representations match. The catalog does not invoke providers or cleanup,
 perform reflection, install a runtime container, or scan assignability
 implicitly.
@@ -322,8 +324,11 @@ call, immediate cleanup registration, rollback, and error handling used for an
 Lexical preload finds canonical blank imports so those packages can join the
 single typed program as auxiliary roots. Typed primary-source inspection then
 selects only imports in the requested package set; imports found in unrelated
-workspace packages cannot activate behavior. Auto factories whose exact output
-is application-owned are pruned, then a dependency closure selects constructible
+workspace packages cannot activate behavior. A sole auto factory for an exact
+output backs off when that output is application-owned. When multiple defaults
+intentionally contribute the same collection type, a matching application
+bean name or alias replaces only that default and distinct application beans
+extend the collection. A dependency closure then selects constructible
 defaults. Missing functions, executable descriptor bodies, foreign or dynamic
 factory expressions, unsupported signatures, duplicate ownership, graph
 failures, and generation all fail closed before filesystem application.

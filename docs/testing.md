@@ -139,11 +139,15 @@ value of every override is disabled, so ordinary production
 
 Spice dogfoods this contract in
 `internal/spicegen/spice/application_test.go`. The test constructs the
-production generated CLI application, verifies its typed `Command` component
-and lifecycle states, then uses `BeanOverrides.Command` with
-`bean.ReplaceFactory` to prove construction and exactly-once cleanup through
-idempotent shutdown. This is a handwritten test beside the generated target;
-it does not modify generated files or introduce a test-only container.
+production generated CLI application through `spicetest.NewContext`, verifies
+its typed runtime, 13 handler interface beans, command component, configuration
+schema, and lifecycle states, then replaces the exact `VersionHandler` bean to
+prove the generated ordered interface collection observes the replacement. A
+separate `BeanOverrides.Command` factory proves construction and exactly-once
+cleanup through idempotent shutdown, while the real generated command runs an
+LSP initialize/shutdown exchange over caller-owned streams. This is a
+handwritten test beside the generated target; it does not modify generated
+files or introduce a test-only container.
 
 Configuration remains replaceable through explicit test `config.Source`
 values. Prototype, request, and session values retain their generated typed

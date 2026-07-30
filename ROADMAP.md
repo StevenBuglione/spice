@@ -182,21 +182,27 @@ imports.
 
 Library defaults now use an explicit blank import of a conventional
 `autoconfigure` package whose static descriptor is resolved from the
-application's ordinary Go module graph. Application beans replace fallbacks
-before construction, unavailable required dependencies back off, and `spice
-beans --explain` exposes selection and Go module/replacement provenance. The
+application’s ordinary Go module graph. Application beans replace fallbacks
+before construction; repeated collection outputs support per-name replacement
+and extension. Unavailable required dependencies back off, and `spice beans
+--explain` exposes selection and Go module/replacement provenance. The
 handwritten renderer and CLI are partitioned by the same semantic boundaries
 as their generated artifacts and commands.
 
 Spice now self-hosts its production command through a dedicated generated
-`Spice` target: an imported reviewed fallback constructs the typed CLI command,
-the generated application owns lifecycle and shutdown, and target-specific
-tests prove typed overrides and cleanup. The independent
+`Spice` target: imported reviewed fallbacks construct the CLI runtime, 13
+ordered handler interface beans, and their typed command collection. The
+generated application owns configuration, lifecycle, and shutdown, while
+target-specific `spicetest` cases prove per-handler overrides, LSP streams,
+and cleanup. The compiler, CLI, dev loop, guarded generator filesystem, LSP,
+and application marker form a cycle-free, fully assigned Modulith canvas with
+explicit compiler named interfaces. The independent
 `cmd/spice-bootstrap` stage-zero compiler remains ordinary Go. The dogfooding
-gate audits both dependency directions offline, checks the production graph
-with stage zero and stage one, executes the production command, generates and
-executes an isolated app from zero output, proves byte-identical regeneration,
-rejects corruption, and proves recovery.
+gate provides a sub-minute warm self-hosting loop for both stages, bean/module
+inspection, source navigation, and focused module testing. The broader
+bootstrap gate audits dependency directions offline, executes the production
+command, generates and executes an isolated app from zero output, proves
+byte-identical regeneration, rejects corruption, and proves recovery.
 
 ## M0 — Product and compiler proof
 

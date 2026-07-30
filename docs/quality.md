@@ -11,6 +11,7 @@ toolchains through GNU Make on Windows, Linux, and macOS.
 ```text
 make fmt       # apply goimports and gofumpt
 make check     # fast formatting, analysis, and compilation feedback
+make dogfood   # bounded self-hosted CLI/module/LSP/dev-loop proof
 make bootstrap # offline two-stage self-hosting and zero-output recovery proof
 make coverage  # exact handwritten-product repository coverage floor
 make benchmark # median performance and allocation budgets
@@ -25,6 +26,16 @@ make zed       # Rust format/test/Clippy and Zed WASM release build
 make verify    # every required gate
 make verify-release # verify plus unconditional IDE and benchmark acceptance
 ```
+
+`make dogfood` is the normal feedback loop for Spice framework and CLI work.
+It checks generated-file boundaries and formatting, runs focused tests for
+entrypoint collection selection, the generated application, `spicetest`,
+configuration, lifecycle, LSP, and last-known-good development restart, then
+builds stage zero and stage one offline. The executables check the complete
+self-hosting target, inspect all 15 selected bean contributions, validate the
+cycle-free six-module canvas, resolve a source-to-generated location, and run
+the CLI module's focused test slice. It does not replace `make verify` before a
+commit.
 
 `make verify` also checks both modules with `go mod tidy -diff`, regenerates
 vendor contents into a temporary directory and compares them byte-for-byte,

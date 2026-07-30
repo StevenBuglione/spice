@@ -183,7 +183,11 @@ must satisfy the same typed provider signature contract as `@Bean`.
 
 Auto-configuration is conditional before construction:
 
-- an application bean with the exact output type replaces the library default;
+- a sole library default backs off when an application bean has its exact
+  output type;
+- when multiple defaults intentionally provide one collection element type, a
+  matching application bean name or alias replaces only that default, while a
+  distinct application bean extends the collection;
 - defaults whose required inputs are unavailable back off;
 - optional and collection inputs do not force activation;
 - selected defaults enter the ordinary exact-type graph and direct generated

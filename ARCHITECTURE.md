@@ -150,11 +150,22 @@ ordinary-Go compiler and imports no generated application package.
 
 The handwritten `internal/spiceapp` marker declares the production application
 root and module boundary. Its explicit blank import of
-`internal/autoconfigure` selects a reviewed fallback `*internal/cli.Command`.
-Generation emits a direct factory call and exposes that dependency through the
-typed `Components` and `BeanOverrides` contracts. The production entrypoint
-constructs, starts, invokes, and stops the generated application with a fresh
-bounded shutdown context.
+`internal/autoconfigure` selects a reviewed graph containing the CLI runtime,
+13 ordered `internal/cli.Handler` interface beans, and the
+`*internal/cli.Command` that consumes their generated `[]Handler` collection.
+Every handler has its own ordinary Go factory and mirrored source adapter.
+Generation exposes every bean through typed `Components` and `BeanOverrides`;
+replacing one interface bean changes the downstream command collection through
+ordinary direct calls. The production entrypoint constructs, starts, invokes,
+and stops that graph with caller-owned streams and a fresh bounded shutdown
+context.
+
+Spice also validates its own production module canvas. `compiler` is one module
+whose supported CLI/LSP packages are explicit named interfaces; `cli`,
+`devloop`, `genfs`, `lsp`, and `spiceapp` are separate modules with exact
+allowed dependencies. The self-hosting package set has no cycles or unassigned
+packages. Canonical `autoconfigure` packages remain compiler auxiliaries, so
+their package annotations cannot silently change application module ownership.
 
 The mandatory bootstrap proof builds stage zero offline, audits the absence of
 generated dependencies, checks the committed production target, builds and
@@ -162,6 +173,12 @@ executes stage one, audits that it uses no other generated target, and then
 proves zero-output deterministic recovery against an isolated application.
 Compiler, CLI implementation, and filesystem-generation packages never import
 stage one, so a missing or damaged production graph is recoverable.
+
+`make dogfood` is the bounded inner-loop proof. It runs focused compiler,
+generated-application, test-context, dev-loop, and LSP tests, then uses stage
+zero and stage one to check the production target, inspect bean and module
+models, navigate a source-to-generated mapping, and execute a focused module
+test. `make verify` retains the broader release-grade gate.
 
 ### Runtime
 
@@ -341,7 +358,9 @@ exposes one statically decoded `SpiceAutoConfiguration` descriptor containing
 typed factory references. Candidate packages join the compiler's one typed
 load as auxiliary roots, while typed primary-source inspection decides which
 imports actually activate. Application exact-output beans replace defaults
-before construction, and defaults whose required inputs are unavailable back
+before construction when an output has one default. For repeated collection
+outputs, matching bean identities replace one default while distinct beans
+extend the collection. Defaults whose required inputs are unavailable back
 off. Generation emits ordinary direct calls with the same cleanup and rollback
 contract as application beans. Descriptor bodies and factories never execute
 during analysis; no `init`, runtime scan, module-presence activation, or hidden

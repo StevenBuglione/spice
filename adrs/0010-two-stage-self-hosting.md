@@ -25,9 +25,18 @@ Spice uses two executable stages:
   `Command` component, and stops it with a fresh bounded context.
 
 `internal/spiceapp` owns the application marker and module declaration.
-`internal/autoconfigure` contributes the reviewed fallback command factory
-through an explicit blank import. The generated target calls that factory
-directly and exposes typed `Components` and `BeanOverrides`.
+`internal/autoconfigure` contributes the reviewed fallback runtime, 13
+independent CLI handler factories, and the command factory through an explicit
+blank import. The generated target constructs each handler as a distinct
+interface bean, injects the ordered `[]cli.Handler` collection into the
+command, and exposes every node through typed `Components` and
+`BeanOverrides`.
+
+The compiler, CLI, development loop, guarded generator filesystem, LSP, and
+application marker declare an executable Modulith canvas. Compiler packages
+consumed across a module boundary are explicit named interfaces. Canonical
+auto-configuration descriptors stay auxiliary and cannot contribute module
+metadata.
 
 Compiler, generator, CLI implementation, and guarded-filesystem packages may
 not import the production generated target. The repository bootstrap gate
@@ -39,6 +48,8 @@ executables and retains an isolated zero-output deterministic recovery proof.
 
 - Stage zero is recovery infrastructure, not a second product implementation.
 - Both commands delegate to the same `internal/cli` behavior.
+- Stage zero assembles the same exported runtime and handler factories
+  manually; stage one obtains them through generated dependency injection.
 - Generated construction performs no reflection, runtime package scan, global
   registration, or string-based lookup.
 - The production manifest and generated Go are committed and guarded by normal
@@ -52,6 +63,8 @@ executables and retains an isolated zero-output deterministic recovery proof.
   offered to users.
 - Self-hosting cannot strand the compiler behind its own generated output.
 - CLI application tests use exact typed overrides and normal lifecycle cleanup.
+- A typed handler override must flow into the generated interface collection,
+  and production LSP/configuration behavior must execute through that graph.
 - Any production graph change must regenerate the `Spice` target and pass both
   dependency audits.
 - Parser, type checker, and renderer packages remain ordinary Go rather than

@@ -472,9 +472,11 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `cmd/spice-release/` and [`docs/releasing.md`](docs/releasing.md):
   reproducible signed cross-platform release construction and ceremony.
 - `internal/cli/`: CLI dispatch plus bounded command implementations for
-  generation, module reporting/testing, development, and execution.
+  generation, module reporting/testing, development, and execution. Production
+  dispatch is an injected ordered collection of explicit `Handler` interface
+  beans; stage zero manually assembles the same exported factories.
 - `internal/spiceapp/` and `internal/autoconfigure/`: handwritten production
-  application marker and reviewed default command contribution.
+  application marker and reviewed runtime/handler/command contributions.
 - `internal/spicegen/spice/`: committed typed production CLI application graph.
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.

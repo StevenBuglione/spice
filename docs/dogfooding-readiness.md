@@ -18,7 +18,9 @@ ordinary Go toolchain
 
 cmd/spice
     -> internal/spicegen/spice
-       -> internal/autoconfigure.DefaultCommand
+       -> internal/autoconfigure.DefaultRuntime
+       -> 13 ordered internal/cli.Handler beans
+       -> internal/autoconfigure.DefaultCommand([]cli.Handler)
        -> internal/cli.Command
 ```
 
@@ -31,9 +33,17 @@ runtime and CLI packages, but those packages never import it.
 The application marker is `internal/spiceapp.Spice`. It requires the typed
 `*internal/cli.Command` root and declares its module dependency on
 `internal/cli`. The blank-imported `internal/autoconfigure` package contributes
-the reviewed fallback `DefaultCommand` factory. The generated graph therefore
-uses the same import-driven default selection, direct construction, typed test
-override, configuration, and lifecycle behavior offered to applications.
+one runtime factory, 13 independently replaceable ordered handler interface
+factories, and the command collection factory. Each contribution lives in one
+handwritten file and maps to one small source adapter. The generated graph
+therefore uses the same import-driven default selection, interface collection
+injection, direct construction, typed test override, configuration, lifecycle,
+and LSP stream ownership offered to applications.
+
+Stage zero calls the same exported CLI factories from
+`internal/cli/bootstrap.go`; it does not retain a second command
+implementation. The generated production graph contains no service locator,
+reflection, or runtime provider scan.
 
 Self-hosting does not make the parser, type checker, renderer, or guarded
 filesystem writer runtime beans. Those packages remain ordinary Go so the
@@ -70,6 +80,26 @@ renderer determinism tests, committed application freshness checks, offline
 vendor tests, generated-code compilation, executable Commerce/Petclinic
 smoke paths, and GoLand package Run/Debug suite.
 
+`make dogfood` provides the shorter self-hosting feedback loop. It verifies the
+complete package set:
+
+```text
+./compiler/...
+./internal/devloop
+./internal/genfs
+./internal/lsp
+./internal/cli
+./internal/spiceapp
+./internal/autoconfigure
+```
+
+The gate runs focused compiler, generated application, `spicetest`, LSP, and
+dev-loop cases, then uses both executables to check target freshness. Stage one
+also emits the bean explanation, validates the Spice module canvas, navigates
+`version_handler.go` to its generated adapter, and executes a focused CLI
+module test. This is the preferred inner loop; the complete `make verify`
+remains the commit gate.
+
 ## Library composition contract
 
 Spice libraries may contribute defaults through ordinary Go imports. A caller
@@ -79,8 +109,10 @@ explicitly blank-imports a package whose final path segment is
 `replace` directives own versioning and provenance. Spice does not scan the
 module graph for ambient candidates and does not execute package `init`.
 
-Application beans replace fallback defaults before construction. Required
-dependencies that are unavailable make a default inactive. `spice beans
+Application beans replace a sole exact-output default before construction.
+For repeated collection output types, a matching name or alias replaces one
+default and a distinct bean extends the collection. Required dependencies that
+are unavailable make a default inactive. `spice beans
 --explain` reports selected, replaced, and inactive defaults with module,
 version, replacement, and dependency-review provenance.
 
@@ -92,11 +124,30 @@ module cleanup, and shutdown behavior. There is no mutable test container,
 reflection, or bean-name lookup.
 
 The Spice target's handwritten tests construct the real generated
-`Application`, assert typed command availability and lifecycle transitions,
-and replace the command with `bean.ReplaceFactory` to prove exact construction
-and idempotent cleanup. `make smoke` additionally runs production generation
-freshness and `spice beans --explain`, requiring the imported fallback and its
-dependency-review provenance to remain observable.
+`Application` through `spicetest.NewContext`, assert typed runtime, handler,
+and command availability, bind the generated shutdown configuration, replace
+one interface handler inside the generated collection, execute the real LSP
+handler, and prove exact cleanup ownership. `make dogfood` and `make smoke`
+additionally run production freshness, bean provenance, module architecture,
+source navigation, and focused module testing.
+
+## Modulith boundary
+
+The complete self-hosting slice declares six primary modules:
+
+```text
+spiceapp -> cli -> compiler named interfaces
+                   devloop
+                   genfs -> compiler::generate
+                   lsp   -> compiler::{annotationinstall,diagnostic,parser,service}
+```
+
+The compiler root exposes 14 named interfaces used by the CLI and LSP. The
+canvas must have zero cycles and zero unassigned packages. The canonical
+`internal/autoconfigure` package is intentionally absent from module
+annotation discovery because auto-configuration packages are auxiliary typed
+inputs; allowing their annotations to change the application module model
+would reintroduce hidden library magic.
 
 ## Generated source boundary
 
