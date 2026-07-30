@@ -188,11 +188,15 @@ beans --explain` exposes selection and Go module/replacement provenance. The
 handwritten renderer and CLI are partitioned by the same semantic boundaries
 as their generated artifacts and commands.
 
-The dogfooding gate now builds the compiler offline without generated
-application dependencies, generates and executes an isolated app from zero
-output, proves byte-identical regeneration, rejects corruption, and proves
-recovery. The next decision is the first bounded Spice-owned application slice
-to migrate; compiler bootstrap packages remain ordinary Go.
+Spice now self-hosts its production command through a dedicated generated
+`Spice` target: an imported reviewed fallback constructs the typed CLI command,
+the generated application owns lifecycle and shutdown, and target-specific
+tests prove typed overrides and cleanup. The independent
+`cmd/spice-bootstrap` stage-zero compiler remains ordinary Go. The dogfooding
+gate audits both dependency directions offline, checks the production graph
+with stage zero and stage one, executes the production command, generates and
+executes an isolated app from zero output, proves byte-identical regeneration,
+rejects corruption, and proves recovery.
 
 ## M0 — Product and compiler proof
 

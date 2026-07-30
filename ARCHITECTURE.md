@@ -108,6 +108,12 @@ reference applications enforce a 400-line ceiling on every target-level
 generated unit; growth beyond that budget requires another semantic shard,
 not a larger catch-all file.
 
+The mirror preserves the source tree except for Go-reserved import-boundary
+segments: `internal` and `vendor` become `internal_` and `vendor_`. Without
+that encoding, a target importing its own nested adapter would violate Go's
+`internal` or vendoring rules. Exact physical source paths remain in generated
+headers, source mappings, and the ownership manifest.
+
 The handwritten renderer follows the same boundary rule. Target orchestration
 remains in `compiler/generate/generate.go`; source mirrors, source provenance,
 components and overrides, provider construction, HTTP, configuration,
@@ -134,6 +140,28 @@ strictly incorporates their normalized typed contributions into the immutable
 application IR, and renders direct construction. Rendering does not rescan
 comments. Feature activation never depends on classpath-style scanning,
 package `init`, a runtime annotation lookup, or a mutable registry.
+
+### Self-hosting boundary
+
+Spice uses a two-stage bootstrap. `cmd/spice-bootstrap` is the stage-zero
+ordinary-Go compiler and imports no generated application package.
+`cmd/spice` is the production stage-one application and imports only
+`internal/spicegen/spice`.
+
+The handwritten `internal/spiceapp` marker declares the production application
+root and module boundary. Its explicit blank import of
+`internal/autoconfigure` selects a reviewed fallback `*internal/cli.Command`.
+Generation emits a direct factory call and exposes that dependency through the
+typed `Components` and `BeanOverrides` contracts. The production entrypoint
+constructs, starts, invokes, and stops the generated application with a fresh
+bounded shutdown context.
+
+The mandatory bootstrap proof builds stage zero offline, audits the absence of
+generated dependencies, checks the committed production target, builds and
+executes stage one, audits that it uses no other generated target, and then
+proves zero-output deterministic recovery against an isolated application.
+Compiler, CLI implementation, and filesystem-generation packages never import
+stage one, so a missing or damaged production graph is recoverable.
 
 ### Runtime
 

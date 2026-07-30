@@ -297,9 +297,8 @@ The preferred annotated `main.go`, compile-time discovery scope, explicit
 generated-package boundary, and legacy migration contract are documented in
 [`docs/application.md`](docs/application.md).
 
-The non-cyclic compiler boundary, zero-output regeneration/recovery proof, and
-rules for incrementally using Spice to build Spice-owned applications are
-documented in
+The two-stage self-hosting boundary, production generated CLI graph, and
+zero-output regeneration/recovery proof are documented in
 [`docs/dogfooding-readiness.md`](docs/dogfooding-readiness.md).
 
 Pre-1.0 module, generated-source, tool, and editor upgrade procedures are
@@ -467,11 +466,16 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
   partitioned by source mirrors, providers, HTTP, configuration, runtime,
   validation, hashing, and naming.
 - `compiler/scan/`: compatibility source-tree scanner.
-- `cmd/spice/`: CLI entry point.
+- `cmd/spice/`: production CLI entrypoint backed by the generated `Spice`
+  application.
+- `cmd/spice-bootstrap/`: ordinary-Go stage-zero compiler used for recovery.
 - `cmd/spice-release/` and [`docs/releasing.md`](docs/releasing.md):
   reproducible signed cross-platform release construction and ceremony.
 - `internal/cli/`: CLI dispatch plus bounded command implementations for
   generation, module reporting/testing, development, and execution.
+- `internal/spiceapp/` and `internal/autoconfigure/`: handwritten production
+  application marker and reviewed default command contribution.
+- `internal/spicegen/spice/`: committed typed production CLI application graph.
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
 - `editors/goland/`: primary native IntelliJ Platform presentation and LSP adapter.

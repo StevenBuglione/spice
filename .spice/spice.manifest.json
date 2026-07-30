@@ -1,0 +1,170 @@
+{
+  "schema": 5,
+  "target": {
+    "id": "spice",
+    "layout": "generated-package",
+    "module": "github.com/StevenBuglione/spice",
+    "package": "github.com/StevenBuglione/spice/internal/spicegen/spice",
+    "output_dir": "internal/spicegen/spice",
+    "manifest_path": ".spice/spice.manifest.json"
+  },
+  "generator_version": "0.1.0-dev",
+  "go_format_line": "1.26",
+  "input_sha256": "sha256:55ffb273fc9b7453393830362d71fc8f100256cbcbe3a54db8692973d12eb983",
+  "files": [
+    {
+      "path": "internal/spicegen/spice/sources/internal_/autoconfigure/autoconfigure_spice_gen.go",
+      "sha256": "sha256:f935c00263443b56ecad193a9ff02284c98493df5bd3681ff2da7488e7080d1e",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "internal/autoconfigure/autoconfigure.go",
+        "line": 11,
+        "column": 6,
+        "symbol": "spice:symbol:v1|function|54:github.com/StevenBuglione/spice/internal/autoconfigure|0:|14:DefaultCommand"
+      },
+      "mappings": [
+        {
+          "kind": "provider-construction",
+          "contribution": "spice:symbol:v1|function|54:github.com/StevenBuglione/spice/internal/autoconfigure|0:|14:DefaultCommand",
+          "source": {
+            "path": "internal/autoconfigure/autoconfigure.go",
+            "line": 11,
+            "column": 6,
+            "symbol": "spice:symbol:v1|function|54:github.com/StevenBuglione/spice/internal/autoconfigure|0:|14:DefaultCommand"
+          },
+          "generated": {
+            "start_line": 14,
+            "start_column": 4,
+            "end_line": 14,
+            "end_column": 29
+          }
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice/sources/internal_/spiceapp/application_spice_gen.go",
+      "sha256": "sha256:f681213bbdcc6119aaf3e42dd128e00d5f1ab27711ea95e7e12f7f08cacc6c41",
+      "role": "source-unit",
+      "primary_source": {
+        "path": "internal/spiceapp/application.go",
+        "line": 17,
+        "column": 4,
+        "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+      },
+      "mappings": [
+        {
+          "kind": "application-target",
+          "contribution": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice",
+          "source": {
+            "path": "internal/spiceapp/application.go",
+            "line": 17,
+            "column": 4,
+            "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+          },
+          "generated": {
+            "start_line": 8,
+            "start_column": 4,
+            "end_line": 8,
+            "end_column": 35
+          }
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice/spice_assembly_gen.go",
+      "sha256": "sha256:193eb3d9dd0d54c0c25dac24d903e7b8e98446ce9d77ef48892469b54b0dcdb9",
+      "role": "target-assembly",
+      "related_sources": [
+        {
+          "path": "internal/autoconfigure/autoconfigure.go",
+          "line": 11,
+          "column": 6,
+          "symbol": "spice:symbol:v1|function|54:github.com/StevenBuglione/spice/internal/autoconfigure|0:|14:DefaultCommand"
+        },
+        {
+          "path": "internal/spiceapp/application.go",
+          "line": 17,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice/spice_command_gen.go",
+      "sha256": "sha256:25ffdc50a6914ee3ebcf1c357cd15e714cd262e3d31b586f96142be5e11a7733",
+      "role": "target-command",
+      "related_sources": [
+        {
+          "path": "internal/spiceapp/application.go",
+          "line": 17,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice/spice_configuration_gen.go",
+      "sha256": "sha256:d0208266d1581656c57a519438e04a391dbfffa010a62bfa7487c381cafb1333",
+      "role": "target-configuration",
+      "related_sources": [
+        {
+          "path": "internal/spiceapp/application.go",
+          "line": 17,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice/spice_contracts_gen.go",
+      "sha256": "sha256:976981ff4315e4336ed2a4810a42ee54dcf644ea9f2f113b5ebacd6fc92367d2",
+      "role": "target-contracts",
+      "related_sources": [
+        {
+          "path": "internal/autoconfigure/autoconfigure.go",
+          "line": 11,
+          "column": 6,
+          "symbol": "spice:symbol:v1|function|54:github.com/StevenBuglione/spice/internal/autoconfigure|0:|14:DefaultCommand"
+        },
+        {
+          "path": "internal/spiceapp/application.go",
+          "line": 17,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice/spice_lifecycle_gen.go",
+      "sha256": "sha256:3b2fc7bb7dd530bbd5fbc5f950a8d9912d0e4a6b82a417326f789d5d96b0554d",
+      "role": "target-lifecycle",
+      "related_sources": [
+        {
+          "path": "internal/spiceapp/application.go",
+          "line": 17,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+        }
+      ]
+    },
+    {
+      "path": "internal/spicegen/spice/spice_providers_gen.go",
+      "sha256": "sha256:003bc3f3441a96bb9ccded4e736254362988d65da963fdadbb15b19b375fd231",
+      "role": "target-providers",
+      "related_sources": [
+        {
+          "path": "internal/autoconfigure/autoconfigure.go",
+          "line": 11,
+          "column": 6,
+          "symbol": "spice:symbol:v1|function|54:github.com/StevenBuglione/spice/internal/autoconfigure|0:|14:DefaultCommand"
+        },
+        {
+          "path": "internal/spiceapp/application.go",
+          "line": 17,
+          "column": 4,
+          "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/internal/spiceapp|0:|5:Spice"
+        }
+      ]
+    }
+  ]
+}

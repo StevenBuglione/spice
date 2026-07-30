@@ -170,7 +170,8 @@ linters:
           - forbidigo
           - maintidx
           - noctx
-      - path: "^(cmd/(spice|spice-release)|internal/qualitygate)/main\\.go$"
+      # Process entrypoints alone translate the returned CLI status to the OS.
+      - path: "^(cmd/(spice|spice-bootstrap|spice-release)|internal/qualitygate)/main\\.go$"
         text: 'use of `os\.Exit`'
         linters:
           - forbidigo

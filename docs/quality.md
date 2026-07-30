@@ -11,7 +11,7 @@ toolchains through GNU Make on Windows, Linux, and macOS.
 ```text
 make fmt       # apply goimports and gofumpt
 make check     # fast formatting, analysis, and compilation feedback
-make bootstrap # offline zero-output generation, execution, and recovery proof
+make bootstrap # offline two-stage self-hosting and zero-output recovery proof
 make coverage  # exact handwritten-product repository coverage floor
 make benchmark # median performance and allocation budgets
 make goland    # native tests, visual renders, archive checks, Plugin Verifier
@@ -38,10 +38,12 @@ and binary compatibility checks. It also runs
 `make zed`'s equivalent checks against the locked extension graph and current
 Zed `wasm32-wasip2` target.
 
-The final verification stage builds the Spice compiler offline without a
-generated application dependency, generates an isolated application from zero
-owned output, executes it, removes and regenerates it byte-for-byte, rejects a
-manual generated edit, and proves recovery from zero again. See
+The final verification stage builds and audits the ordinary-Go stage-zero
+compiler offline, checks the production generated Spice target, builds and
+executes the stage-one CLI, proves that it imports only that generated target,
+then generates an isolated application from zero owned output, executes it,
+removes and regenerates it byte-for-byte, rejects a manual generated edit, and
+proves recovery from zero again. See
 [`dogfooding-readiness.md`](dogfooding-readiness.md).
 
 `make benchmark` measures immutable application-model construction,

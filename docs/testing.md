@@ -137,6 +137,14 @@ order, and normal `Stop` owns the same idempotent lifecycle path. The zero
 value of every override is disabled, so ordinary production
 `ApplicationOptions` are unchanged.
 
+Spice dogfoods this contract in
+`internal/spicegen/spice/application_test.go`. The test constructs the
+production generated CLI application, verifies its typed `Command` component
+and lifecycle states, then uses `BeanOverrides.Command` with
+`bean.ReplaceFactory` to prove construction and exactly-once cleanup through
+idempotent shutdown. This is a handwritten test beside the generated target;
+it does not modify generated files or introduce a test-only container.
+
 Configuration remains replaceable through explicit test `config.Source`
 values. Prototype, request, and session values retain their generated typed
 scope/provider contracts rather than being promoted to process-wide
