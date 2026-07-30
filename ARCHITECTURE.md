@@ -108,6 +108,16 @@ reference applications enforce a 400-line ceiling on every target-level
 generated unit; growth beyond that budget requires another semantic shard,
 not a larger catch-all file.
 
+The handwritten renderer follows the same boundary rule. Target orchestration
+remains in `compiler/generate/generate.go`; source mirrors, source provenance,
+components and overrides, provider construction, HTTP, configuration,
+runtime/lifecycle, dependency imports, validation, model hashing, and semantic
+naming each live in a focused renderer file. These files share the immutable
+IR and pure buffer-writing helpers, not mutable phase state. The CLI similarly
+keeps dispatch separate from module testing, module reporting, and generation
+commands. A compiler failure therefore has a bounded implementation owner that
+matches the generated artifact or command being debugged.
+
 Generated identifiers are semantic first. Dependency fields and locals use
 stable bean/type names, source adapters identify the constructed bean, source
 package aliases identify their owning package, and route functions identify

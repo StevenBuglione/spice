@@ -1,7 +1,10 @@
-.PHONY: benchmark check coverage fmt fuzz goland lint offline security smoke test vet verify verify-release zed
+.PHONY: benchmark bootstrap check coverage fmt fuzz goland lint offline security smoke test vet verify verify-release zed
 
 benchmark:
 	go run ./internal/qualitygate -mode=benchmark
+
+bootstrap:
+	go run ./internal/qualitygate -mode=bootstrap
 
 check:
 	go run ./internal/qualitygate -mode=check

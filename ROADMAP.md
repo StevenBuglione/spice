@@ -167,16 +167,32 @@ units, lifecycle, and command files. The schema-5 ownership manifest records
 concern roles, primary source, related sources, and exact generated ranges.
 Guarded migration removes only hash-matching schema-4 monoliths and schema-3
 adjacent shards.
-The packaged GoLand workflow proves
-native generic-aware Implement Methods generation, pointer receiver selection,
-namespace-aware navigation, and valid physical source. The next
-developer-proof slice is the independent
-third-party SDK/tool and complete commerce workflow. Package-main generation
-now separates target-wide wiring from one nested source unit per contributing
-handwritten file, and `spice generated` provides deterministic two-way
-source/range lookup. Generated applications expose typed singleton `Components`,
-and `spicetest.Context` plus `annotation/sdk/sdktest` provide lifecycle and
-third-party handler test harnesses without reflection or compiler imports.
+The packaged GoLand workflow proves native generic-aware Implement Methods
+generation, pointer receiver selection, namespace-aware navigation, and valid
+physical source. The independent third-party SDK/tool fixture and complete
+commerce workflow are executable. Package-main generation separates
+target-wide wiring from one nested source unit per contributing handwritten
+file, and `spice generated` provides deterministic two-way source/range lookup.
+Generated applications expose typed singleton `Components` plus exact-type
+`BeanOverrides`; `bean.Replace` and `bean.ReplaceFactory` preserve direct
+dependency wiring, rollback, module cleanup, and shutdown without a mutable
+test container. `spicetest.Context` and `annotation/sdk/sdktest` provide
+lifecycle and third-party handler test harnesses without reflection or compiler
+imports.
+
+Library defaults now use an explicit blank import of a conventional
+`autoconfigure` package whose static descriptor is resolved from the
+application's ordinary Go module graph. Application beans replace fallbacks
+before construction, unavailable required dependencies back off, and `spice
+beans --explain` exposes selection and Go module/replacement provenance. The
+handwritten renderer and CLI are partitioned by the same semantic boundaries
+as their generated artifacts and commands.
+
+The dogfooding gate now builds the compiler offline without generated
+application dependencies, generates and executes an isolated app from zero
+output, proves byte-identical regeneration, rejects corruption, and proves
+recovery. The next decision is the first bounded Spice-owned application slice
+to migrate; compiler bootstrap packages remain ordinary Go.
 
 ## M0 — Product and compiler proof
 

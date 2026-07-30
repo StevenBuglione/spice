@@ -297,6 +297,11 @@ The preferred annotated `main.go`, compile-time discovery scope, explicit
 generated-package boundary, and legacy migration contract are documented in
 [`docs/application.md`](docs/application.md).
 
+The non-cyclic compiler boundary, zero-output regeneration/recovery proof, and
+rules for incrementally using Spice to build Spice-owned applications are
+documented in
+[`docs/dogfooding-readiness.md`](docs/dogfooding-readiness.md).
+
 Pre-1.0 module, generated-source, tool, and editor upgrade procedures are
 documented in [`docs/upgrading.md`](docs/upgrading.md).
 
@@ -458,12 +463,15 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `compiler/parser/`: annotation parser.
 - `compiler/load/` and `compiler/resolve/`: the authoritative typed-program front end.
 - `compiler/provider/`, `compiler/graph/`, `compiler/lifecycle/`, and `compiler/application/`: application dependency, lifecycle, root, and immutable IR metadata.
-- `compiler/generate/`: pure generated Go and ownership-manifest planning.
+- `compiler/generate/`: pure generated Go and ownership-manifest planning,
+  partitioned by source mirrors, providers, HTTP, configuration, runtime,
+  validation, hashing, and naming.
 - `compiler/scan/`: compatibility source-tree scanner.
 - `cmd/spice/`: CLI entry point.
 - `cmd/spice-release/` and [`docs/releasing.md`](docs/releasing.md):
   reproducible signed cross-platform release construction and ceremony.
-- `internal/cli/`: CLI implementation.
+- `internal/cli/`: CLI dispatch plus bounded command implementations for
+  generation, module reporting/testing, development, and execution.
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
 - `editors/goland/`: primary native IntelliJ Platform presentation and LSP adapter.
@@ -484,6 +492,8 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `examples/`: executable reference applications.
 - `docs/`: user and product documentation.
 - `docs/quality.md`: exact verification, tool, linter, and suppression policy.
+- `docs/dogfooding-readiness.md`: bootstrap boundary and self-hosting
+  acceptance.
 - `rfcs/`: proposed designs.
 - `adrs/`: accepted architectural decisions.
 
