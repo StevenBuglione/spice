@@ -24,6 +24,7 @@ github.com/StevenBuglione/spice/batch
 github.com/StevenBuglione/spice/bean
 github.com/StevenBuglione/spice/cmd/spice-annotation-core
 github.com/StevenBuglione/spice/config
+github.com/StevenBuglione/spice/conversion
 github.com/StevenBuglione/spice/data
 github.com/StevenBuglione/spice/event/outbox
 github.com/StevenBuglione/spice/i18n
@@ -32,6 +33,7 @@ github.com/StevenBuglione/spice/lifecycle
 github.com/StevenBuglione/spice/management
 github.com/StevenBuglione/spice/migration
 github.com/StevenBuglione/spice/observability
+github.com/StevenBuglione/spice/resource
 github.com/StevenBuglione/spice/starter
 github.com/StevenBuglione/spice/starter/mysql
 github.com/StevenBuglione/spice/starter/postgres

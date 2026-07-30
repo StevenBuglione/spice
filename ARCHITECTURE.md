@@ -84,6 +84,23 @@ complete verification remains the commit contract.
 - Configuration ownership.
 - Routes, event contracts, and transaction boundaries.
 
+### Core application contracts
+
+Spring Core outcome parity is owned by cohesive public Go packages rather than
+one aggregate runtime. `bean` and `lifecycle` own typed construction and
+cleanup; `config` owns environments and profiles; `resource` owns explicit
+instance-scoped `fs.FS` locations; `conversion` owns reflection-free typed
+codecs; `validation` owns layer-neutral typed validators; `event` and `i18n`
+own application-context interactions. Configuration and HTTP binding share the
+same safe scalar conversion contract.
+
+Spice deliberately does not add a runtime expression language, mutable
+BeanFactory, universal pointcut proxy, or load-time weaver. Typed Go functions,
+explicit constructors, generated feature decorators, static imports, and
+ordinary debugger frames provide those useful outcomes without runtime symbol
+lookup. The complete classification is recorded in
+[`docs/spring-core-parity.md`](docs/spring-core-parity.md).
+
 ### Code generation
 
 - Dependency wiring.

@@ -19,6 +19,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/StevenBuglione/spice/conversion"
 )
 
 const (
@@ -650,7 +652,7 @@ func Parameter(location Location, name string, values []string, required bool) (
 
 // Boolean parses a Boolean parameter without retaining or reporting raw input.
 func Boolean(location Location, name, raw string) (bool, error) {
-	value, err := strconv.ParseBool(raw)
+	value, err := conversion.ParseBoolean(raw)
 	if err != nil {
 		return false, NewBindingError(location, name, "must be a boolean", err)
 	}
@@ -659,7 +661,7 @@ func Boolean(location Location, name, raw string) (bool, error) {
 
 // Integer parses a base-10 signed parameter with the requested Go bit width.
 func Integer(location Location, name, raw string, bitSize int) (int64, error) {
-	value, err := strconv.ParseInt(raw, 10, bitSize)
+	value, err := conversion.ParseSignedInteger(raw, bitSize)
 	if err != nil {
 		return 0, NewBindingError(location, name, "must be a signed base-10 integer in range", err)
 	}
@@ -668,7 +670,7 @@ func Integer(location Location, name, raw string, bitSize int) (int64, error) {
 
 // Duration parses a Go duration parameter without retaining raw input.
 func Duration(location Location, name, raw string) (time.Duration, error) {
-	value, err := time.ParseDuration(raw)
+	value, err := conversion.ParseDuration(raw)
 	if err != nil {
 		return 0, NewBindingError(location, name, "must be a Go duration", err)
 	}

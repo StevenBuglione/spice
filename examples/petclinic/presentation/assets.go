@@ -1,17 +1,30 @@
 package presentation
 
 import (
+	"context"
 	"embed"
 	"fmt"
-	"io/fs"
 	"net/http"
+
+	"github.com/StevenBuglione/spice/resource"
 )
 
 //go:embed static/*
 var staticFiles embed.FS
 
 func staticHandler() (http.Handler, error) {
-	source, err := fs.Sub(staticFiles, "static")
+	loader, err := resource.NewLoader(resource.Mount{
+		Name: "petclinic",
+		FS:   staticFiles,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("construct Petclinic resource loader: %w", err)
+	}
+	staticRoot, err := loader.Resolve("spice://petclinic/static")
+	if err != nil {
+		return nil, fmt.Errorf("resolve Petclinic static resource: %w", err)
+	}
+	source, err := staticRoot.Sub(context.Background())
 	if err != nil {
 		return nil, fmt.Errorf("construct Petclinic static filesystem: %w", err)
 	}

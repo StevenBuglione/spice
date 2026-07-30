@@ -10,9 +10,10 @@ import (
 	"os"
 	"regexp"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
+
+	"github.com/StevenBuglione/spice/conversion"
 )
 
 const redactedValue = "<redacted>"
@@ -29,11 +30,11 @@ type Kind string
 const (
 	// KindString identifies a string property.
 	KindString Kind = "string"
-	// KindBoolean identifies a Boolean property accepted by strconv.ParseBool.
+	// KindBoolean identifies a Boolean property accepted by conversion.Boolean.
 	KindBoolean Kind = "boolean"
 	// KindInteger identifies a base-10 signed 64-bit integer property.
 	KindInteger Kind = "integer"
-	// KindDuration identifies a time.ParseDuration property.
+	// KindDuration identifies a conversion.Duration property.
 	KindDuration Kind = "duration"
 )
 
@@ -212,7 +213,7 @@ func (s Snapshot) Boolean(key string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	result, parseErr := strconv.ParseBool(value)
+	result, parseErr := conversion.ParseBoolean(value)
 	if parseErr != nil {
 		return false, fmt.Errorf("configuration property %q is not a boolean", key)
 	}
@@ -225,7 +226,7 @@ func (s Snapshot) Integer(key string) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	result, parseErr := strconv.ParseInt(value, 10, 64)
+	result, parseErr := conversion.ParseSignedInteger(value, 64)
 	if parseErr != nil {
 		return 0, fmt.Errorf("configuration property %q is not an integer", key)
 	}
@@ -238,7 +239,7 @@ func (s Snapshot) Duration(key string) (time.Duration, error) {
 	if err != nil {
 		return 0, err
 	}
-	result, parseErr := time.ParseDuration(value)
+	result, parseErr := conversion.ParseDuration(value)
 	if parseErr != nil {
 		return 0, fmt.Errorf("configuration property %q is not a duration", key)
 	}
@@ -422,15 +423,15 @@ func validateScalar(property Property, value string) error {
 	case KindString:
 		return nil
 	case KindBoolean:
-		if _, err := strconv.ParseBool(value); err != nil {
+		if _, err := conversion.ParseBoolean(value); err != nil {
 			return errors.New("value must be a boolean")
 		}
 	case KindInteger:
-		if _, err := strconv.ParseInt(value, 10, 64); err != nil {
+		if _, err := conversion.ParseSignedInteger(value, 64); err != nil {
 			return errors.New("value must be a base-10 signed 64-bit integer")
 		}
 	case KindDuration:
-		if _, err := time.ParseDuration(value); err != nil {
+		if _, err := conversion.ParseDuration(value); err != nil {
 			return errors.New("value must be a Go duration")
 		}
 	default:

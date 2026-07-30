@@ -485,6 +485,12 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `editors/goland/`: primary native IntelliJ Platform presentation and LSP adapter.
 - `editors/zed/`: supported secondary Rust/WASM adapter that launches `spice lsp` for Go.
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
+- `resource/`: instance-owned canonical locations over explicit caller-owned
+  Go filesystems with bounded context-aware reads.
+- `conversion/`: typed reflection-free converters and canonical scalar/time/URL
+  codecs shared by configuration and HTTP binding.
+- `validation/`: immutable violations plus layer-neutral typed validator
+  composition.
 - `data/`: public `database/sql` executor, transaction manager, typed repository query, and observation contracts.
 - `migration/`: deterministic module-owned plans, registry reconciliation, and execution contracts.
 - `event/`: public generic application-event topics, subscribers, and interaction observations.

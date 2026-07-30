@@ -17,8 +17,11 @@ application context.
 | `ObjectProvider<T>` | `bean.Optional[T]`, `bean.Lazy[T]`, `bean.Provider[T]` | Handles are generic Go values with explicit acquisition and cleanup. |
 | Singleton/prototype/request/session scopes | Explicit bean scope annotations | Cleanup belongs to a typed scope; there is no global container. |
 | `@ConfigurationProperties` and profiles | Typed configuration declarations and explicit sources | Precedence and provenance are generated; secrets are redacted. |
+| `ResourceLoader` and `Resource` | `resource.Loader` and `resource.Resource` over explicit `fs.FS` mounts | Canonical `spice://mount/path` locations never imply classpath scanning or network access. |
+| `ConversionService`, converters, and formatters | `conversion.Converter[S,T]`, `Codec[T]`, and typed composition | Conversion is exact and reflection-free; there is no mutable global converter registry. |
+| Spring `Validator` | `validation.Validator[T]` and `validation.ValidatorFunc[T]` | Validators are layer-neutral typed values with immutable safe violations and caller-owned cancellation. |
 | Spring MVC controllers | `@Controller`, route annotations, typed request DTOs | Adapters are generated `net/http` code with no reflection. |
-| `ResponseEntity`, validation, problem details | Typed response values, `validation.Result`, RFC 9457 errors | Binding and validation failures have bounded source-safe representations. |
+| `ResponseEntity`, validation, problem details | Typed response values, `validation.Errors`, RFC 9457 errors | Binding and validation failures have bounded source-safe representations. |
 | Spring Security method/route policies | `@security.Authorize` and explicit authentication middleware | Authorization is generated deny-by-default; identity still comes from an explicit starter or caller. |
 | `@Transactional` | `@data.Transactional` generated boundaries and `data.Manager` | Transaction ownership is visible and executor-based, not proxy interception. |
 | Spring Data repositories | Ordinary repository interfaces plus explicit implementations | SQL and row decoding remain visible Go; Spice does not derive queries from method names. |
@@ -72,6 +75,9 @@ typed assignment. There is no IDE-provided resolution and no runtime lookup.
   mutable global application context.
 - There are no field injection, circular proxy, or hidden transactional method
   calls. Cycles fail compilation and transaction boundaries are generated.
+- There is no SpEL evaluator, mutable BeanFactory, universal pointcut proxy,
+  or load-time weaving. Typed Go functions and generated feature decorators
+  retain normal compiler and debugger behavior.
 - Interface assignability alone is not a bean declaration. `@Implements`
   documents the architectural intent and makes selection inspectable.
 - Annotation comments never execute Go code during analysis. Descriptors are
@@ -107,3 +113,6 @@ Spice contract is executable; `integration` means a useful core exists but a
 broader ecosystem or operational path remains explicit; `not-planned` records
 a deliberate Java-specific non-goal and the Go-native replacement. Release
 verification rejects unresolved `planned` and `in-progress` rows.
+The Spring Framework core subset is expanded separately in
+[spring-core-parity.md](spring-core-parity.md) so Java-specific mechanisms
+cannot disappear inside a broad “Core” label.
