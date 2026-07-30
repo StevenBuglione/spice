@@ -48,10 +48,12 @@ Use `make verify` before every commit. After deterministic formatting,
 module, and vendor prerequisites, independent analysis, security, editor,
 and Zed stages run with at most four workers. Installed GoLand verification
 runs when editor, compiler/LSP, annotation SDK, Go module/vendor, or commerce
-UI-fixture inputs changed. Broad Go compilation stages then run sequentially
-to reuse build caches; measurements showed that running race, coverage, fuzz,
-and offline builds together oversubscribes the Go compiler and increases wall
-time. The Petclinic consumer module is independently linted, vetted,
+UI-fixture inputs changed. The shuffled test pass emits the repository coverage
+profile, eliminating a redundant all-package compilation while retaining the
+same tests and 85% floor. Race, fuzz, offline, and executable stages then run
+sequentially to reuse build caches; running them concurrently oversubscribes
+the Go compiler and increases wall time. The Petclinic consumer module is
+independently linted, vetted,
 security-scanned, shuffled/race tested, coverage exercised, and tested from its
 own vendor tree. Its generated target is also verified and executed using a
 repository-built Spice binary. Every applicable stage remains mandatory. Stage
