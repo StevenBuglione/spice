@@ -16,6 +16,7 @@ make dogfood   # bounded self-hosted CLI/module/LSP/dev-loop proof
 make bootstrap # offline two-stage self-hosting and zero-output recovery proof
 make coverage  # exact handwritten-product repository coverage floor
 make benchmark # median performance and allocation budgets
+make benchmark-spring SPRING_PETCLINIC=<path> # pinned offline parity evidence
 make goland    # native tests, visual renders, archive checks, Plugin Verifier
 make lint      # golangci-lint plus NilAway
 make security  # gosec plus govulncheck

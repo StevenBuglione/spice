@@ -30,6 +30,11 @@ and compares it with the reviewed ceilings in `benchmarks/budgets.json`.
 Changing a ceiling requires an adjacent engineering rationale; a noisy
 single sample cannot fail or conceal a regression.
 
+Use `make benchmark-spring SPRING_PETCLINIC=<checkout>` for the pinned,
+offline body-edit comparison documented in
+[`spring-speed-parity.md`](spring-speed-parity.md). The external checkout is
+never cloned or resolved implicitly by the verifier.
+
 `spice dev` independently fingerprints the valid-Go structure of watched
 sources. A change confined to function or method bodies reuses the last
 validated immutable generation plan and proceeds directly to `go build`.
