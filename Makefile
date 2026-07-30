@@ -16,7 +16,7 @@ dogfood:
 	go run ./internal/qualitygate -mode=dogfood
 
 fast:
-	go run ./internal/qualitygate -mode=fast
+	go run ./internal/qualitygate/fast
 
 fmt:
 	go run ./internal/qualitygate -mode=fmt
