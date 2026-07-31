@@ -50,6 +50,14 @@ typed and raw route, including routes registered on an application-provided
 response last. Nil middleware and middleware that returns a nil handler fail
 application construction with the route pattern and list index.
 
+Generated `ApplicationOptions.Interceptors` exposes one exact generic
+request/response chain per typed non-form route. These interceptors decorate
+the generated terminal invocation—including transaction or cache behavior—so
+cross-cutting application logic keeps exact Go types and visible debugger
+frames. The first interceptor is outermost; nil entries fail application
+construction. Raw handlers and form/binding-result routes use the explicit
+HTTP middleware boundary instead.
+
 `ApplicationOptions.HTTPObservers` is the dependency-free metrics/tracing
 adapter seam. Every generated route supplies its stable symbol ID, module
 import path, HTTP method, and route pattern. Observers begin in list order,

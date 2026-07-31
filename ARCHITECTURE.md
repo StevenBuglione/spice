@@ -94,11 +94,13 @@ codecs; `validation` owns layer-neutral typed validators; `event` and `i18n`
 own application-context interactions. Configuration and HTTP binding share the
 same safe scalar conversion contract.
 
-Spice deliberately does not add a runtime expression language, mutable
-BeanFactory, universal pointcut proxy, or load-time weaver. Typed Go functions,
-explicit constructors, generated feature decorators, static imports, and
-ordinary debugger frames provide those useful outcomes without runtime symbol
-lookup. The complete classification is recorded in
+Spice provides a bounded typed expression language, generated typed route
+interceptors, purpose-built feature decorators, and immutable named bean
+override layers. These contracts have explicit schemas and exact Go types;
+they do not provide reflective property/bean lookup, mutable running graphs,
+universal runtime pointcuts, subclass proxies, or load-time weaving. Typed Go
+functions, explicit constructors, static imports, generated direct calls, and
+ordinary debugger frames remain the default. The complete classification is recorded in
 [`docs/spring-core-parity.md`](docs/spring-core-parity.md).
 
 ### Code generation

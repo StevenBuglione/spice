@@ -119,7 +119,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_contracts_gen.go",
-      "sha256": "sha256:f01042e4b3a7947674c390b5789e7643bc0d17ea8bdd0ba9f261b78a201a8a14",
+      "sha256": "sha256:fc76e33ec79c7f6c98a0335f0cc3353259a273e242d2fed57c32d6d1c9e76273",
       "role": "target-contracts",
       "related_sources": [
         {

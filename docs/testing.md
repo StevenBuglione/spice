@@ -117,6 +117,13 @@ interface conversion, mutable registry, reflection, or runtime lookup.
 Downstream generated constructors receive the replacement through the same
 direct calls as the production bean.
 
+When a test harness, library fixture, and individual test each contribute
+overrides, use generated `BeanOverrideLayer` values and
+`ComposeBeanOverrides`. Names must be unique, composition is deterministic,
+and the later child layer wins for an enabled exact-type field. Composition
+finishes before `NewApplicationWithOptions`; it never mutates a running test
+context.
+
 Use `bean.ReplaceFactory` when a replacement needs construction failure or
 cleanup behavior:
 

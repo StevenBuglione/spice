@@ -5,8 +5,10 @@
 package spicegen
 
 import (
+	fmt "fmt"
 	slog "log/slog"
 	http "net/http"
+	strings "strings"
 	time "time"
 
 	spicebean "github.com/StevenBuglione/spice/bean"
@@ -18,6 +20,7 @@ import (
 	system "github.com/StevenBuglione/spice/examples/petclinic/system"
 	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
 	i18n "github.com/StevenBuglione/spice/i18n"
+	spiceintercept "github.com/StevenBuglione/spice/intercept"
 	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 	spiceview "github.com/StevenBuglione/spice/view"
 	spiceweb "github.com/StevenBuglione/spice/web"
@@ -95,6 +98,85 @@ type BeanOverrides struct {
 	Server spicebean.Override[*presentation.Server]
 }
 
+// BeanOverrideLayer is one named immutable override composition layer.
+// Layers are applied in order; a later layer deliberately replaces an earlier value.
+type BeanOverrideLayer struct {
+	Name      string
+	Overrides BeanOverrides
+}
+
+// ComposeBeanOverrides validates and deterministically composes named layers.
+// It never mutates a running application or performs runtime bean lookup.
+func ComposeBeanOverrides(layers ...BeanOverrideLayer) (BeanOverrides, error) {
+	result := BeanOverrides{}
+	seen := make(map[string]int, len(layers))
+	for index, layer := range layers {
+		if layer.Name == "" || strings.TrimSpace(layer.Name) != layer.Name {
+			return BeanOverrides{}, fmt.Errorf("compose bean overrides: layer %d requires a non-empty name without surrounding whitespace", index)
+		}
+		if previous, duplicate := seen[layer.Name]; duplicate {
+			return BeanOverrides{}, fmt.Errorf("compose bean overrides: layer %q repeats layer %d", layer.Name, previous)
+		}
+		seen[layer.Name] = index
+		if layer.Overrides.PetclinicDatabase.Enabled() {
+			result.PetclinicDatabase = layer.Overrides.PetclinicDatabase
+		}
+		if layer.Overrides.Catalog.Enabled() {
+			result.Catalog = layer.Overrides.Catalog
+		}
+		if layer.Overrides.Renderer.Enabled() {
+			result.Renderer = layer.Overrides.Renderer
+		}
+		if layer.Overrides.Mux.Enabled() {
+			result.Mux = layer.Overrides.Mux
+		}
+		if layer.Overrides.VetRepository.Enabled() {
+			result.VetRepository = layer.Overrides.VetRepository
+		}
+		if layer.Overrides.VetController.Enabled() {
+			result.VetController = layer.Overrides.VetController
+		}
+		if layer.Overrides.OwnerRepository.Enabled() {
+			result.OwnerRepository = layer.Overrides.OwnerRepository
+		}
+		if layer.Overrides.OwnerController.Enabled() {
+			result.OwnerController = layer.Overrides.OwnerController
+		}
+		if layer.Overrides.VisitController.Enabled() {
+			result.VisitController = layer.Overrides.VisitController
+		}
+		if layer.Overrides.PetTypeRepository.Enabled() {
+			result.PetTypeRepository = layer.Overrides.PetTypeRepository
+		}
+		if layer.Overrides.PetController.Enabled() {
+			result.PetController = layer.Overrides.PetController
+		}
+		if layer.Overrides.WelcomeController.Enabled() {
+			result.WelcomeController = layer.Overrides.WelcomeController
+		}
+		if layer.Overrides.Server.Enabled() {
+			result.Server = layer.Overrides.Server
+		}
+	}
+	return result, nil
+}
+
+// RouteInterceptors configures typed generated route method decorators.
+// The first interceptor in each field is the outermost invocation.
+type RouteInterceptors struct {
+	ControllerListJSON     []spiceintercept.Interceptor[vet.AllRequest, vet.Vets]
+	ControllerListHTML     []spiceintercept.Interceptor[vet.ListRequest, spiceview.Result]
+	ControllerFind         []spiceintercept.Interceptor[owner.FindOwnersRequest, spiceview.Result]
+	ControllerFindForm     []spiceintercept.Interceptor[owner.FindOwnerFormRequest, spiceview.Result]
+	ControllerNewForm      []spiceintercept.Interceptor[owner.NewOwnerRequest, spiceview.Result]
+	ControllerShow         []spiceintercept.Interceptor[owner.OwnerIDRequest, spiceview.Result]
+	ControllerEditForm     []spiceintercept.Interceptor[owner.OwnerIDRequest, spiceview.Result]
+	PetControllerNewForm   []spiceintercept.Interceptor[owner.NewPetRequest, spiceview.Result]
+	PetControllerEditForm  []spiceintercept.Interceptor[owner.OwnerPetRequest, spiceview.Result]
+	VisitControllerNewForm []spiceintercept.Interceptor[owner.NewVisitRequest, spiceview.Result]
+	WelcomeControllerShow  []spiceintercept.Interceptor[system.WelcomeRequest, spiceview.Result]
+}
+
 type Application struct {
 	coordinator     *spicelifecycle.Coordinator
 	hooks           []spicelifecycle.Hook
@@ -113,6 +195,7 @@ type ApplicationOptions struct {
 	MaxRequestBodyBytes       int64
 	HTTPObservers             []spiceweb.HTTPObserver
 	Middleware                []spiceweb.Middleware
+	Interceptors              RouteInterceptors
 	Logger                    *slog.Logger
 	Observers                 []spicelifecycle.Observer
 }

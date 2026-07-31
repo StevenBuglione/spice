@@ -10,6 +10,7 @@ func TestContributionValidateAndClone(t *testing.T) {
 			Authenticated: true,
 			AnyRoles:      []string{"operator"},
 			AllScopes:     []string{"orders.read"},
+			Expression:    `authenticated && hasRole("operator")`,
 		},
 	}
 	if err := original.Validate(); err != nil {
@@ -19,6 +20,19 @@ func TestContributionValidateAndClone(t *testing.T) {
 	cloned.Authorization.AnyRoles[0] = "changed"
 	if original.Authorization.AnyRoles[0] != "operator" {
 		t.Fatal("Clone() retained an authorization slice alias")
+	}
+}
+
+func TestAuthorizationContributionRejectsExpressionWhitespace(t *testing.T) {
+	t.Parallel()
+	contribution := Contribution{
+		Kind: ContributionAuthorization,
+		Authorization: &AuthorizationContribution{
+			Expression: " authenticated",
+		},
+	}
+	if err := contribution.Validate(); err == nil {
+		t.Fatal("Validate() accepted expression whitespace")
 	}
 }
 
@@ -292,6 +306,7 @@ func validContributions() []Contribution {
 				AnyRoles:      []string{"operator"},
 				AllRoles:      []string{"member"},
 				AllScopes:     []string{"orders.read"},
+				Expression:    `authenticated && hasRole("operator")`,
 			},
 		},
 		{

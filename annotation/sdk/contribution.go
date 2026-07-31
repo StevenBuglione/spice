@@ -183,6 +183,7 @@ type AuthorizationContribution struct {
 	AnyRoles      []string `json:"any_roles,omitempty"`
 	AllRoles      []string `json:"all_roles,omitempty"`
 	AllScopes     []string `json:"all_scopes,omitempty"`
+	Expression    string   `json:"expression,omitempty"`
 }
 
 // GeneratedFileContribution requests one guarded generated file. The compiler
@@ -773,6 +774,12 @@ func validateAuthorization(
 		if err := validateUniqueTrimmed(name, values); err != nil {
 			return err
 		}
+	}
+	if authorization.Expression != "" &&
+		authorization.Expression != strings.TrimSpace(authorization.Expression) {
+		return errors.New(
+			"annotation authorization expression must not have surrounding whitespace",
+		)
 	}
 	return nil
 }

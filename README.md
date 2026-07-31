@@ -489,6 +489,10 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
   Go filesystems with bounded context-aware reads.
 - `conversion/`: typed reflection-free converters and canonical scalar/time/URL
   codecs shared by configuration and HTTP binding.
+- `expression/`: bounded typed Boolean/string expressions over explicit
+  positional schemas, with no reflection or ambient symbol access.
+- `intercept/`: generic typed invocation chains used by generated route
+  decorators and ordinary Go libraries.
 - `validation/`: immutable violations plus layer-neutral typed validator
   composition.
 - `data/`: public `database/sql` executor, transaction manager, typed repository query, and observation contracts.

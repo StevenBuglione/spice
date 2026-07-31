@@ -28,6 +28,7 @@ github.com/StevenBuglione/spice/conversion
 github.com/StevenBuglione/spice/data
 github.com/StevenBuglione/spice/event/outbox
 github.com/StevenBuglione/spice/i18n
+github.com/StevenBuglione/spice/intercept
 github.com/StevenBuglione/spice/internal/annotationcore
 github.com/StevenBuglione/spice/lifecycle
 github.com/StevenBuglione/spice/management

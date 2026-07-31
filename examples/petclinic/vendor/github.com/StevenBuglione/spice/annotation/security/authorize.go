@@ -11,9 +11,15 @@ import (
 
 // Authorize attaches a secure-deny authorization policy to one HTTP route.
 //
-// At least one authentication, role, or scope requirement is required.
+// At least one authentication, role, scope, or expression requirement is
+// required.
 // Multiple categories are combined with AND semantics; anyRoles requires one
-// listed role while allRoles and allScopes require every listed value.
+// listed role while allRoles and allScopes require every listed value. The
+// optional expression is compiled against Boolean `authenticated`, string
+// `subject` and `issuer`, and Boolean hasRole(string)/hasScope(string)
+// functions. Declaring an expression still requires an authenticated
+// principal. It cannot navigate properties, look up beans, invoke arbitrary
+// methods, allocate, assign, or perform I/O.
 //
 //	// @import { Authorize } from "github.com/StevenBuglione/spice/annotation/security"
 //	// @Authorize(authenticated=true, anyRoles=["operator", "admin"])
@@ -46,6 +52,11 @@ func Authorize() sdk.Definition {
 				Kinds:            []sdk.Kind{sdk.KindList},
 				ListElementKinds: []sdk.Kind{sdk.KindString},
 				Description:      "Require every listed OAuth2 scope.",
+			},
+			{
+				Name:        "expression",
+				Kinds:       []sdk.Kind{sdk.KindString},
+				Description: "Restricted compiler-validated Boolean authorization expression.",
 			},
 		},
 		Examples: []sdk.Example{{
@@ -82,6 +93,7 @@ func AuthorizeHandler(
 		"anyRoles",
 		"allRoles",
 		"allScopes",
+		"expression",
 	)
 	if err != nil {
 		return sdk.Result{}, err
@@ -102,6 +114,10 @@ func AuthorizeHandler(
 	if err != nil {
 		return sdk.Result{}, err
 	}
+	expression, err := arguments.String("expression", false)
+	if err != nil {
+		return sdk.Result{}, err
+	}
 	return sdk.OneContribution(sdk.Contribution{
 		Kind: sdk.ContributionAuthorization,
 		Authorization: &sdk.AuthorizationContribution{
@@ -109,6 +125,7 @@ func AuthorizeHandler(
 			AnyRoles:      anyRoles,
 			AllRoles:      allRoles,
 			AllScopes:     allScopes,
+			Expression:    expression,
 		},
 	})
 }

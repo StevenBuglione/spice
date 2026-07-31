@@ -11,6 +11,7 @@ import (
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
+	spiceintercept "github.com/StevenBuglione/spice/intercept"
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
 
@@ -30,6 +31,16 @@ func registerGeneratedRouteVetControllerListJSON_5badfbec(
 	if routeObservationErr0 != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("configure generated route GET /vets observation: %w", routeObservationErr0))
 	}
+	routeTerminal := func(invocationContext context.Context, invocationRequest vet.AllRequest) (vet.Vets, error) {
+		return dependencies.vetController.ListJSON(invocationContext, invocationRequest)
+	}
+	routeInvocation, routeInterceptorErr := spiceintercept.Chain(
+		routeTerminal,
+		options.Interceptors.ControllerListJSON...,
+	)
+	if routeInterceptorErr != nil {
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct generated typed interceptors for route GET /vets: %w", routeInterceptorErr))
+	}
 	if routeErr := spiceweb.RegisterObserved(routeMux, "GET /vets", http.HandlerFunc(func(writer http.ResponseWriter, httpRequest *http.Request) {
 		writeRouteError := func(routeError error) error {
 			return spiceweb.WriteError(writer, httpRequest, routeError, options.ErrorMapper)
@@ -45,7 +56,7 @@ func registerGeneratedRouteVetControllerListJSON_5badfbec(
 			return
 		}
 		requestValue := vet.AllRequest{}
-		responseValue, routeErr := dependencies.vetController.ListJSON(httpRequest.Context(), requestValue)
+		responseValue, routeErr := routeInvocation(httpRequest.Context(), requestValue)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return

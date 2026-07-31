@@ -11,6 +11,7 @@ import (
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	system "github.com/StevenBuglione/spice/examples/petclinic/system"
+	spiceintercept "github.com/StevenBuglione/spice/intercept"
 	spiceview "github.com/StevenBuglione/spice/view"
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
@@ -30,6 +31,16 @@ func registerGeneratedRouteSystemWelcomeControllerShow_94e120b7(
 	routeObservation0, routeObservationErr0 := spiceweb.ObservationMiddleware(spiceweb.RouteMetadata{ID: "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show", Module: "", Method: "GET", Pattern: "/"}, httpObservers...)
 	if routeObservationErr0 != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("configure generated route GET / observation: %w", routeObservationErr0))
+	}
+	routeTerminal := func(invocationContext context.Context, invocationRequest system.WelcomeRequest) (spiceview.Result, error) {
+		return dependencies.welcomeController.Show(invocationContext, invocationRequest)
+	}
+	routeInvocation, routeInterceptorErr := spiceintercept.Chain(
+		routeTerminal,
+		options.Interceptors.WelcomeControllerShow...,
+	)
+	if routeInterceptorErr != nil {
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct generated typed interceptors for route GET /: %w", routeInterceptorErr))
 	}
 	if routeErr := spiceweb.RegisterObserved(routeMux, "GET /", http.HandlerFunc(func(writer http.ResponseWriter, httpRequest *http.Request) {
 		writeRouteError := func(routeError error) error {
@@ -54,7 +65,7 @@ func registerGeneratedRouteSystemWelcomeControllerShow_94e120b7(
 		if present0 {
 			requestValue.Language = string(raw0)
 		}
-		responseValue, routeErr := dependencies.welcomeController.Show(httpRequest.Context(), requestValue)
+		responseValue, routeErr := routeInvocation(httpRequest.Context(), requestValue)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return

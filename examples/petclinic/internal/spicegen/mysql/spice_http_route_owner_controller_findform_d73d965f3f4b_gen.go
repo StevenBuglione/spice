@@ -11,6 +11,7 @@ import (
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
+	spiceintercept "github.com/StevenBuglione/spice/intercept"
 	spiceview "github.com/StevenBuglione/spice/view"
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
@@ -30,6 +31,16 @@ func registerGeneratedRouteOwnerControllerFindForm_d73d965f(
 	routeObservation0, routeObservationErr0 := spiceweb.ObservationMiddleware(spiceweb.RouteMetadata{ID: "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm", Module: "", Method: "GET", Pattern: "/owners/find"}, httpObservers...)
 	if routeObservationErr0 != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("configure generated route GET /owners/find observation: %w", routeObservationErr0))
+	}
+	routeTerminal := func(invocationContext context.Context, invocationRequest owner.FindOwnerFormRequest) (spiceview.Result, error) {
+		return dependencies.ownerController.FindForm(invocationContext, invocationRequest)
+	}
+	routeInvocation, routeInterceptorErr := spiceintercept.Chain(
+		routeTerminal,
+		options.Interceptors.ControllerFindForm...,
+	)
+	if routeInterceptorErr != nil {
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct generated typed interceptors for route GET /owners/find: %w", routeInterceptorErr))
 	}
 	if routeErr := spiceweb.RegisterObserved(routeMux, "GET /owners/find", http.HandlerFunc(func(writer http.ResponseWriter, httpRequest *http.Request) {
 		writeRouteError := func(routeError error) error {
@@ -54,7 +65,7 @@ func registerGeneratedRouteOwnerControllerFindForm_d73d965f(
 		if present0 {
 			requestValue.Language = string(raw0)
 		}
-		responseValue, routeErr := dependencies.ownerController.FindForm(httpRequest.Context(), requestValue)
+		responseValue, routeErr := routeInvocation(httpRequest.Context(), requestValue)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return

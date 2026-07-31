@@ -11,6 +11,7 @@ import (
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
+	spiceintercept "github.com/StevenBuglione/spice/intercept"
 	spiceview "github.com/StevenBuglione/spice/view"
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
@@ -30,6 +31,16 @@ func registerGeneratedRouteOwnerPetControllerEditForm_d35ff46f(
 	routeObservation0, routeObservationErr0 := spiceweb.ObservationMiddleware(spiceweb.RouteMetadata{ID: "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm", Module: "", Method: "GET", Pattern: "/owners/{ownerId}/pets/{petId}/edit"}, httpObservers...)
 	if routeObservationErr0 != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("configure generated route GET /owners/{ownerId}/pets/{petId}/edit observation: %w", routeObservationErr0))
+	}
+	routeTerminal := func(invocationContext context.Context, invocationRequest owner.OwnerPetRequest) (spiceview.Result, error) {
+		return dependencies.petController.EditForm(invocationContext, invocationRequest)
+	}
+	routeInvocation, routeInterceptorErr := spiceintercept.Chain(
+		routeTerminal,
+		options.Interceptors.PetControllerEditForm...,
+	)
+	if routeInterceptorErr != nil {
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct generated typed interceptors for route GET /owners/{ownerId}/pets/{petId}/edit: %w", routeInterceptorErr))
 	}
 	if routeErr := spiceweb.RegisterObserved(routeMux, "GET /owners/{ownerId}/pets/{petId}/edit", http.HandlerFunc(func(writer http.ResponseWriter, httpRequest *http.Request) {
 		writeRouteError := func(routeError error) error {
@@ -80,7 +91,7 @@ func registerGeneratedRouteOwnerPetControllerEditForm_d35ff46f(
 		if present2 {
 			requestValue.Language = string(raw2)
 		}
-		responseValue, routeErr := dependencies.petController.EditForm(httpRequest.Context(), requestValue)
+		responseValue, routeErr := routeInvocation(httpRequest.Context(), requestValue)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return

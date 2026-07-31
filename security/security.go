@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/StevenBuglione/spice/expression"
 	"github.com/StevenBuglione/spice/web"
 )
 
@@ -28,6 +29,7 @@ type PolicySpec struct {
 	AnyRoles      []string
 	AllRoles      []string
 	AllScopes     []string
+	Expression    string
 }
 
 // Policy is an immutable validated authorization policy.
@@ -37,20 +39,15 @@ type Policy struct {
 	anyRoles      []string
 	allRoles      []string
 	allScopes     []string
+	expression    string
+	program       expression.Program
 }
 
 // NewPolicy validates and freezes one generated policy. A policy with no
 // requirement is rejected so zero configuration can never grant access.
 func NewPolicy(spec PolicySpec) (Policy, error) {
-	if spec.Definition.ID == "" || strings.TrimSpace(spec.Definition.ID) != spec.Definition.ID {
-		return Policy{}, errors.New("construct authorization policy: policy ID is required")
-	}
-	if spec.Definition.Module == "" ||
-		strings.TrimSpace(spec.Definition.Module) != spec.Definition.Module {
-		return Policy{}, fmt.Errorf(
-			"construct authorization policy %q: module is required",
-			spec.Definition.ID,
-		)
+	if err := validatePolicyDefinition(spec.Definition); err != nil {
+		return Policy{}, err
 	}
 	anyRoles, err := normalizeNames(spec.Definition.ID, "any role", spec.AnyRoles)
 	if err != nil {
@@ -64,10 +61,11 @@ func NewPolicy(spec PolicySpec) (Policy, error) {
 	if err != nil {
 		return Policy{}, err
 	}
-	if !spec.Authenticated &&
-		len(anyRoles) == 0 &&
-		len(allRoles) == 0 &&
-		len(allScopes) == 0 {
+	program, err := compilePolicyExpression(spec.Definition.ID, spec.Expression)
+	if err != nil {
+		return Policy{}, err
+	}
+	if !hasPolicyRequirement(spec, anyRoles, allRoles, allScopes) {
 		return Policy{}, fmt.Errorf(
 			"construct authorization policy %q: at least one requirement is required",
 			spec.Definition.ID,
@@ -79,12 +77,74 @@ func NewPolicy(spec PolicySpec) (Policy, error) {
 		anyRoles:      anyRoles,
 		allRoles:      allRoles,
 		allScopes:     allScopes,
+		expression:    spec.Expression,
+		program:       program,
 	}, nil
+}
+
+func validatePolicyDefinition(definition Definition) error {
+	if definition.ID == "" || strings.TrimSpace(definition.ID) != definition.ID {
+		return errors.New("construct authorization policy: policy ID is required")
+	}
+	if definition.Module == "" ||
+		strings.TrimSpace(definition.Module) != definition.Module {
+		return fmt.Errorf(
+			"construct authorization policy %q: module is required",
+			definition.ID,
+		)
+	}
+	return nil
+}
+
+func compilePolicyExpression(id, source string) (expression.Program, error) {
+	if source == "" {
+		return expression.Program{}, nil
+	}
+	if source != strings.TrimSpace(source) {
+		return expression.Program{}, fmt.Errorf(
+			"construct authorization policy %q: expression must not have surrounding whitespace",
+			id,
+		)
+	}
+	program, err := compileExpression(source)
+	if err != nil {
+		return expression.Program{}, fmt.Errorf(
+			"construct authorization policy %q: %w",
+			id,
+			err,
+		)
+	}
+	return program, nil
+}
+
+func hasPolicyRequirement(
+	spec PolicySpec,
+	anyRoles, allRoles, allScopes []string,
+) bool {
+	return spec.Authenticated ||
+		len(anyRoles) != 0 ||
+		len(allRoles) != 0 ||
+		len(allScopes) != 0 ||
+		spec.Expression != ""
 }
 
 // Definition returns the policy's stable generated identity.
 func (policy Policy) Definition() Definition {
 	return policy.definition
+}
+
+// Expression returns the compiler-validated restricted policy expression, if
+// one was declared. It never contains runtime identity or claim values.
+func (policy Policy) Expression() string {
+	return policy.expression
+}
+
+// ValidateExpression checks one restricted authorization expression against
+// the exact symbol schema used at runtime. Compilers use this function to fail
+// at the annotation source before generated Go is rendered.
+func ValidateExpression(source string) error {
+	_, err := compileExpression(source)
+	return err
 }
 
 // Principal is an immutable identity created only after authentication.
@@ -173,6 +233,9 @@ const (
 	ReasonRole Reason = "role"
 	// ReasonScope identifies an unmet scope requirement.
 	ReasonScope Reason = "scope"
+	// ReasonExpression identifies a restricted policy expression that evaluated
+	// to false.
+	ReasonExpression Reason = "expression"
 )
 
 // Decision contains bounded policy metadata and no identity claims.
@@ -214,7 +277,10 @@ func (authorizer *Authorizer) Authorize(ctx context.Context, policy Policy) erro
 	}
 	started := time.Now()
 	principal, authenticated := PrincipalFromContext(ctx)
-	reason := evaluate(policy, principal, authenticated)
+	reason, err := evaluate(ctx, policy, principal, authenticated)
+	if err != nil {
+		return err
+	}
 	decision := Decision{
 		Definition: policy.definition,
 		Allowed:    reason == ReasonAllowed,
@@ -297,24 +363,93 @@ func Guard(
 	}, nil
 }
 
-func evaluate(policy Policy, principal Principal, authenticated bool) Reason {
+func evaluate(
+	ctx context.Context,
+	policy Policy,
+	principal Principal,
+	authenticated bool,
+) (Reason, error) {
 	requiresPrincipal := policy.authenticated ||
 		len(policy.anyRoles) != 0 ||
 		len(policy.allRoles) != 0 ||
-		len(policy.allScopes) != 0
+		len(policy.allScopes) != 0 ||
+		policy.expression != ""
 	if requiresPrincipal && !authenticated {
-		return ReasonUnauthenticated
+		return ReasonUnauthenticated, nil
 	}
 	if len(policy.anyRoles) != 0 && !containsAny(principal.roles, policy.anyRoles) {
-		return ReasonRole
+		return ReasonRole, nil
 	}
 	if !containsAll(principal.roles, policy.allRoles) {
-		return ReasonRole
+		return ReasonRole, nil
 	}
 	if !containsAll(principal.scopes, policy.allScopes) {
-		return ReasonScope
+		return ReasonScope, nil
 	}
-	return ReasonAllowed
+	if policy.expression != "" {
+		allowed, err := policy.program.Evaluate(
+			ctx,
+			expressionInputs(principal, authenticated),
+		)
+		if err != nil {
+			return "", fmt.Errorf(
+				"authorize policy %q expression: %w",
+				policy.definition.ID,
+				err,
+			)
+		}
+		if !allowed {
+			return ReasonExpression, nil
+		}
+	}
+	return ReasonAllowed, nil
+}
+
+func compileExpression(source string) (expression.Program, error) {
+	return expression.Compile(source, expression.Schema{
+		Variables: []expression.Variable{
+			{Name: "authenticated", Kind: expression.Boolean},
+			{Name: "subject", Kind: expression.String},
+			{Name: "issuer", Kind: expression.String},
+		},
+		Functions: []expression.FunctionSpec{
+			{
+				Name:       "hasRole",
+				Parameters: []expression.Kind{expression.String},
+				Result:     expression.Boolean,
+			},
+			{
+				Name:       "hasScope",
+				Parameters: []expression.Kind{expression.String},
+				Result:     expression.Boolean,
+			},
+		},
+	})
+}
+
+func expressionInputs(
+	principal Principal,
+	authenticated bool,
+) expression.Inputs {
+	return expression.Inputs{
+		Variables: []expression.Value{
+			expression.Bool(authenticated),
+			expression.Text(principal.subject),
+			expression.Text(principal.issuer),
+		},
+		Functions: []expression.Function{
+			func(_ context.Context, arguments []expression.Value) (expression.Value, error) {
+				role, _ := arguments[0].StringValue()
+				_, found := slices.BinarySearch(principal.roles, role)
+				return expression.Bool(found), nil
+			},
+			func(_ context.Context, arguments []expression.Value) (expression.Value, error) {
+				scope, _ := arguments[0].StringValue()
+				_, found := slices.BinarySearch(principal.scopes, scope)
+				return expression.Bool(found), nil
+			},
+		},
+	}
 }
 
 func containsAny(actual, required []string) bool {
@@ -365,6 +500,9 @@ func normalize(kind string, values []string) ([]string, error) {
 func validateFrozenPolicy(policy Policy) error {
 	if policy.definition.ID == "" || policy.definition.Module == "" {
 		return errors.New("authorize: policy is invalid")
+	}
+	if policy.expression != "" && policy.program.Source() != policy.expression {
+		return errors.New("authorize: policy expression is invalid")
 	}
 	return nil
 }

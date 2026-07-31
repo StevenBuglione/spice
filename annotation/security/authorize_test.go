@@ -42,6 +42,11 @@ func TestAuthorizeHandler(t *testing.T) {
 				Kind:  sdk.KindList,
 				Value: json.RawMessage(`["orders:read"]`),
 			},
+			{
+				Name:  "expression",
+				Kind:  sdk.KindString,
+				Value: json.RawMessage(`"authenticated && hasRole(\"operator\")"`),
+			},
 		},
 	})
 	if err != nil || len(result.Contributions) != 1 {
@@ -49,7 +54,8 @@ func TestAuthorizeHandler(t *testing.T) {
 	}
 	policy := result.Contributions[0].Authorization
 	if !policy.Authenticated || len(policy.AnyRoles) != 1 ||
-		len(policy.AllRoles) != 1 || len(policy.AllScopes) != 1 {
+		len(policy.AllRoles) != 1 || len(policy.AllScopes) != 1 ||
+		policy.Expression == "" {
 		t.Fatalf("authorization contribution = %#v", policy)
 	}
 	if _, err := AuthorizeHandler(context.Background(), sdk.Invocation{

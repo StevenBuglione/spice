@@ -170,6 +170,11 @@ construction uses the replacement at the original provider position, so
 dependencies, rollback, module cleanup ownership, and shutdown ordering remain
 unchanged. Disabled zero values preserve production behavior; there is no
 mutable application context or string-addressed bean replacement.
+Generated `BeanOverrideLayer` and `ComposeBeanOverrides` additionally compose
+named library, embedding, and test layers before construction. Layers are
+validated in order and later enabled exact-type fields deliberately replace
+earlier fields; the resulting `BeanOverrides` value still enters the same
+construction path.
 
 The reusable APIs accept caller-owned contexts, configuration sources,
 overrides, observers, middleware, writers, loggers, and shutdown policy. They

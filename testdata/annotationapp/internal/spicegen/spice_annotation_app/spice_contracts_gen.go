@@ -5,6 +5,8 @@
 package spicegen
 
 import (
+	fmt "fmt"
+	strings "strings"
 	time "time"
 
 	component "example.com/spice-annotation-app/component"
@@ -34,6 +36,33 @@ type Components struct {
 type BeanOverrides struct {
 	// ProvideMessage replaces bean "provideMessage".
 	ProvideMessage spicebean.Override[component.Message]
+}
+
+// BeanOverrideLayer is one named immutable override composition layer.
+// Layers are applied in order; a later layer deliberately replaces an earlier value.
+type BeanOverrideLayer struct {
+	Name      string
+	Overrides BeanOverrides
+}
+
+// ComposeBeanOverrides validates and deterministically composes named layers.
+// It never mutates a running application or performs runtime bean lookup.
+func ComposeBeanOverrides(layers ...BeanOverrideLayer) (BeanOverrides, error) {
+	result := BeanOverrides{}
+	seen := make(map[string]int, len(layers))
+	for index, layer := range layers {
+		if layer.Name == "" || strings.TrimSpace(layer.Name) != layer.Name {
+			return BeanOverrides{}, fmt.Errorf("compose bean overrides: layer %d requires a non-empty name without surrounding whitespace", index)
+		}
+		if previous, duplicate := seen[layer.Name]; duplicate {
+			return BeanOverrides{}, fmt.Errorf("compose bean overrides: layer %q repeats layer %d", layer.Name, previous)
+		}
+		seen[layer.Name] = index
+		if layer.Overrides.ProvideMessage.Enabled() {
+			result.ProvideMessage = layer.Overrides.ProvideMessage
+		}
+	}
+	return result, nil
 }
 
 type Application struct {

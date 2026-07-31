@@ -52,6 +52,71 @@ func TestAuthorizerAllowsExactRoleAndScopePolicy(t *testing.T) {
 	}
 }
 
+func TestAuthorizerEvaluatesRestrictedExpression(t *testing.T) {
+	t.Parallel()
+	policy, err := NewPolicy(PolicySpec{
+		Definition: Definition{ID: "owner-or-admin", Module: "orders"},
+		Expression: `authenticated && (subject == "owner" || hasRole("admin")) && hasScope("orders:read")`,
+	})
+	if err != nil {
+		t.Fatalf("NewPolicy() error = %v", err)
+	}
+	if policy.Expression() == "" {
+		t.Fatal("Expression() is empty")
+	}
+	authorizer, err := NewAuthorizer()
+	if err != nil {
+		t.Fatalf("NewAuthorizer() error = %v", err)
+	}
+	principal, err := NewPrincipal("owner", "issuer", nil, []string{"orders:read"})
+	if err != nil {
+		t.Fatalf("NewPrincipal() error = %v", err)
+	}
+	ctx, err := WithPrincipal(context.Background(), principal)
+	if err != nil {
+		t.Fatalf("WithPrincipal() error = %v", err)
+	}
+	if authorizeErr := authorizer.Authorize(ctx, policy); authorizeErr != nil {
+		t.Fatalf("Authorize(owner) error = %v", authorizeErr)
+	}
+
+	principal, err = NewPrincipal("other", "issuer", []string{"reader"}, []string{"orders:read"})
+	if err != nil {
+		t.Fatalf("NewPrincipal(reader) error = %v", err)
+	}
+	ctx, err = WithPrincipal(context.Background(), principal)
+	if err != nil {
+		t.Fatalf("WithPrincipal(reader) error = %v", err)
+	}
+	err = authorizer.Authorize(ctx, policy)
+	denied, ok := errors.AsType[*DeniedError](err)
+	if !ok || denied.Reason != ReasonExpression {
+		t.Fatalf("Authorize(reader) error = %#v", err)
+	}
+}
+
+func TestAuthorizationExpressionValidation(t *testing.T) {
+	t.Parallel()
+	if err := ValidateExpression(`hasRole("admin")`); err != nil {
+		t.Fatalf("ValidateExpression() error = %v", err)
+	}
+	for _, source := range []string{
+		`principal.subject == "owner"`,
+		`bean("admin")`,
+		`subject = "owner"`,
+	} {
+		if err := ValidateExpression(source); err == nil {
+			t.Fatalf("ValidateExpression(%q) error = nil", source)
+		}
+	}
+	if _, err := NewPolicy(PolicySpec{
+		Definition: Definition{ID: "invalid", Module: "orders"},
+		Expression: " authenticated",
+	}); err == nil {
+		t.Fatal("NewPolicy() accepted surrounding whitespace")
+	}
+}
+
 func TestAuthorizerDeniesAnonymousRoleAndScopeFailures(t *testing.T) {
 	t.Parallel()
 	tests := []struct {

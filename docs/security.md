@@ -12,6 +12,7 @@ Generated guards are declared on HTTP routes:
 //     authenticated=true,
 //     anyRoles=["support", "customer"],
 //     allScopes=["orders:write"],
+//     expression="issuer == \"https://issuer.example\" && hasRole(\"customer\")",
 // )
 func (*Orders) Place(
     context.Context,
@@ -32,7 +33,13 @@ application construction. An empty policy remains invalid and cannot grant
 access. Missing principals receive a safe RFC 9457 HTTP 401 response;
 authenticated principals missing an exact case-sensitive role or scope receive
 403. The guard includes a standard Bearer challenge on 401 responses. Policies
-can require authentication, all roles, any one role, and all scopes.
+can require authentication, all roles, any one role, all scopes, and a
+restricted typed expression. Expressions expose only Boolean `authenticated`,
+string `subject`/`issuer`, and Boolean `hasRole(string)`/`hasScope(string)`.
+They always require a principal and combine with other requirements using AND.
+The shared bounded parser rejects reflective property access, bean lookup,
+arbitrary method calls, assignment, allocation, I/O, and unknown symbols at
+the annotation source.
 
 Verified principals are attached to request contexts with `WithPrincipal`.
 Their role/scope inputs are copied, sorted, and deduplicated. Caller-supplied

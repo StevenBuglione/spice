@@ -11,6 +11,7 @@ import (
 
 	spiceconfig "github.com/StevenBuglione/spice/config"
 	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
+	spiceintercept "github.com/StevenBuglione/spice/intercept"
 	spiceview "github.com/StevenBuglione/spice/view"
 	spiceweb "github.com/StevenBuglione/spice/web"
 )
@@ -30,6 +31,16 @@ func registerGeneratedRouteOwnerVisitControllerNewForm_415f0e67(
 	routeObservation0, routeObservationErr0 := spiceweb.ObservationMiddleware(spiceweb.RouteMetadata{ID: "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm", Module: "", Method: "GET", Pattern: "/owners/{ownerId}/pets/{petId}/visits/new"}, httpObservers...)
 	if routeObservationErr0 != nil {
 		return nil, application.coordinator.Abort(ctx, fmt.Errorf("configure generated route GET /owners/{ownerId}/pets/{petId}/visits/new observation: %w", routeObservationErr0))
+	}
+	routeTerminal := func(invocationContext context.Context, invocationRequest owner.NewVisitRequest) (spiceview.Result, error) {
+		return dependencies.visitController.NewForm(invocationContext, invocationRequest)
+	}
+	routeInvocation, routeInterceptorErr := spiceintercept.Chain(
+		routeTerminal,
+		options.Interceptors.VisitControllerNewForm...,
+	)
+	if routeInterceptorErr != nil {
+		return nil, application.coordinator.Abort(ctx, fmt.Errorf("construct generated typed interceptors for route GET /owners/{ownerId}/pets/{petId}/visits/new: %w", routeInterceptorErr))
 	}
 	if routeErr := spiceweb.RegisterObserved(routeMux, "GET /owners/{ownerId}/pets/{petId}/visits/new", http.HandlerFunc(func(writer http.ResponseWriter, httpRequest *http.Request) {
 		writeRouteError := func(routeError error) error {
@@ -80,7 +91,7 @@ func registerGeneratedRouteOwnerVisitControllerNewForm_415f0e67(
 		if present2 {
 			requestValue.Language = string(raw2)
 		}
-		responseValue, routeErr := dependencies.visitController.NewForm(httpRequest.Context(), requestValue)
+		responseValue, routeErr := routeInvocation(httpRequest.Context(), requestValue)
 		if routeErr != nil {
 			_ = writeRouteError(routeErr)
 			return

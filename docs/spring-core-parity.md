@@ -20,18 +20,18 @@ runtime proxies, or the Spring API.
 | Type conversion and formatting | `conversion.Converter[S,T]`, typed composition, custom codecs, and safe built-in Boolean/integer/float/duration/time/URL codecs are reflection-free. Configuration and HTTP binding use the same scalar conversions | available |
 | Events | Generated typed topics, exact publisher interfaces, deterministic synchronous subscribers, module identities, observations, and durable outbox integration | available |
 | Internationalization | Immutable bounded UTF-8 property catalogs, deterministic locale negotiation, fallback, and explicit injection | available |
-| Spring Expression Language | No runtime expression language. Typed Go functions, generated configuration access, and descriptor literals replace string evaluation, bean-name access, reflective method invocation, and expression injection risk | not-planned |
-| Spring AOP and AspectJ | Security, transactions, caching, observations, HTTP middleware, lifecycle, retry, and events use explicit generated or typed decorators. Universal runtime pointcuts, subclass proxies, load-time weaving, and self-invocation magic are not planned | integration |
+| Spring Expression Language | A bounded typed Boolean/string language supports explicit variables/functions, deterministic parsing, cancellation, and no reflection, property traversal, bean lookup, assignment, allocation, or I/O. `@security.Authorize(expression=...)` is compiler-validated against principal symbols and uses the same schema at runtime; typed Go functions remain preferred elsewhere | integration |
+| Spring AOP and AspectJ | Generic typed invocation chains and generated per-route request/response interceptor fields wrap direct controller calls, transaction boundaries, and caches with ordinary debugger frames. Security, observations, HTTP middleware, lifecycle, retry, and events retain purpose-built decorators. Universal runtime pointcuts, subclass proxies, load-time weaving, and concrete self-invocation interception are not planned | integration |
 | Resilience | Explicit finite retry policies, classification, capped backoff, cancellation, exhaustion, observations, and panic-safe async/event boundaries | available |
 | Null safety | Go's type system, explicit optional handles, compile-time interface checks, NilAway, vet, and generated fail-closed diagnostics replace Java nullability annotations | available |
 | Data buffers and codecs | Standard `io` ownership plus bounded JSON, MIME, HTTP, WebSocket, gRPC, configuration, and resource codecs cover application boundaries. A universal reference-counted pooled-buffer API is not introduced | integration |
 | Ahead-of-time optimization | One immutable typed program produces deterministic, inspectable, trimpath ordinary Go with no runtime scanner, reflection container, or compiler dependency | available |
-| Bean definition inheritance and runtime `BeanFactory` mutation | Explicit constructor composition, typed factory functions, generated test overrides, and library auto-configuration replace mutable definition inheritance and runtime registration | not-planned |
+| Bean definition inheritance and runtime `BeanFactory` mutation | Compile-time auto-configuration composes typed fallback factories; generated named `BeanOverrideLayer` values compose parent-to-child with deterministic later-layer precedence before construction. Construction, cleanup, rollback, and type identity stay generated. Mutation after application construction remains deliberately unsupported | integration |
 | Class loader and load-time weaving facilities | Go modules, imports, static linking, `go tool` annotation handlers, and generated direct calls are the replacement; JVM class-loader APIs have no useful Go equivalent | not-planned |
 
 ## Core invariants
 
-- No package-level mutable container or global converter/resource registry.
+- No package-level mutable container or global expression/converter/resource registry.
 - No implicit network access, package scanning, or dependency-by-presence
   activation.
 - No rejected configuration, request, or conversion value is placed into a
@@ -43,7 +43,7 @@ runtime proxies, or the Spring API.
 
 ## Executable evidence
 
-The `conversion`, `resource`, and `validation` packages contain positive,
+The `conversion`, `expression`, `intercept`, `resource`, and `validation` packages contain positive,
 negative, boundary, cancellation, safe-error, composition, deterministic-order,
 and runnable example tests. Existing `config`, `web`, `event`, `i18n`, `bean`,
 `lifecycle`, `retry`, compiler, generated-code, Commerce, and Petclinic suites

@@ -23,6 +23,9 @@ application context.
 | Spring MVC controllers | `@Controller`, route annotations, typed request DTOs | Adapters are generated `net/http` code with no reflection. |
 | `ResponseEntity`, validation, problem details | Typed response values, `validation.Errors`, RFC 9457 errors | Binding and validation failures have bounded source-safe representations. |
 | Spring Security method/route policies | `@security.Authorize` and explicit authentication middleware | Authorization is generated deny-by-default; identity still comes from an explicit starter or caller. |
+| SpEL policy expressions | Restricted typed `expression` programs and `@security.Authorize(expression=...)` | Only declared Boolean/string symbols exist; reflective property/method/bean access is rejected. |
+| Spring AOP interceptors | `intercept.Interceptor[Request, Response]`, generated `RouteInterceptors`, and purpose-built annotations | Chains wrap direct Go calls with visible frames; there are no runtime pointcuts or subclass proxies. |
+| Parent/child bean definitions | Generated `BeanOverrideLayer` composition plus compile-time auto-configuration fallbacks | Named immutable layers compose before construction; a running graph is never mutated. |
 | `@Transactional` | `@data.Transactional` generated boundaries and `data.Manager` | Transaction ownership is visible and executor-based, not proxy interception. |
 | Spring Data repositories | Ordinary repository interfaces plus explicit implementations | SQL and row decoding remain visible Go; Spice does not derive queries from method names. |
 | Actuator | Explicit `@management.Enable` allowlist | Nothing is exposed by dependency presence; access is public or direct-peer loopback by declaration. |
@@ -75,9 +78,11 @@ typed assignment. There is no IDE-provided resolution and no runtime lookup.
   mutable global application context.
 - There are no field injection, circular proxy, or hidden transactional method
   calls. Cycles fail compilation and transaction boundaries are generated.
-- There is no SpEL evaluator, mutable BeanFactory, universal pointcut proxy,
-  or load-time weaving. Typed Go functions and generated feature decorators
-  retain normal compiler and debugger behavior.
+- Restricted typed expressions intentionally exclude reflective SpEL features.
+  Immutable named override layers replace parent/child BeanFactory mutation,
+  and generated typed interceptors replace useful proxy outcomes. Universal
+  runtime pointcuts, running-graph mutation, and literal load-time weaving
+  remain unsupported.
 - Interface assignability alone is not a bean declaration. `@Implements`
   documents the architectural intent and makes selection inspectable.
 - Annotation comments never execute Go code during analysis. Descriptors are
