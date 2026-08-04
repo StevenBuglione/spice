@@ -321,7 +321,7 @@ func NewHandler(options HandlerOptions) (*Handler, error) {
 	}
 	access := options.Access
 	if access == "" {
-		access = AccessPublic
+		access = AccessLoopback
 	}
 	if access != AccessPublic && access != AccessLoopback {
 		return nil, fmt.Errorf(

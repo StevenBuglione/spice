@@ -19,9 +19,9 @@ func main() {
 
 Valid names are `health`, `liveness`, `readiness`, `info`, `metrics`,
 `configprops`, and `modules`. The optional `access` setting is either `public`
-or `loopback`; it defaults to `public` for compatibility. Production
-applications should normally select `loopback` or place a public handler
-behind an independently authenticated management listener.
+or `loopback`; it defaults to `loopback`. Public exposure is an explicit
+opt-in and should be placed behind an independently authenticated management
+listener.
 The compiler rejects unknown or duplicate names with source positions,
 normalizes order deterministically, and verifies that the selected application
 graph owns the required `*http.ServeMux`. The generated handler registers

@@ -286,7 +286,7 @@ func TestHandlerValidationAndNilReceiver(t *testing.T) {
 	}
 }
 
-func TestHandlerLoopbackAccessRejectsRemotePeersAndForwardingHeaders(
+func TestHandlerDefaultsToLoopbackAndRejectsForwardedProvenance(
 	t *testing.T,
 ) {
 	t.Parallel()
@@ -301,7 +301,6 @@ func TestHandlerLoopbackAccessRejectsRemotePeersAndForwardingHeaders(
 	handler, err := NewHandler(HandlerOptions{
 		Manager: manager,
 		Expose:  []Endpoint{EndpointHealth},
-		Access:  AccessLoopback,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -360,6 +359,22 @@ func TestHandlerLoopbackAccessRejectsRemotePeersAndForwardingHeaders(
 				)
 			}
 		})
+	}
+
+	publicHandler, err := NewHandler(HandlerOptions{
+		Manager: manager,
+		Expose:  []Endpoint{EndpointHealth},
+		Access:  AccessPublic,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := httptest.NewRequest(http.MethodGet, "/actuator/health", nil)
+	request.RemoteAddr = "192.0.2.10:49152"
+	response := httptest.NewRecorder()
+	publicHandler.ServeHTTP(response, request)
+	if response.Code != http.StatusOK {
+		t.Fatalf("explicit public access status = %d, want %d", response.Code, http.StatusOK)
 	}
 }
 
@@ -531,6 +546,7 @@ func assertGroupStatus(t *testing.T, manager *Manager, group Group, want Status)
 
 func serve(handler http.Handler, method, target string) *httptest.ResponseRecorder {
 	request := httptest.NewRequest(method, target, nil)
+	request.RemoteAddr = "127.0.0.1:49152"
 	response := httptest.NewRecorder()
 	handler.ServeHTTP(response, request)
 	return response

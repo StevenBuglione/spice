@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - name: Set up Go 1.26.5
         uses: actions/setup-go@v6
         with:
@@ -33,6 +35,8 @@ jobs:
             go.sum
             tools/go.sum
       - name: Verify
+        env:
+          SPICE_VERIFY_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
         run: go run ./internal/qualitygate -mode=verify
 
   cross-build:

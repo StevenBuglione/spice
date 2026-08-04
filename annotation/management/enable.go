@@ -38,7 +38,7 @@ func Enable() sdk.Definition {
 				Kinds:         []sdk.Kind{sdk.KindString},
 				AllowedValues: []string{"public", "loopback"},
 				Description:   "Direct network origins allowed to use management endpoints.",
-				Default:       "public",
+				Default:       "loopback",
 			},
 		},
 		Examples: []sdk.Example{{

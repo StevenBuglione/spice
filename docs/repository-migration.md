@@ -53,12 +53,12 @@ The current Go import graph identifies these extraction blockers:
 
 ## Stage 0: Correct product truth and security
 
-- [ ] Change management endpoint access from public to loopback by default;
+- [x] Change management endpoint access from public to loopback by default;
   add explicit public-access and forwarding-header negative tests.
-- [ ] Upgrade `github.com/klauspost/compress` to at least `v1.18.7` and
+- [x] Upgrade `github.com/klauspost/compress` to at least `v1.18.7` and
   `go.opentelemetry.io/otel` to at least `v1.44.0`, then rerun vulnerability
   and compatibility checks.
-- [ ] Fix the GoLand affected-range calculation for direct pushes.
+- [x] Fix the GoLand affected-range calculation for direct pushes.
 - [ ] Add installed GoLand Run and real Delve breakpoint acceptance on Windows
   and Linux.
 - [ ] Reclassify capability documentation by maturity and remove claims not
