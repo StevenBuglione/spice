@@ -1,5 +1,7 @@
 # ADR 0011: Package-oriented incremental builds
 
+Status: Superseded in part by ADR 0012
+
 ## Context
 
 Spice publishes many independently useful runtime capabilities and also owns a
@@ -49,3 +51,10 @@ native cache can retain every unaffected package. Spice keeps one version and
 one module graph while gaining independently testable invalidation boundaries.
 A new Go module is justified only by an independent compatibility and release
 lifecycle, not by build speed alone.
+
+The package-oriented invalidation decision remains valid inside each module.
+The single-module decision is superseded by
+[ADR 0012](0012-multi-repository-product-boundaries.md) because editor
+artifacts, external-service starters, reference applications, and the
+compiler toolchain now have demonstrably independent dependency,
+compatibility, release, and verification lifecycles.

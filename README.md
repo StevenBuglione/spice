@@ -1,5 +1,13 @@
 # Spice Framework for Go
 
+> **Ecosystem migration:** Spice is moving to independently versioned core,
+> toolchain, editor, starter, and reference-application repositories under
+> [`github.com/spice-framework`](https://github.com/spice-framework). The
+> history-preserving topology and acceptance ledger are documented in
+> [ADR 0012](adrs/0012-multi-repository-product-boundaries.md) and the
+> [repository migration ledger](docs/repository-migration.md). Until the first
+> signed preview is published, the project remains pre-alpha.
+
 Spice is an opinionated, compile-time application platform for Go. Its goal is to bring the breadth, productivity, and operational completeness associated with Spring Boot together with Spring Modulith-style architectural enforcement—without importing JVM runtime magic into Go.
 
 ## Product direction

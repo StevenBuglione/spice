@@ -35,19 +35,29 @@ Valid Go source
 
 ## Major subsystems
 
-### Package invalidation boundaries
+### Repository and package invalidation boundaries
 
-Spice is one synchronized product module composed of independently cacheable
-Go packages. Each public capability, annotation family, compiler feature,
-renderer, and opt-in integration owns its smallest cohesive package boundary;
-there is no aggregate runtime or starter registry. Broad facade packages keep
-stable imports while implementation phases live in compiler-internal packages.
+Spice is transitioning to the bounded multi-repository product model in
+[ADR 0012](adrs/0012-multi-repository-product-boundaries.md). The core runtime
+and annotation SDK, compiler toolchain, editors, external-service starters,
+and reference applications have independent compatibility and verification
+lifecycles. Dependency direction is core contracts to toolchain/starters and
+then to editor/example consumers; runtime packages never import the toolchain.
+
+Inside each Go module, independently cacheable packages remain the smallest
+cohesive implementation and invalidation boundary. Each public capability,
+annotation family, compiler feature, and renderer owns a focused package;
+there is no aggregate ambient runtime or starter registry. Broad supported
+facades keep stable imports while implementations live behind internal
+packages.
 
 Edit-time verification obtains the actual package and test-import graph from
 Go and executes the reverse dependency closure of changed source. Unknown
 ownership, module inputs, and vendor inputs widen rather than under-select.
-This follows [ADR 0011](adrs/0011-package-oriented-incremental-builds.md);
-complete verification remains the commit contract.
+This follows the still-valid package-level portion of
+[ADR 0011](adrs/0011-package-oriented-incremental-builds.md). The development
+workspace owns cross-repository release evidence without becoming an
+application dependency mechanism.
 
 ### Compiler front end
 

@@ -1,5 +1,21 @@
 # Spice Roadmap
 
+## Current ecosystem priority
+
+Spice is moving from its successful bootstrap monorepo into the bounded
+multi-repository product model accepted in
+[`ADR 0012`](adrs/0012-multi-repository-product-boundaries.md). New capability
+breadth is frozen until the migration, audit remediation, and first external
+preview are complete.
+
+The executable migration order, extraction blockers, cleanup decisions, and
+acceptance evidence are maintained in
+[`docs/repository-migration.md`](docs/repository-migration.md). The immediate
+priority is product truth and safety: secure management defaults, current
+dependencies, real installed-GoLand Run/Debug proof, correct affected CI,
+source-owned application composition, generated-tree purity, and public API
+classification. Repository extraction begins only from that green baseline.
+
 ## Current developer-proof priority
 
 The developer-proof milestone now composes one complete workflow: a minimal
