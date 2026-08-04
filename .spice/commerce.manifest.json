@@ -146,11 +146,11 @@
     },
     {
       "path": "internal/spicegen/commerce/sources/examples/commerce/main_spice_gen.go",
-      "sha256": "sha256:8bd5311083e414771b1e82c4e3b27df8d07522d7552674f1b53c83105a0d863b",
+      "sha256": "sha256:63feaf0f8cedf639a27d6875a7a1bd5f0c81051f0328d7ebbc93c99f481ce085",
       "role": "source-unit",
       "primary_source": {
         "path": "examples/commerce/main.go",
-        "line": 13,
+        "line": 19,
         "column": 4,
         "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
       },
@@ -160,7 +160,7 @@
           "contribution": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main",
           "source": {
             "path": "examples/commerce/main.go",
-            "line": 13,
+            "line": 19,
             "column": 4,
             "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
           },
@@ -707,7 +707,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },
@@ -1080,7 +1080,7 @@
       "related_sources": [
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         }
@@ -1111,7 +1111,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },
@@ -1322,7 +1322,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },
@@ -1635,7 +1635,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },
@@ -1666,7 +1666,7 @@
       "related_sources": [
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },
@@ -1941,7 +1941,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },
@@ -1996,7 +1996,7 @@
         },
         {
           "path": "examples/commerce/main.go",
-          "line": 13,
+          "line": 19,
           "column": 4,
           "symbol": "spice:symbol:v1|function|49:github.com/StevenBuglione/spice/examples/commerce|0:|4:main"
         },

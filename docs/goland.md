@@ -154,10 +154,10 @@ clean pinned GoLand profile through JetBrains Starter/Driver, and then:
 11. verifies that empty LSP diagnostic publications contain
     `diagnostics: []`, so GoLand clears stale errors instead of rejecting a
     null payload;
-12. builds a real Spice CLI, executes the folded Petclinic target with its
-   complete multi-package pattern set through the exact Run command, generates
-   it through the Debug prerequisite, builds the full package with debug
-   flags, executes that binary, and rechecks the physical annotation comments;
+12. clicks the installed `Run Application` gutter marker, selects the preferred
+   Spice configuration from GoLand's native menu, captures the exact
+   command-package `spice run` invocation and live application-start output,
+   then stops the process through its IDE process handler;
 13. moves the real mouse with the platform modifier held, proves the exact
     annotation range visibly underlines, and Ctrl-clicks through to the real
     descriptor source;
@@ -174,7 +174,11 @@ clean pinned GoLand profile through JetBrains Starter/Driver, and then:
     the source-owned generated assertion while handwritten annotations remain
     physical comments;
 18. packages the plugin, validates its structure/configuration, and runs the
-    JetBrains binary/API verifier.
+   JetBrains binary/API verifier.
+19. sets a real XDebugger breakpoint on the physical `os.Exit` line, launches
+   native Go/Delve Debug after guarded Spice generation, requires an enabled
+   Resume action and suspended `main.main` frame at `main.go`, captures the
+   Debug tool window, and stops the debug process through the IDE.
 
 The generated visual reports are:
 
@@ -185,6 +189,10 @@ editors/goland/build/reports/visual/spice-installed-light.png
 editors/goland/build/reports/visual/spice-installed-dark.png
 editors/goland/build/reports/visual/spice-installed-documentation.png
 editors/goland/build/reports/visual/spice-installed-health.png
+editors/goland/build/reports/visual/spice-installed-gutter.txt
+editors/goland/build/reports/visual/spice-installed-run.txt
+editors/goland/build/reports/visual/spice-installed-debug.txt
+editors/goland/build/reports/visual/spice-installed-debug-breakpoint.png
 ```
 
 The reviewed baselines live in
@@ -199,6 +207,10 @@ The Petclinic execution test is part of ordinary `make goland` and therefore of
 the `make verify` matrix. Windows and Linux also run the installed-plugin UI
 suite; macOS currently runs compile, unit, execution, packaging, and Plugin
 Verifier coverage while its stable UI runner remains pending. The UI suite
+is launched in its own non-parallel Gradle invocation after unit, packaging,
+structure, and Plugin Verifier checks finish. This keeps one installed IDE
+owner and prevents the verifier from contending with the test profile/cache.
+The UI suite
 sets `SPICE_EXECUTABLE` to the exact freshly built repository binary in
 addition to prepending its directory to `PATH`, so Windows executable lookup
 cannot silently select a stale globally installed language server. The suite

@@ -22,14 +22,14 @@ Build the current CLI, then start the real multi-package Petclinic target:
 go build -trimpath -o ./bin/spice.exe ./cmd/spice
 Set-Location examples/petclinic
 $env:SPICE_PETCLINIC_ADDRESS = "127.0.0.1:8080"
-../../bin/spice.exe dev --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+../../bin/spice.exe dev --target Petclinic .
 ```
 
 ```sh
 go build -trimpath -o ./bin/spice ./cmd/spice
 cd examples/petclinic
 SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080 \
-  ../../bin/spice dev --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+  ../../bin/spice dev --target Petclinic .
 ```
 
 In `examples/petclinic/main.go`, add invalid `// @Unknown` immediately after
@@ -49,10 +49,11 @@ opens their real Go declarations. Quick Documentation shows descriptor GoDoc,
 arguments, module/version/replacement provenance, authorized tool, protocol,
 and implementation link. The installed-plugin acceptance suite verifies those
 interactions, zero-width concealment, light/dark colors, physical-source
-preservation, and health presentation. Command-level integration verifies
-complete-package Run/generate/build construction. Actual installed-IDE gutter
-Run and native Go/Delve Debug breakpoint acceptance remain required before the
-first preview.
+preservation, and health presentation. It also invokes the real application
+gutter action, captures a complete-package `spice run`, starts native Go/Delve
+Debug, and stops at a breakpoint in the physical `main.go`. The suite rejects
+temporary `gocommand-*` execution, naked annotations, and omitted generated
+entrypoints.
 
 ## Exercise the vertical application
 
@@ -96,7 +97,7 @@ go test -run TestNotifierDeliversInspectableTestReceipt ./examples/commerce/noti
 | Debounce, cancellation, timeout, and process replacement boundaries | `internal/devloop` engine tests |
 | Physical `// ` preservation, concealment width, themes, hover/click, docs | packaged GoLand Starter/Driver suite |
 | Complete-package Run/generate/build command construction | GoLand run-configuration integration tests |
-| Actual installed gutter Run and native Go/Delve breakpoint | Required pre-preview installed-IDE gate; not yet satisfied |
+| Actual installed gutter Run and native Go/Delve breakpoint | Packaged installed-GoLand Petclinic acceptance suite |
 | Generated authorization, transaction, persistence, test mail, management | `TestCommerceDeveloperProof` |
 | Exact decoded MIME and attachment | notifications tests |
 | PostgreSQL close/reopen durability | tagged storage integration test |

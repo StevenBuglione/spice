@@ -59,7 +59,7 @@ The current Go import graph identifies these extraction blockers:
   `go.opentelemetry.io/otel` to at least `v1.44.0`, then rerun vulnerability
   and compatibility checks.
 - [x] Fix the GoLand affected-range calculation for direct pushes.
-- [ ] Add installed GoLand Run and real Delve breakpoint acceptance on Windows
+- [x] Add installed GoLand Run and real Delve breakpoint acceptance on Windows
   and Linux.
 - [x] Reclassify capability documentation by maturity and remove claims not
   backed by mandatory evidence.
@@ -70,7 +70,7 @@ security scan contains no known vulnerable selected module versions.
 
 ## Stage 1: Make applications independently movable
 
-- [ ] Declare application composition through ordinary blank Go imports and
+- [x] Declare application composition through ordinary blank Go imports and
   remove repeated package-pattern arguments from normal Petclinic and Commerce
   workflows.
 - [ ] Move handwritten tests outside generated ownership roots and enforce that

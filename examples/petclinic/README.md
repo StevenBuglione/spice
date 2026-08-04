@@ -15,6 +15,13 @@ application as idiomatic Go with explicit Spice annotations and inspectable
 generated code. Production source follows one named type per file so
 navigation and debugging remain direct.
 
+Each application command owns its graph through ordinary direct blank imports
+of same-module source packages. Spice promotes only those explicit imports
+into the typed application program; it does not scan the module or depend on
+IDE indexes. Generated source mirrors preserve the source package and file
+identity beneath the target package, while users run and debug the ordinary
+complete Go command package.
+
 Petclinic is a real consuming Go module rather than a package inside the
 framework module. Its own `go.mod` authorizes the Spice annotation tool, uses a
 local `replace` only while this repository is under development, and owns its
@@ -87,15 +94,15 @@ Generate and exercise the current target:
 ```text
 go build -trimpath -o ./bin/spice ./cmd/spice
 cd examples/petclinic
-../../bin/spice generate --check --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
-../../bin/spice run --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet -- -check
+../../bin/spice generate --check --target Petclinic .
+../../bin/spice run --target Petclinic . -- -check
 ```
 
 Run the complete in-memory web application:
 
 ```text
 set SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080
-../../bin/spice run --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+../../bin/spice run --target Petclinic .
 ```
 
 Open `http://127.0.0.1:8080/`. The same environment name works on every
@@ -108,7 +115,7 @@ Run the watched development loop:
 
 ```text
 set SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080
-../../bin/spice dev --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+../../bin/spice dev --target Petclinic .
 ```
 
 Adding invalid `// @Unknown` below `// @Application` keeps the running revision
@@ -120,10 +127,10 @@ Generate the PostgreSQL graph:
 
 ```text
 cd examples/petclinic
-../../bin/spice generate --check --target Postgres ./cmd/postgres ./owner ./postgres ./presentation ./system ./vet
+../../bin/spice generate --check --target Postgres ./cmd/postgres
 set SPICE_PETCLINIC_POSTGRES_URL=postgres://petclinic:petclinic@127.0.0.1:5432/petclinic?sslmode=disable
 set SPICE_PETCLINIC_POSTGRES_ALLOW_INSECURE=true
-../../bin/spice run --target Postgres ./cmd/postgres ./owner ./postgres ./presentation ./system ./vet
+../../bin/spice run --target Postgres ./cmd/postgres
 ```
 
 The environment names are the same on every platform; the example above uses
@@ -143,10 +150,10 @@ Generate the MySQL graph:
 
 ```text
 cd examples/petclinic
-../../bin/spice generate --check --target Mysql ./cmd/mysql ./mysql ./owner ./presentation ./system ./vet
+../../bin/spice generate --check --target Mysql ./cmd/mysql
 set SPICE_PETCLINIC_MYSQL_URL=mysql://petclinic:petclinic@127.0.0.1:3306/petclinic?tls=disable
 set SPICE_PETCLINIC_MYSQL_ALLOW_INSECURE=true
-../../bin/spice run --target Mysql ./cmd/mysql ./mysql ./owner ./presentation ./system ./vet
+../../bin/spice run --target Mysql ./cmd/mysql
 ```
 
 MySQL verifies TLS certificates and hostnames by default. The `tls=disable`

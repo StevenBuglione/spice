@@ -4,6 +4,12 @@ import (
 	"os"
 
 	spiceapp "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic"
+	_ "github.com/StevenBuglione/spice/examples/petclinic/memory"
+	_ "github.com/StevenBuglione/spice/examples/petclinic/model"
+	_ "github.com/StevenBuglione/spice/examples/petclinic/owner"
+	_ "github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	_ "github.com/StevenBuglione/spice/examples/petclinic/system"
+	_ "github.com/StevenBuglione/spice/examples/petclinic/vet"
 )
 
 // @import { Application } from "github.com/StevenBuglione/spice/annotation/core"

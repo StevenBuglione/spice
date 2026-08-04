@@ -53,8 +53,8 @@ From `examples/petclinic`, use the package scope that belongs to the in-memory
 application:
 
 ```text
-../../bin/spice verify . ./memory ./model ./owner ./presentation ./system ./vet
-../../bin/spice generate --check --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+../../bin/spice verify .
+../../bin/spice generate --check --target Petclinic .
 ```
 
 `generate --check` is read-only. To create or update owned artifacts, run the
@@ -90,12 +90,12 @@ Start the application:
 
 ```powershell
 $env:SPICE_PETCLINIC_ADDRESS = "127.0.0.1:8080"
-..\..\bin\spice.exe run --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+..\..\bin\spice.exe run --target Petclinic .
 ```
 
 ```sh
 SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080 \
-  ../../bin/spice run --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+  ../../bin/spice run --target Petclinic .
 ```
 
 Open `http://127.0.0.1:8080/`. Search owners, edit an owner, add a pet and a
@@ -115,7 +115,7 @@ gracefully replaces the process only after analysis, generation, and build
 succeed:
 
 ```text
-../../bin/spice dev --target Petclinic . ./memory ./model ./owner ./presentation ./system ./vet
+../../bin/spice dev --target Petclinic .
 ```
 
 Add `// @Unknown` below `// @Application` and save. The compiler reports an

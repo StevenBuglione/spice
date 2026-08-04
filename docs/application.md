@@ -10,6 +10,9 @@ package main
 import (
 	"os"
 
+	_ "example.com/shop/orders"
+	_ "example.com/shop/payments"
+	_ "example.com/shop/platform"
 	spiceapp "example.com/shop/internal/spicegen/shop"
 )
 
@@ -33,9 +36,14 @@ handwritten source.
 
 ## Compile-time discovery
 
-For generation, Spice loads one selected local Go package scope through the
-standard package driver and its existing typed compiler pipeline. Within that
-scope it discovers:
+For generation, Spice loads one selected command package through the standard
+package driver and its existing typed compiler pipeline. Direct blank imports
+of packages in the same Go module explicitly compose the application. Those
+already type-checked dependencies are promoted into the same immutable program;
+Spice does not perform a second package load. Named imports are ordinary code
+dependencies, external blank imports retain ordinary Go side-effect semantics,
+and `*/autoconfigure` imports use the separate explicit library-default
+contract. Within the composed scope Spice discovers:
 
 - package-documentation `@Module` roots and ownership;
 - `@Bean` providers and their exact-type dependencies;
@@ -57,11 +65,11 @@ spice generate --check
 spice build
 ```
 
-In a monorepo, bound the compile-time package scope and select the command
+In a monorepo, pass only the command package and select the command
 unambiguously:
 
 ```text
-spice generate --target Commerce ./examples/commerce/...
+spice generate --target Commerce ./examples/commerce
 ```
 
 `--target` accepts the derived target name, command import path, or stable
@@ -73,7 +81,7 @@ not runtime activation.
 `spice run` is the first-class development execution path:
 
 ```text
-spice run --target Commerce ./examples/commerce/... -- -check
+spice run --target Commerce ./examples/commerce -- -check
 ```
 
 Arguments before `--` select the application and compile-time package scope;
