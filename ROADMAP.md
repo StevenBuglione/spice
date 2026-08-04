@@ -112,10 +112,12 @@ assets, immutable English/German/Spanish message catalogs, typed
 browser workflow have passed real installed-browser visual and interaction
 verification. The packaged GoLand 2026.2 suite now opens that real Petclinic
 module, uses an exact freshly built Spice executable, proves physical-comment
-preservation, zero-width concealment, light/dark token colors, navigation and
-documentation, and executes multi-package Run/Debug without a single-file
-`gocommand-*` path or false `spiceMain` error. A cross-platform CLI integration
-test now runs the same isolated Petclinic module through the invalid-edit,
+preservation, zero-width concealment, light/dark token colors, navigation,
+documentation, and health presentation. Command-level integration proves the
+multi-package Run/generate/build paths avoid a single-file `gocommand-*` path
+or false `spiceMain` error. Actual installed gutter Run and native Go/Delve
+breakpoint acceptance remain release-hardening work. A cross-platform CLI
+integration test now runs the same isolated Petclinic module through the invalid-edit,
 last-known-good, fix, guarded-regeneration, and graceful-restart sequence.
 Petclinic deliberately retains upstream's public user routes while its
 compile-time management policy restricts every generated actuator endpoint to

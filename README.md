@@ -86,7 +86,7 @@ The repository currently provides:
   bounded observations, a concurrency-safe capacity-bounded in-process store,
   a driver-neutral lease-aware SQL persistence protocol, and a real-container
   verified PostgreSQL backend.
-- An explicitly selected `@otel.Enable` OpenTelemetry v1.43 HTTP trace/metric
+- An explicitly selected `@otel.Enable` OpenTelemetry v1.44 HTTP trace/metric
   starter with exact generated observer-role validation, plus explicit
   payload-free module-event interaction spans and metrics, with
   application-owned providers/exporters.

@@ -1,12 +1,12 @@
 # Dependency review: OpenTelemetry Go
 
 - Decision: approved for the isolated `starter/otel` package.
-- Version: `go.opentelemetry.io/otel` and SDK v1.43.0.
+- Version: `go.opentelemetry.io/otel` and SDK v1.44.0.
 - Upstream: <https://github.com/open-telemetry/opentelemetry-go>.
 - License: Apache-2.0; retained in vendored module license files.
 - Maintenance: vendor-neutral CNCF/OpenTelemetry project with signed immutable
   releases and an explicit supported-Go policy.
-- Compatibility: v1.43.0 explicitly supports Go 1.26. Traces and metrics are
+- Compatibility: v1.44.0 explicitly supports Go 1.26. Traces and metrics are
   stable; the beta logs API is deliberately not adopted.
 - Security: exporter packages are not included by this starter. Applications
   choose and configure transport/export separately. `govulncheck` and `gosec`

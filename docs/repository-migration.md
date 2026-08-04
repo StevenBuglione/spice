@@ -61,9 +61,9 @@ The current Go import graph identifies these extraction blockers:
 - [x] Fix the GoLand affected-range calculation for direct pushes.
 - [ ] Add installed GoLand Run and real Delve breakpoint acceptance on Windows
   and Linux.
-- [ ] Reclassify capability documentation by maturity and remove claims not
+- [x] Reclassify capability documentation by maturity and remove claims not
   backed by mandatory evidence.
-- [ ] Classify exported packages as preview-stable, experimental, or internal.
+- [x] Classify exported packages as preview-stable, experimental, or internal.
 
 Exit evidence: the complete current-repository verifier is green and the
 security scan contains no known vulnerable selected module versions.

@@ -1,0 +1,211 @@
+{
+  "schema": "spice.api-maturity/v1",
+  "module": "github.com/StevenBuglione/spice",
+  "classifications": [
+    {
+      "prefix": "annotation",
+      "maturity": "preview-stable",
+      "reason": "Public annotation syntax and typed descriptor value contracts."
+    },
+    {
+      "prefix": "annotation/async",
+      "maturity": "experimental",
+      "reason": "Asynchronous annotation behavior has not completed external compatibility proof."
+    },
+    {
+      "prefix": "annotation/builtin",
+      "maturity": "internal",
+      "reason": "Legacy compiler catalog compatibility package; not a supported application import."
+    },
+    {
+      "prefix": "annotation/cache",
+      "maturity": "experimental",
+      "reason": "Cache generation contracts remain pre-preview."
+    },
+    {
+      "prefix": "annotation/coretool",
+      "maturity": "internal",
+      "reason": "Official toolchain package identity bridge scheduled to move with the toolchain."
+    },
+    {
+      "prefix": "annotation/event",
+      "maturity": "experimental",
+      "reason": "Event generation contracts remain pre-preview."
+    },
+    {
+      "prefix": "annotation/observability",
+      "maturity": "experimental",
+      "reason": "Observability integration contracts require exporter compatibility evidence."
+    },
+    {
+      "prefix": "annotation/schedule",
+      "maturity": "experimental",
+      "reason": "Scheduling generation contracts remain pre-preview."
+    },
+    {
+      "prefix": "annotation/sdk",
+      "maturity": "preview-stable",
+      "reason": "The public third-party descriptor, handler, protocol, and test extension contract."
+    },
+    {
+      "prefix": "async",
+      "maturity": "experimental",
+      "reason": "Bounded executor semantics require external adoption evidence."
+    },
+    {
+      "prefix": "batch",
+      "maturity": "experimental",
+      "reason": "Batch persistence and restart compatibility remain pre-preview."
+    },
+    {
+      "prefix": "bean",
+      "maturity": "preview-stable",
+      "reason": "Core typed optional, lazy, provider, override, and scope contracts."
+    },
+    {
+      "prefix": "cache",
+      "maturity": "experimental",
+      "reason": "Cache storage and observation contracts remain pre-preview."
+    },
+    {
+      "prefix": "cmd",
+      "maturity": "internal",
+      "reason": "Executable entrypoints are installed artifacts, not importable Go API."
+    },
+    {
+      "prefix": "compiler",
+      "maturity": "internal",
+      "reason": "Compiler implementation must move behind toolchain internal boundaries before preview."
+    },
+    {
+      "prefix": "config",
+      "maturity": "preview-stable",
+      "reason": "Core immutable configuration schema, source, provenance, and resolution contracts."
+    },
+    {
+      "prefix": "conversion",
+      "maturity": "preview-stable",
+      "reason": "Shared safe scalar conversion contracts used by configuration and web binding."
+    },
+    {
+      "prefix": "data",
+      "maturity": "preview-stable",
+      "reason": "Standard database/sql executor, transaction, and typed repository contracts."
+    },
+    {
+      "prefix": "event",
+      "maturity": "experimental",
+      "reason": "In-process and durable publication contracts require external adoption evidence."
+    },
+    {
+      "prefix": "examples",
+      "maturity": "internal",
+      "reason": "Reference application implementation is executable evidence, not framework API."
+    },
+    {
+      "prefix": "expression",
+      "maturity": "preview-stable",
+      "reason": "Bounded typed expression syntax and evaluation contract."
+    },
+    {
+      "prefix": "httpclient",
+      "maturity": "experimental",
+      "reason": "Outbound HTTP policy and typed client behavior remain pre-preview."
+    },
+    {
+      "prefix": "i18n",
+      "maturity": "experimental",
+      "reason": "Locale catalog and negotiation API remain pre-preview."
+    },
+    {
+      "prefix": "intercept",
+      "maturity": "preview-stable",
+      "reason": "Core typed invocation-chain contract used by generated decorators."
+    },
+    {
+      "prefix": "internal",
+      "maturity": "internal",
+      "reason": "Go-enforced repository implementation and generated ownership packages."
+    },
+    {
+      "prefix": "lifecycle",
+      "maturity": "preview-stable",
+      "reason": "Core cleanup, rollback, startup, and shutdown contracts."
+    },
+    {
+      "prefix": "mail",
+      "maturity": "preview-stable",
+      "reason": "Transport-neutral immutable message and test sender contracts."
+    },
+    {
+      "prefix": "management",
+      "maturity": "preview-stable",
+      "reason": "Secure opt-in health, metadata, metrics, and module-report runtime contracts."
+    },
+    {
+      "prefix": "messaging",
+      "maturity": "experimental",
+      "reason": "Transport-neutral delivery contracts require broker adoption evidence."
+    },
+    {
+      "prefix": "migration",
+      "maturity": "experimental",
+      "reason": "Cross-dialect migration behavior remains pre-preview."
+    },
+    {
+      "prefix": "observability",
+      "maturity": "experimental",
+      "reason": "Observation adapter contracts require exporter compatibility evidence."
+    },
+    {
+      "prefix": "resource",
+      "maturity": "preview-stable",
+      "reason": "Instance-owned bounded fs.FS resource loading contract."
+    },
+    {
+      "prefix": "retry",
+      "maturity": "experimental",
+      "reason": "Retry policy and observation API remain pre-preview."
+    },
+    {
+      "prefix": "schedule",
+      "maturity": "experimental",
+      "reason": "Scheduler runtime behavior remains pre-preview."
+    },
+    {
+      "prefix": "security",
+      "maturity": "preview-stable",
+      "reason": "Core immutable principal, policy, and authorization contracts."
+    },
+    {
+      "prefix": "session",
+      "maturity": "experimental",
+      "reason": "Stateless session format has not frozen compatibility."
+    },
+    {
+      "prefix": "spicetest",
+      "maturity": "preview-stable",
+      "reason": "Core generated-application context, HTTP, and SQL test harness contracts."
+    },
+    {
+      "prefix": "starter",
+      "maturity": "experimental",
+      "reason": "Every external integration remains experimental until extracted and real-system release-gated."
+    },
+    {
+      "prefix": "validation",
+      "maturity": "preview-stable",
+      "reason": "Layer-neutral typed validation and deterministic violation contracts."
+    },
+    {
+      "prefix": "view",
+      "maturity": "experimental",
+      "reason": "Server-side rendering API remains pre-preview."
+    },
+    {
+      "prefix": "web",
+      "maturity": "preview-stable",
+      "reason": "Core request binding, routing, problems, middleware, and HTTP observation contracts."
+    }
+  ]
+}
