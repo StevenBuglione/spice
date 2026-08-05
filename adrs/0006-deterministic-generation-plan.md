@@ -1,5 +1,9 @@
 # ADR 0006: Pure Deterministic Generation Plans
 
+> **Ownership update:** generation implementation lives in
+> `github.com/spice-framework/toolchain`; generated output remains owned by
+> each consuming application.
+
 Status: Accepted (amended for manifest schema 5)
 
 ## Decision

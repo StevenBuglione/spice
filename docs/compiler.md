@@ -1,5 +1,11 @@
 # Spice compiler program model
 
+> **Ownership:** all implementation package paths in this document are rooted
+> in the separately versioned
+> [`spice-framework/toolchain`](https://github.com/spice-framework/toolchain)
+> module. Core retains only the public annotation, SDK/protocol, and runtime
+> contracts consumed by generated applications.
+
 ## Type-aware loading boundary
 
 `compiler/load` is the only package that directly depends on `golang.org/x/tools/go/packages`. One `load.Load` call performs one `packages.Load` operation and returns the package, syntax, type, symbol, and diagnostic records that later Spice compiler phases reuse.

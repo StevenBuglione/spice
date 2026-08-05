@@ -1,5 +1,10 @@
 # ADR 0010: Two-stage recoverable self-hosting
 
+> **Ownership update:** ADR 0012 moved every implementation path below to the
+> standalone `github.com/spice-framework/toolchain` module. The architectural
+> decision remains active for that repository and is no longer implemented in
+> core.
+
 Status: Accepted
 
 ## Context

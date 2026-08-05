@@ -1,26 +1,25 @@
 # Getting started
 
-This guide builds and runs the in-memory Petclinic application using ordinary
-Go source and inspectable generated Go. It requires Go 1.26.5 and GNU Make.
-No database, container, or network download is needed after the repository
-dependencies are present.
+This guide builds and runs the Petclinic reference application using ordinary
+Go source and inspectable generated Go. It requires Go 1.26.5. No database,
+container, or network download is needed after the application's declared
+module and tool dependencies are present.
 
-## Build the CLI
+## Authorize the CLI
 
-From the repository root:
+From the consuming application's module, select compatible toolchain versions
+with ordinary Go commands:
 
-```powershell
-go build -trimpath -o .\bin\spice.exe .\cmd\spice
-.\bin\spice.exe version
+```text
+go get -tool github.com/spice-framework/toolchain/cmd/spice@<version>
+go get -tool github.com/spice-framework/toolchain/cmd/spice-annotation-core@<version>
+go tool github.com/spice-framework/toolchain/cmd/spice version
 ```
 
-```sh
-go build -trimpath -o ./bin/spice ./cmd/spice
-./bin/spice version
-```
-
-The executable is a development build. Release archives are produced only
-from clean exact tags by the process in [releasing.md](releasing.md).
+The application's `go.mod` authorizes the executable dependencies. Core does
+not build or download the CLI, and Spice does not maintain a second plugin
+dependency system. Release archives are produced by the toolchain repository's
+exact-tag process described in [releasing.md](releasing.md).
 
 ## Create a clean application
 
@@ -32,9 +31,9 @@ non-empty directory:
 spice new --module example.com/acme/hello --directory hello
 cd hello
 go mod download
-spice generate --target Hello .
-spice verify .
-spice run --target Hello .
+go tool github.com/spice-framework/toolchain/cmd/spice generate --target Hello .
+go tool github.com/spice-framework/toolchain/cmd/spice verify .
+go tool github.com/spice-framework/toolchain/cmd/spice run --target Hello .
 ```
 
 The target name and generated-package ID derive from the final module-path
@@ -70,7 +69,8 @@ directives, and contains no local `replace`:
 ```text
 git clone https://github.com/spice-framework/petclinic.git
 cd petclinic
-make bootstrap
+go tool github.com/spice-framework/toolchain/cmd/spice verify .
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check --target Petclinic .
 ```
 
 The process entrypoint in `main.go` is valid Go:
@@ -97,8 +97,8 @@ function that the compiler decodes without executing. The target module's
 From the standalone Petclinic root, use its authorized Spice tool dependency:
 
 ```text
-go tool github.com/spice-framework/spice/cmd/spice verify .
-go tool github.com/spice-framework/spice/cmd/spice generate --check --target Petclinic .
+go tool github.com/spice-framework/toolchain/cmd/spice verify .
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check --target Petclinic .
 ```
 
 `generate --check` is read-only. To create or update owned artifacts, run the
@@ -125,7 +125,7 @@ internal/spicegen/petclinic/artifacts/openapi.json
 
 Generated files are committed, formatted Go. The ownership manifest prevents
 Spice from overwriting manual edits or unrelated files. Run `go tool
-github.com/spice-framework/spice/cmd/spice generated --source main.go` to
+github.com/spice-framework/toolchain/cmd/spice generated --source main.go` to
 locate the source-owned application unit, or pass that generated path with
 `--generated` for the reverse mapping.
 
@@ -135,12 +135,12 @@ Start the application:
 
 ```powershell
 $env:SPICE_PETCLINIC_ADDRESS = "127.0.0.1:8080"
-go tool github.com/spice-framework/spice/cmd/spice run --target Petclinic .
+go tool github.com/spice-framework/toolchain/cmd/spice run --target Petclinic .
 ```
 
 ```sh
 SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080 \
-  go tool github.com/spice-framework/spice/cmd/spice run --target Petclinic .
+  go tool github.com/spice-framework/toolchain/cmd/spice run --target Petclinic .
 ```
 
 Open `http://127.0.0.1:8080/`. Search owners, edit an owner, add a pet and a
@@ -160,7 +160,7 @@ gracefully replaces the process only after analysis, generation, and build
 succeed:
 
 ```text
-go tool github.com/spice-framework/spice/cmd/spice dev --target Petclinic .
+go tool github.com/spice-framework/toolchain/cmd/spice dev --target Petclinic .
 ```
 
 Add `// @Unknown` below `// @Application` and save. The compiler reports an
@@ -178,7 +178,7 @@ replacement, or a runtime container.
 Focused module tests retain ordinary Go controls:
 
 ```text
-spice test --module example.com/shop/orders --race --count=1 ./...
+go tool github.com/spice-framework/toolchain/cmd/spice test --module example.com/shop/orders --race --count=1 ./...
 ```
 
 See [testing.md](testing.md) for complete examples and cleanup behavior.

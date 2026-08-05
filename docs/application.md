@@ -60,9 +60,9 @@ registry, provider execution, or dependency presence.
 A normal single-application module can run:
 
 ```text
-spice generate
-spice generate --check
-spice build
+go tool github.com/spice-framework/toolchain/cmd/spice generate
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check
+go tool github.com/spice-framework/toolchain/cmd/spice build
 ```
 
 When a module has multiple application targets, pass only the command package
@@ -71,7 +71,7 @@ and select the command unambiguously. For example, in the standalone
 
 ```text
 cd commerce
-spice generate --target Commerce .
+go tool github.com/spice-framework/toolchain/cmd/spice generate --target Commerce .
 ```
 
 `--target` accepts the derived target name, command import path, or stable
@@ -84,7 +84,7 @@ not runtime activation.
 
 ```text
 cd commerce
-spice run --target Commerce . -- -check
+go tool github.com/spice-framework/toolchain/cmd/spice run --target Commerce . -- -check
 ```
 
 Arguments before `--` select the application and compile-time package scope;

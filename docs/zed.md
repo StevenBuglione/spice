@@ -22,7 +22,7 @@ fixture, release artifact, and compatibility declaration.
 Install a compatible Spice command, then clone the extension:
 
 ```text
-go install github.com/spice-framework/spice/cmd/spice@<compatible-version>
+go install github.com/spice-framework/toolchain/cmd/spice@<compatible-version>
 git clone https://github.com/spice-framework/zed.git
 spice version
 ```

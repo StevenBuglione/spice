@@ -1,5 +1,11 @@
 # Spice Roadmap
 
+> **Repository ownership:** compiler, generator, CLI, LSP, development-loop,
+> bootstrap, release, and toolchain-dogfooding implementation described here
+> lives in [`spice-framework/toolchain`](https://github.com/spice-framework/toolchain).
+> This repository owns only the public core annotation, SDK, runtime, and test
+> contracts.
+
 ## Current ecosystem priority
 
 Spice is moving from its successful bootstrap monorepo into the bounded

@@ -1,5 +1,9 @@
 # ADR 0007: Guarded Generated-File Ownership
 
+> **Ownership update:** the guarded filesystem implementation lives in
+> `github.com/spice-framework/toolchain`; this ADR remains its behavioral
+> contract.
+
 Status: Accepted (amended for manifest schema 5)
 
 ## Decision

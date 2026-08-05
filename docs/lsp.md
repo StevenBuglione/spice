@@ -1,5 +1,9 @@
 # Spice Language Server
 
+> **Ownership:** `spice lsp` and its compiler-service implementation live in
+> [`spice-framework/toolchain`](https://github.com/spice-framework/toolchain).
+> This document records the ecosystem contract retained by core.
+
 `spice lsp` serves editor-neutral Language Server Protocol 3.x features over
 standard JSON-RPC on stdin/stdout. Stdout contains protocol frames only; command
 or transport failures go to stderr after the connection ends.
@@ -10,7 +14,7 @@ Configure an editor LSP client to launch the repository-built or installed
 Spice executable with one argument:
 
 ```text
-spice lsp
+go tool github.com/spice-framework/toolchain/cmd/spice lsp
 ```
 
 The client should identify Go documents and pass a local workspace folder URI.

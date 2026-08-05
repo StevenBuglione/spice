@@ -1,5 +1,9 @@
 # Development Loop
 
+> **Ownership:** `spice dev` is implemented and performance-gated in
+> [`spice-framework/toolchain`](https://github.com/spice-framework/toolchain);
+> reference applications prove it as black-box consumers.
+
 `spice dev` is a repository-owned development supervisor. It is not a shell
 loop and it never builds over the executable that is currently running.
 
@@ -8,7 +12,7 @@ loop and it never builds over the executable that is currently running.
 From a Go module containing one preferred package-main `@Application`:
 
 ```text
-spice dev [--target name] [dev-option ...] [package-pattern ...] [-- application-argument ...]
+go tool github.com/spice-framework/toolchain/cmd/spice dev [--target name] [dev-option ...] [package-pattern ...] [-- application-argument ...]
 ```
 
 The defaults are:

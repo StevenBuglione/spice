@@ -17,7 +17,7 @@ The longest matching package prefix owns a package.
 | --- | --- |
 | `preview-stable` | Intended to enter the first public preview compatibility surface. Breaking changes before 1.0 require release notes and migration guidance after that preview is tagged. |
 | `experimental` | Usable for evaluation, examples, and feedback, but may change or move before preview. It must not be advertised as production-supported. |
-| `internal` | Not a supported application import. A reachable path such as `compiler/...` is transitional and will move behind a Go `internal` boundary or into the toolchain repository. |
+| `internal` | Reachable only as a narrow compatibility/identity bridge and not a supported application import. Toolchain implementation is absent from this module. |
 
 No package is stable before the first signed preview. `preview-stable` records
 intent and review priority; it does not retroactively create a compatibility
@@ -39,10 +39,10 @@ every external-service starter remain experimental. Their implementation and
 tests are useful evidence, but they do not receive a support claim until their
 own repository and release matrix satisfy ADR 0012.
 
-Compiler packages, executable entrypoints, repository internals, generated
-application targets, and reference application packages are not public APIs.
-The multi-repository migration will make most of those boundaries enforceable
-by Go rather than documentation alone.
+Compiler packages, executable entrypoints, generated application targets, and
+reference applications live in separate modules and are not core APIs. The
+only repository internal package is the local quality gate. Go module and
+`internal` boundaries enforce this separation.
 
 ## Change policy
 

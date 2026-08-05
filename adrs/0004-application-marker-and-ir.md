@@ -1,5 +1,9 @@
 # ADR 0004: Typed Application Markers and One Immutable IR
 
+> **Ownership update:** the compiler paths described below live in the
+> standalone `github.com/spice-framework/toolchain` module; the application
+> and lifecycle contracts remain in core.
+
 Status: Accepted
 
 ## Decision

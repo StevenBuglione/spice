@@ -32,7 +32,7 @@ Spice is designed around five commitments:
 
 ## Current foundation
 
-The repository currently provides:
+The independently versioned Spice ecosystem currently provides:
 
 - A typed Go package-loading pipeline with stable declaration identities.
 - Annotation parsing, resolution, and source-positioned validation.
@@ -208,7 +208,10 @@ The application root `go.mod` authorizes annotation handlers through standard
 Go tool dependencies:
 
 ```go
-tool github.com/spice-framework/spice/cmd/spice-annotation-core
+tool (
+    github.com/spice-framework/toolchain/cmd/spice
+    github.com/spice-framework/toolchain/cmd/spice-annotation-core
+)
 ```
 
 Spice statically decodes each one-file Go descriptor and launches only its
@@ -281,35 +284,35 @@ can use [`spring-to-spice.md`](docs/spring-to-spice.md) as a concept and
 migration map.
 
 ```bash
-make fast
 make check
-go run ./cmd/spice version
-go run ./cmd/spice verify ./...
+make verify
+go tool github.com/spice-framework/toolchain/cmd/spice version
+go tool github.com/spice-framework/toolchain/cmd/spice verify ./...
 git clone https://github.com/spice-framework/commerce.git
 cd commerce
-spice annotations list ./...
-spice annotations doctor ./...
-spice verify --format=json ./...
-spice test --module github.com/spice-framework/commerce/orders --count=1 ./...
-spice generate --check --target Commerce .
-spice run --target Commerce . -- -check
-spice dev --target Commerce .
+go tool github.com/spice-framework/toolchain/cmd/spice annotations list ./...
+go tool github.com/spice-framework/toolchain/cmd/spice annotations doctor ./...
+go tool github.com/spice-framework/toolchain/cmd/spice verify --format=json ./...
+go tool github.com/spice-framework/toolchain/cmd/spice test --module github.com/spice-framework/commerce/orders --count=1 ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check --target Commerce .
+go tool github.com/spice-framework/toolchain/cmd/spice run --target Commerce . -- -check
+go tool github.com/spice-framework/toolchain/cmd/spice dev --target Commerce .
 ```
 
-Use `make fast` for affected-package feedback and `make check` for the broader
-edit loop. Run the complete `make verify` on the
-exact tree before committing; release automation additionally runs
-`make verify-release` and the benchmark budgets.
+Use focused package tests for edit-time feedback and `make check` for the
+broader core-library loop. Run `make verify` on the exact tree before
+committing. Toolchain release automation and performance budgets run in the
+standalone toolchain repository.
 
 In an application module containing one typed `@Application` marker:
 
 ```bash
-spice generate ./...
-spice generate --check ./...
-spice generate --diff ./...
-spice build ./...
-spice run ./... -- -check
-spice dev ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate --diff ./...
+go tool github.com/spice-framework/toolchain/cmd/spice build ./...
+go tool github.com/spice-framework/toolchain/cmd/spice run ./... -- -check
+go tool github.com/spice-framework/toolchain/cmd/spice dev ./...
 ```
 
 Application-platform conventions live on the ordinary process entrypoint and
@@ -474,11 +477,11 @@ Focused module execution and generated HTTP test slices are documented in
 For a repository containing package-level `@Module` roots:
 
 ```bash
-spice modules --format=json ./...
-spice modules --format=mermaid ./...
-spice modules --format=plantuml ./...
-spice modules --focus=example.com/shop/orders --format=json ./...
-spice test --module=example.com/shop/orders --race --count=1 ./...
+go tool github.com/spice-framework/toolchain/cmd/spice modules --format=json ./...
+go tool github.com/spice-framework/toolchain/cmd/spice modules --format=mermaid ./...
+go tool github.com/spice-framework/toolchain/cmd/spice modules --format=plantuml ./...
+go tool github.com/spice-framework/toolchain/cmd/spice modules --focus=example.com/shop/orders --format=json ./...
+go tool github.com/spice-framework/toolchain/cmd/spice test --module=example.com/shop/orders --race --count=1 ./...
 ```
 
 JSON contains complete portable module canvases. Mermaid and PlantUML aggregate
@@ -509,7 +512,7 @@ To start the example HTTP server:
 ```bash
 git clone https://github.com/spice-framework/commerce.git
 cd commerce
-spice run --target Commerce .
+go tool github.com/spice-framework/toolchain/cmd/spice run --target Commerce .
 curl -H "Content-Type: application/json" -d "{\"quantity\":2}" http://localhost:8081/orders
 curl http://localhost:8081/actuator/health/readiness
 curl http://localhost:8081/actuator/metrics
@@ -544,59 +547,32 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 
 ## Repository map
 
-- `annotation/`: public annotation model.
-- `compiler/parser/`: annotation parser.
-- `compiler/load/` and `compiler/resolve/`: the authoritative typed-program front end.
-- `compiler/provider/`, `compiler/graph/`, `compiler/lifecycle/`, and `compiler/application/`: application dependency, lifecycle, root, and immutable IR metadata.
-- `compiler/generate/`: pure generated Go and ownership-manifest planning,
-  partitioned by source mirrors, providers, HTTP, configuration, runtime,
-  validation, hashing, and naming.
-- `compiler/scan/`: compatibility source-tree scanner.
-- `cmd/spice/`: production CLI entrypoint backed by the generated `Spice`
-  application.
-- `cmd/spice-bootstrap/`: ordinary-Go stage-zero compiler used for recovery.
-- `cmd/spice-release/` and [`docs/releasing.md`](docs/releasing.md):
-  reproducible signed cross-platform release construction and ceremony.
-- `internal/cli/`: CLI dispatch plus bounded command implementations for
-  generation, module reporting/testing, development, and execution. Production
-  dispatch is an injected ordered collection of explicit `Handler` interface
-  beans; stage zero manually assembles the same exported factories.
-- `internal/spiceapp/` and `internal/autoconfigure/`: handwritten production
-  application marker and reviewed runtime/handler/command contributions.
-- `internal/spicegen/spice/`: committed typed production CLI application graph.
-- `internal/genfs/`: rooted, ownership-checked generated-file application.
-- `internal/qualitygate/`: cross-platform repository verification.
+- `annotation/`: public annotation descriptors, SDK, protocol, test support,
+  and the canonical external annotation-tool identity.
+- `bean/`, `lifecycle/`, `config/`, `conversion/`, and `validation/`:
+  typed foundation contracts.
+- `web/`, `data/`, `event/`, `mail/`, `messaging/`, `schedule/`,
+  `cache/`, `security/`, `observability/`, and `management/`: public
+  standard-library-first application capabilities.
+- `spicetest/`: black-box support for generated application contexts and
+  focused HTTP/SQL tests.
+- `starter/`: portable starter-composition metadata, not external clients.
+- `internal/qualitygate/`: the repository verifier and the only retained
+  internal implementation package.
+- [`spice-framework/toolchain`](https://github.com/spice-framework/toolchain):
+  independently versioned compiler, generator, CLI, LSP, development loop,
+  bootstrap, annotation tool, release construction, and toolchain dogfooding.
+- [`spice-framework/goland`](https://github.com/spice-framework/goland):
+  primary installed-IDE integration and visual/interaction acceptance.
 - [`spice-framework/zed`](https://github.com/spice-framework/zed): independently
   versioned secondary Rust/WASM adapter that launches `spice lsp` for Go.
-- `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
-- `resource/`: instance-owned canonical locations over explicit caller-owned
-  Go filesystems with bounded context-aware reads.
-- `conversion/`: typed reflection-free converters and canonical scalar/time/URL
-  codecs shared by configuration and HTTP binding.
-- `expression/`: bounded typed Boolean/string expressions over explicit
-  positional schemas, with no reflection or ambient symbol access.
-- `intercept/`: generic typed invocation chains used by generated route
-  decorators and ordinary Go libraries.
-- `validation/`: immutable violations plus layer-neutral typed validator
-  composition.
-- `data/`: public `database/sql` executor, transaction manager, typed repository query, and observation contracts.
-- `migration/`: deterministic module-owned plans, registry reconciliation, and execution contracts.
-- `event/`: public generic application-event topics, subscribers, and interaction observations.
-- `event/outbox/`: transactional durable-message and at-least-once dispatch contracts.
-- `retry/`: public bounded retry policies and typed execution helpers.
-- `cache/`: public generic cache contracts and bounded in-memory implementation.
-- `async/`: public bounded asynchronous execution and lifecycle contracts.
-- `schedule/`: public fixed-delay job registration and lifecycle runtime.
-- `security/`: public principals, deny-by-default policies, authorizer, and HTTP guards.
-- `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
 - [`spice-framework/starter-otel`](https://github.com/spice-framework/starter-otel),
   [`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client),
   [`starter-oidc`](https://github.com/spice-framework/starter-oidc),
   [`starter-websocket`](https://github.com/spice-framework/starter-websocket),
   [`starter-grpc`](https://github.com/spice-framework/starter-grpc), and
   [`starter-kafka`](https://github.com/spice-framework/starter-kafka):
-  independently versioned opt-in integrations. Any integration source still
-  below `starter/` is a migration-stage boundary, not the final ownership model.
+  independently versioned opt-in integrations.
 - `tools/`: isolated, pinned development tools module.
 - `docs/`: user and product documentation.
 - `docs/quality.md`: exact verification, tool, linter, and suppression policy.

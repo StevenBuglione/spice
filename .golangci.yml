@@ -3,7 +3,7 @@ version: "2"
 run:
   timeout: 10m
   tests: true
-  modules-download-mode: vendor
+  modules-download-mode: readonly
   allow-serial-runners: true
 
 linters:
@@ -63,62 +63,50 @@ linters:
           files:
             - "annotation/**/*.go"
             - "async/**/*.go"
+            - "batch/**/*.go"
+            - "bean/**/*.go"
             - "cache/**/*.go"
             - "config/**/*.go"
+            - "conversion/**/*.go"
             - "data/**/*.go"
             - "event/**/*.go"
+            - "expression/**/*.go"
             - "httpclient/**/*.go"
+            - "i18n/**/*.go"
+            - "intercept/**/*.go"
             - "lifecycle/**/*.go"
+            - "mail/**/*.go"
             - "management/**/*.go"
+            - "messaging/**/*.go"
             - "migration/**/*.go"
             - "observability/**/*.go"
+            - "resource/**/*.go"
             - "retry/**/*.go"
             - "schedule/**/*.go"
             - "security/**/*.go"
+            - "session/**/*.go"
+            - "spicetest/**/*.go"
+            - "validation/**/*.go"
+            - "view/**/*.go"
             - "web/**/*.go"
           deny:
-            - pkg: "github.com/spice-framework/spice/compiler"
-              desc: "public API packages must not depend on compiler packages"
+            - pkg: "github.com/spice-framework/toolchain"
+              desc: "public API packages must not depend on the standalone toolchain"
             - pkg: "github.com/spice-framework/spice/internal"
               desc: "public API packages must not depend on internal implementation packages"
-            - pkg: "github.com/spice-framework/spice/cmd"
-              desc: "public API packages must not depend on CLI packages"
             - pkg: "github.com/spice-framework/spice/starter"
               desc: "core runtime packages must not depend on opt-in starters"
-        compiler:
-          list-mode: lax
-          files:
-            - "compiler/**/*.go"
-          deny:
-            - pkg: "github.com/spice-framework/spice/internal/cli"
-              desc: "compiler packages must not depend on the CLI"
-            - pkg: "github.com/spice-framework/spice/cmd"
-              desc: "compiler packages must not depend on command entrypoints"
-            - pkg: "github.com/spice-framework/spice/starter"
-              desc: "compiler packages must not depend on opt-in starters"
         starters:
           list-mode: lax
           files:
             - "starter/**/*.go"
           deny:
-            - pkg: "github.com/spice-framework/spice/compiler"
-              desc: "runtime starters must not depend on compiler packages"
+            - pkg: "github.com/spice-framework/toolchain"
+              desc: "runtime starters must not depend on the standalone toolchain"
             - pkg: "github.com/spice-framework/spice/internal"
               desc: "public starters must not depend on repository internals"
-            - pkg: "github.com/spice-framework/spice/cmd"
-              desc: "public starters must not depend on command entrypoints"
             - pkg: "github.com/spice-framework/spice/examples"
               desc: "public starters must not depend on example applications"
-        cli:
-          list-mode: lax
-          files:
-            - "cmd/**/*.go"
-            - "internal/cli/**/*.go"
-          deny:
-            - pkg: "github.com/spice-framework/spice/examples"
-              desc: "the CLI must not depend on example applications"
-            - pkg: "github.com/spice-framework/spice/starter"
-              desc: "the CLI must not depend on opt-in starters"
     errcheck:
       check-type-assertions: true
       check-blank: true
@@ -171,8 +159,8 @@ linters:
           - forbidigo
           - maintidx
           - noctx
-      # Process entrypoints alone translate the returned CLI status to the OS.
-      - path: "(^|.*[/\\\\])(cmd[/\\\\](spice|spice-bootstrap|spice-release)|internal[/\\\\]qualitygate([/\\\\]fast)?)[/\\\\]main\\.go$"
+      # The repository verifier alone translates its returned status to the OS.
+      - path: "(^|.*[/\\\\])internal[/\\\\]qualitygate[/\\\\]main\\.go$"
         text: 'use of `os\.Exit`'
         linters:
           - forbidigo

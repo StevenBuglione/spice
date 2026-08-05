@@ -3,7 +3,7 @@
 `spice test` runs ordinary Go tests for one verified application-module graph:
 
 ```bash
-spice test \
+go tool github.com/spice-framework/toolchain/cmd/spice test \
   --module=example.com/shop/orders \
   --race \
   --count=1 \

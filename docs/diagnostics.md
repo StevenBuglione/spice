@@ -36,7 +36,7 @@ main.go:8:3: [spice.application.invalid-target] application marker is invalid
 Machine consumers use:
 
 ```text
-spice verify --format=json ./...
+go tool github.com/spice-framework/toolchain/cmd/spice verify --format=json ./...
 ```
 
 The result is always the `spice.diagnostics/v1` envelope on standard output.

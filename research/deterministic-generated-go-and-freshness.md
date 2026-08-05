@@ -373,7 +373,7 @@ The first production slice should support one declared build context per generat
 The default Spice workflow should be:
 
 ```text
-spice generate ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate ./...
 git review generated diff
 go test ./...
 ```
@@ -381,7 +381,7 @@ go test ./...
 and CI should run:
 
 ```text
-spice generate --check ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check ./...
 make verify
 ```
 
@@ -668,8 +668,8 @@ go test ./compiler/generate -run TestRenderDeterministic -count=20
 go test ./compiler/generate -run TestImportAliases -v
 go test ./internal/genfs -run TestApplyOwnershipAndRecovery -v
 go test ./internal/genfs -run TestRejectsUnsafePaths -v
-go run -mod=vendor ./cmd/spice generate ./examples/hello-world
-go run -mod=vendor ./cmd/spice generate --check ./examples/hello-world
+go tool github.com/spice-framework/toolchain/cmd/spice generate ./examples/hello-world
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check ./examples/hello-world
 go test -mod=vendor ./examples/hello-world/...
 ```
 

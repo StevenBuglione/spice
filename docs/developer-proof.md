@@ -22,12 +22,12 @@ authorized Spice tool dependency:
 
 ```powershell
 $env:SPICE_PETCLINIC_ADDRESS = "127.0.0.1:8080"
-go tool github.com/spice-framework/spice/cmd/spice dev --target Petclinic .
+go tool github.com/spice-framework/toolchain/cmd/spice dev --target Petclinic .
 ```
 
 ```sh
 SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080 \
-  go tool github.com/spice-framework/spice/cmd/spice dev --target Petclinic .
+  go tool github.com/spice-framework/toolchain/cmd/spice dev --target Petclinic .
 ```
 
 In `main.go`, add invalid `// @Unknown` immediately after `// @Application`.

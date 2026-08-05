@@ -521,8 +521,8 @@ make verify
 go test ./compiler/provider -run TestCatalogInterfaceProviders -v
 go test ./compiler/graph -run TestGraphRequiresExplicitInterfaceBinding -v
 go test ./compiler/graph -run TestGraphRejectsDuplicateInterfaceBindings -v
-go run -mod=vendor ./cmd/spice verify <valid-interface-binding-fixture>
-go run -mod=vendor ./cmd/spice verify <missing-explicit-binding-fixture>
+go tool github.com/spice-framework/toolchain/cmd/spice verify <valid-interface-binding-fixture>
+go tool github.com/spice-framework/toolchain/cmd/spice verify <missing-explicit-binding-fixture>
 GOPROXY=off go test -mod=vendor ./...
 ```
 

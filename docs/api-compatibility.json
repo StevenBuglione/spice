@@ -15,7 +15,7 @@
     {
       "prefix": "annotation/builtin",
       "maturity": "internal",
-      "reason": "Legacy compiler catalog compatibility package; not a supported application import."
+      "reason": "Legacy descriptor-catalog compatibility package; not a supported application import."
     },
     {
       "prefix": "annotation/cache",
@@ -25,7 +25,7 @@
     {
       "prefix": "annotation/coretool",
       "maturity": "internal",
-      "reason": "Official toolchain package identity bridge scheduled to move with the toolchain."
+      "reason": "Stable identity bridge to the separately versioned official annotation tool."
     },
     {
       "prefix": "annotation/event",
@@ -68,16 +68,6 @@
       "reason": "Cache storage and observation contracts remain pre-preview."
     },
     {
-      "prefix": "cmd",
-      "maturity": "internal",
-      "reason": "Executable entrypoints are installed artifacts, not importable Go API."
-    },
-    {
-      "prefix": "compiler",
-      "maturity": "internal",
-      "reason": "Compiler implementation must move behind toolchain internal boundaries before preview."
-    },
-    {
       "prefix": "config",
       "maturity": "preview-stable",
       "reason": "Core immutable configuration schema, source, provenance, and resolution contracts."
@@ -116,11 +106,6 @@
       "prefix": "intercept",
       "maturity": "preview-stable",
       "reason": "Core typed invocation-chain contract used by generated decorators."
-    },
-    {
-      "prefix": "internal",
-      "maturity": "internal",
-      "reason": "Go-enforced repository implementation and generated ownership packages."
     },
     {
       "prefix": "lifecycle",
@@ -185,7 +170,7 @@
     {
       "prefix": "starter",
       "maturity": "experimental",
-      "reason": "Every external integration remains experimental until extracted and real-system release-gated."
+      "reason": "Public starter-composition metadata remains experimental while extracted integrations mature independently."
     },
     {
       "prefix": "validation",

@@ -38,9 +38,10 @@ evidence; repository creation alone never completes a stage.
    labeled production-ready without real-system evidence.
 10. Migration commits remain bounded and green on local `main`.
 
-## Measured coupling to remove
+## Measured coupling and completed boundaries
 
-The current Go import graph identifies these extraction blockers:
+The migration baseline identified these extraction blockers and their current
+disposition:
 
 - `compiler/starter` now consumes the portable `annotation/sdk/starter`
   metadata contract instead of the aggregate runtime `starter` package. The
@@ -288,13 +289,17 @@ libraries and every advertised production starter has real-system results.
 
 ## Stage 5: Extract and harden the toolchain
 
-- [ ] Move compiler implementation behind supported internal boundaries.
-- [ ] Decompose provider, application, service, generation, LSP, filesystem,
-  and quality-gate hotspots by domain responsibility.
-- [ ] Extract `toolchain` with relevant history and retain the recoverable
-  ordinary-Go stage-zero bootstrap.
-- [ ] Keep official descriptor handlers typed and navigable while the tool
-  package path points at the canonical toolchain module.
+- [x] Remove compiler, CLI, LSP, bootstrap, generated-toolchain, fixture,
+  benchmark-baseline, and release-construction ownership from the core cutover
+  tree.
+- [x] Reduce core to its 50 public annotation/runtime/test-support packages, a
+  standard-library-only module graph, and one repository-only quality gate.
+- [ ] Publish and accept the extracted `toolchain` repository with relevant
+  history, independently green verification, and the recoverable ordinary-Go
+  stage-zero bootstrap before committing the core cutover.
+- [x] Keep official descriptor handlers typed and navigable while
+  `annotation/coretool.Path` points at
+  `github.com/spice-framework/toolchain/cmd/spice-annotation-core`.
 - [ ] Preserve deterministic generation and source maps across repository
   boundaries.
 - [ ] Complete honest toolchain dogfooding without claiming that parser or
@@ -302,9 +307,11 @@ libraries and every advertised production starter has real-system results.
 - [ ] Add cold CLI, first analysis, generation, structural edit, LSP latency,
   dev restart, startup, memory, and allocation budgets.
 
-Exit evidence: the core module has no compiler dependency, the toolchain builds
-from published core contracts, and damaged generated toolchain output is
-recoverable by stage zero.
+Exit evidence: the committed core module has no compiler dependency, the
+public/green toolchain builds from the exact accepted core contracts, and
+damaged generated toolchain output is recoverable by stage zero. The prepared
+core deletion is not committed or pushed until that external evidence is
+recorded.
 
 ## Stage 6: Preview release
 
@@ -335,6 +342,7 @@ cloning the Spice development workspace.
 | `research/` | Tracked design evidence | Retain until each document is incorporated or explicitly archived |
 | `.zed/settings.json` | User-facing project-local editor configuration | Retired from core; the standalone Zed and core integration guides document an explicit per-project example |
 | `.spice/*.manifest.json` | Generated ownership metadata | Move with the generated target; never use for plugin or repository selection |
+| core `cmd/`, `compiler/`, `testdata/`, and toolchain-only `internal/` | Toolchain implementation | Remove atomically only after the standalone toolchain revision is public and green |
 | generated Commerce target | Owned by `spice-framework/commerce` below `internal/spicegen` | Retain and verify only in the standalone application repository |
 | generated Petclinic targets | Owned by `spice-framework/petclinic` below `internal/spicegen` | Retain and verify only in the standalone application repository |
 | generated-tree handwritten tests | Useful tests in the wrong ownership boundary | Relocate; do not delete |

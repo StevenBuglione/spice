@@ -1,5 +1,9 @@
 # Compiler Service
 
+> **Ownership:** this service is implemented and verified in
+> [`spice-framework/toolchain`](https://github.com/spice-framework/toolchain),
+> not in the public core module.
+
 `compiler/service` is the reusable read-only analysis boundary for Spice
 commands, development supervision, tests, and editor tooling. It executes the
 existing typed compiler stages; it is not a second parser or model.

@@ -217,7 +217,7 @@ capability without a compiler switch for that descriptor's package or name.
 Official descriptors use exactly the same protocol path through:
 
 ```text
-github.com/spice-framework/spice/cmd/spice-annotation-core
+github.com/spice-framework/toolchain/cmd/spice-annotation-core
 ```
 
 All 30 official descriptors have one public descriptor file, one declared
@@ -252,8 +252,8 @@ annotation-name switch.
 Use the read-only inspection commands:
 
 ```text
-spice annotations list ./...
-spice annotations doctor ./...
+go tool github.com/spice-framework/toolchain/cmd/spice annotations list ./...
+go tool github.com/spice-framework/toolchain/cmd/spice annotations doctor ./...
 ```
 
 `list` reports explicit descriptors and whether their tools are authorized.
@@ -311,7 +311,7 @@ select that one version with standard Go commands:
 ```text
 go get -tool example.com/acme/spice-mail/cmd/spice-annotations@v1.4.0
 go mod tidy
-spice annotations doctor ./...
+go tool github.com/spice-framework/toolchain/cmd/spice annotations doctor ./...
 ```
 
 `go get -tool` adds the executable package to the application module's `tool`
@@ -367,8 +367,8 @@ Run the ordinary Go workflow:
 go mod tidy
 go mod vendor
 go test -mod=vendor ./...
-spice annotations doctor ./...
-spice generate --check ./...
+go tool github.com/spice-framework/toolchain/cmd/spice annotations doctor ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check ./...
 ```
 
 When `vendor/modules.txt` exists, Spice uses `-mod=vendor`; otherwise it uses

@@ -1,5 +1,9 @@
 # Stable Core Acceptance
 
+> **Ownership:** compiler/CLI rows are proven by the standalone toolchain and
+> consuming reference applications. This repository's local gate proves the
+> public core library boundary.
+
 This matrix records executable evidence for the developer-proof foundation. A
 coverage-map label is not evidence by itself. Every core row below is exercised
 by ordinary tests or a repository-owned CLI smoke path in `make verify`.
@@ -80,10 +84,10 @@ independent [`commerce`](https://github.com/spice-framework/commerce) module:
 ```text
 make verify
 cd commerce
-spice verify --format=json ./...
-spice generate --check --target Commerce .
-spice build --target Commerce .
-spice run --target Commerce . -- -check
-spice modules --format=json ./...
-spice test --module github.com/spice-framework/commerce/orders --count=1 ./...
+go tool github.com/spice-framework/toolchain/cmd/spice verify --format=json ./...
+go tool github.com/spice-framework/toolchain/cmd/spice generate --check --target Commerce .
+go tool github.com/spice-framework/toolchain/cmd/spice build --target Commerce .
+go tool github.com/spice-framework/toolchain/cmd/spice run --target Commerce . -- -check
+go tool github.com/spice-framework/toolchain/cmd/spice modules --format=json ./...
+go tool github.com/spice-framework/toolchain/cmd/spice test --module github.com/spice-framework/commerce/orders --count=1 ./...
 ```
