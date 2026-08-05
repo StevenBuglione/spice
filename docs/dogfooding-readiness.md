@@ -77,9 +77,10 @@ created temporary directory:
 
 The same proof is a mandatory final stage of `make verify`. It complements the
 renderer determinism tests, committed application freshness checks, offline
-vendor tests, generated-code compilation, executable Commerce/Petclinic
-smoke paths. The independently versioned GoLand repository owns its package
-Run/Debug suite against exact core and Petclinic commits.
+vendor tests, generated-code compilation, and clean-room executable smoke
+paths. The independent Commerce and Petclinic repositories own their complete
+application gates. The independently versioned GoLand repository owns its
+package Run/Debug suite against exact core and Petclinic commits.
 
 `make dogfood` provides the shorter self-hosting feedback loop. It verifies the
 complete package set:

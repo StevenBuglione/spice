@@ -175,13 +175,6 @@ linters:
         text: 'use of `os\.Exit`'
         linters:
           - forbidigo
-      # Petclinic is a committed consumer fixture; its local replacement tests
-      # the unpublished framework tree and is removed by clean-room release
-      # acceptance.
-      - path: "(^|.*[/\\\\])examples[/\\\\]petclinic[/\\\\]go\\.mod$"
-        text: "local replacement are not allowed"
-        linters:
-          - gomoddirectives
 formatters:
   enable:
     - gofumpt

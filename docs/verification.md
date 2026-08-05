@@ -12,10 +12,11 @@ package graph, keeping the no-op check independent of repository size.
 
 Use `make check` while editing. It verifies the exact Go toolchain, formatting,
 module tidiness, vet, the allowlisted linter and NilAway policy, and ordinary
-compilation of every package and test in both the framework module and the
-independent Petclinic consumer module. Run the feature package's focused tests
-alongside it while editing; `make verify` remains responsible for executing
-the complete repository suite. Warm runs reuse Go's build and test cache.
+compilation of every package and test in the framework module. Independent
+consumers run their repository-owned gates against immutable Spice versions.
+Run the feature package's focused tests alongside it while editing; `make
+verify` remains responsible for executing the complete core suite. Warm runs
+reuse Go's build and test cache.
 
 Use `make coverage` when a slice adds meaningful production code. It computes
 the exact whole-repository handwritten-product 85% floor without also launching
@@ -30,10 +31,11 @@ and compares it with the reviewed ceilings in `benchmarks/budgets.json`.
 Changing a ceiling requires an adjacent engineering rationale; a noisy
 single sample cannot fail or conceal a regression.
 
-Use `make benchmark-spring SPRING_PETCLINIC=<checkout>` for the pinned,
-offline body-edit comparison documented in
-[`spring-speed-parity.md`](spring-speed-parity.md). The external checkout is
-never cloned or resolved implicitly by the verifier.
+The standalone
+[`spice-framework/petclinic`](https://github.com/spice-framework/petclinic)
+repository owns the pinned offline body-edit comparison documented in
+[`spring-speed-parity.md`](spring-speed-parity.md). The core verifier never
+clones or resolves its external Spring checkout.
 
 `spice dev` independently fingerprints the valid-Go structure of watched
 sources. A change confined to function or method bodies reuses the last
@@ -50,12 +52,11 @@ with at most four workers. The shuffled test pass emits the repository coverage
 profile, eliminating a redundant all-package compilation while retaining the
 same tests and 85% floor. Race, fuzz, offline, and executable stages then run
 sequentially to reuse build caches; running them concurrently oversubscribes
-the Go compiler and increases wall time. The Petclinic consumer module is
-independently linted, vetted,
-security-scanned, shuffled/race tested, coverage exercised, and tested from its
-own vendor tree. Its generated target is also verified and executed using a
-repository-built Spice binary. Every applicable stage remains mandatory. Stage
-start and completion lines include durations so regressions are visible.
+the Go compiler and increases wall time. Petclinic independently lints, vets,
+security-scans, shuffled/race tests, coverage-checks, and vendor-offline tests
+its own module, then verifies and executes all three generated targets through
+its pinned Spice tool dependency. Every applicable stage remains mandatory.
+Stage start and completion lines include durations so regressions are visible.
 
 Use `make verify-release` for release automation and explicit release
 ceremonies. It adds the benchmark budgets to the complete core verification.

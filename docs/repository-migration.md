@@ -49,6 +49,11 @@ The current Go import graph identifies these extraction blockers:
 - The independent `spice-framework/commerce` repository owns its generated
   target, manifest, acceptance tests, module graph, vendor tree, and complete
   application verification; core no longer duplicates that source or gate.
+- The independent `spice-framework/petclinic` repository owns its three
+  generated targets, manifests, application source, Spring parity benchmark,
+  black-box developer-loop proof, database acceptance, module graph, vendor
+  tree, and complete verification; core no longer duplicates that source or
+  gate.
 - application package scope is repeated in CLI arguments. Composition must be
   declared through ordinary Go imports at the application entrypoint so
   extracted applications remain self-describing.
@@ -85,6 +90,8 @@ security scan contains no known vulnerable selected module versions.
   exact pointer/value/generic validation.
 - [x] Move the root-owned Commerce generated target and manifest into the
   Commerce module.
+- [x] Move Petclinic's application, generated targets, Spring parity harness,
+  and black-box developer-loop proof into its independent repository.
 - [x] Remove compiler dependency on the aggregate starter catalog.
 - [x] Add clean-room application scaffolding and dependency-add commands with
   previewable module changes.
@@ -163,6 +170,14 @@ green on Windows, Linux, and macOS, and its PostgreSQL 18.4 job proves durable
 transaction, migration, close, and reopen behavior. Core retains links to this
 evidence but no longer rebuilds or vendors the application.
 
+Petclinic evidence: `spice-framework/petclinic` commit `1e653f6` pins immutable
+canonical core source with no local replacement. Its repository-owned gate
+owns the Spring feedback harness and exercises invalid annotation failure,
+last-known-good retention, graceful complete-package restart, generated-source
+integrity, and former naked-annotation regressions as a black-box `go tool`
+workflow. Core retains links to this evidence but no longer rebuilds or vendors
+the application.
+
 ## Stage 4: Extract external-service starters
 
 For each starter repository:
@@ -238,6 +253,7 @@ cloning the Spice development workspace.
 | `.zed/settings.json` | User-facing supported editor configuration | Move with the Zed repository or replace with documented workspace setup |
 | `.spice/*.manifest.json` | Generated ownership metadata | Move with the generated target; never use for plugin or repository selection |
 | generated Commerce target | Owned by `spice-framework/commerce` below `internal/spicegen` | Retain and verify only in the standalone application repository |
+| generated Petclinic targets | Owned by `spice-framework/petclinic` below `internal/spicegen` | Retain and verify only in the standalone application repository |
 | generated-tree handwritten tests | Useful tests in the wrong ownership boundary | Relocate; do not delete |
 
 ## Audit remediation ownership

@@ -146,7 +146,8 @@ The repository currently provides:
 - An independent, consumer-owned Spring Petclinic port whose `go.mod`
   authorizes the annotation tool and whose generated source, manifest, vendor
   tree, tests, and executable workflow are verified outside the framework
-  module.
+  module at
+  [`spice-framework/petclinic`](https://github.com/spice-framework/petclinic).
 - A cross-platform Go-owned quality gate with pinned format, lint, nil-safety, security, vulnerability, race, fuzz, coverage, offline-vendor, and executable checks.
 - Product, architecture, annotation, and Spring-coverage documents.
 
@@ -541,7 +542,6 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
 - `starter/`: reviewed opt-in integrations, including OpenTelemetry telemetry and OIDC JWT resource-server authentication.
 - `tools/`: isolated, pinned development tools module.
-- `examples/`: executable reference applications.
 - `docs/`: user and product documentation.
 - `docs/quality.md`: exact verification, tool, linter, and suppression policy.
 - `docs/dogfooding-readiness.md`: bootstrap boundary and self-hosting

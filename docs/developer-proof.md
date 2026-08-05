@@ -8,7 +8,8 @@ only the comment prefix for presentation.
 
 - Go 1.26.5;
 - the packaged Spice plugin installed in the pinned GoLand 2026.2 build;
-- the repository opened at its module root;
+- [`spice-framework/petclinic`](https://github.com/spice-framework/petclinic)
+  cloned and opened at its module root;
 - no external database.
 
 The default Petclinic target uses instance-owned in-memory repositories and
@@ -16,24 +17,20 @@ performs no network I/O outside its loopback HTTP listener.
 
 ## Edit and restart loop
 
-Build the current CLI, then start the real multi-package Petclinic target:
+Start the real multi-package Petclinic target through the application module's
+authorized Spice tool dependency:
 
 ```powershell
-go build -trimpath -o ./bin/spice.exe ./cmd/spice
-Set-Location examples/petclinic
 $env:SPICE_PETCLINIC_ADDRESS = "127.0.0.1:8080"
-../../bin/spice.exe dev --target Petclinic .
+go tool github.com/spice-framework/spice/cmd/spice dev --target Petclinic .
 ```
 
 ```sh
-go build -trimpath -o ./bin/spice ./cmd/spice
-cd examples/petclinic
 SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080 \
-  ../../bin/spice dev --target Petclinic .
+  go tool github.com/spice-framework/spice/cmd/spice dev --target Petclinic .
 ```
 
-In `examples/petclinic/main.go`, add invalid `// @Unknown` immediately after
-`// @Application`.
+In `main.go`, add invalid `// @Unknown` immediately after `// @Application`.
 
 1. GoLand immediately shows the shared source-positioned Spice diagnostic.
 2. The physical document remains valid Go and still contains `// `.
@@ -87,8 +84,8 @@ There is no adjacent bridge, reflection, or runtime container.
 Run the focused executable proofs directly:
 
 ```text
-go test -run TestPetclinicDevelopmentWorkflowKeepsLastKnownGoodAndRestarts ./internal/cli
-cd commerce
+go test -run TestPetclinicDevelopmentWorkflowKeepsLastKnownGoodAndRestarts ./acceptance/devloop
+cd <commerce-checkout>
 go test -run TestCommerceDeveloperProof .
 go test -run TestNotifierDeliversInspectableTestReceipt ./notifications
 ```
@@ -108,11 +105,11 @@ go test -run TestNotifierDeliversInspectableTestReceipt ./notifications
 | PostgreSQL close/reopen durability | tagged storage integration test |
 | Offline third-party annotation SDK/tool | executable fixture smoke |
 
-`make verify` runs the complete mandatory core set under Go 1.26.5, including
-formatting, vet, lint/NilAway, gosec, govulncheck, shuffled/race tests, fuzz
-smoke, the 85% handwritten-product repository coverage floor (generated files
-remain compile/execution tested), vendor-offline tests, generated freshness,
-and executable smoke paths. The independently versioned
+Petclinic's `make verify` runs its black-box development workflow in normal,
+race, and vendor-offline modes alongside its 85% business coverage floor,
+generated freshness, and all three executable targets. Core's `make verify`
+independently runs the framework compiler/runtime gates under Go 1.26.5. The
+independently versioned
 [`spice-framework/goland`](https://github.com/spice-framework/goland)
 repository separately requires packaged-plugin verification and installed-IDE
 interaction tests on the exact compatible core and Petclinic commits.

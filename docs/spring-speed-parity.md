@@ -1,23 +1,26 @@
 # Spring Petclinic feedback comparison
 
-Spice keeps a pinned, reproducible comparison with the canonical Spring
-Petclinic rather than comparing unrelated toy programs. The manifest at
-[`benchmarks/spring-petclinic.json`](../benchmarks/spring-petclinic.json)
-selects Spring Petclinic commit
-`88e37c15cf6fc8490b01bc3e8e2c800cec1ac272`, Spring Boot 4.1.0, and Java 25.
+The independent
+[`spice-framework/petclinic`](https://github.com/spice-framework/petclinic)
+consumer owns a pinned, reproducible comparison with canonical Spring
+Petclinic rather than coupling an application benchmark to the core framework
+repository. Its `benchmarks/spring-petclinic.json` manifest selects Spring
+Petclinic commit `88e37c15cf6fc8490b01bc3e8e2c800cec1ac272`, Spring Boot
+4.1.0, and Java 25.
 
 Prepare the external checkout explicitly:
 
 ```text
-git clone https://github.com/spring-projects/spring-petclinic.git .tmp/spring-petclinic
-git -C .tmp/spring-petclinic checkout 88e37c15cf6fc8490b01bc3e8e2c800cec1ac272
-.tmp/spring-petclinic/mvnw -DskipTests compile
+git clone https://github.com/spring-projects/spring-petclinic.git <spring-checkout>
+git -C <spring-checkout> checkout 88e37c15cf6fc8490b01bc3e8e2c800cec1ac272
+<spring-checkout>/mvnw -DskipTests compile
 ```
 
 Then run the comparison without network access:
 
 ```text
-make benchmark-spring SPRING_PETCLINIC=.tmp/spring-petclinic
+cd <spice-petclinic-checkout>
+make benchmark-spring SPRING_PETCLINIC=<spring-checkout>
 ```
 
 The Go harness verifies the exact Spring commit, performs two warmups and seven

@@ -61,11 +61,19 @@ analysis, generation, and editor operation remain offline and read-only.
 
 ## Inspect the application
 
-Petclinic is an independent consumer module. Its `go.mod` selects Spice,
-authorizes the annotation tool with a standard Go `tool` directive, and uses a
-local `replace` only inside this source checkout.
+Petclinic is an independent consumer module at
+[`spice-framework/petclinic`](https://github.com/spice-framework/petclinic).
+Clone it separately from the core framework. Its `go.mod` selects an immutable
+Spice version, authorizes the CLI and annotation tool with standard Go `tool`
+directives, and contains no local `replace`:
 
-The process entrypoint in `examples/petclinic/main.go` is valid Go:
+```text
+git clone https://github.com/spice-framework/petclinic.git
+cd petclinic
+make bootstrap
+```
+
+The process entrypoint in `main.go` is valid Go:
 
 ```go
 // @import { Application } from "github.com/spice-framework/spice/annotation/core"
@@ -82,19 +90,15 @@ func main() {
 function that the compiler decodes without executing. The target module's
 `go.mod` is the only authority that permits its handler tool to run.
 `spiceapp` is the ordinary Go import alias for
-`github.com/spice-framework/spice/examples/petclinic/internal/spicegen/petclinic`
-while Petclinic remains in the migration source tree. Its independent
-repository will publish a shorter module path only after extraction acceptance
-is green.
+`github.com/spice-framework/petclinic/internal/spicegen/petclinic`.
 
 ## Verify and generate
 
-From `examples/petclinic`, use the package scope that belongs to the in-memory
-application:
+From the standalone Petclinic root, use its authorized Spice tool dependency:
 
 ```text
-../../bin/spice verify .
-../../bin/spice generate --check --target Petclinic .
+go tool github.com/spice-framework/spice/cmd/spice verify .
+go tool github.com/spice-framework/spice/cmd/spice generate --check --target Petclinic .
 ```
 
 `generate --check` is read-only. To create or update owned artifacts, run the
@@ -120,9 +124,10 @@ internal/spicegen/petclinic/artifacts/openapi.json
 ```
 
 Generated files are committed, formatted Go. The ownership manifest prevents
-Spice from overwriting manual edits or unrelated files. Run
-`spice generated --source main.go` to locate the source-owned application unit,
-or pass that generated path with `--generated` for the reverse mapping.
+Spice from overwriting manual edits or unrelated files. Run `go tool
+github.com/spice-framework/spice/cmd/spice generated --source main.go` to
+locate the source-owned application unit, or pass that generated path with
+`--generated` for the reverse mapping.
 
 ## Run and debug
 
@@ -130,12 +135,12 @@ Start the application:
 
 ```powershell
 $env:SPICE_PETCLINIC_ADDRESS = "127.0.0.1:8080"
-..\..\bin\spice.exe run --target Petclinic .
+go tool github.com/spice-framework/spice/cmd/spice run --target Petclinic .
 ```
 
 ```sh
 SPICE_PETCLINIC_ADDRESS=127.0.0.1:8080 \
-  ../../bin/spice run --target Petclinic .
+  go tool github.com/spice-framework/spice/cmd/spice run --target Petclinic .
 ```
 
 Open `http://127.0.0.1:8080/`. Search owners, edit an owner, add a pet and a
@@ -155,7 +160,7 @@ gracefully replaces the process only after analysis, generation, and build
 succeed:
 
 ```text
-../../bin/spice dev --target Petclinic .
+go tool github.com/spice-framework/spice/cmd/spice dev --target Petclinic .
 ```
 
 Add `// @Unknown` below `// @Application` and save. The compiler reports an

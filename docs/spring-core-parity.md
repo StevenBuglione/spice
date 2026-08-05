@@ -47,5 +47,6 @@ The `conversion`, `expression`, `intercept`, `resource`, and `validation` packag
 negative, boundary, cancellation, safe-error, composition, deterministic-order,
 and runnable example tests. Existing `config`, `web`, `event`, `i18n`, `bean`,
 `lifecycle`, `retry`, compiler, generated-code, Commerce, and Petclinic suites
-prove the remaining rows. `make verify` runs them shuffled, race-enabled,
-coverage-gated, vendor-offline, and through executable generated applications.
+prove the remaining rows. Core, Commerce, and Petclinic each own mandatory
+shuffled, race-enabled, coverage-gated, vendor-offline, and executable
+generated-application verification in their respective repositories.
