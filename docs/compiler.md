@@ -466,9 +466,10 @@ The committed commerce target is the executable reference for this contract.
 controllers, explicit providers, lifecycle hooks, fixed-delay and bounded
 asynchronous work, and qualified management and logging bootstrap annotations.
 Its annotated `main.go` imports the generated commerce target explicitly.
-Compile-time analysis of `./examples/commerce/...` discovers the four module
-roots and emits the direct-call application, mirrored source units, and OpenAPI
-document below `internal/spicegen/commerce`; its generated command owns
+Compile-time analysis of `./...` from the independent Commerce module discovers
+its module roots and emits the direct-call application, mirrored source units,
+and OpenAPI document below the Commerce-owned `internal/spicegen/commerce`; its
+generated command owns
 conventional environment loading, process signals, management composition,
 metrics, and the shutdown deadline. The handwritten process boundary is only
 `os.Exit(spiceapp.Main(args))`.

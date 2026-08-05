@@ -98,11 +98,6 @@
       "reason": "In-process and durable publication contracts require external adoption evidence."
     },
     {
-      "prefix": "examples",
-      "maturity": "internal",
-      "reason": "Reference application implementation is executable evidence, not framework API."
-    },
-    {
       "prefix": "expression",
       "maturity": "preview-stable",
       "reason": "Bounded typed expression syntax and evaluation contract."

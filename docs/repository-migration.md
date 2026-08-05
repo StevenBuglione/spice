@@ -42,9 +42,9 @@ The current Go import graph identifies these extraction blockers:
 - `compiler/starter` imports the aggregate root `starter` catalog. Descriptor
   and manifest validation must consume public generic metadata rather than a
   compiled registry of every integration.
-- `internal/spicegen/commerce` imports the Commerce example. The entire owned
-  Commerce target moves with the application before `internal` can belong
-  exclusively to the toolchain.
+- Commerce owns its generated target, manifest, acceptance tests, module graph,
+  and vendor tree below `examples/commerce`; root `internal` now belongs
+  exclusively to the framework and toolchain.
 - application package scope is repeated in CLI arguments. Composition must be
   declared through ordinary Go imports at the application entrypoint so
   extracted applications remain self-describing.
@@ -79,7 +79,7 @@ security scan contains no known vulnerable selected module versions.
   every file below a generated target is manifest-owned.
 - [x] Render conventional generated interface assertions while preserving
   exact pointer/value/generic validation.
-- [ ] Move the root-owned Commerce generated target and manifest into the
+- [x] Move the root-owned Commerce generated target and manifest into the
   Commerce module.
 - [ ] Remove compiler dependency on the aggregate starter catalog.
 - [ ] Add clean-room application scaffolding and dependency-add commands with
@@ -194,7 +194,7 @@ cloning the Spice development workspace.
 | `research/` | Tracked design evidence | Retain until each document is incorporated or explicitly archived |
 | `.zed/settings.json` | User-facing supported editor configuration | Move with the Zed repository or replace with documented workspace setup |
 | `.spice/*.manifest.json` | Generated ownership metadata | Move with the generated target; never use for plugin or repository selection |
-| generated Commerce target | Application-owned generated source currently under root `internal` | Move with Commerce and regenerate before toolchain extraction |
+| generated Commerce target | Application-owned generated source below `examples/commerce/internal/spicegen` | Move with Commerce repository history during extraction |
 | generated-tree handwritten tests | Useful tests in the wrong ownership boundary | Relocate; do not delete |
 
 ## Audit remediation ownership

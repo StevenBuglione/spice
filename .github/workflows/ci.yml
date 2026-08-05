@@ -34,6 +34,8 @@ jobs:
           cache-dependency-path: |
             go.sum
             tools/go.sum
+            examples/commerce/go.sum
+            examples/petclinic/go.sum
       - name: Verify
         env:
           SPICE_VERIFY_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
@@ -64,4 +66,8 @@ jobs:
           CGO_ENABLED: "0"
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
-        run: go build -trimpath ./...
+        shell: bash
+        run: |
+          for module in . examples/commerce examples/petclinic; do
+            (cd "$module" && go build -trimpath ./...)
+          done

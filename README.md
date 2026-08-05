@@ -237,14 +237,15 @@ migration map.
 make fast
 make check
 go run ./cmd/spice version
-go run ./cmd/spice annotations list ./examples/commerce/...
-go run ./cmd/spice annotations doctor ./examples/commerce/...
 go run ./cmd/spice verify ./...
-go run ./cmd/spice verify --format=json ./examples/commerce/...
-go run ./cmd/spice test --module github.com/StevenBuglione/spice/examples/commerce/orders --count=1 ./examples/commerce/...
-go run ./cmd/spice generate --check --target Commerce ./examples/commerce
-go run ./cmd/spice run --target Commerce ./examples/commerce -- -check
-go run ./cmd/spice dev --target Commerce ./examples/commerce
+cd examples/commerce
+spice annotations list ./...
+spice annotations doctor ./...
+spice verify --format=json ./...
+spice test --module github.com/StevenBuglione/spice/examples/commerce/orders --count=1 ./...
+spice generate --check --target Commerce .
+spice run --target Commerce . -- -check
+spice dev --target Commerce .
 ```
 
 Use `make fast` for affected-package feedback and `make check` for the broader
@@ -272,7 +273,7 @@ package main
 import (
     "os"
 
-    spiceapp "github.com/StevenBuglione/spice/internal/spicegen/commerce"
+    spiceapp "github.com/StevenBuglione/spice/examples/commerce/internal/spicegen/commerce"
 )
 
 // @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
@@ -438,7 +439,8 @@ either direction.
 To start the example HTTP server:
 
 ```bash
-go run ./cmd/spice run --target Commerce ./examples/commerce
+cd examples/commerce
+spice run --target Commerce .
 curl -H "Content-Type: application/json" -d "{\"quantity\":2}" http://localhost:8081/orders
 curl http://localhost:8081/actuator/health/readiness
 curl http://localhost:8081/actuator/metrics
@@ -453,10 +455,13 @@ codes, and fresh bounded shutdown. Its generated application also owns the
 fixed-delay audit and exposes a typed, bounded asynchronous inventory
 verification method that drains before provider cleanup. The generated
 `Application` itself never captures process signals. Generated source and
-OpenAPI are committed under `internal/spicegen/commerce`; source-owned
+OpenAPI are committed under `examples/commerce/internal/spicegen/commerce`;
+source-owned
 application metadata, configuration binders, constructors, and interface
-checks use mirrored files below `internal/spicegen/commerce/sources`. The
-matching ownership manifest is `.spice/commerce.manifest.json`.
+checks use mirrored files below
+`examples/commerce/internal/spicegen/commerce/sources`. The matching ownership
+manifest is `examples/commerce/.spice/commerce.manifest.json`. Commerce is a
+separate consuming Go module with its own module graph and vendor tree.
 
 For embedding and specialized policies, the generated application retains
 `NewApplication`, `NewApplicationWithOptions`, `Application.Start`,

@@ -69,7 +69,8 @@ In a monorepo, pass only the command package and select the command
 unambiguously:
 
 ```text
-spice generate --target Commerce ./examples/commerce
+cd examples/commerce
+spice generate --target Commerce .
 ```
 
 `--target` accepts the derived target name, command import path, or stable
@@ -81,7 +82,8 @@ not runtime activation.
 `spice run` is the first-class development execution path:
 
 ```text
-spice run --target Commerce ./examples/commerce -- -check
+cd examples/commerce
+spice run --target Commerce . -- -check
 ```
 
 Arguments before `--` select the application and compile-time package scope;

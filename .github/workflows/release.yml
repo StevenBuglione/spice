@@ -29,6 +29,8 @@ jobs:
           cache-dependency-path: |
             go.sum
             tools/go.sum
+            examples/commerce/go.sum
+            examples/petclinic/go.sum
       - name: Verify release candidate
         run: make verify-release
       - name: Require signing key

@@ -69,11 +69,13 @@ The separate commerce integration remains the polished mail proof. Its receipt
 response reports a stable message ID, `transport: "test"`,
 `accepted: true`, and the attachment filename. The decoded test-transport
 acceptance test additionally verifies the exact envelope, subject, text body,
-and attachment bytes. The generated application package in
-`internal/spicegen/commerce` visibly separates contracts, configuration,
+and attachment bytes. The generated application package in the independent
+Commerce module at `examples/commerce/internal/spicegen/commerce` visibly
+separates contracts, configuration,
 providers, bounded assembly, features, HTTP coordination, one stable file per
 route, lifecycle, and command behavior. Mirrored files under
-`internal/spicegen/commerce/sources/<package>` contain source-owned direct
+`examples/commerce/internal/spicegen/commerce/sources/<package>` contain
+source-owned direct
 constructors, configuration binders, and explicit interface assignments.
 The schema-5 manifest provides exact source/generated locations and concern
 roles, and the
@@ -84,8 +86,9 @@ Run the focused executable proofs directly:
 
 ```text
 go test -run TestPetclinicDevelopmentWorkflowKeepsLastKnownGoodAndRestarts ./internal/cli
-go test -run TestCommerceDeveloperProof ./examples/commerce
-go test -run TestNotifierDeliversInspectableTestReceipt ./examples/commerce/notifications
+cd examples/commerce
+go test -run TestCommerceDeveloperProof .
+go test -run TestNotifierDeliversInspectableTestReceipt ./notifications
 ```
 
 ## Automated acceptance map

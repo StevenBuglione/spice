@@ -149,7 +149,7 @@ Clients may select a target and bounded package patterns during initialization:
 {
   "initializationOptions": {
     "target": "Commerce",
-    "patterns": ["./examples/commerce/..."]
+    "patterns": ["./..."]
   }
 }
 ```
@@ -162,7 +162,7 @@ The same values may be refreshed without restarting through
   "settings": {
     "spice": {
       "target": "Commerce",
-      "patterns": ["./examples/commerce/..."]
+      "patterns": ["./..."]
     }
   }
 }
