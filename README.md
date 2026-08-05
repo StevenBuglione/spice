@@ -518,7 +518,8 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `internal/spicegen/spice/`: committed typed production CLI application graph.
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
-- `editors/zed/`: supported secondary Rust/WASM adapter that launches `spice lsp` for Go.
+- [`spice-framework/zed`](https://github.com/spice-framework/zed): independently
+  versioned secondary Rust/WASM adapter that launches `spice lsp` for Go.
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
 - `resource/`: instance-owned canonical locations over explicit caller-owned
   Go filesystems with bounded context-aware reads.

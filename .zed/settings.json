@@ -1,9 +1,0 @@
-{
-  "lsp_document_links": true,
-  "languages": {
-    "Go": {
-      "language_servers": ["gopls", "spice", "..."],
-      "semantic_tokens": "combined"
-    }
-  }
-}

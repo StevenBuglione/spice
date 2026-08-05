@@ -54,6 +54,9 @@ The current Go import graph identifies these extraction blockers:
   black-box developer-loop proof, database acceptance, module graph, vendor
   tree, and complete verification; core no longer duplicates that source or
   gate.
+- The independent `spice-framework/zed` repository owns the Rust/WASM adapter,
+  compatibility fixture, locked dependency graph, and exact release gate; core
+  no longer duplicates that source, user workspace configuration, or gate.
 - application package scope is repeated in CLI arguments. Composition must be
   declared through ordinary Go imports at the application entrypoint so
   extracted applications remain self-describing.
@@ -250,7 +253,7 @@ cloning the Spice development workspace.
 | `bin/`, `out/` | Ignored reproducible binaries, IDE distributions, caches, and logs | Remove locally between verification runs; never migrate |
 | `agent/`, `scripts/` | No tracked source | Do not create repositories or migration work for empty directories |
 | `research/` | Tracked design evidence | Retain until each document is incorporated or explicitly archived |
-| `.zed/settings.json` | User-facing supported editor configuration | Move with the Zed repository or replace with documented workspace setup |
+| `.zed/settings.json` | User-facing project-local editor configuration | Retired from core; the standalone Zed and core integration guides document an explicit per-project example |
 | `.spice/*.manifest.json` | Generated ownership metadata | Move with the generated target; never use for plugin or repository selection |
 | generated Commerce target | Owned by `spice-framework/commerce` below `internal/spicegen` | Retain and verify only in the standalone application repository |
 | generated Petclinic targets | Owned by `spice-framework/petclinic` below `internal/spicegen` | Retain and verify only in the standalone application repository |

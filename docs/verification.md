@@ -47,8 +47,8 @@ event stream reports generation/build duration and whether structural reuse
 occurred.
 
 Use `make verify` before every commit. After deterministic formatting, module,
-and vendor prerequisites, independent analysis, security, and Zed stages run
-with at most four workers. The shuffled test pass emits the repository coverage
+and vendor prerequisites, independent analysis and security stages run with at
+most four workers. The shuffled test pass emits the repository coverage
 profile, eliminating a redundant all-package compilation while retaining the
 same tests and 85% floor. Race, fuzz, offline, and executable stages then run
 sequentially to reuse build caches; running them concurrently oversubscribes
