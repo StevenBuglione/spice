@@ -13,7 +13,6 @@ import (
 	"github.com/spice-framework/spice/starter/oauth2client"
 	"github.com/spice-framework/spice/starter/oidc"
 	"github.com/spice-framework/spice/starter/otel"
-	"github.com/spice-framework/spice/starter/postgres"
 	redisstarter "github.com/spice-framework/spice/starter/redis"
 	websocketstarter "github.com/spice-framework/spice/starter/websocket"
 )
@@ -156,26 +155,6 @@ func TestShippedStarterManifests(t *testing.T) {
 			requirements: []string{
 				"http.serve-mux",
 			},
-		},
-		{
-			name:     "postgres",
-			manifest: postgres.Manifest,
-			entrypoints: []any{
-				postgres.Open,
-				postgres.NewBatchStore,
-				postgres.NewOutboxStore,
-			},
-			capabilities: []string{
-				"batch.postgresql",
-				"data.postgresql",
-				"data.sql",
-				"event.outbox.postgresql",
-				"migration.postgresql",
-			},
-			dependencies: []starter.Dependency{
-				{Module: "github.com/jackc/pgx/v5", Version: "v5.10.0", License: "MIT"},
-			},
-			activation: starter.ActivationExplicitConstructor,
 		},
 		{
 			name:         "redis",

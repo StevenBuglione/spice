@@ -166,20 +166,22 @@ clean-room canonical module resolution are both green.
 Exit evidence: both reference applications and both editors are external
 consumers of canonical artifacts.
 
-Commerce evidence: `spice-framework/commerce` commit `4807b91` pins immutable
-canonical core and standalone SMTP source with no local replacement. Its
-repository-owned gate is green on Windows, Linux, and macOS, its PostgreSQL
-18.4 job proves durable transaction, migration, close, and reopen behavior,
-and GitHub reports no open dependency alerts. Core retains links to this
-evidence but no longer rebuilds or vendors the application.
+Commerce evidence: `spice-framework/commerce` commit `a5346c3` pins immutable
+canonical core plus standalone SMTP and PostgreSQL modules with no local
+replacement. Hosted run `31035836394` is green on Windows, Linux, and macOS;
+its PostgreSQL 18.4 job proves durable transaction, migration, close, and
+reopen behavior. Core retains links to this evidence but no longer rebuilds or
+vendors the application.
 
-Petclinic evidence: `spice-framework/petclinic` commit `1e653f6` pins immutable
-canonical core source with no local replacement. Its repository-owned gate
-owns the Spring feedback harness and exercises invalid annotation failure,
-last-known-good retention, graceful complete-package restart, generated-source
-integrity, and former naked-annotation regressions as a black-box `go tool`
-workflow. Core retains links to this evidence but no longer rebuilds or vendors
-the application.
+Petclinic evidence: `spice-framework/petclinic` commit `925df3b` pins immutable
+canonical core and standalone PostgreSQL source with no local replacement.
+Hosted run `31035834661` is green on Windows, Linux, and macOS, including real
+PostgreSQL 18.4 and MySQL 8.4.11 jobs. Its repository-owned gate owns the Spring
+feedback harness and exercises invalid annotation failure, last-known-good
+retention, graceful complete-package restart, generated-source integrity, and
+former naked-annotation regressions as a black-box `go tool` workflow. Core
+retains links to this evidence but no longer rebuilds or vendors the
+application.
 
 ## Stage 4: Extract external-service starters
 
@@ -208,6 +210,24 @@ For each remaining starter repository:
 - [ ] publish checksums, SBOM/provenance, and a signed preview tag;
 - [x] migrate Commerce to the immutable module and remove the durable core copy
   only after Windows, Linux, macOS, PostgreSQL, and dependency-graph gates pass.
+
+`starter-postgres` is the second completed source extraction:
+
+- [x] preserve the package history in `spice-framework/starter-postgres`;
+- [x] publish an independent Go module, Apache-2.0 license, support matrix,
+  ownership contract, and pgx dependency review;
+- [x] pass the complete quality contract with 85.9% product coverage, offline
+  vendoring, and zero reachable vulnerabilities;
+- [x] prove transactions, repositories, advisory-locked migrations,
+  cancellation, batch restart/leases, durable outbox behavior, and SQL test
+  slices against the immutable PostgreSQL 18.4 container digest;
+- [x] verify Windows, Linux, macOS, and the real PostgreSQL job in hosted run
+  `31034798376` at commit `6310c4b`;
+- [ ] verify both the declared minimum and current compatible core versions;
+- [ ] publish checksums, SBOM/provenance, and a signed preview tag;
+- [x] migrate Commerce and Petclinic to the immutable module and remove pgx and
+  the durable PostgreSQL implementation from core only after both consumer
+  matrices passed.
 
 Extraction order follows dependency complexity:
 

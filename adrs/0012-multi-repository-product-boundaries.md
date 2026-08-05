@@ -12,7 +12,8 @@ release unit.
 The measured repository now contains more than one hundred Go packages, two
 editor implementations, two substantial reference applications, a native
 compiler toolchain, and integrations for independently versioned external
-systems. The root Go module selects dependencies for PostgreSQL, MySQL, Redis,
+systems. At the time of this decision, the root Go module selected dependencies
+for PostgreSQL, MySQL, Redis,
 Kafka, OpenTelemetry, OAuth/OIDC, gRPC, and WebSocket even when an application
 uses only the standard-library-first runtime. Go package pruning avoids
 compiling unused packages, but it does not remove module graph, checksum,

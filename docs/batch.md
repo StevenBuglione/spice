@@ -89,8 +89,9 @@ lease comparison details.
 
 ## PostgreSQL
 
-`starter/postgres` supplies the reviewed PostgreSQL schema and atomic
-statements. Schema creation remains an application-owned migration:
+[`github.com/spice-framework/starter-postgres`](https://github.com/spice-framework/starter-postgres)
+supplies the reviewed PostgreSQL schema and atomic statements. Schema creation
+remains an application-owned migration:
 
 ```go
 options := postgres.BatchOptions{

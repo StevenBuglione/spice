@@ -38,8 +38,10 @@ registry schema, and SQL execution policies appropriate to their database.
 
 ## PostgreSQL
 
-The PostgreSQL starter supplies a concrete backend over a caller-owned pgx
-`database/sql` pool:
+The independent
+[`starter-postgres`](https://github.com/spice-framework/starter-postgres)
+module supplies a concrete backend over a caller-owned pgx `database/sql`
+pool:
 
 ```go
 backend, err := postgres.NewMigrationBackend(database, postgres.MigrationOptions{

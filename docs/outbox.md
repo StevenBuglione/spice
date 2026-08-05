@@ -66,7 +66,8 @@ affect exactly one row. Locking syntax and migrations remain dialect-owned.
 
 ## PostgreSQL
 
-`starter/postgres` supplies reviewed SQL and deterministic initial DDL:
+[`github.com/spice-framework/starter-postgres`](https://github.com/spice-framework/starter-postgres)
+supplies reviewed SQL and deterministic initial DDL:
 
 ```go
 schemaSQL, err := postgres.OutboxSchemaSQL(postgres.OutboxOptions{

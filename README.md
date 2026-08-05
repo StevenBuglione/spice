@@ -55,7 +55,11 @@ The repository currently provides:
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
 - Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, synchronous observations, and generated `@data.Transactional` typed HTTP boundaries.
 - Immutable reflection-free repository queries with explicit SQL, typed row decoders, exact single-result cardinality, bounded lists, and safe failures.
-- An opt-in pgx PostgreSQL starter with secure URL/TLS policy, explicit pool ownership, and real-container transaction, repository, and migration verification.
+- An independently versioned
+  [`starter-postgres`](https://github.com/spice-framework/starter-postgres)
+  integration with secure URL/TLS policy, explicit pool ownership, and
+  real-container transaction, repository, migration, batch, outbox, and SQL
+  test-slice verification.
 - An opt-in go-redis starter with secure URL/TLS/authentication policy,
   deterministic bounded pool ownership, exact cleanup, and a namespaced typed
   JSON cache store verified against a real Redis server.
@@ -63,7 +67,9 @@ The repository currently provides:
   [`starter-smtp`](https://github.com/spice-framework/starter-smtp) integration
   with required verified TLS, bounded cancellation/retry, duplicate-safe
   failure handling, and payload-free observations.
-- Deterministic module-owned migration plans with global version ordering, normalized SHA-256 checksums, registry drift detection, and a concrete PostgreSQL advisory-lock/transaction backend.
+- Deterministic module-owned migration plans with global version ordering,
+  normalized SHA-256 checksums, registry drift detection, and an independently
+  versioned PostgreSQL advisory-lock/transaction backend.
 - Immutable generic event topics with exact payload types, deterministic
   subscriber order, cancellation/failure semantics, module-interaction
   observations, and compile-time `@event.Topic`/`@event.Listener` graph
@@ -94,7 +100,7 @@ The repository currently provides:
   completed-prefix validation, fresh failure contexts, panic containment,
   bounded observations, a concurrency-safe capacity-bounded in-process store,
   a driver-neutral lease-aware SQL persistence protocol, and a real-container
-  verified PostgreSQL backend.
+  verified backend in the independent PostgreSQL starter.
 - An explicitly selected `@otel.Enable` OpenTelemetry v1.44 HTTP trace/metric
   starter with exact generated observer-role validation, plus explicit
   payload-free module-event interaction spans and metrics, with
@@ -415,8 +421,10 @@ Transport-neutral external messaging contracts are documented in
 Module-owned database migration planning is documented in
 [`docs/migrations.md`](docs/migrations.md).
 
-PostgreSQL pool configuration and integration testing are documented in
-[`docs/postgres.md`](docs/postgres.md).
+PostgreSQL pool configuration and integration testing are owned by the
+independent
+[`starter-postgres`](https://github.com/spice-framework/starter-postgres)
+module.
 
 Portable starter compatibility metadata and qualified annotation definitions
 are documented in [`docs/starters.md`](docs/starters.md).

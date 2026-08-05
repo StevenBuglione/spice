@@ -326,13 +326,15 @@ the durable registry as an exact plan prefix, and delegates advisory locking,
 transactional DDL policy, and atomic registry writes to explicit dialect
 backends.
 
-The PostgreSQL starter adapts pgx to the standard SQL contracts. Applications
-provide complete URLs, own pool lifetimes, and explicitly ping during startup;
-TLS hostname verification is the default and construction never connects.
-Its migration backend pins the underlying pgx connection while holding a
-session advisory lock, runs each parameter-free migration script and
-parameterized registry insert in one transaction, and closes the physical
-connection whenever unlock ownership cannot be confirmed.
+The independently versioned
+[`starter-postgres`](https://github.com/spice-framework/starter-postgres)
+module adapts pgx to the standard SQL contracts without adding pgx to core's
+module graph. Applications provide complete URLs, own pool lifetimes, and
+explicitly ping during startup; TLS hostname verification is the default and
+construction never connects. Its migration backend pins the underlying pgx
+connection while holding a session advisory lock, runs each parameter-free
+migration script and parameterized registry insert in one transaction, and
+closes the physical connection whenever unlock ownership cannot be confirmed.
 
 The MySQL starter constructs go-sql-driver connectors without global driver or
 TLS registration. Complete URLs, verified TLS, bounded pool lifetimes, parsed

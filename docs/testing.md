@@ -260,5 +260,7 @@ schema, migration, truncation, or connection-pool lifecycle. Database
 sequences and work performed outside the supplied executor are not
 transactional and therefore are not reset by the slice.
 
-The PostgreSQL integration suite proves under the race detector that rows are
-visible to the transaction-scoped subject and absent after `Close`.
+The independent
+[`starter-postgres`](https://github.com/spice-framework/starter-postgres)
+integration suite proves under the race detector that rows are visible to the
+transaction-scoped subject and absent after `Close`.
