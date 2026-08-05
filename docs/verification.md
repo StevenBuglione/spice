@@ -48,11 +48,12 @@ occurred.
 
 Use `make verify` before every commit. After deterministic formatting, module,
 and vendor prerequisites, independent analysis and security stages run with at
-most four workers. The shuffled test pass emits the repository coverage
-profile, eliminating a redundant all-package compilation while retaining the
-same tests and 85% floor. Race, fuzz, offline, and executable stages then run
-sequentially to reuse build caches; running them concurrently oversubscribes
-the Go compiler and increases wall time. Petclinic independently lints, vets,
+most four workers. One shuffled, race-enabled test pass emits the atomic
+repository coverage profile, eliminating a second all-package execution while
+retaining the same tests, race detector, and 85% floor. Fuzz and offline stages
+remain sequential. The clean-room, dogfood, module-report, and
+third-party-annotation smoke scenarios use independent workspaces and run with
+at most two workers. Petclinic independently lints, vets,
 security-scans, shuffled/race tests, coverage-checks, and vendor-offline tests
 its own module, then verifies and executes all three generated targets through
 its pinned Spice tool dependency. Every applicable stage remains mandatory.

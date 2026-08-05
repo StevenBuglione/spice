@@ -45,8 +45,6 @@ For every product change:
 `make verify` is repository-owned and cross-platform. It enforces:
 
 - Go 1.26.5;
-- Rust 1.93.0 formatting, tests, Clippy, and a locked `wasm32-wasip2` release
-  build for the isolated Zed adapter;
 - goimports and gofumpt formatting;
 - `go mod tidy -diff` for the product and tools modules;
 - mechanically reproducible vendor contents;
