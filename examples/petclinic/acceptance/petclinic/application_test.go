@@ -1,4 +1,4 @@
-package spicegen
+package petclinic_test
 
 import (
 	"bytes"
@@ -13,8 +13,28 @@ import (
 	"time"
 
 	"github.com/StevenBuglione/spice/config"
+	petclinicgen "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic"
 	"github.com/StevenBuglione/spice/lifecycle"
 	"github.com/StevenBuglione/spice/web"
+)
+
+type (
+	Application        = petclinicgen.Application
+	ApplicationOptions = petclinicgen.ApplicationOptions
+	CommandOptions     = petclinicgen.CommandOptions
+)
+
+const (
+	ExitFailure = petclinicgen.ExitFailure
+	ExitSuccess = petclinicgen.ExitSuccess
+	ExitUsage   = petclinicgen.ExitUsage
+)
+
+var (
+	Main                      = petclinicgen.Main
+	NewApplication            = petclinicgen.NewApplication
+	NewApplicationWithOptions = petclinicgen.NewApplicationWithOptions
+	RunCommand                = petclinicgen.RunCommand
 )
 
 func TestGeneratedPetclinicServesWelcomeAndManagement(t *testing.T) {
@@ -1127,7 +1147,7 @@ func TestGeneratedPetclinicNilAndConfigurationBoundaries(t *testing.T) {
 	); err == nil {
 		t.Fatal("nil Run() succeeded")
 	}
-	if _, err := NewApplication(nil); err == nil { //nolint:staticcheck // verifies generated boundary
+	if _, err := NewApplication(nil); err == nil {
 		t.Fatal("NewApplication(nil) succeeded")
 	}
 	if _, err := NewApplicationWithOptions(

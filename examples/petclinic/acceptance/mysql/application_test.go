@@ -1,4 +1,4 @@
-package spicegen
+package mysql_test
 
 import (
 	"net/http"
@@ -7,16 +7,24 @@ import (
 	"testing"
 
 	"github.com/StevenBuglione/spice/config"
+	mysqlgen "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql"
 )
 
-func TestGeneratedPostgreSQLGraphUsesPostgreSQLRepositories(
+type ApplicationOptions = mysqlgen.ApplicationOptions
+
+var (
+	NewApplication            = mysqlgen.NewApplication
+	NewApplicationWithOptions = mysqlgen.NewApplicationWithOptions
+)
+
+func TestGeneratedMySQLGraphUsesMySQLRepositories(
 	t *testing.T,
 ) {
 	t.Parallel()
 
-	source, err := config.NewMapSource("postgres-test", map[string]string{
-		"petclinic.datasource.url": "postgres://petclinic:petclinic@" +
-			"127.0.0.1:1/petclinic?sslmode=disable",
+	source, err := config.NewMapSource("mysql-test", map[string]string{
+		"petclinic.datasource.url": "mysql://petclinic:petclinic@" +
+			"127.0.0.1:1/petclinic?tls=disable",
 		"petclinic.datasource.allow-insecure": "true",
 	})
 	if err != nil {
@@ -40,7 +48,7 @@ func TestGeneratedPostgreSQLGraphUsesPostgreSQLRepositories(
 		components.OwnerRepository == nil ||
 		components.PetTypeRepository == nil ||
 		components.VetRepository == nil {
-		t.Fatalf("PostgreSQL components = %#v", components)
+		t.Fatalf("MySQL components = %#v", components)
 	}
 	request := httptest.NewRequest(http.MethodGet, "/", nil)
 	response := httptest.NewRecorder()
@@ -59,7 +67,7 @@ func TestGeneratedPostgreSQLGraphUsesPostgreSQLRepositories(
 	}
 }
 
-func TestGeneratedPostgreSQLGraphRequiresDatasourceURL(
+func TestGeneratedMySQLGraphRequiresDatasourceURL(
 	t *testing.T,
 ) {
 	t.Parallel()

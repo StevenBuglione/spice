@@ -138,7 +138,11 @@ Go, and target provider wiring calls their typed exported adapters.
 
 The schema-5 manifest records each file's concern role—including a distinct
 `target-http-route` role—primary source, related source declarations, exact
-generated ranges, and SHA-256 ownership. Generation
+generated ranges, and SHA-256 ownership. Every regular file below a generated
+target must appear in that manifest; the repository gates reject handwritten
+tests, helper files, stale targets, and other unowned artifacts. Application
+acceptance tests live outside `internal/spicegen` and import the generated
+package as an ordinary black-box dependency. Generation
 preserves unchanged files, refuses manual edits and unowned collisions, and
 supports read-only check and bounded diff modes. Migration removes legacy
 schema-4 monoliths and adjacent schema-3 shards only when their recorded hash

@@ -48,8 +48,10 @@ The current Go import graph identifies these extraction blockers:
 - application package scope is repeated in CLI arguments. Composition must be
   declared through ordinary Go imports at the application entrypoint so
   extracted applications remain self-describing.
-- handwritten acceptance tests live below generated ownership roots. Those
-  tests must move outside `internal/spicegen/<target>` before extraction.
+- application acceptance tests import generated targets from dedicated
+  black-box packages outside `internal/spicegen/<target>`. The shared quality
+  gate rejects every file or non-empty target absent from its ownership
+  manifest.
 
 ## Stage 0: Correct product truth and security
 
@@ -73,7 +75,7 @@ security scan contains no known vulnerable selected module versions.
 - [x] Declare application composition through ordinary blank Go imports and
   remove repeated package-pattern arguments from normal Petclinic and Commerce
   workflows.
-- [ ] Move handwritten tests outside generated ownership roots and enforce that
+- [x] Move handwritten tests outside generated ownership roots and enforce that
   every file below a generated target is manifest-owned.
 - [ ] Render conventional generated interface assertions while preserving
   exact pointer/value/generic validation.

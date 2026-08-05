@@ -58,6 +58,8 @@ For every product change:
 - an 85% whole-repository handwritten-product coverage floor; canonical Spice
   generated files remain compilation/execution inputs but are not duplicate
   statement-coverage denominator;
+- manifest-only generated target ownership; handwritten acceptance tests must
+  import generated packages from outside `internal/spicegen`;
 - offline vendor-only tests;
 - Spice CLI verification and executable example smoke tests.
 
