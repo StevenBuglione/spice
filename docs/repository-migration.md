@@ -7,10 +7,11 @@ evidence; repository creation alone never completes a stage.
 ## Baseline
 
 - Canonical source commit: `9a83a298c4e37a780b2f596f099ec137158fc298`.
-- Current canonical remote: `github.com/StevenBuglione/spice`.
+- Baseline source remote: the maintainer's personal `StevenBuglione` repository.
+- Canonical module and target remote: `github.com/spice-framework/spice`.
 - Target organization: `github.com/spice-framework`.
-- The target organization is active, initially contains no repositories, and
-  the maintainer has organization administration access.
+- The target organization is active and the maintainer has organization
+  administration access.
 - Go 1.26.5 is the mandatory migration toolchain.
 - The existing untracked `.tmp`, ignored `bin`, and ignored `out` trees are
   local reproducible artifacts, not migration inputs.
@@ -100,7 +101,7 @@ the result.
 - [x] Create `spice-framework/development` with idempotent bootstrap tooling,
   native workspace generation, compatibility metadata, and cross-repository
   verification.
-- [ ] Rewrite module, annotation import, documentation, and generated
+- [x] Rewrite module, annotation import, documentation, and generated
   provenance paths to `github.com/spice-framework`.
 - [ ] Transfer the original repository to `spice-framework/spice` and verify
   Git redirects, default branch, rules, Actions, issues, and local remotes.
@@ -120,6 +121,14 @@ organization workspace cloned all active and migrating repositories and proved
 current guarded workspace output plus independent Development and core
 verification; core linter exclusions are stable whether diagnostics are
 module-relative or containing-workspace-relative.
+
+Canonical-path evidence: every product, example, annotation descriptor, tool
+directive, editor fixture, generated source map, OpenAPI artifact, ownership
+manifest, and vendor tree now uses `github.com/spice-framework/spice`. The
+repository verifier scans the complete owned tree and rejects the retired
+personal-account module namespace. All six generated targets were proven
+current before the transition, migrated through their recorded SHA-256
+ownership, and rendered again by the independent stage-zero compiler.
 
 ## Stage 3: Extract independent consumers first
 

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/StevenBuglione/spice/cache"
+	"github.com/spice-framework/spice/cache"
 )
 
 func ExampleMemory() {

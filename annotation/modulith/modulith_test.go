@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestModulithDefinitions(t *testing.T) {
@@ -20,7 +20,7 @@ func TestModulithDefinitions(t *testing.T) {
 func TestModulithHandlers(t *testing.T) {
 	t.Parallel()
 	module, err := ModuleHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/modulith",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/modulith",
 		DescriptorSymbol:  "Module",
 		CanonicalName:     "Module",
 		Arguments: []sdk.InvocationArgument{{
@@ -34,7 +34,7 @@ func TestModulithHandlers(t *testing.T) {
 		t.Fatalf("ModuleHandler() = %#v, %v", module, err)
 	}
 	named, err := NamedInterfaceHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/modulith",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/modulith",
 		DescriptorSymbol:  "NamedInterface",
 		CanonicalName:     "NamedInterface",
 		Arguments: []sdk.InvocationArgument{{

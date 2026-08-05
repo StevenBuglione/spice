@@ -6,7 +6,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/StevenBuglione/spice/schedule"
+	"github.com/spice-framework/spice/schedule"
 )
 
 func ExampleScheduler() {

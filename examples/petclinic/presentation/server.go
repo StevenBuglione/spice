@@ -10,8 +10,8 @@ import (
 	"sync"
 )
 
-// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { OnStart, OnStop } from "github.com/StevenBuglione/spice/annotation/lifecycle"
+// @import { Bean } from "github.com/spice-framework/spice/annotation/core"
+// @import { OnStart, OnStop } from "github.com/spice-framework/spice/annotation/lifecycle"
 
 // Server owns the Petclinic HTTP listener and graceful-drain lifecycle.
 type Server struct {

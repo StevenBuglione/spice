@@ -8,8 +8,8 @@ import (
 
 	policyannotation "example.com/spice-annotation-fixture/annotation/policy"
 	wiringannotation "example.com/spice-annotation-fixture/annotation/wiring"
-	"github.com/StevenBuglione/spice/annotation/sdk"
-	"github.com/StevenBuglione/spice/annotation/sdk/protocol"
+	"github.com/spice-framework/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk/protocol"
 )
 
 const (

@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	spicecache "github.com/StevenBuglione/spice/cache"
+	spicecache "github.com/spice-framework/spice/cache"
 )
 
 type cachedOrder struct {

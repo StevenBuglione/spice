@@ -7,12 +7,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/lifecycle"
-	spicemysql "github.com/StevenBuglione/spice/starter/mysql"
+	"github.com/spice-framework/spice/lifecycle"
+	spicemysql "github.com/spice-framework/spice/starter/mysql"
 )
 
-// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { OnStart } from "github.com/StevenBuglione/spice/annotation/lifecycle"
+// @import { Bean } from "github.com/spice-framework/spice/annotation/core"
+// @import { OnStart } from "github.com/spice-framework/spice/annotation/lifecycle"
 
 // Database owns the Petclinic MySQL pool and migration lifecycle.
 type Database struct {

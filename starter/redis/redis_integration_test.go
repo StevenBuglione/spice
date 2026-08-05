@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	spicecache "github.com/StevenBuglione/spice/cache"
-	redisstarter "github.com/StevenBuglione/spice/starter/redis"
+	spicecache "github.com/spice-framework/spice/cache"
+	redisstarter "github.com/spice-framework/spice/starter/redis"
 )
 
 type integrationValue struct {

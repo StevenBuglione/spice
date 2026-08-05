@@ -3,10 +3,10 @@ package presentation
 import (
 	"embed"
 
-	"github.com/StevenBuglione/spice/i18n"
+	"github.com/spice-framework/spice/i18n"
 )
 
-// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Bean } from "github.com/spice-framework/spice/annotation/core"
 
 //go:embed messages/*.properties
 var messageFiles embed.FS

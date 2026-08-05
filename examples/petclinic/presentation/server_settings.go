@@ -2,7 +2,7 @@ package presentation
 
 import "time"
 
-// @import { Configuration } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Configuration } from "github.com/spice-framework/spice/annotation/core"
 
 // ServerSettings contains safe Petclinic HTTP server defaults.
 //

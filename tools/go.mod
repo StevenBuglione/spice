@@ -1,4 +1,4 @@
-module github.com/StevenBuglione/spice/tools
+module github.com/spice-framework/spice/tools
 
 go 1.26.0
 

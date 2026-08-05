@@ -3,7 +3,7 @@ package system
 import (
 	"testing"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	"github.com/spice-framework/spice/examples/petclinic/presentation"
 )
 
 func TestWelcomeControllerRendersCanonicalPage(t *testing.T) {

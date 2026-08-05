@@ -9,15 +9,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	"github.com/StevenBuglione/spice/i18n"
-	"github.com/StevenBuglione/spice/view"
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/presentation"
+	"github.com/spice-framework/spice/i18n"
+	"github.com/spice-framework/spice/view"
+	"github.com/spice-framework/spice/web"
 )
 
-// @import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
-// @import { Get, Post } from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Controller } from "github.com/spice-framework/spice/annotation/web"
+// @import { Get, Post } from "github.com/spice-framework/spice/annotation/web"
 
 // PetController serves pet creation and editing inside an owner aggregate.
 //

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestServeDispatchesTypedLifecycle(t *testing.T) {

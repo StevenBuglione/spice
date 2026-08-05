@@ -41,7 +41,7 @@ scanning and qualifiers. Spice makes the candidate edge explicit while leaving
 the interface and constructor idiomatic:
 
 ```go
-// @import { Implements, Primary, Qualifier, Service } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Implements, Primary, Qualifier, Service } from "github.com/spice-framework/spice/annotation/core"
 // @import * as payments from "example.com/shop/payments"
 
 // @Service(name="stripeProcessor")

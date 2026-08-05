@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/web"
 )
 
 const (

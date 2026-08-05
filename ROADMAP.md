@@ -16,8 +16,10 @@ application ownership, source-owned composition, generated-tree purity,
 portable starter metadata, and the clean-room scaffold/dependency workflow are
 green. Organization governance, compatibility metadata, guarded workspace
 generation, and reusable cross-repository gates are now live under
-`github.com/spice-framework`. The immediate priority is canonical module paths,
-core transfer, and then consumer/editor extraction.
+`github.com/spice-framework`. Core source, descriptors, generated provenance,
+fixtures, and vendor trees now use the canonical organization module path. The
+immediate priority is the history-preserving core transfer and clean-room
+redirect proof, followed by consumer/editor extraction.
 
 ## Current developer-proof priority
 

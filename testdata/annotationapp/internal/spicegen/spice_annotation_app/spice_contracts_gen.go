@@ -11,9 +11,9 @@ import (
 
 	component "example.com/spice-annotation-app/component"
 	spiceentrypoint "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app/sources/_root"
-	spicebean "github.com/StevenBuglione/spice/bean"
-	spiceconfig "github.com/StevenBuglione/spice/config"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	spicebean "github.com/spice-framework/spice/bean"
+	spiceconfig "github.com/spice-framework/spice/config"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
 const TargetID = spiceentrypoint.ApplicationTargetSpiceAnnotationApp_064f9950

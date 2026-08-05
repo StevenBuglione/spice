@@ -45,7 +45,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/sources/component/message_spice_gen.go",
-      "sha256": "sha256:27ce8449b506dfc405db6f53902acb6eacc0e0cbbdc7184f1eb51241885e4798",
+      "sha256": "sha256:e7d582e6766231add75260b0c4b26bbf211b2442d367b135097ad93130cc6c57",
       "role": "source-unit",
       "primary_source": {
         "path": "component/message.go",
@@ -74,7 +74,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_assembly_gen.go",
-      "sha256": "sha256:2ee117e5bfe0a5b5631922cb329055a65a57ee351ce14eb0d56d79b9eb44251c",
+      "sha256": "sha256:5d9566b1fad6f84652e60ed63acd03eee76c825b511226d26ddfea7e9f8c15a5",
       "role": "target-assembly",
       "related_sources": [
         {
@@ -93,7 +93,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_command_gen.go",
-      "sha256": "sha256:25ffdc50a6914ee3ebcf1c357cd15e714cd262e3d31b586f96142be5e11a7733",
+      "sha256": "sha256:2afaeb2f943191295594a8584a6f2412f3de75279b790db1b9767d7b82d93096",
       "role": "target-command",
       "related_sources": [
         {
@@ -106,7 +106,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_configuration_gen.go",
-      "sha256": "sha256:d0208266d1581656c57a519438e04a391dbfffa010a62bfa7487c381cafb1333",
+      "sha256": "sha256:99802b022ee243ea84e9e518162c373f49b3753d04f5d1d9c415efa53302e8a4",
       "role": "target-configuration",
       "related_sources": [
         {
@@ -119,7 +119,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_contracts_gen.go",
-      "sha256": "sha256:fc76e33ec79c7f6c98a0335f0cc3353259a273e242d2fed57c32d6d1c9e76273",
+      "sha256": "sha256:07565cc6e133c44ab41c1407bb81fd4fb5f84ba0783409cfc20720fa3edf94d5",
       "role": "target-contracts",
       "related_sources": [
         {
@@ -138,7 +138,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_lifecycle_gen.go",
-      "sha256": "sha256:3b2fc7bb7dd530bbd5fbc5f950a8d9912d0e4a6b82a417326f789d5d96b0554d",
+      "sha256": "sha256:0184facdc6475b5fa879631e6537990f88ac70adf9bd61e191d1506f959f3508",
       "role": "target-lifecycle",
       "related_sources": [
         {
@@ -151,7 +151,7 @@
     },
     {
       "path": "internal/spicegen/spice_annotation_app/spice_providers_gen.go",
-      "sha256": "sha256:8585aa0b01ffa58666d8d5de8cd016559a1767f8ba064ca2a3a856772d57a73f",
+      "sha256": "sha256:4dc30578b6bb390803984fade9dbb9640d2e14b49d11ad09452ad58c747da1ba",
       "role": "target-providers",
       "related_sources": [
         {

@@ -7,8 +7,8 @@ import (
 	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	spiceevent "github.com/StevenBuglione/spice/event"
-	"github.com/StevenBuglione/spice/web"
+	spiceevent "github.com/spice-framework/spice/event"
+	"github.com/spice-framework/spice/web"
 )
 
 func TestObserverComposesHTTPAndEventAdapters(t *testing.T) {

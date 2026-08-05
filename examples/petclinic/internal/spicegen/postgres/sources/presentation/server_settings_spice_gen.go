@@ -9,17 +9,17 @@ import (
 	fmt "fmt"
 	time "time"
 
-	spiceconfig "github.com/StevenBuglione/spice/config"
-	presentation "github.com/StevenBuglione/spice/examples/petclinic/presentation"
+	spiceconfig "github.com/spice-framework/spice/config"
+	presentation "github.com/spice-framework/spice/examples/petclinic/presentation"
 )
 
-// BindServerSettings_450eac75 binds the validated configuration declared by spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.
-func BindServerSettings_450eac75(configurationSnapshot spiceconfig.Snapshot) (presentation.ServerSettings, error) {
+// BindServerSettings_8b8fae9a binds the validated configuration declared by spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.
+func BindServerSettings_8b8fae9a(configurationSnapshot spiceconfig.Snapshot) (presentation.ServerSettings, error) {
 	value := presentation.ServerSettings{}
 	if _, configured := configurationSnapshot.Lookup("petclinic.server.address"); configured {
 		rawValue, valueErr := configurationSnapshot.RequiredString("petclinic.server.address")
 		if valueErr != nil {
-			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.address for github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings.Address: %w", valueErr)
+			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.address for github.com/spice-framework/spice/examples/petclinic/presentation.ServerSettings.Address: %w", valueErr)
 		}
 		convertedValue := string(rawValue)
 		value.Address = convertedValue
@@ -27,7 +27,7 @@ func BindServerSettings_450eac75(configurationSnapshot spiceconfig.Snapshot) (pr
 	if _, configured := configurationSnapshot.Lookup("petclinic.server.read-header-timeout"); configured {
 		rawValue, valueErr := configurationSnapshot.Duration("petclinic.server.read-header-timeout")
 		if valueErr != nil {
-			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.read-header-timeout for github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings.ReadHeaderTimeout: %w", valueErr)
+			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.read-header-timeout for github.com/spice-framework/spice/examples/petclinic/presentation.ServerSettings.ReadHeaderTimeout: %w", valueErr)
 		}
 		convertedValue := time.Duration(rawValue)
 		value.ReadHeaderTimeout = convertedValue
@@ -35,7 +35,7 @@ func BindServerSettings_450eac75(configurationSnapshot spiceconfig.Snapshot) (pr
 	if _, configured := configurationSnapshot.Lookup("petclinic.server.read-timeout"); configured {
 		rawValue, valueErr := configurationSnapshot.Duration("petclinic.server.read-timeout")
 		if valueErr != nil {
-			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.read-timeout for github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings.ReadTimeout: %w", valueErr)
+			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.read-timeout for github.com/spice-framework/spice/examples/petclinic/presentation.ServerSettings.ReadTimeout: %w", valueErr)
 		}
 		convertedValue := time.Duration(rawValue)
 		value.ReadTimeout = convertedValue
@@ -43,7 +43,7 @@ func BindServerSettings_450eac75(configurationSnapshot spiceconfig.Snapshot) (pr
 	if _, configured := configurationSnapshot.Lookup("petclinic.server.write-timeout"); configured {
 		rawValue, valueErr := configurationSnapshot.Duration("petclinic.server.write-timeout")
 		if valueErr != nil {
-			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.write-timeout for github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings.WriteTimeout: %w", valueErr)
+			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.write-timeout for github.com/spice-framework/spice/examples/petclinic/presentation.ServerSettings.WriteTimeout: %w", valueErr)
 		}
 		convertedValue := time.Duration(rawValue)
 		value.WriteTimeout = convertedValue
@@ -51,7 +51,7 @@ func BindServerSettings_450eac75(configurationSnapshot spiceconfig.Snapshot) (pr
 	if _, configured := configurationSnapshot.Lookup("petclinic.server.idle-timeout"); configured {
 		rawValue, valueErr := configurationSnapshot.Duration("petclinic.server.idle-timeout")
 		if valueErr != nil {
-			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.idle-timeout for github.com/StevenBuglione/spice/examples/petclinic/presentation.ServerSettings.IdleTimeout: %w", valueErr)
+			return presentation.ServerSettings{}, fmt.Errorf("decode configuration property petclinic.server.idle-timeout for github.com/spice-framework/spice/examples/petclinic/presentation.ServerSettings.IdleTimeout: %w", valueErr)
 		}
 		convertedValue := time.Duration(rawValue)
 		value.IdleTimeout = convertedValue

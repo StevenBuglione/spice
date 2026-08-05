@@ -9,7 +9,7 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/web"
 )
 
 func TestRendererWritesSafeHTMLErrorsAndJSONFallback(t *testing.T) {

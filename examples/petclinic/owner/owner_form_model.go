@@ -1,8 +1,8 @@
 package owner
 
 import (
-	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	"github.com/StevenBuglione/spice/validation"
+	"github.com/spice-framework/spice/examples/petclinic/presentation"
+	"github.com/spice-framework/spice/validation"
 )
 
 // OwnerFormModel renders create and edit forms.

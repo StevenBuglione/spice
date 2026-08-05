@@ -5,12 +5,12 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/migration"
-	spicepostgres "github.com/StevenBuglione/spice/starter/postgres"
+	"github.com/spice-framework/spice/migration"
+	spicepostgres "github.com/spice-framework/spice/starter/postgres"
 )
 
 const (
-	petclinicModuleID = "github.com/StevenBuglione/spice/examples/petclinic"
+	petclinicModuleID = "github.com/spice-framework/spice/examples/petclinic"
 	schemaVersion     = 202607280101
 	seedVersion       = 202607280102
 )

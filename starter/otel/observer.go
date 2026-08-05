@@ -3,8 +3,8 @@ package otel
 import (
 	"context"
 
-	spiceevent "github.com/StevenBuglione/spice/event"
-	"github.com/StevenBuglione/spice/web"
+	spiceevent "github.com/spice-framework/spice/event"
+	"github.com/spice-framework/spice/web"
 )
 
 // Observer is the generated application-level OpenTelemetry adapter. It

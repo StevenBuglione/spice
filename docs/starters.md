@@ -30,7 +30,7 @@ Every entrypoint package must belong to the declared starter module; a manifest
 cannot redirect construction to unrelated application or dependency code.
 
 ```go
-import starter "github.com/StevenBuglione/spice/annotation/sdk/starter"
+import starter "github.com/spice-framework/spice/annotation/sdk/starter"
 
 manifest, err := starter.New(starter.Spec{
     Schema:    starter.Schema,
@@ -164,7 +164,7 @@ package autoconfigure
 
 import (
     "example.com/acme/search"
-    "github.com/StevenBuglione/spice/starter"
+    "github.com/spice-framework/spice/starter"
 )
 
 func DefaultClient(options search.Options) (*search.Client, error) {

@@ -252,8 +252,8 @@ An annotation reference is never resolved from a hidden built-in table.
 `@import` establishes the local symbol table:
 
 ```go
-// @import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @import * as security from "github.com/StevenBuglione/spice/annotation/security"
+// @import { Controller, Get as GET } from "github.com/spice-framework/spice/annotation/web"
+// @import * as security from "github.com/spice-framework/spice/annotation/security"
 
 // @Controller
 // @GET(path="/orders/{id}")

@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
-	"github.com/StevenBuglione/spice/annotation/sdk/sdktest"
+	"github.com/spice-framework/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk/sdktest"
 )
 
 func TestRunHandlerCasesValidatesPublicSDKHandlers(t *testing.T) {

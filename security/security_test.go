@@ -11,7 +11,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/web"
 )
 
 func TestAuthorizerAllowsExactRoleAndScopePolicy(t *testing.T) {

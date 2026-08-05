@@ -12,10 +12,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/config"
-	petclinicgen "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/petclinic"
-	"github.com/StevenBuglione/spice/lifecycle"
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/config"
+	petclinicgen "github.com/spice-framework/spice/examples/petclinic/internal/spicegen/petclinic"
+	"github.com/spice-framework/spice/lifecycle"
+	"github.com/spice-framework/spice/web"
 )
 
 type (

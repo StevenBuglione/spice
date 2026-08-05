@@ -11,22 +11,22 @@ import (
 	strings "strings"
 	time "time"
 
-	spicebean "github.com/StevenBuglione/spice/bean"
-	spiceconfig "github.com/StevenBuglione/spice/config"
-	spiceentrypoint "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/postgres/sources/cmd/postgres"
-	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
-	postgres "github.com/StevenBuglione/spice/examples/petclinic/postgres"
-	presentation "github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	system "github.com/StevenBuglione/spice/examples/petclinic/system"
-	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
-	i18n "github.com/StevenBuglione/spice/i18n"
-	spiceintercept "github.com/StevenBuglione/spice/intercept"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
-	spiceview "github.com/StevenBuglione/spice/view"
-	spiceweb "github.com/StevenBuglione/spice/web"
+	spicebean "github.com/spice-framework/spice/bean"
+	spiceconfig "github.com/spice-framework/spice/config"
+	spiceentrypoint "github.com/spice-framework/spice/examples/petclinic/internal/spicegen/postgres/sources/cmd/postgres"
+	owner "github.com/spice-framework/spice/examples/petclinic/owner"
+	postgres "github.com/spice-framework/spice/examples/petclinic/postgres"
+	presentation "github.com/spice-framework/spice/examples/petclinic/presentation"
+	system "github.com/spice-framework/spice/examples/petclinic/system"
+	vet "github.com/spice-framework/spice/examples/petclinic/vet"
+	i18n "github.com/spice-framework/spice/i18n"
+	spiceintercept "github.com/spice-framework/spice/intercept"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
+	spiceview "github.com/spice-framework/spice/view"
+	spiceweb "github.com/spice-framework/spice/web"
 )
 
-const TargetID = spiceentrypoint.ApplicationTargetPostgres_6bc99d88
+const TargetID = spiceentrypoint.ApplicationTargetPostgres_510ed9a8
 
 const (
 	ExitSuccess = 0

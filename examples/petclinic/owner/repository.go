@@ -3,7 +3,7 @@ package owner
 import (
 	"context"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/model"
 )
 
 // Repository persists complete owner aggregates.

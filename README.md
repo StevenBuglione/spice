@@ -11,8 +11,9 @@
 Organization governance and cross-repository development tooling now live at
 [`spice-framework/.github`](https://github.com/spice-framework/.github) and
 [`spice-framework/development`](https://github.com/spice-framework/development).
-The core source remains canonical in this repository until its module-path
-rewrite and verified organization transfer are complete.
+The core module now uses its canonical `github.com/spice-framework/spice`
+identity. The history-preserving organization transfer is the remaining core
+repository cutover before independent consumer extraction begins.
 
 Spice is an opinionated, compile-time application platform for Go. Its goal is to bring the breadth, productivity, and operational completeness associated with Spring Boot together with Spring Modulith-style architectural enforcement—without importing JVM runtime magic into Go.
 
@@ -152,7 +153,7 @@ The repository currently provides:
 Annotations are valid declaration comments with explicit file-scoped imports:
 
 ```go
-// @import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Controller } from "github.com/spice-framework/spice/annotation/web"
 
 // @Controller(prefix="/users")
 type UserController struct{}
@@ -162,8 +163,8 @@ Named imports keep common annotations clean, aliases resolve local collisions,
 and namespace imports keep provenance visible:
 
 ```go
-// @import { Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @import * as security from "github.com/StevenBuglione/spice/annotation/security"
+// @import { Get as GET } from "github.com/spice-framework/spice/annotation/web"
+// @import * as security from "github.com/spice-framework/spice/annotation/security"
 
 // @GET("/orders/{id}")
 // @security.Authorize(anyRoles=["admin"], allScopes=["orders:write"])
@@ -174,7 +175,7 @@ The application root `go.mod` authorizes annotation handlers through standard
 Go tool dependencies:
 
 ```go
-tool github.com/StevenBuglione/spice/cmd/spice-annotation-core
+tool github.com/spice-framework/spice/cmd/spice-annotation-core
 ```
 
 Spice statically decodes each one-file Go descriptor and launches only its
@@ -207,7 +208,7 @@ Go compile-time assertion into a manifest-owned source shard beside the
 implementation; handwritten source stays focused on behavior.
 
 ```go
-// @import { Implements, Primary, Qualifier, Service } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Implements, Primary, Qualifier, Service } from "github.com/spice-framework/spice/annotation/core"
 // @import * as payments from "example.com/commerce/payments"
 
 // @Service(name="stripeProcessor", aliases=["payments"])
@@ -255,7 +256,7 @@ cd examples/commerce
 spice annotations list ./...
 spice annotations doctor ./...
 spice verify --format=json ./...
-spice test --module github.com/StevenBuglione/spice/examples/commerce/orders --count=1 ./...
+spice test --module github.com/spice-framework/spice/examples/commerce/orders --count=1 ./...
 spice generate --check --target Commerce .
 spice run --target Commerce . -- -check
 spice dev --target Commerce .
@@ -286,12 +287,12 @@ package main
 import (
     "os"
 
-    spiceapp "github.com/StevenBuglione/spice/examples/commerce/internal/spicegen/commerce"
+    spiceapp "github.com/spice-framework/spice/examples/commerce/internal/spicegen/commerce"
 )
 
-// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
-// @import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
+// @import { Application } from "github.com/spice-framework/spice/annotation/core"
+// @import { Enable } from "github.com/spice-framework/spice/annotation/management"
+// @import { Logging } from "github.com/spice-framework/spice/annotation/observability"
 
 // @Application
 // @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"])

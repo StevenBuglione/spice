@@ -4,8 +4,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/validation"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/validation"
 )
 
 // Visit records veterinary care for one pet.

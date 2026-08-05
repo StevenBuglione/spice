@@ -4,7 +4,7 @@ package policy
 import (
 	"context"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 // Policy classifies a type under a fixture-owned architecture policy.

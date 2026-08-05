@@ -8,19 +8,19 @@ package spicegen
 import (
 	fmt "fmt"
 
-	presentation "github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	i18n "github.com/StevenBuglione/spice/i18n"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
-	view "github.com/StevenBuglione/spice/view"
+	presentation "github.com/spice-framework/spice/examples/petclinic/presentation"
+	i18n "github.com/spice-framework/spice/i18n"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
+	view "github.com/spice-framework/spice/view"
 )
 
-// ConstructRenderer_3dddedb0 performs the direct construction selected for bean "newRenderer".
-// Spice source identity: spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer.
-func ConstructRenderer_3dddedb0(dependency0 *i18n.Catalog) (*view.Renderer, spicelifecycle.Cleanup, error) {
+// ConstructRenderer_7b5a1f92 performs the direct construction selected for bean "newRenderer".
+// Spice source identity: spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer.
+func ConstructRenderer_7b5a1f92(dependency0 *i18n.Catalog) (*view.Renderer, spicelifecycle.Cleanup, error) {
 	value, err := presentation.NewRenderer(dependency0)
 	if err != nil {
 		var zero *view.Renderer
-		return zero, nil, fmt.Errorf("construct bean newRenderer (*github.com/StevenBuglione/spice/view.Renderer, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer): %w", err)
+		return zero, nil, fmt.Errorf("construct bean newRenderer (*github.com/spice-framework/spice/view.Renderer, source spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer): %w", err)
 	}
 	return value, nil, nil
 }

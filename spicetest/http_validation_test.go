@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/StevenBuglione/spice/lifecycle"
+	"github.com/spice-framework/spice/lifecycle"
 )
 
 func TestHTTPSliceRejectsInvalidConstructionAndRequests(t *testing.T) {

@@ -10,11 +10,11 @@ import (
 	slog "log/slog"
 	os "os"
 
-	spiceconfig "github.com/StevenBuglione/spice/config"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
-	spicemanagement "github.com/StevenBuglione/spice/management"
-	spiceobservability "github.com/StevenBuglione/spice/observability"
-	spiceweb "github.com/StevenBuglione/spice/web"
+	spiceconfig "github.com/spice-framework/spice/config"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
+	spicemanagement "github.com/spice-framework/spice/management"
+	spiceobservability "github.com/spice-framework/spice/observability"
+	spiceweb "github.com/spice-framework/spice/web"
 )
 
 func NewApplication(ctx context.Context, observers ...spicelifecycle.Observer) (*Application, error) {

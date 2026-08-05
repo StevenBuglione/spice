@@ -68,8 +68,8 @@ local `replace` only inside this source checkout.
 The process entrypoint in `examples/petclinic/main.go` is valid Go:
 
 ```go
-// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
+// @import { Application } from "github.com/spice-framework/spice/annotation/core"
+// @import { Enable } from "github.com/spice-framework/spice/annotation/management"
 
 // @Application
 // @Enable(expose=["health", "readiness", "info"], access="loopback")
@@ -82,7 +82,10 @@ func main() {
 function that the compiler decodes without executing. The target module's
 `go.mod` is the only authority that permits its handler tool to run.
 `spiceapp` is the ordinary Go import alias for
-`github.com/StevenBuglione/spice-petclinic/internal/spicegen/petclinic`.
+`github.com/spice-framework/spice/examples/petclinic/internal/spicegen/petclinic`
+while Petclinic remains in the migration source tree. Its independent
+repository will publish a shorter module path only after extraction acceptance
+is green.
 
 ## Verify and generate
 

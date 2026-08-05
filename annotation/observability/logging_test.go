@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestLoggingDefinition(t *testing.T) {
@@ -19,7 +19,7 @@ func TestObservabilityLoggingHandler(t *testing.T) {
 	result, err := ObservabilityLoggingHandler(
 		context.Background(),
 		sdk.Invocation{
-			DescriptorPackage: "github.com/StevenBuglione/spice/annotation/observability",
+			DescriptorPackage: "github.com/spice-framework/spice/annotation/observability",
 			DescriptorSymbol:  "Logging",
 			CanonicalName:     "observability.Logging",
 		},

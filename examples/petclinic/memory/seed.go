@@ -3,12 +3,12 @@ package memory
 import (
 	"time"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/owner"
-	"github.com/StevenBuglione/spice/examples/petclinic/vet"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/owner"
+	"github.com/spice-framework/spice/examples/petclinic/vet"
 )
 
-// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Bean } from "github.com/spice-framework/spice/annotation/core"
 
 // NewPetclinicDatabase returns the recognizable Spring Petclinic reference
 // data without filesystem, environment, or network access.

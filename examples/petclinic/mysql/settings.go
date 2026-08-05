@@ -1,6 +1,6 @@
 package mysql
 
-// @import { Configuration } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Configuration } from "github.com/spice-framework/spice/annotation/core"
 
 // Settings defines the explicit MySQL profile configuration.
 //

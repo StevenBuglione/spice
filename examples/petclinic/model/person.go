@@ -3,7 +3,7 @@ package model
 import (
 	"strings"
 
-	"github.com/StevenBuglione/spice/validation"
+	"github.com/spice-framework/spice/validation"
 )
 
 // Person is the shared name data for owners and veterinarians.

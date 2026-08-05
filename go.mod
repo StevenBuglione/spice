@@ -1,10 +1,10 @@
-module github.com/StevenBuglione/spice
+module github.com/spice-framework/spice
 
 go 1.26.0
 
 toolchain go1.26.5
 
-tool github.com/StevenBuglione/spice/cmd/spice-annotation-core
+tool github.com/spice-framework/spice/cmd/spice-annotation-core
 
 require (
 	github.com/coder/websocket v1.8.15

@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestLifecycleDefinitions(t *testing.T) {
@@ -28,7 +28,7 @@ func TestLifecycleHandlers(t *testing.T) {
 	}
 	for _, test := range tests {
 		result, err := test.handler(context.Background(), sdk.Invocation{
-			DescriptorPackage: "github.com/StevenBuglione/spice/annotation/lifecycle",
+			DescriptorPackage: "github.com/spice-framework/spice/annotation/lifecycle",
 			DescriptorSymbol:  test.symbol,
 			CanonicalName:     test.symbol,
 		})

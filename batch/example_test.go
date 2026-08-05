@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/StevenBuglione/spice/batch"
+	"github.com/spice-framework/spice/batch"
 )
 
 func ExampleMemoryStore_restart() {

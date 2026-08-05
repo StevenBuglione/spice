@@ -10,7 +10,7 @@ import (
 	http "net/http"
 	time "time"
 
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
 func (application *Application) State() spicelifecycle.State {

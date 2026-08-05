@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	spicemail "github.com/StevenBuglione/spice/mail"
+	spicemail "github.com/spice-framework/spice/mail"
 )
 
 func TestSenderRecordsInspectableImmutableDelivery(t *testing.T) {

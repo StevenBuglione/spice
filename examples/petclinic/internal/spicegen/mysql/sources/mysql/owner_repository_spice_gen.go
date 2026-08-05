@@ -8,21 +8,21 @@ package spicegen
 import (
 	fmt "fmt"
 
-	mysql "github.com/StevenBuglione/spice/examples/petclinic/mysql"
-	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	mysql "github.com/spice-framework/spice/examples/petclinic/mysql"
+	owner "github.com/spice-framework/spice/examples/petclinic/owner"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructOwnerRepository_055f5543 performs the direct construction selected for bean "ownerRepository".
-// Spice source identity: spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
-func ConstructOwnerRepository_055f5543(dependency0 *mysql.Database) (*mysql.OwnerRepository, spicelifecycle.Cleanup, error) {
+// ConstructOwnerRepository_09b8260c performs the direct construction selected for bean "ownerRepository".
+// Spice source identity: spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
+func ConstructOwnerRepository_09b8260c(dependency0 *mysql.Database) (*mysql.OwnerRepository, spicelifecycle.Cleanup, error) {
 	value, err := mysql.NewOwnerRepository(dependency0)
 	if err != nil {
 		var zero *mysql.OwnerRepository
-		return zero, nil, fmt.Errorf("construct bean ownerRepository (*github.com/StevenBuglione/spice/examples/petclinic/mysql.OwnerRepository, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean ownerRepository (*github.com/spice-framework/spice/examples/petclinic/mysql.OwnerRepository, source spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsOwnerRepositoryAsRepository_3593c16a identifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
+// spiceImplementsOwnerRepositoryAsRepository_e6e0a43b identifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
 var _ owner.Repository = (*mysql.OwnerRepository)(nil)

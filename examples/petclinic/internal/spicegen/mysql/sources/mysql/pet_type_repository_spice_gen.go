@@ -8,21 +8,21 @@ package spicegen
 import (
 	fmt "fmt"
 
-	mysql "github.com/StevenBuglione/spice/examples/petclinic/mysql"
-	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	mysql "github.com/spice-framework/spice/examples/petclinic/mysql"
+	owner "github.com/spice-framework/spice/examples/petclinic/owner"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructPetTypeRepository_1ad039a7 performs the direct construction selected for bean "petTypeRepository".
-// Spice source identity: spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
-func ConstructPetTypeRepository_1ad039a7(dependency0 *mysql.Database) (*mysql.PetTypeRepository, spicelifecycle.Cleanup, error) {
+// ConstructPetTypeRepository_54be2407 performs the direct construction selected for bean "petTypeRepository".
+// Spice source identity: spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
+func ConstructPetTypeRepository_54be2407(dependency0 *mysql.Database) (*mysql.PetTypeRepository, spicelifecycle.Cleanup, error) {
 	value, err := mysql.NewPetTypeRepository(dependency0)
 	if err != nil {
 		var zero *mysql.PetTypeRepository
-		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/mysql.PetTypeRepository, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/spice-framework/spice/examples/petclinic/mysql.PetTypeRepository, source spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsPetTypeRepositoryAsPetTypeRepository_da9a4220 identifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_d5a22df1 identifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
 var _ owner.PetTypeRepository = (*mysql.PetTypeRepository)(nil)

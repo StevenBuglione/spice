@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestCoreDefinitions(t *testing.T) {
@@ -165,7 +165,7 @@ func TestCoreHandlers(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 			result, err := test.handler(context.Background(), sdk.Invocation{
-				DescriptorPackage: "github.com/StevenBuglione/spice/annotation/core",
+				DescriptorPackage: "github.com/spice-framework/spice/annotation/core",
 				DescriptorSymbol:  test.symbol,
 				CanonicalName:     test.canonical,
 				Arguments:         test.arguments,

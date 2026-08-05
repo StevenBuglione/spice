@@ -14,7 +14,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace/tracetest"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/web"
 )
 
 func TestHTTPObserverEmitsModuleAwareTraceAndMetrics(t *testing.T) {

@@ -8,17 +8,17 @@ package spicegen
 import (
 	fmt "fmt"
 
-	mysql "github.com/StevenBuglione/spice/examples/petclinic/mysql"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	mysql "github.com/spice-framework/spice/examples/petclinic/mysql"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructOpenDatabase_fc953d95 performs the direct construction selected for bean "openDatabase".
-// Spice source identity: spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase.
-func ConstructOpenDatabase_fc953d95(dependency0 mysql.Settings) (*mysql.Database, spicelifecycle.Cleanup, error) {
+// ConstructOpenDatabase_ede9abe2 performs the direct construction selected for bean "openDatabase".
+// Spice source identity: spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase.
+func ConstructOpenDatabase_ede9abe2(dependency0 mysql.Settings) (*mysql.Database, spicelifecycle.Cleanup, error) {
 	value, cleanup, err := mysql.OpenDatabase(dependency0)
 	if err != nil {
 		var zero *mysql.Database
-		return zero, nil, fmt.Errorf("construct bean openDatabase (*github.com/StevenBuglione/spice/examples/petclinic/mysql.Database, source spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase): %w", err)
+		return zero, nil, fmt.Errorf("construct bean openDatabase (*github.com/spice-framework/spice/examples/petclinic/mysql.Database, source spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase): %w", err)
 	}
 	return value, cleanup, nil
 }

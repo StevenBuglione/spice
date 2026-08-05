@@ -11,9 +11,9 @@ binary registry, or runtime annotation container.
 Annotation imports remain valid Go comments:
 
 ```go
-// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @import * as web from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Application } from "github.com/spice-framework/spice/annotation/core"
+// @import { Controller, Get as GET } from "github.com/spice-framework/spice/annotation/web"
+// @import * as web from "github.com/spice-framework/spice/annotation/web"
 
 // @Application
 // @Controller
@@ -48,7 +48,7 @@ Every annotation is one exported, documented function in its own `.go` file:
 import (
 	"context"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 	annotationtool "example.com/starter/annotationtool"
 )
 
@@ -217,7 +217,7 @@ capability without a compiler switch for that descriptor's package or name.
 Official descriptors use exactly the same protocol path through:
 
 ```text
-github.com/StevenBuglione/spice/cmd/spice-annotation-core
+github.com/spice-framework/spice/cmd/spice-annotation-core
 ```
 
 All 30 official descriptors have one public descriptor file, one declared
@@ -279,8 +279,8 @@ example.com/acme/spice-mail
 ```
 
 The public descriptor package imports only
-`github.com/StevenBuglione/spice/annotation/sdk`. The tool command may
-also import `github.com/StevenBuglione/spice/annotation/sdk/protocol`; they do
+`github.com/spice-framework/spice/annotation/sdk`. The tool command may
+also import `github.com/spice-framework/spice/annotation/sdk/protocol`; they do
 not import `compiler`, `internal/cli`, or an official handler package. A
 descriptor's `Implementation.Handler` is a typed reference to the real
 package-level handler in the same file, and the tool's `describe` response

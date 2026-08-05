@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/StevenBuglione/spice/lifecycle"
+	"github.com/spice-framework/spice/lifecycle"
 )
 
 func TestOptionalRepresentsPresenceWithoutAmbiguity(t *testing.T) {

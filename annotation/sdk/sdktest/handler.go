@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 const defaultHandlerTimeout = 5 * time.Second

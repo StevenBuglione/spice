@@ -10,7 +10,7 @@ import (
 	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/trace"
 
-	spiceevent "github.com/StevenBuglione/spice/event"
+	spiceevent "github.com/spice-framework/spice/event"
 )
 
 // EventObserver creates one bounded span and metric set for each generated

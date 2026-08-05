@@ -8,21 +8,21 @@ package spicegen
 import (
 	fmt "fmt"
 
-	memory "github.com/StevenBuglione/spice/examples/petclinic/memory"
-	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	memory "github.com/spice-framework/spice/examples/petclinic/memory"
+	owner "github.com/spice-framework/spice/examples/petclinic/owner"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructPetTypeRepository_eaa83bf0 performs the direct construction selected for bean "petTypeRepository".
-// Spice source identity: spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
-func ConstructPetTypeRepository_eaa83bf0(dependency0 *memory.Database) (*memory.PetTypeRepository, spicelifecycle.Cleanup, error) {
+// ConstructPetTypeRepository_980a7d58 performs the direct construction selected for bean "petTypeRepository".
+// Spice source identity: spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
+func ConstructPetTypeRepository_980a7d58(dependency0 *memory.Database) (*memory.PetTypeRepository, spicelifecycle.Cleanup, error) {
 	value, err := memory.NewPetTypeRepository(dependency0)
 	if err != nil {
 		var zero *memory.PetTypeRepository
-		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.PetTypeRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/spice-framework/spice/examples/petclinic/memory.PetTypeRepository, source spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|17:PetTypeRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsPetTypeRepositoryAsPetTypeRepository_03415e64 identifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_c1cbcc46 identifies the explicit @Implements binding for spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|17:PetTypeRepository.
 var _ owner.PetTypeRepository = (*memory.PetTypeRepository)(nil)

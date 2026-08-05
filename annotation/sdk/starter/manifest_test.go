@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation"
+	"github.com/spice-framework/spice/annotation"
 )
 
 func TestManifestNormalizesAndDefensivelyCopiesMetadata(t *testing.T) {

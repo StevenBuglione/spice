@@ -23,9 +23,9 @@ an invalid source representation from `gofmt`, `go test`, or other Go tools.
 New source may explicitly bind descriptor symbols per file:
 
 ```go
-// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { Controller, Get as GET } from "github.com/StevenBuglione/spice/annotation/web"
-// @import * as web from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Application } from "github.com/spice-framework/spice/annotation/core"
+// @import { Controller, Get as GET } from "github.com/spice-framework/spice/annotation/web"
+// @import * as web from "github.com/spice-framework/spice/annotation/web"
 ```
 
 Named bindings permit clean `@Application` and `@Controller` spellings.

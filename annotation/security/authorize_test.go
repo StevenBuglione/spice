@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestAuthorizeDefinition(t *testing.T) {
@@ -18,7 +18,7 @@ func TestAuthorizeDefinition(t *testing.T) {
 func TestAuthorizeHandler(t *testing.T) {
 	t.Parallel()
 	result, err := AuthorizeHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/security",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/security",
 		DescriptorSymbol:  "Authorize",
 		CanonicalName:     "security.Authorize",
 		Arguments: []sdk.InvocationArgument{

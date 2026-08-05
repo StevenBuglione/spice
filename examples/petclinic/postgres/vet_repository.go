@@ -5,11 +5,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/vet"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/vet"
 )
 
-// @import { Implements, Repository } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Implements, Repository } from "github.com/spice-framework/spice/annotation/core"
 
 // VetRepository reads PostgreSQL-backed veterinarians.
 //

@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/StevenBuglione/spice/data"
-	"github.com/StevenBuglione/spice/data/repository"
+	"github.com/spice-framework/spice/data"
+	"github.com/spice-framework/spice/data/repository"
 )
 
 var (

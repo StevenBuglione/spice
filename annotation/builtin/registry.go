@@ -1,7 +1,7 @@
 // Package builtin defines the annotation metadata shipped with Spice.
 package builtin
 
-import "github.com/StevenBuglione/spice/annotation"
+import "github.com/spice-framework/spice/annotation"
 
 // Registry returns a fresh immutable-by-construction registry of built-in annotations.
 func Registry() annotation.Registry {

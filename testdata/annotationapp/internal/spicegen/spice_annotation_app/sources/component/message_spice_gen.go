@@ -7,7 +7,7 @@ package spicegen
 
 import (
 	component "example.com/spice-annotation-app/component"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
 // ConstructProvideMessage_031f9b83 performs the direct construction selected for bean "provideMessage".

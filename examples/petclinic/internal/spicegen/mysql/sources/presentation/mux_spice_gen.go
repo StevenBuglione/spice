@@ -9,17 +9,17 @@ import (
 	fmt "fmt"
 	http "net/http"
 
-	presentation "github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	presentation "github.com/spice-framework/spice/examples/petclinic/presentation"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructMux_1ec2a68a performs the direct construction selected for bean "newMux".
-// Spice source identity: spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux.
-func ConstructMux_1ec2a68a() (*http.ServeMux, spicelifecycle.Cleanup, error) {
+// ConstructMux_c4b2b961 performs the direct construction selected for bean "newMux".
+// Spice source identity: spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux.
+func ConstructMux_c4b2b961() (*http.ServeMux, spicelifecycle.Cleanup, error) {
 	value, err := presentation.NewMux()
 	if err != nil {
 		var zero *http.ServeMux
-		return zero, nil, fmt.Errorf("construct bean newMux (*net/http.ServeMux, source spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux): %w", err)
+		return zero, nil, fmt.Errorf("construct bean newMux (*net/http.ServeMux, source spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux): %w", err)
 	}
 	return value, nil, nil
 }

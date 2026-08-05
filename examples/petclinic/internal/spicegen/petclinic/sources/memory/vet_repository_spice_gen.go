@@ -8,21 +8,21 @@ package spicegen
 import (
 	fmt "fmt"
 
-	memory "github.com/StevenBuglione/spice/examples/petclinic/memory"
-	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	memory "github.com/spice-framework/spice/examples/petclinic/memory"
+	vet "github.com/spice-framework/spice/examples/petclinic/vet"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructVetRepository_3a6aad84 performs the direct construction selected for bean "vetRepository".
-// Spice source identity: spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
-func ConstructVetRepository_3a6aad84(dependency0 *memory.Database) (*memory.VetRepository, spicelifecycle.Cleanup, error) {
+// ConstructVetRepository_5625e0ef performs the direct construction selected for bean "vetRepository".
+// Spice source identity: spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|13:VetRepository.
+func ConstructVetRepository_5625e0ef(dependency0 *memory.Database) (*memory.VetRepository, spicelifecycle.Cleanup, error) {
 	value, err := memory.NewVetRepository(dependency0)
 	if err != nil {
 		var zero *memory.VetRepository
-		return zero, nil, fmt.Errorf("construct bean vetRepository (*github.com/StevenBuglione/spice/examples/petclinic/memory.VetRepository, source spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean vetRepository (*github.com/spice-framework/spice/examples/petclinic/memory.VetRepository, source spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|13:VetRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsVetRepositoryAsRepository_f75617ef identifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
+// spiceImplementsVetRepositoryAsRepository_c9ce5770 identifies the explicit @Implements binding for spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|13:VetRepository.
 var _ vet.Repository = (*memory.VetRepository)(nil)

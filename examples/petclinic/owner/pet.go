@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/validation"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/validation"
 )
 
 // Pet is an animal owned by one Petclinic owner.

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/security"
+	"github.com/spice-framework/spice/security"
 )
 
 func ExampleAuthorizer() {

@@ -14,7 +14,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace/tracetest"
 	"go.opentelemetry.io/otel/trace"
 
-	spiceevent "github.com/StevenBuglione/spice/event"
+	spiceevent "github.com/spice-framework/spice/event"
 )
 
 func TestEventObserverEmitsModuleInteractionTraceAndMetrics(t *testing.T) {

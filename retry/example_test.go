@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/retry"
+	"github.com/spice-framework/spice/retry"
 )
 
 func ExampleRun() {

@@ -16,10 +16,10 @@ import (
 	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/web"
 )
 
-const instrumentationName = "github.com/StevenBuglione/spice/starter/otel"
+const instrumentationName = "github.com/spice-framework/spice/starter/otel"
 
 // Options supplies the application-owned OpenTelemetry providers.
 type Options struct {

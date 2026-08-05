@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestContributionRoundTrip(t *testing.T) {

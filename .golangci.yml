@@ -76,37 +76,37 @@ linters:
             - "security/**/*.go"
             - "web/**/*.go"
           deny:
-            - pkg: "github.com/StevenBuglione/spice/compiler"
+            - pkg: "github.com/spice-framework/spice/compiler"
               desc: "public API packages must not depend on compiler packages"
-            - pkg: "github.com/StevenBuglione/spice/internal"
+            - pkg: "github.com/spice-framework/spice/internal"
               desc: "public API packages must not depend on internal implementation packages"
-            - pkg: "github.com/StevenBuglione/spice/cmd"
+            - pkg: "github.com/spice-framework/spice/cmd"
               desc: "public API packages must not depend on CLI packages"
-            - pkg: "github.com/StevenBuglione/spice/starter"
+            - pkg: "github.com/spice-framework/spice/starter"
               desc: "core runtime packages must not depend on opt-in starters"
         compiler:
           list-mode: lax
           files:
             - "compiler/**/*.go"
           deny:
-            - pkg: "github.com/StevenBuglione/spice/internal/cli"
+            - pkg: "github.com/spice-framework/spice/internal/cli"
               desc: "compiler packages must not depend on the CLI"
-            - pkg: "github.com/StevenBuglione/spice/cmd"
+            - pkg: "github.com/spice-framework/spice/cmd"
               desc: "compiler packages must not depend on command entrypoints"
-            - pkg: "github.com/StevenBuglione/spice/starter"
+            - pkg: "github.com/spice-framework/spice/starter"
               desc: "compiler packages must not depend on opt-in starters"
         starters:
           list-mode: lax
           files:
             - "starter/**/*.go"
           deny:
-            - pkg: "github.com/StevenBuglione/spice/compiler"
+            - pkg: "github.com/spice-framework/spice/compiler"
               desc: "runtime starters must not depend on compiler packages"
-            - pkg: "github.com/StevenBuglione/spice/internal"
+            - pkg: "github.com/spice-framework/spice/internal"
               desc: "public starters must not depend on repository internals"
-            - pkg: "github.com/StevenBuglione/spice/cmd"
+            - pkg: "github.com/spice-framework/spice/cmd"
               desc: "public starters must not depend on command entrypoints"
-            - pkg: "github.com/StevenBuglione/spice/examples"
+            - pkg: "github.com/spice-framework/spice/examples"
               desc: "public starters must not depend on example applications"
         cli:
           list-mode: lax
@@ -114,9 +114,9 @@ linters:
             - "cmd/**/*.go"
             - "internal/cli/**/*.go"
           deny:
-            - pkg: "github.com/StevenBuglione/spice/examples"
+            - pkg: "github.com/spice-framework/spice/examples"
               desc: "the CLI must not depend on example applications"
-            - pkg: "github.com/StevenBuglione/spice/starter"
+            - pkg: "github.com/spice-framework/spice/starter"
               desc: "the CLI must not depend on opt-in starters"
     errcheck:
       check-type-assertions: true
@@ -192,7 +192,7 @@ formatters:
     - goimports
   settings:
     gofumpt:
-      module-path: github.com/StevenBuglione/spice
+      module-path: github.com/spice-framework/spice
 
 issues:
   max-issues-per-linter: 0

@@ -3,8 +3,8 @@ package vet
 import (
 	"testing"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	"github.com/StevenBuglione/spice/i18n"
+	"github.com/spice-framework/spice/examples/petclinic/presentation"
+	"github.com/spice-framework/spice/i18n"
 )
 
 func testCatalog(t *testing.T) *i18n.Catalog {

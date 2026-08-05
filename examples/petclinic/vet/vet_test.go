@@ -3,7 +3,7 @@ package vet
 import (
 	"testing"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/model"
 )
 
 func TestVetSpecialtiesAreUniqueOrderedAndDefensive(t *testing.T) {

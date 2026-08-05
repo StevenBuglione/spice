@@ -1,17 +1,17 @@
 package otel
 
 import (
-	"github.com/StevenBuglione/spice/annotation"
-	spicestarter "github.com/StevenBuglione/spice/starter"
+	"github.com/spice-framework/spice/annotation"
+	spicestarter "github.com/spice-framework/spice/starter"
 )
 
 // Manifest returns OpenTelemetry starter compatibility and review metadata.
 func Manifest() spicestarter.Manifest {
 	return spicestarter.Must(spicestarter.Spec{
 		Schema:    spicestarter.Schema,
-		ID:        "github.com/StevenBuglione/spice/starter/otel",
+		ID:        "github.com/spice-framework/spice/starter/otel",
 		Version:   "0.1.0-dev",
-		Module:    "github.com/StevenBuglione/spice",
+		Module:    "github.com/spice-framework/spice",
 		SpiceAPI:  spicestarter.APIVersion,
 		MinimumGo: "1.26",
 		License:   "Apache-2.0",
@@ -20,7 +20,7 @@ func Manifest() spicestarter.Manifest {
 			Mode: spicestarter.ActivationExplicitAnnotation,
 			EntryPoints: []spicestarter.EntryPoint{
 				{
-					Package: "github.com/StevenBuglione/spice/starter/otel",
+					Package: "github.com/spice-framework/spice/starter/otel",
 					Symbol:  "NewHTTPObserver",
 				},
 			},
@@ -43,7 +43,7 @@ func Manifest() spicestarter.Manifest {
 				Capability: "observability.http-server",
 				EntryPoints: []spicestarter.EntryPoint{
 					{
-						Package: "github.com/StevenBuglione/spice/starter/otel",
+						Package: "github.com/spice-framework/spice/starter/otel",
 						Symbol:  "NewHTTPObserver",
 					},
 				},

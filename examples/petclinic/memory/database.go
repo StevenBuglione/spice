@@ -1,4 +1,4 @@
-// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Bean } from "github.com/spice-framework/spice/annotation/core"
 
 // Package memory provides the zero-network Petclinic persistence profile.
 package memory
@@ -7,9 +7,9 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/owner"
-	"github.com/StevenBuglione/spice/examples/petclinic/vet"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/owner"
+	"github.com/spice-framework/spice/examples/petclinic/vet"
 )
 
 // Database is one concurrency-safe in-process Petclinic data set.

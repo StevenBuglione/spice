@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/data"
+	"github.com/spice-framework/spice/data"
 )
 
 var errTest = errors.New("test failure")

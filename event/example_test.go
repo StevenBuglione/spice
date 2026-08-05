@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/event"
+	"github.com/spice-framework/spice/event"
 )
 
 type orderPlaced struct {

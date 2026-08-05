@@ -3,7 +3,7 @@ package presentation
 
 import "net/http"
 
-// @import { Bean, Fallback } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Bean, Fallback } from "github.com/spice-framework/spice/annotation/core"
 
 // NewMux returns an instance-owned Go 1.22 pattern-aware HTTP mux with
 // immutable embedded assets.

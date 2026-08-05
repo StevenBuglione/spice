@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/owner"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/owner"
 )
 
 func TestMySQLPetclinicWorkflow(t *testing.T) {

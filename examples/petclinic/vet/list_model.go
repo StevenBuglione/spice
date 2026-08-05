@@ -1,6 +1,6 @@
 package vet
 
-import "github.com/StevenBuglione/spice/examples/petclinic/presentation"
+import "github.com/spice-framework/spice/examples/petclinic/presentation"
 
 // ListModel is the immutable veterinarian list view model.
 type ListModel struct {

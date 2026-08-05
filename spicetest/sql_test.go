@@ -11,7 +11,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/StevenBuglione/spice/data"
+	"github.com/spice-framework/spice/data"
 )
 
 var (

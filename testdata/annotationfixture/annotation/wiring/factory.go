@@ -5,7 +5,7 @@ package wiring
 import (
 	"context"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 // Factory marks a package-level function as a compile-time provider.

@@ -1,6 +1,6 @@
 {
   "schema": "spice.api-maturity/v1",
-  "module": "github.com/StevenBuglione/spice",
+  "module": "github.com/spice-framework/spice",
   "classifications": [
     {
       "prefix": "annotation",

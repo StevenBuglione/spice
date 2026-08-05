@@ -6,8 +6,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/owner"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/owner"
 )
 
 func TestReferenceDatabaseMatchesPetclinicData(t *testing.T) {

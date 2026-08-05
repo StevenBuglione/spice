@@ -10,8 +10,8 @@ import (
 
 	component "example.com/spice-annotation-app/component"
 	spiceComponent "example.com/spice-annotation-app/internal/spicegen/spice_annotation_app/sources/component"
-	spiceconfig "github.com/StevenBuglione/spice/config"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	spiceconfig "github.com/spice-framework/spice/config"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
 type applicationDependencies struct {

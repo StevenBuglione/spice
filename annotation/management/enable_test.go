@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestEnableDefinition(t *testing.T) {
@@ -18,7 +18,7 @@ func TestEnableDefinition(t *testing.T) {
 func TestManagementEnableHandler(t *testing.T) {
 	t.Parallel()
 	result, err := ManagementEnableHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/management",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/management",
 		DescriptorSymbol:  "Enable",
 		CanonicalName:     "management.Enable",
 		Arguments: []sdk.InvocationArgument{{

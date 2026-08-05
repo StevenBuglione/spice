@@ -5,13 +5,13 @@ import (
 	"context"
 	"errors"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	"github.com/StevenBuglione/spice/i18n"
-	"github.com/StevenBuglione/spice/view"
+	"github.com/spice-framework/spice/examples/petclinic/presentation"
+	"github.com/spice-framework/spice/i18n"
+	"github.com/spice-framework/spice/view"
 )
 
-// @import { Controller } from "github.com/StevenBuglione/spice/annotation/web"
-// @import { Get } from "github.com/StevenBuglione/spice/annotation/web"
+// @import { Controller } from "github.com/spice-framework/spice/annotation/web"
+// @import { Get } from "github.com/spice-framework/spice/annotation/web"
 
 // WelcomeController serves the recognizable Petclinic landing page.
 //

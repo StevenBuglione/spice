@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"example.com/spice-annotation-fixture/internal/handler"
-	"github.com/StevenBuglione/spice/annotation/sdk/protocol"
+	"github.com/spice-framework/spice/annotation/sdk/protocol"
 )
 
 func main() {

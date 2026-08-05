@@ -8,18 +8,18 @@ package spicegen
 import (
 	fmt "fmt"
 
-	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
-	i18n "github.com/StevenBuglione/spice/i18n"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	vet "github.com/spice-framework/spice/examples/petclinic/vet"
+	i18n "github.com/spice-framework/spice/i18n"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructController_8580f4b8 performs the direct construction selected for bean "controller".
-// Spice source identity: spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller.
-func ConstructController_8580f4b8(dependency0 vet.Repository, dependency1 *i18n.Catalog) (*vet.Controller, spicelifecycle.Cleanup, error) {
+// ConstructController_c270cd4b performs the direct construction selected for bean "controller".
+// Spice source identity: spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller.
+func ConstructController_c270cd4b(dependency0 vet.Repository, dependency1 *i18n.Catalog) (*vet.Controller, spicelifecycle.Cleanup, error) {
 	value, err := vet.NewController(dependency0, dependency1)
 	if err != nil {
 		var zero *vet.Controller
-		return zero, nil, fmt.Errorf("construct bean controller (*github.com/StevenBuglione/spice/examples/petclinic/vet.Controller, source spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller): %w", err)
+		return zero, nil, fmt.Errorf("construct bean controller (*github.com/spice-framework/spice/examples/petclinic/vet.Controller, source spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller): %w", err)
 	}
 	return value, nil, nil
 }

@@ -5,12 +5,12 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/StevenBuglione/spice/i18n"
-	"github.com/StevenBuglione/spice/view"
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/i18n"
+	"github.com/spice-framework/spice/view"
+	"github.com/spice-framework/spice/web"
 )
 
-// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Bean } from "github.com/spice-framework/spice/annotation/core"
 
 //go:embed templates/*.html
 var templates embed.FS

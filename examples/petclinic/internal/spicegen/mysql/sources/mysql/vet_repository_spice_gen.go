@@ -8,21 +8,21 @@ package spicegen
 import (
 	fmt "fmt"
 
-	mysql "github.com/StevenBuglione/spice/examples/petclinic/mysql"
-	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	mysql "github.com/spice-framework/spice/examples/petclinic/mysql"
+	vet "github.com/spice-framework/spice/examples/petclinic/vet"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructVetRepository_e6a8bff4 performs the direct construction selected for bean "vetRepository".
-// Spice source identity: spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository.
-func ConstructVetRepository_e6a8bff4(dependency0 *mysql.Database) (*mysql.VetRepository, spicelifecycle.Cleanup, error) {
+// ConstructVetRepository_62df1dd8 performs the direct construction selected for bean "vetRepository".
+// Spice source identity: spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository.
+func ConstructVetRepository_62df1dd8(dependency0 *mysql.Database) (*mysql.VetRepository, spicelifecycle.Cleanup, error) {
 	value, err := mysql.NewVetRepository(dependency0)
 	if err != nil {
 		var zero *mysql.VetRepository
-		return zero, nil, fmt.Errorf("construct bean vetRepository (*github.com/StevenBuglione/spice/examples/petclinic/mysql.VetRepository, source spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean vetRepository (*github.com/spice-framework/spice/examples/petclinic/mysql.VetRepository, source spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsVetRepositoryAsRepository_91b1c446 identifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository.
+// spiceImplementsVetRepositoryAsRepository_3550d174 identifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository.
 var _ vet.Repository = (*mysql.VetRepository)(nil)

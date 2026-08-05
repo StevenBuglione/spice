@@ -16,6 +16,21 @@ Do not delete `.spice/*.manifest.json` to force an upgrade. The manifests are
 the proof of generated ownership and let Spice distinguish a stale file from a
 manual edit.
 
+## Canonical organization namespace hard cut
+
+The current pre-alpha line moved from the maintainer's personal module
+namespace to `github.com/spice-framework/spice`. This is a Go type-identity
+change, not an alias: imports, the runtime requirement, annotation descriptor
+imports, the annotation `tool` directive, generated source, and vendor metadata
+must all use the organization path together.
+
+Before changing an application, prove its existing generated targets are
+current. Then update the module graph and annotation imports, run the canonical
+CLI to regenerate every target, and rebuild vendor metadata. Do not mechanically
+edit generated files or their recorded hashes in an application. The Spice
+repository itself used its independently buildable stage-zero compiler for the
+one-time core cutover; normal consumers use a released organization CLI.
+
 ## Update the Go graph
 
 The runtime, descriptors, SDK, and official annotation tool must resolve to the
@@ -23,8 +38,8 @@ same Spice module version. Use Go's module commands from the application
 module:
 
 ```text
-go get github.com/StevenBuglione/spice@<version>
-go get -tool github.com/StevenBuglione/spice/cmd/spice-annotation-core@<version>
+go get github.com/spice-framework/spice@<version>
+go get -tool github.com/spice-framework/spice/cmd/spice-annotation-core@<version>
 go mod tidy
 ```
 

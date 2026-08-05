@@ -11,22 +11,22 @@ import (
 	strings "strings"
 	time "time"
 
-	spicebean "github.com/StevenBuglione/spice/bean"
-	spiceconfig "github.com/StevenBuglione/spice/config"
-	spiceentrypoint "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql/sources/cmd/mysql"
-	mysql "github.com/StevenBuglione/spice/examples/petclinic/mysql"
-	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
-	presentation "github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	system "github.com/StevenBuglione/spice/examples/petclinic/system"
-	vet "github.com/StevenBuglione/spice/examples/petclinic/vet"
-	i18n "github.com/StevenBuglione/spice/i18n"
-	spiceintercept "github.com/StevenBuglione/spice/intercept"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
-	spiceview "github.com/StevenBuglione/spice/view"
-	spiceweb "github.com/StevenBuglione/spice/web"
+	spicebean "github.com/spice-framework/spice/bean"
+	spiceconfig "github.com/spice-framework/spice/config"
+	spiceentrypoint "github.com/spice-framework/spice/examples/petclinic/internal/spicegen/mysql/sources/cmd/mysql"
+	mysql "github.com/spice-framework/spice/examples/petclinic/mysql"
+	owner "github.com/spice-framework/spice/examples/petclinic/owner"
+	presentation "github.com/spice-framework/spice/examples/petclinic/presentation"
+	system "github.com/spice-framework/spice/examples/petclinic/system"
+	vet "github.com/spice-framework/spice/examples/petclinic/vet"
+	i18n "github.com/spice-framework/spice/i18n"
+	spiceintercept "github.com/spice-framework/spice/intercept"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
+	spiceview "github.com/spice-framework/spice/view"
+	spiceweb "github.com/spice-framework/spice/web"
 )
 
-const TargetID = spiceentrypoint.ApplicationTargetMysql_47bdf520
+const TargetID = spiceentrypoint.ApplicationTargetMysql_89cf8ad0
 
 const (
 	ExitSuccess = 0

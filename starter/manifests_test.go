@@ -6,17 +6,17 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/StevenBuglione/spice/starter"
-	grpcstarter "github.com/StevenBuglione/spice/starter/grpc"
-	kafkastarter "github.com/StevenBuglione/spice/starter/kafka"
-	mysqlstarter "github.com/StevenBuglione/spice/starter/mysql"
-	"github.com/StevenBuglione/spice/starter/oauth2client"
-	"github.com/StevenBuglione/spice/starter/oidc"
-	"github.com/StevenBuglione/spice/starter/otel"
-	"github.com/StevenBuglione/spice/starter/postgres"
-	redisstarter "github.com/StevenBuglione/spice/starter/redis"
-	smtpstarter "github.com/StevenBuglione/spice/starter/smtp"
-	websocketstarter "github.com/StevenBuglione/spice/starter/websocket"
+	"github.com/spice-framework/spice/starter"
+	grpcstarter "github.com/spice-framework/spice/starter/grpc"
+	kafkastarter "github.com/spice-framework/spice/starter/kafka"
+	mysqlstarter "github.com/spice-framework/spice/starter/mysql"
+	"github.com/spice-framework/spice/starter/oauth2client"
+	"github.com/spice-framework/spice/starter/oidc"
+	"github.com/spice-framework/spice/starter/otel"
+	"github.com/spice-framework/spice/starter/postgres"
+	redisstarter "github.com/spice-framework/spice/starter/redis"
+	smtpstarter "github.com/spice-framework/spice/starter/smtp"
+	websocketstarter "github.com/spice-framework/spice/starter/websocket"
 )
 
 func TestShippedStarterManifests(t *testing.T) {
@@ -215,7 +215,7 @@ func TestShippedStarterManifests(t *testing.T) {
 			spec := manifest.Spec()
 			if spec.Schema != starter.Schema ||
 				spec.Version != "0.1.0-dev" ||
-				spec.Module != "github.com/StevenBuglione/spice" ||
+				spec.Module != "github.com/spice-framework/spice" ||
 				spec.SpiceAPI != starter.APIVersion ||
 				spec.MinimumGo != "1.26" ||
 				spec.License != "Apache-2.0" ||

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestCacheableDefinition(t *testing.T) {
@@ -18,7 +18,7 @@ func TestCacheableDefinition(t *testing.T) {
 func TestCacheableHandler(t *testing.T) {
 	t.Parallel()
 	result, err := CacheableHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/cache",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/cache",
 		DescriptorSymbol:  "Cacheable",
 		CanonicalName:     "cache.Cacheable",
 		Arguments: []sdk.InvocationArgument{{

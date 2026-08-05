@@ -7,8 +7,8 @@ For generated applications, exposure must be declared explicitly on the
 application marker:
 
 ```go
-// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
+// @import { Application } from "github.com/spice-framework/spice/annotation/core"
+// @import { Enable } from "github.com/spice-framework/spice/annotation/management"
 
 // @Application
 // @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"], access="loopback")

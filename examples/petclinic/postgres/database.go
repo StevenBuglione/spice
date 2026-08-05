@@ -7,12 +7,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/lifecycle"
-	spicepostgres "github.com/StevenBuglione/spice/starter/postgres"
+	"github.com/spice-framework/spice/lifecycle"
+	spicepostgres "github.com/spice-framework/spice/starter/postgres"
 )
 
-// @import { Bean } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { OnStart } from "github.com/StevenBuglione/spice/annotation/lifecycle"
+// @import { Bean } from "github.com/spice-framework/spice/annotation/core"
+// @import { OnStart } from "github.com/spice-framework/spice/annotation/lifecycle"
 
 // Database owns the Petclinic PostgreSQL pool and migration lifecycle.
 type Database struct {

@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/web"
 )
 
 type controllerPetTypeRepository struct {

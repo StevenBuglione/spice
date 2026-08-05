@@ -11,7 +11,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/StevenBuglione/spice/lifecycle"
+	"github.com/spice-framework/spice/lifecycle"
 )
 
 func TestScopeClosesInReverseOrderAndIsIdempotent(t *testing.T) {

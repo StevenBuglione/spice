@@ -4,8 +4,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/validation"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/validation"
 )
 
 // Vet is a veterinarian and their ordered specialties.

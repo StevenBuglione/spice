@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestWebDefinitions(t *testing.T) {
@@ -64,7 +64,7 @@ func TestWebHandlers(t *testing.T) {
 		t.Run(test.symbol, func(t *testing.T) {
 			t.Parallel()
 			result, err := test.handler(context.Background(), sdk.Invocation{
-				DescriptorPackage: "github.com/StevenBuglione/spice/annotation/web",
+				DescriptorPackage: "github.com/spice-framework/spice/annotation/web",
 				DescriptorSymbol:  test.symbol,
 				CanonicalName:     "web." + test.symbol,
 				Arguments:         test.arguments,
@@ -90,7 +90,7 @@ func TestWebHandlers(t *testing.T) {
 		})
 	}
 	if _, err := GetHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/web",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/web",
 		DescriptorSymbol:  "Get",
 		CanonicalName:     "web.Get",
 		Arguments: []sdk.InvocationArgument{{

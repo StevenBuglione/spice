@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/web"
 )
 
 func TestHTTPMetricsSnapshotsConcurrentGeneratedRoutes(t *testing.T) {

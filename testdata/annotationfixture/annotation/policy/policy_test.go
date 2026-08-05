@@ -3,8 +3,8 @@ package policy
 import (
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
-	"github.com/StevenBuglione/spice/annotation/sdk/sdktest"
+	"github.com/spice-framework/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk/sdktest"
 )
 
 func TestPolicyHandlerContract(t *testing.T) {

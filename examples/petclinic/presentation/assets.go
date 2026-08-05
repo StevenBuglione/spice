@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/StevenBuglione/spice/resource"
+	"github.com/spice-framework/spice/resource"
 )
 
 //go:embed static/*

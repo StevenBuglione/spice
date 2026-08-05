@@ -3,463 +3,463 @@
   "target": {
     "id": "mysql",
     "layout": "application-package",
-    "module": "github.com/StevenBuglione/spice/examples/petclinic",
-    "package": "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/mysql",
-    "entrypoint_package": "github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql",
+    "module": "github.com/spice-framework/spice/examples/petclinic",
+    "package": "github.com/spice-framework/spice/examples/petclinic/internal/spicegen/mysql",
+    "entrypoint_package": "github.com/spice-framework/spice/examples/petclinic/cmd/mysql",
     "output_dir": "internal/spicegen/mysql",
     "bridge_dir": "cmd/mysql",
     "manifest_path": ".spice/mysql.manifest.json"
   },
   "generator_version": "0.1.0-dev",
   "go_format_line": "1.26",
-  "input_sha256": "sha256:e0ba35b318b50dc99acb24ca80dfa532a67364b6cf20cc22a74203cda6362e4a",
+  "input_sha256": "sha256:3882d41eddfafb608e3235caf61f214975b2f41ce52054e1016ccef9091fd7f6",
   "files": [
     {
       "path": "internal/spicegen/mysql/artifacts/openapi.json",
-      "sha256": "sha256:3b3378d7223745e40b64e5e86b547f154237ca13a36bd3e4d6c62c6a557d6e30",
+      "sha256": "sha256:311fbe7e32029e288bed6427bb4ce3a9ebee3d765aad8c9de6bb9430dd809736",
       "role": "artifact",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller"
         },
         {
           "path": "owner/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm"
         },
         {
           "path": "owner/controller.go",
           "line": 60,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create"
         },
         {
           "path": "owner/controller.go",
           "line": 91,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm"
         },
         {
           "path": "owner/controller.go",
           "line": 103,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find"
         },
         {
           "path": "owner/controller.go",
           "line": 166,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm"
         },
         {
           "path": "owner/controller.go",
           "line": 183,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update"
         },
         {
           "path": "owner/controller.go",
           "line": 216,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.City"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
         },
         {
           "path": "owner/find_owner_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
         },
         {
           "path": "owner/new_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
         },
         {
           "path": "owner/new_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.City"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 24,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 57,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 80,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 135,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 162,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 46,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 68,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController"
+          "symbol": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 35,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show"
         },
         {
           "path": "system/welcome_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
         },
         {
           "path": "vet/controller.go",
           "line": 21,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller"
         },
         {
           "path": "vet/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
         },
         {
           "path": "vet/controller.go",
           "line": 92,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
         },
         {
           "path": "vet/list_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
         },
         {
           "path": "vet/list_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/sources/cmd/mysql/main_spice_gen.go",
-      "sha256": "sha256:7104a97254c244214727ff2f4237e75db46b2291bf3440d91188776b0b7eb027",
+      "sha256": "sha256:af3e1641d3b4d332f1d8df4eb9d1041d05710ddf1864507c80b316476c7247a7",
       "role": "source-unit",
       "primary_source": {
         "path": "cmd/mysql/main.go",
         "line": 18,
         "column": 4,
-        "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+        "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
       },
       "mappings": [
         {
           "kind": "application-target",
-          "contribution": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main",
+          "contribution": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main",
           "source": {
             "path": "cmd/mysql/main.go",
             "line": 18,
             "column": 4,
-            "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+            "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
           },
           "generated": {
             "start_line": 8,
@@ -472,23 +472,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/database_spice_gen.go",
-      "sha256": "sha256:3b4d5333e03516e5b5eb6c4f22f491dceee582c120c924e0f388cfdb589069dc",
+      "sha256": "sha256:34c96329e3a686614f1c8e277bac3bdbf6696cf45e7c78b7fa2ef2709b77eca6",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/database.go",
         "line": 25,
         "column": 4,
-        "symbol": "spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
+        "symbol": "spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase",
+          "contribution": "spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase",
           "source": {
             "path": "mysql/database.go",
             "line": 25,
             "column": 4,
-            "symbol": "spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
+            "symbol": "spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
           },
           "generated": {
             "start_line": 15,
@@ -501,23 +501,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/owner_repository_spice_gen.go",
-      "sha256": "sha256:df9e99c53890d4f1bb10fea3cdb40f03b7e27284ce689461e43af89cb4313460",
+      "sha256": "sha256:ad78d5b68f532ca36d640a9e50c6553887922ef7997ee7515e5de6a32ec5010d",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/owner_repository.go",
         "line": 17,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
+        "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository",
           "source": {
             "path": "mysql/owner_repository.go",
             "line": 17,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
           },
           "generated": {
             "start_line": 16,
@@ -528,12 +528,12 @@
         },
         {
           "kind": "interface-assertion",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository#implements:github.com/StevenBuglione/spice/examples/petclinic/owner.Repository",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository#implements:github.com/spice-framework/spice/examples/petclinic/owner.Repository",
           "source": {
             "path": "mysql/owner_repository.go",
             "line": 17,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
           },
           "generated": {
             "start_line": 28,
@@ -546,23 +546,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/pet_type_repository_spice_gen.go",
-      "sha256": "sha256:99083a0f4dbaf835b314afcb699736a25836c6c3a77a424b3def2a4c88c753bf",
+      "sha256": "sha256:c2a5d1852844f1e4b3cc059b39896ea9c43d82dee652646a000ea6e85ea91269",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/pet_type_repository.go",
         "line": 15,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
+        "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository",
           "source": {
             "path": "mysql/pet_type_repository.go",
             "line": 15,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
           },
           "generated": {
             "start_line": 16,
@@ -573,12 +573,12 @@
         },
         {
           "kind": "interface-assertion",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository#implements:github.com/StevenBuglione/spice/examples/petclinic/owner.PetTypeRepository",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository#implements:github.com/spice-framework/spice/examples/petclinic/owner.PetTypeRepository",
           "source": {
             "path": "mysql/pet_type_repository.go",
             "line": 15,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
           },
           "generated": {
             "start_line": 28,
@@ -591,23 +591,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/settings_spice_gen.go",
-      "sha256": "sha256:1801c14a020733205706163e0d8f3c6f6b93aeef4d5f8c0fe4b035b45b25be31",
+      "sha256": "sha256:17fb98e05b44e4da2c237651775ca20db15a7656bfab67c09227a3b831d31a42",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/settings.go",
         "line": 7,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings"
+        "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings"
       },
       "mappings": [
         {
           "kind": "configuration-binding",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings",
           "source": {
             "path": "mysql/settings.go",
             "line": 7,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings"
           },
           "generated": {
             "start_line": 15,
@@ -620,23 +620,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/mysql/vet_repository_spice_gen.go",
-      "sha256": "sha256:9e08382a97185901f71b4173984497acf118e7f7e90b01e3ae415cefc564262d",
+      "sha256": "sha256:10f9fa59a4c79c496af4fca1f7f0cddbb841fb8591b49c20528f1a9f2354c9dc",
       "role": "source-unit",
       "primary_source": {
         "path": "mysql/vet_repository.go",
         "line": 16,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository"
+        "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository",
           "source": {
             "path": "mysql/vet_repository.go",
             "line": 16,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository"
           },
           "generated": {
             "start_line": 16,
@@ -647,12 +647,12 @@
         },
         {
           "kind": "interface-assertion",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository#implements:github.com/StevenBuglione/spice/examples/petclinic/vet.Repository",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository#implements:github.com/spice-framework/spice/examples/petclinic/vet.Repository",
           "source": {
             "path": "mysql/vet_repository.go",
             "line": 16,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository"
           },
           "generated": {
             "start_line": 28,
@@ -665,23 +665,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/owner/controller_spice_gen.go",
-      "sha256": "sha256:909cae541726f0c4899d3ae02f3e7c3790b47b3f6bc496387caaae19dab309e9",
+      "sha256": "sha256:cc726a93a6f33aa1699ef6fa25d3fc0d2067f9158a23be72108be09cd8f5923a",
       "role": "source-unit",
       "primary_source": {
         "path": "owner/controller.go",
         "line": 25,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller"
+        "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller",
           "source": {
             "path": "owner/controller.go",
             "line": 25,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller"
           },
           "generated": {
             "start_line": 16,
@@ -694,23 +694,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/owner/pet_controller_spice_gen.go",
-      "sha256": "sha256:4ded6c12499cfa23bb60c5bc748714185fd08d6856103b911497deed3b5000e6",
+      "sha256": "sha256:dac4e5e5570e18e471b9225dd9bcc02e4dfdf320bbd28df660393125fc4cfbd9",
       "role": "source-unit",
       "primary_source": {
         "path": "owner/pet_controller.go",
         "line": 24,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController"
+        "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController",
           "source": {
             "path": "owner/pet_controller.go",
             "line": 24,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController"
           },
           "generated": {
             "start_line": 16,
@@ -723,23 +723,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/owner/visit_controller_spice_gen.go",
-      "sha256": "sha256:085152119daf4e3816cfc60e52f91479b2277bbf1d95dbdb3574591c252dbfa2",
+      "sha256": "sha256:0a7295557cb10102d75c5b6ffecd4f0b78b37d89066e11ca229174aca0d34ff5",
       "role": "source-unit",
       "primary_source": {
         "path": "owner/visit_controller.go",
         "line": 20,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController"
+        "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController",
+          "contribution": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController",
           "source": {
             "path": "owner/visit_controller.go",
             "line": 20,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController"
+            "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController"
           },
           "generated": {
             "start_line": 16,
@@ -752,23 +752,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/catalog_spice_gen.go",
-      "sha256": "sha256:44540ae126f0b1bcec86e28ae337de850fe9f51c74f93a055fa394fd4a211d25",
+      "sha256": "sha256:9a38f9ed9d09ed35fddba7c68713fbbf3a7e950a029a8d52cb24bbb07f110eb8",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/catalog.go",
         "line": 16,
         "column": 4,
-        "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog"
+        "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|10:NewCatalog"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog",
+          "contribution": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|10:NewCatalog",
           "source": {
             "path": "presentation/catalog.go",
             "line": 16,
             "column": 4,
-            "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog"
+            "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|10:NewCatalog"
           },
           "generated": {
             "start_line": 16,
@@ -781,23 +781,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/mux_spice_gen.go",
-      "sha256": "sha256:54762e12db48ea908187367040b1699f5d621134cb59334c21abb8d904f61564",
+      "sha256": "sha256:e2ced5c29409876d0362f6ae1552635585101d7b94af30edabcd8c1ef2e7869e",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/mux.go",
         "line": 11,
         "column": 4,
-        "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux"
+        "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux",
+          "contribution": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux",
           "source": {
             "path": "presentation/mux.go",
             "line": 11,
             "column": 4,
-            "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux"
+            "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux"
           },
           "generated": {
             "start_line": 16,
@@ -810,23 +810,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/renderer_spice_gen.go",
-      "sha256": "sha256:941c48d597d0da496184bdb5c88e93c56d4be383d82a410f1289a0aa0dfce688",
+      "sha256": "sha256:31497eb7a050760ff36d734fb85c4420dc2d1029dacc1f6af92d500b9f151ecd",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/renderer.go",
         "line": 20,
         "column": 4,
-        "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer"
+        "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer",
+          "contribution": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer",
           "source": {
             "path": "presentation/renderer.go",
             "line": 20,
             "column": 4,
-            "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer"
+            "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer"
           },
           "generated": {
             "start_line": 17,
@@ -839,23 +839,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/server_settings_spice_gen.go",
-      "sha256": "sha256:42fb1af3eeb2a2b37347fdffaf6fe9ec00c5a5fa52bf4db9705af970000919e1",
+      "sha256": "sha256:614bc4dc81523674482701ae761d2cefb8984229a801aee152f4aea8be2fa125",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/server_settings.go",
         "line": 9,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings"
+        "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings"
       },
       "mappings": [
         {
           "kind": "configuration-binding",
-          "contribution": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings",
+          "contribution": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings",
           "source": {
             "path": "presentation/server_settings.go",
             "line": 9,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings"
+            "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings"
           },
           "generated": {
             "start_line": 16,
@@ -868,23 +868,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/presentation/server_spice_gen.go",
-      "sha256": "sha256:f95cb84d94117a7c32ebdc613ead91a5d04610cfb6861b694d928bf7960c303b",
+      "sha256": "sha256:176f113a95201e67b5b9ae66224773bf4c389c381c1780709dd35c3364fca000",
       "role": "source-unit",
       "primary_source": {
         "path": "presentation/server.go",
         "line": 31,
         "column": 4,
-        "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer"
+        "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|9:NewServer"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer",
+          "contribution": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|9:NewServer",
           "source": {
             "path": "presentation/server.go",
             "line": 31,
             "column": 4,
-            "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer"
+            "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|9:NewServer"
           },
           "generated": {
             "start_line": 16,
@@ -897,23 +897,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/system/welcome_controller_spice_gen.go",
-      "sha256": "sha256:c410a174a38818ab4cf70c5200975640f2f03f2802fd6f12a952039dd3b01613",
+      "sha256": "sha256:61614cd649276b453c699f057594416cb3c2c89962afb53346b13d584bb418be",
       "role": "source-unit",
       "primary_source": {
         "path": "system/welcome_controller.go",
         "line": 18,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController"
+        "symbol": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController",
+          "contribution": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController",
           "source": {
             "path": "system/welcome_controller.go",
             "line": 18,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController"
+            "symbol": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController"
           },
           "generated": {
             "start_line": 16,
@@ -926,23 +926,23 @@
     },
     {
       "path": "internal/spicegen/mysql/sources/vet/controller_spice_gen.go",
-      "sha256": "sha256:d9fff0c54f627cb6e9d1e59ee403c2215651df8e70a8d7b3042a150408f5e41d",
+      "sha256": "sha256:59fbb459d73771ec464750d630fb65f9ad76731bedf4d3b8475dc462f52d7d97",
       "role": "source-unit",
       "primary_source": {
         "path": "vet/controller.go",
         "line": 21,
         "column": 4,
-        "symbol": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller"
+        "symbol": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller"
       },
       "mappings": [
         {
           "kind": "provider-construction",
-          "contribution": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller",
+          "contribution": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller",
           "source": {
             "path": "vet/controller.go",
             "line": 21,
             "column": 4,
-            "symbol": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller"
+            "symbol": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller"
           },
           "generated": {
             "start_line": 16,
@@ -955,1321 +955,1321 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_assembly_gen.go",
-      "sha256": "sha256:98977b6ac5d606b2a443bdd3237edf983844ae4fff12e95d67eb7237c122e5cb",
+      "sha256": "sha256:f0ba79d2bf3b6f465960c4fae635533487fbd4acedc0e37dc5d08c603bb85478",
       "role": "target-assembly",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
         {
           "path": "mysql/database.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
+          "symbol": "spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
         },
         {
           "path": "mysql/database.go",
           "line": 59,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|8:Database|7:Migrate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/mysql|8:Database|7:Migrate"
         },
         {
           "path": "mysql/owner_repository.go",
           "line": 17,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
         },
         {
           "path": "mysql/pet_type_repository.go",
           "line": 15,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
         },
         {
           "path": "mysql/settings.go",
           "line": 7,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings"
         },
         {
           "path": "mysql/settings.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.URL"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.URL"
         },
         {
           "path": "mysql/settings.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
         },
         {
           "path": "mysql/vet_repository.go",
           "line": 16,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository"
         },
         {
           "path": "owner/controller.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller"
         },
         {
           "path": "owner/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm"
         },
         {
           "path": "owner/controller.go",
           "line": 60,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create"
         },
         {
           "path": "owner/controller.go",
           "line": 91,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm"
         },
         {
           "path": "owner/controller.go",
           "line": 103,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find"
         },
         {
           "path": "owner/controller.go",
           "line": 166,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm"
         },
         {
           "path": "owner/controller.go",
           "line": 183,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update"
         },
         {
           "path": "owner/controller.go",
           "line": 216,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.City"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
         },
         {
           "path": "owner/find_owner_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
         },
         {
           "path": "owner/new_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
         },
         {
           "path": "owner/new_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.City"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 24,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 57,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 80,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 135,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 162,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 46,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 68,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
         },
         {
           "path": "presentation/catalog.go",
           "line": 16,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|10:NewCatalog"
         },
         {
           "path": "presentation/mux.go",
           "line": 11,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux"
         },
         {
           "path": "presentation/renderer.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer"
         },
         {
           "path": "presentation/server.go",
           "line": 31,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|9:NewServer"
         },
         {
           "path": "presentation/server.go",
           "line": 65,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|5:Start"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|5:Start"
         },
         {
           "path": "presentation/server.go",
           "line": 104,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|4:Stop"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|4:Stop"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 9,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 13,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 14,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 15,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController"
+          "symbol": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 35,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show"
         },
         {
           "path": "system/welcome_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
         },
         {
           "path": "vet/controller.go",
           "line": 21,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller"
         },
         {
           "path": "vet/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
         },
         {
           "path": "vet/controller.go",
           "line": 92,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
         },
         {
           "path": "vet/list_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
         },
         {
           "path": "vet/list_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_command_gen.go",
-      "sha256": "sha256:a07c5973595e0442ba5058596b6e55a57137c350d0fafb603091ea067261949e",
+      "sha256": "sha256:aecac017c3f6855d4c36635739894e09696045c0d4f1a154878fb651be238310",
       "role": "target-command",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_configuration_gen.go",
-      "sha256": "sha256:4d552ca5119a0bf1b8830c325d9ad34f4501ba735d7cd21f2fdb8ab9e477ade2",
+      "sha256": "sha256:2c2f895e2978ed3477bc3bb0f63b6029843e50c8128a971c75acb9bc14152085",
       "role": "target-configuration",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
         {
           "path": "mysql/settings.go",
           "line": 7,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings"
         },
         {
           "path": "mysql/settings.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.URL"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.URL"
         },
         {
           "path": "mysql/settings.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 9,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 13,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 14,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 15,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_contracts_gen.go",
-      "sha256": "sha256:39501cf0aafc52bc9628cfc6818f5b950374f17f0f98ad62404e9893465565b0",
+      "sha256": "sha256:fe9c17584ffb49ffd64d45ad11664af18cee07ebe9ff59b391d582bc678dc1b1",
       "role": "target-contracts",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
         {
           "path": "mysql/database.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
+          "symbol": "spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
         },
         {
           "path": "mysql/database.go",
           "line": 59,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|8:Database|7:Migrate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/mysql|8:Database|7:Migrate"
         },
         {
           "path": "mysql/owner_repository.go",
           "line": 17,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
         },
         {
           "path": "mysql/pet_type_repository.go",
           "line": 15,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
         },
         {
           "path": "mysql/settings.go",
           "line": 7,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings"
         },
         {
           "path": "mysql/settings.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.URL"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.URL"
         },
         {
           "path": "mysql/settings.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
         },
         {
           "path": "mysql/vet_repository.go",
           "line": 16,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository"
         },
         {
           "path": "owner/controller.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 24,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController"
         },
         {
           "path": "presentation/catalog.go",
           "line": 16,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|10:NewCatalog"
         },
         {
           "path": "presentation/mux.go",
           "line": 11,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux"
         },
         {
           "path": "presentation/renderer.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer"
         },
         {
           "path": "presentation/server.go",
           "line": 31,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|9:NewServer"
         },
         {
           "path": "presentation/server.go",
           "line": 65,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|5:Start"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|5:Start"
         },
         {
           "path": "presentation/server.go",
           "line": 104,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|4:Stop"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|4:Stop"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 9,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 13,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 14,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 15,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController"
+          "symbol": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController"
         },
         {
           "path": "vet/controller.go",
           "line": 21,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller"
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_features_gen.go",
-      "sha256": "sha256:54981348c14e159efb53ea1b6324a9ac6b8302d2529b9e36fce5e05869c54b7e",
+      "sha256": "sha256:67c274f88d7a12d73f0b46d8b7cffe0968fc511ea931c33cf2dba3417778ea94",
       "role": "target-features",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
         {
           "path": "mysql/database.go",
           "line": 59,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|8:Database|7:Migrate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/mysql|8:Database|7:Migrate"
         },
         {
           "path": "presentation/server.go",
           "line": 65,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|5:Start"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|5:Start"
         },
         {
           "path": "presentation/server.go",
           "line": 104,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|4:Stop"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|4:Stop"
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_http_gen.go",
-      "sha256": "sha256:09e2c1e0ea780bc10d3af529c26d60935853b7c7564886b784d7d86c8d1cc450",
+      "sha256": "sha256:b969f087c43bb4ae9732e77324a16d8f55eb6b5518dee3ecc8e6404b4a1915cc",
       "role": "target-http",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
         {
           "path": "owner/controller.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller"
         },
         {
           "path": "owner/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm"
         },
         {
           "path": "owner/controller.go",
           "line": 60,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create"
         },
         {
           "path": "owner/controller.go",
           "line": 91,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm"
         },
         {
           "path": "owner/controller.go",
           "line": 103,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find"
         },
         {
           "path": "owner/controller.go",
           "line": 166,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm"
         },
         {
           "path": "owner/controller.go",
           "line": 183,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update"
         },
         {
           "path": "owner/controller.go",
           "line": 216,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.City"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
         },
         {
           "path": "owner/find_owner_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
         },
         {
           "path": "owner/new_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
         },
         {
           "path": "owner/new_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.City"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 24,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 57,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 80,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 135,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 162,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 46,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 68,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController"
+          "symbol": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 35,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show"
         },
         {
           "path": "system/welcome_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
         },
         {
           "path": "vet/controller.go",
           "line": 21,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller"
         },
         {
           "path": "vet/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
         },
         {
           "path": "vet/controller.go",
           "line": 92,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
         },
         {
           "path": "vet/list_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
         },
         {
           "path": "vet/list_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
         }
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_create_92cf9af698cf_gen.go",
-      "sha256": "sha256:1622873fb251c190b92302bcdd70f640d08d67b4e6cf86566c3139d905b0c415",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_create_e8591fe8fd97_gen.go",
+      "sha256": "sha256:91300a798c3893b7dbe313729f348e8f055fe9c55b0daa7ab59e44d98dd8f9bb",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 60,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Language"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.FirstName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.LastName"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Address"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.City"
         },
         {
           "path": "owner/owner_form_request.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create.Telephone"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create",
           "source": {
             "path": "owner/controller.go",
             "line": 60,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Create"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Create"
           },
           "generated": {
             "start_line": 18,
@@ -2281,38 +2281,38 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_editform_7455f8a2cde9_gen.go",
-      "sha256": "sha256:90fd89969f0da9fe2f14376757dcaa44cff41619494d9dc958018bb71272d597",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_editform_34933d559ead_gen.go",
+      "sha256": "sha256:360e2da156cb4ad395f087f0595b64174225ae50753eceb3d21d455c8feeb565",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 166,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm.Language"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm",
           "source": {
             "path": "owner/controller.go",
             "line": 166,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:EditForm"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:EditForm"
           },
           "generated": {
             "start_line": 19,
@@ -2324,44 +2324,44 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_find_49afddd06269_gen.go",
-      "sha256": "sha256:1b33e260d4c5ea2c29bc75fb61afb1c9c1adb8ca6b1b1780d89dbb231c96f48b",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_find_2cd5c768b022_gen.go",
+      "sha256": "sha256:09943c8cf2920e49c71a2b083cf8e038b04e050c894e22d5aa72918bbbc46b64",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 103,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.LastName"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Page"
         },
         {
           "path": "owner/find_owners_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find.Language"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find",
           "source": {
             "path": "owner/controller.go",
             "line": 103,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Find"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Find"
           },
           "generated": {
             "start_line": 19,
@@ -2373,32 +2373,32 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_findform_d73d965f3f4b_gen.go",
-      "sha256": "sha256:676e290b308a04d1a96bf866e54fc548eb534386624a1cf0f9f0863bbdf17491",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_findform_554d4e3ad1ce_gen.go",
+      "sha256": "sha256:cf7a0634d82700b6e6a895c8073561713467391097af57feef0d2d7a34c5b6a3",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 91,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm"
         },
         {
           "path": "owner/find_owner_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm.Language"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm",
           "source": {
             "path": "owner/controller.go",
             "line": 91,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|8:FindForm"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|8:FindForm"
           },
           "generated": {
             "start_line": 19,
@@ -2410,32 +2410,32 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_newform_ebdcb72a1c6d_gen.go",
-      "sha256": "sha256:bfb501ba33a79c4d5b197f52d9281cd7d10ddb5863eb07b3563709cd03859f98",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_newform_e4501169f930_gen.go",
+      "sha256": "sha256:be5a98d2a71c6974f5cd60f692f69ea50ec58437424ab34760fc438cc71eb3f9",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm"
         },
         {
           "path": "owner/new_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm.Language"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm",
           "source": {
             "path": "owner/controller.go",
             "line": 47,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|7:NewForm"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|7:NewForm"
           },
           "generated": {
             "start_line": 19,
@@ -2447,38 +2447,38 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_show_b5b989aec353_gen.go",
-      "sha256": "sha256:87d7d2500c21cf7b2f2ec9aec810537f15f7e46f7fa9bcba756beb348fbddff6",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_show_8423e9338b2a_gen.go",
+      "sha256": "sha256:2e7204ae9ab46818b7546aa301e12acab5ae4bf0a85f88ea389feb9e4b02787d",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 216,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.OwnerID"
         },
         {
           "path": "owner/owner_id_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show.Language"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show",
           "source": {
             "path": "owner/controller.go",
             "line": 216,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|4:Show"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|4:Show"
           },
           "generated": {
             "start_line": 19,
@@ -2490,68 +2490,68 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_update_85d595d32bb4_gen.go",
-      "sha256": "sha256:6221c4d210c7bbeda2428697e99332d9b112c4ab0ad91e72b75608bd48282999",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_controller_update_9ba33272369f_gen.go",
+      "sha256": "sha256:c6ce93d0360a311a807271e0e60c7707a8c0fbf604919dcf7059e77c72226244",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/controller.go",
           "line": 183,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Language"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.FirstName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.LastName"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Address"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.City"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.City"
         },
         {
           "path": "owner/edit_owner_request.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update.Telephone"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update",
           "source": {
             "path": "owner/controller.go",
             "line": 183,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|10:Controller|6:Update"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|10:Controller|6:Update"
           },
           "generated": {
             "start_line": 18,
@@ -2563,56 +2563,56 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_create_55f9d3e7faa6_gen.go",
-      "sha256": "sha256:32f81c278f2fea6d2f55d9156d72e255bf0ef0613009bee52886311b38a14b03",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_create_8c47f4bf93bc_gen.go",
+      "sha256": "sha256:5374ca290d38d3c0db7f8f606676ae9274a0e611db67851426b7cc6f8af11cbd",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/pet_controller.go",
           "line": 80,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.OwnerID"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Language"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.Name"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.BirthDate"
         },
         {
           "path": "owner/pet_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create.TypeID"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create",
           "source": {
             "path": "owner/pet_controller.go",
             "line": 80,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Create"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Create"
           },
           "generated": {
             "start_line": 18,
@@ -2624,44 +2624,44 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_editform_d35ff46f5f41_gen.go",
-      "sha256": "sha256:519a2130aef3a4f28cd8597c471ddcd4a32fe07672f4aa0964d57a64984165aa",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_editform_cd4d645a1542_gen.go",
+      "sha256": "sha256:882d892cb34d6869a291be280608a2a191e752eff8801a7fed28b91775e7869f",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/owner_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.PetID"
         },
         {
           "path": "owner/owner_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.Language"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 135,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm",
           "source": {
             "path": "owner/owner_pet_request.go",
             "line": 5,
             "column": 2,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|8:EditForm.OwnerID"
           },
           "generated": {
             "start_line": 19,
@@ -2673,38 +2673,38 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_newform_9df899efc147_gen.go",
-      "sha256": "sha256:50ac34826eeb7d0ca6afd385997b2d8626e027bfe4eae8b77569a826aaf1bc85",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_newform_30d451cf3be8_gen.go",
+      "sha256": "sha256:90d9512b6fcb8414a76cb014da1f3eed584171eb94e975b4b2d590ee4baf8cde",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/new_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.Language"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 57,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm",
           "source": {
             "path": "owner/new_pet_request.go",
             "line": 5,
             "column": 2,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|7:NewForm.OwnerID"
           },
           "generated": {
             "start_line": 19,
@@ -2716,62 +2716,62 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_update_4692814b13b8_gen.go",
-      "sha256": "sha256:fff2ce16014e789aa3c5de30a510363142a3c76ed8b7c3887def11005d3da132",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_petcontroller_update_53ee21b419da_gen.go",
+      "sha256": "sha256:b220f9661cb3a64b7a27609944b1c80b2571637037cc22994f6158365782aaca",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/edit_pet_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.PetID"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Language"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.Name"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.BirthDate"
         },
         {
           "path": "owner/edit_pet_request.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.TypeID"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 162,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update",
           "source": {
             "path": "owner/edit_pet_request.go",
             "line": 5,
             "column": 2,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|13:PetController|6:Update.OwnerID"
           },
           "generated": {
             "start_line": 18,
@@ -2783,56 +2783,56 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_visitcontroller_create_6208272f914d_gen.go",
-      "sha256": "sha256:ef4609dc64f0469925c189f1dd1997cfd49f94eeb873b2efdd046f8e82226888",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_visitcontroller_create_f62250e8c3e4_gen.go",
+      "sha256": "sha256:3c7f36c328b43817db876dcc902db4977db99d24cc8766ea65e8c01752adb2e8",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/visit_controller.go",
           "line": 68,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.OwnerID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.PetID"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Language"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 8,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Date"
         },
         {
           "path": "owner/visit_form_request.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create.Description"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create",
           "source": {
             "path": "owner/visit_controller.go",
             "line": 68,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|6:Create"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|6:Create"
           },
           "generated": {
             "start_line": 18,
@@ -2844,44 +2844,44 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_owner_visitcontroller_newform_415f0e672062_gen.go",
-      "sha256": "sha256:aa3813705ea24d34b8fe519cd0d87542651c7b272de17636069121bdc7b7e6ae",
+      "path": "internal/spicegen/mysql/spice_http_route_owner_visitcontroller_newform_d5f9687df7d9_gen.go",
+      "sha256": "sha256:ead35c328997f3c3f47ab9db61842dca37cde37de8a6214c148529cf61c7ec70",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "owner/new_visit_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.PetID"
         },
         {
           "path": "owner/new_visit_request.go",
           "line": 7,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.Language"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 46,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm",
+          "contribution": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm",
           "source": {
             "path": "owner/new_visit_request.go",
             "line": 5,
             "column": 2,
-            "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
+            "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/owner|15:VisitController|7:NewForm.OwnerID"
           },
           "generated": {
             "start_line": 19,
@@ -2893,32 +2893,32 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_system_welcomecontroller_show_94e120b72418_gen.go",
-      "sha256": "sha256:3d7ac01c4ad194e189dd1ce244a407c43c3991e0bc460d8d090f82d8085b3985",
+      "path": "internal/spicegen/mysql/spice_http_route_system_welcomecontroller_show_51a573a34f22_gen.go",
+      "sha256": "sha256:b7fc08f9f8f5aace9352a1c869342a1235de73883ff734b45e72fbc886ade074",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "system/welcome_controller.go",
           "line": 35,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show"
         },
         {
           "path": "system/welcome_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
+          "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show.Language"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show",
+          "contribution": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show",
           "source": {
             "path": "system/welcome_controller.go",
             "line": 35,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|57:github.com/StevenBuglione/spice/examples/petclinic/system|17:WelcomeController|4:Show"
+            "symbol": "spice:symbol:v1|method|58:github.com/spice-framework/spice/examples/petclinic/system|17:WelcomeController|4:Show"
           },
           "generated": {
             "start_line": 19,
@@ -2930,38 +2930,38 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_vet_controller_listhtml_d306b13c6a4b_gen.go",
-      "sha256": "sha256:e6e27e10e03f5848ac485c21e0ab4b4457a461970240dbba015a6f3cbbea5005",
+      "path": "internal/spicegen/mysql/spice_http_route_vet_controller_listhtml_4eb815481251_gen.go",
+      "sha256": "sha256:1c9c85b869d87536c6ccb9814f61b9128cab8589417de1f2ef90a7fed044a2de",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "vet/controller.go",
           "line": 47,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
         },
         {
           "path": "vet/list_request.go",
           "line": 5,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Page"
         },
         {
           "path": "vet/list_request.go",
           "line": 6,
           "column": 2,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML.Language"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML",
+          "contribution": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML",
           "source": {
             "path": "vet/controller.go",
             "line": 47,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
+            "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListHTML"
           },
           "generated": {
             "start_line": 19,
@@ -2973,26 +2973,26 @@
       ]
     },
     {
-      "path": "internal/spicegen/mysql/spice_http_route_vet_controller_listjson_5badfbece45c_gen.go",
-      "sha256": "sha256:175e846402515e5a315b0f361ed69e9b674e863af452566b347e7edd0e7a6b40",
+      "path": "internal/spicegen/mysql/spice_http_route_vet_controller_listjson_bbf7ac053051_gen.go",
+      "sha256": "sha256:e8d38a1853bb5c4aa106a1459ff2e2fc04e35112e1dbb0b151c3aa71f7fea908",
       "role": "target-http-route",
       "related_sources": [
         {
           "path": "vet/controller.go",
           "line": 92,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
+          "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
         }
       ],
       "mappings": [
         {
           "kind": "http-route-wiring",
-          "contribution": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListJSON",
+          "contribution": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListJSON",
           "source": {
             "path": "vet/controller.go",
             "line": 92,
             "column": 4,
-            "symbol": "spice:symbol:v1|method|54:github.com/StevenBuglione/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
+            "symbol": "spice:symbol:v1|method|55:github.com/spice-framework/spice/examples/petclinic/vet|10:Controller|8:ListJSON"
           },
           "generated": {
             "start_line": 18,
@@ -3005,177 +3005,177 @@
     },
     {
       "path": "internal/spicegen/mysql/spice_lifecycle_gen.go",
-      "sha256": "sha256:bd2ac5c3991995de2517a808a169c5352ac4733d785dfc8b792a6ec76596fd50",
+      "sha256": "sha256:147f9e8ce8ba1542148e21bd8d3c030f6da4c909ef3d263aedaf1ff6ce7c715f",
       "role": "target-lifecycle",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
         {
           "path": "mysql/database.go",
           "line": 59,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|8:Database|7:Migrate"
+          "symbol": "spice:symbol:v1|method|57:github.com/spice-framework/spice/examples/petclinic/mysql|8:Database|7:Migrate"
         },
         {
           "path": "presentation/server.go",
           "line": 65,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|5:Start"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|5:Start"
         },
         {
           "path": "presentation/server.go",
           "line": 104,
           "column": 4,
-          "symbol": "spice:symbol:v1|method|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|6:Server|4:Stop"
+          "symbol": "spice:symbol:v1|method|64:github.com/spice-framework/spice/examples/petclinic/presentation|6:Server|4:Stop"
         }
       ]
     },
     {
       "path": "internal/spicegen/mysql/spice_providers_gen.go",
-      "sha256": "sha256:eb99eef8c623c45602ba4e5bc24dc33fa20cb6c215defaad5e281ccb6e747828",
+      "sha256": "sha256:86fc5e859d822d7e3736ba82ef0c7b8fdb27b9170d981bcaadc8a585233d983a",
       "role": "target-providers",
       "related_sources": [
         {
           "path": "cmd/mysql/main.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|60:github.com/StevenBuglione/spice/examples/petclinic/cmd/mysql|0:|4:main"
+          "symbol": "spice:symbol:v1|function|61:github.com/spice-framework/spice/examples/petclinic/cmd/mysql|0:|4:main"
         },
         {
           "path": "mysql/database.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
+          "symbol": "spice:symbol:v1|function|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|12:OpenDatabase"
         },
         {
           "path": "mysql/owner_repository.go",
           "line": 17,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|15:OwnerRepository"
         },
         {
           "path": "mysql/pet_type_repository.go",
           "line": 15,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|17:PetTypeRepository"
         },
         {
           "path": "mysql/settings.go",
           "line": 7,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings"
         },
         {
           "path": "mysql/settings.go",
           "line": 9,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.URL"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.URL"
         },
         {
           "path": "mysql/settings.go",
           "line": 10,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|8:Settings.AllowInsecure"
         },
         {
           "path": "mysql/vet_repository.go",
           "line": 16,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/mysql|0:|13:VetRepository"
         },
         {
           "path": "owner/controller.go",
           "line": 25,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|10:Controller"
         },
         {
           "path": "owner/pet_controller.go",
           "line": 24,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|13:PetController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|13:PetController"
         },
         {
           "path": "owner/visit_controller.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/owner|0:|15:VisitController"
+          "symbol": "spice:symbol:v1|type|57:github.com/spice-framework/spice/examples/petclinic/owner|0:|15:VisitController"
         },
         {
           "path": "presentation/catalog.go",
           "line": 16,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|10:NewCatalog"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|10:NewCatalog"
         },
         {
           "path": "presentation/mux.go",
           "line": 11,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|6:NewMux"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|6:NewMux"
         },
         {
           "path": "presentation/renderer.go",
           "line": 20,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|11:NewRenderer"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|11:NewRenderer"
         },
         {
           "path": "presentation/server.go",
           "line": 31,
           "column": 4,
-          "symbol": "spice:symbol:v1|function|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|9:NewServer"
+          "symbol": "spice:symbol:v1|function|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|9:NewServer"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 9,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 11,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.Address"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 12,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadHeaderTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 13,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.ReadTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 14,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.WriteTimeout"
         },
         {
           "path": "presentation/server_settings.go",
           "line": 15,
           "column": 2,
-          "symbol": "spice:symbol:v1|type|63:github.com/StevenBuglione/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
+          "symbol": "spice:symbol:v1|type|64:github.com/spice-framework/spice/examples/petclinic/presentation|0:|14:ServerSettings.IdleTimeout"
         },
         {
           "path": "system/welcome_controller.go",
           "line": 18,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/system|0:|17:WelcomeController"
+          "symbol": "spice:symbol:v1|type|58:github.com/spice-framework/spice/examples/petclinic/system|0:|17:WelcomeController"
         },
         {
           "path": "vet/controller.go",
           "line": 21,
           "column": 4,
-          "symbol": "spice:symbol:v1|type|54:github.com/StevenBuglione/spice/examples/petclinic/vet|0:|10:Controller"
+          "symbol": "spice:symbol:v1|type|55:github.com/spice-framework/spice/examples/petclinic/vet|0:|10:Controller"
         }
       ]
     }

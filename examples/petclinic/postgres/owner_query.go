@@ -6,8 +6,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/owner"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/owner"
 )
 
 type ownerQuerier interface {

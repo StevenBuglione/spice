@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestTransactionalDefinition(t *testing.T) {
@@ -18,7 +18,7 @@ func TestTransactionalDefinition(t *testing.T) {
 func TestTransactionalHandler(t *testing.T) {
 	t.Parallel()
 	result, err := TransactionalHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/data",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/data",
 		DescriptorSymbol:  "Transactional",
 		CanonicalName:     "data.Transactional",
 		Arguments: []sdk.InvocationArgument{

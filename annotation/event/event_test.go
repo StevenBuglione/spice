@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestEventDefinitions(t *testing.T) {
@@ -20,7 +20,7 @@ func TestEventDefinitions(t *testing.T) {
 func TestEventHandlers(t *testing.T) {
 	t.Parallel()
 	topic, err := EventTopicHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/event",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/event",
 		DescriptorSymbol:  "Topic",
 		CanonicalName:     "event.Topic",
 	})
@@ -29,7 +29,7 @@ func TestEventHandlers(t *testing.T) {
 		t.Fatalf("EventTopicHandler() = %#v, %v", topic, err)
 	}
 	listener, err := EventListenerHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/event",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/event",
 		DescriptorSymbol:  "Listener",
 		CanonicalName:     "event.Listener",
 		Arguments: []sdk.InvocationArgument{{

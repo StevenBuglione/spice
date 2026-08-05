@@ -13,8 +13,8 @@ import (
 	"sync"
 	"time"
 
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
 	redisclient "github.com/redis/go-redis/v9"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
 const (

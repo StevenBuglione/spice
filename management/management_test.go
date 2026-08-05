@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/StevenBuglione/spice/config"
-	"github.com/StevenBuglione/spice/lifecycle"
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/config"
+	"github.com/spice-framework/spice/lifecycle"
+	"github.com/spice-framework/spice/web"
 )
 
 func TestManagerReportsDeterministicallyWithoutLeakingErrors(t *testing.T) {

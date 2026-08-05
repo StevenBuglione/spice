@@ -1,6 +1,6 @@
 package postgres
 
-// @import { Configuration } from "github.com/StevenBuglione/spice/annotation/core"
+// @import { Configuration } from "github.com/spice-framework/spice/annotation/core"
 
 // Settings configures the PostgreSQL Petclinic application target.
 //

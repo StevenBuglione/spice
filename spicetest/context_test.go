@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/lifecycle"
+	"github.com/spice-framework/spice/lifecycle"
 )
 
 var (

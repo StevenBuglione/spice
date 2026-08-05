@@ -8,17 +8,17 @@ package spicegen
 import (
 	fmt "fmt"
 
-	memory "github.com/StevenBuglione/spice/examples/petclinic/memory"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	memory "github.com/spice-framework/spice/examples/petclinic/memory"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructPetclinicDatabase_75fb0ba1 performs the direct construction selected for bean "newPetclinicDatabase".
-// Spice source identity: spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase.
-func ConstructPetclinicDatabase_75fb0ba1() (*memory.Database, spicelifecycle.Cleanup, error) {
+// ConstructPetclinicDatabase_d44178ef performs the direct construction selected for bean "newPetclinicDatabase".
+// Spice source identity: spice:symbol:v1|function|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase.
+func ConstructPetclinicDatabase_d44178ef() (*memory.Database, spicelifecycle.Cleanup, error) {
 	value, err := memory.NewPetclinicDatabase()
 	if err != nil {
 		var zero *memory.Database
-		return zero, nil, fmt.Errorf("construct bean newPetclinicDatabase (*github.com/StevenBuglione/spice/examples/petclinic/memory.Database, source spice:symbol:v1|function|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase): %w", err)
+		return zero, nil, fmt.Errorf("construct bean newPetclinicDatabase (*github.com/spice-framework/spice/examples/petclinic/memory.Database, source spice:symbol:v1|function|58:github.com/spice-framework/spice/examples/petclinic/memory|0:|20:NewPetclinicDatabase): %w", err)
 	}
 	return value, nil, nil
 }

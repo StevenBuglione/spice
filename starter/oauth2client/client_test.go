@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/starter/oauth2client"
+	"github.com/spice-framework/spice/starter/oauth2client"
 )
 
 func TestClientCredentialsAuthorizesAndCachesResourceRequests(t *testing.T) {

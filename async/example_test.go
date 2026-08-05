@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/StevenBuglione/spice/async"
+	"github.com/spice-framework/spice/async"
 )
 
 func ExampleExecutor() {

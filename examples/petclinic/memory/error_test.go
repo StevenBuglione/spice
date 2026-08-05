@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/StevenBuglione/spice/examples/petclinic/model"
-	"github.com/StevenBuglione/spice/examples/petclinic/owner"
-	"github.com/StevenBuglione/spice/examples/petclinic/vet"
+	"github.com/spice-framework/spice/examples/petclinic/model"
+	"github.com/spice-framework/spice/examples/petclinic/owner"
+	"github.com/spice-framework/spice/examples/petclinic/vet"
 )
 
 func TestDatabaseRejectsInvalidSeedData(t *testing.T) {

@@ -16,9 +16,9 @@ import (
 	spiceapp "example.com/shop/internal/spicegen/shop"
 )
 
-// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
-// @import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
+// @import { Application } from "github.com/spice-framework/spice/annotation/core"
+// @import { Enable } from "github.com/spice-framework/spice/annotation/management"
+// @import { Logging } from "github.com/spice-framework/spice/annotation/observability"
 
 // @Application
 // @Enable(expose=["health", "liveness", "readiness", "info", "metrics"], access="loopback")

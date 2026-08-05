@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/StevenBuglione/spice/validation"
+	"github.com/spice-framework/spice/validation"
 )
 
 func TestBindingResultIsImmutableAndSupportsRejection(t *testing.T) {

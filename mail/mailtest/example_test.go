@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	spicemail "github.com/StevenBuglione/spice/mail"
-	"github.com/StevenBuglione/spice/mail/mailtest"
+	spicemail "github.com/spice-framework/spice/mail"
+	"github.com/spice-framework/spice/mail/mailtest"
 )
 
 func ExampleSender() {

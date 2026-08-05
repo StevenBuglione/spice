@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestFixedDelayDefinition(t *testing.T) {
@@ -18,7 +18,7 @@ func TestFixedDelayDefinition(t *testing.T) {
 func TestFixedDelayHandler(t *testing.T) {
 	t.Parallel()
 	result, err := FixedDelayHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/schedule",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/schedule",
 		DescriptorSymbol:  "FixedDelay",
 		CanonicalName:     "schedule.FixedDelay",
 		Arguments: []sdk.InvocationArgument{

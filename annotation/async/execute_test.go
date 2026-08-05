@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/StevenBuglione/spice/annotation/sdk"
+	"github.com/spice-framework/spice/annotation/sdk"
 )
 
 func TestExecuteDefinition(t *testing.T) {
@@ -17,7 +17,7 @@ func TestExecuteDefinition(t *testing.T) {
 func TestAsyncExecuteHandler(t *testing.T) {
 	t.Parallel()
 	result, err := AsyncExecuteHandler(context.Background(), sdk.Invocation{
-		DescriptorPackage: "github.com/StevenBuglione/spice/annotation/async",
+		DescriptorPackage: "github.com/spice-framework/spice/annotation/async",
 		DescriptorSymbol:  "Execute",
 		CanonicalName:     "async.Execute",
 	})

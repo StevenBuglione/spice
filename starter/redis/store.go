@@ -10,8 +10,8 @@ import (
 	"time"
 	"unicode/utf8"
 
-	spicecache "github.com/StevenBuglione/spice/cache"
 	redisclient "github.com/redis/go-redis/v9"
+	spicecache "github.com/spice-framework/spice/cache"
 )
 
 const (

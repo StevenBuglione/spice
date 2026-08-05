@@ -8,21 +8,21 @@ package spicegen
 import (
 	fmt "fmt"
 
-	owner "github.com/StevenBuglione/spice/examples/petclinic/owner"
-	postgres "github.com/StevenBuglione/spice/examples/petclinic/postgres"
-	spicelifecycle "github.com/StevenBuglione/spice/lifecycle"
+	owner "github.com/spice-framework/spice/examples/petclinic/owner"
+	postgres "github.com/spice-framework/spice/examples/petclinic/postgres"
+	spicelifecycle "github.com/spice-framework/spice/lifecycle"
 )
 
-// ConstructPetTypeRepository_cc9e2d73 performs the direct construction selected for bean "petTypeRepository".
-// Spice source identity: spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
-func ConstructPetTypeRepository_cc9e2d73(dependency0 *postgres.Database) (*postgres.PetTypeRepository, spicelifecycle.Cleanup, error) {
+// ConstructPetTypeRepository_9c969256 performs the direct construction selected for bean "petTypeRepository".
+// Spice source identity: spice:symbol:v1|type|60:github.com/spice-framework/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
+func ConstructPetTypeRepository_9c969256(dependency0 *postgres.Database) (*postgres.PetTypeRepository, spicelifecycle.Cleanup, error) {
 	value, err := postgres.NewPetTypeRepository(dependency0)
 	if err != nil {
 		var zero *postgres.PetTypeRepository
-		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/StevenBuglione/spice/examples/petclinic/postgres.PetTypeRepository, source spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository): %w", err)
+		return zero, nil, fmt.Errorf("construct bean petTypeRepository (*github.com/spice-framework/spice/examples/petclinic/postgres.PetTypeRepository, source spice:symbol:v1|type|60:github.com/spice-framework/spice/examples/petclinic/postgres|0:|17:PetTypeRepository): %w", err)
 	}
 	return value, nil, nil
 }
 
-// spiceImplementsPetTypeRepositoryAsPetTypeRepository_ce8e4c99 identifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_52c1d524 identifies the explicit @Implements binding for spice:symbol:v1|type|60:github.com/spice-framework/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
 var _ owner.PetTypeRepository = (*postgres.PetTypeRepository)(nil)

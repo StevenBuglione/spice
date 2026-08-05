@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/StevenBuglione/spice/lifecycle"
-	"github.com/StevenBuglione/spice/web"
+	"github.com/spice-framework/spice/lifecycle"
+	"github.com/spice-framework/spice/web"
 )
 
 func TestSlogHTTPObserverWritesBoundedRouteMetadata(t *testing.T) {

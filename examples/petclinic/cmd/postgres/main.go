@@ -3,17 +3,17 @@ package main
 import (
 	"os"
 
-	spiceapp "github.com/StevenBuglione/spice/examples/petclinic/internal/spicegen/postgres"
-	_ "github.com/StevenBuglione/spice/examples/petclinic/owner"
-	_ "github.com/StevenBuglione/spice/examples/petclinic/postgres"
-	_ "github.com/StevenBuglione/spice/examples/petclinic/presentation"
-	_ "github.com/StevenBuglione/spice/examples/petclinic/system"
-	_ "github.com/StevenBuglione/spice/examples/petclinic/vet"
+	spiceapp "github.com/spice-framework/spice/examples/petclinic/internal/spicegen/postgres"
+	_ "github.com/spice-framework/spice/examples/petclinic/owner"
+	_ "github.com/spice-framework/spice/examples/petclinic/postgres"
+	_ "github.com/spice-framework/spice/examples/petclinic/presentation"
+	_ "github.com/spice-framework/spice/examples/petclinic/system"
+	_ "github.com/spice-framework/spice/examples/petclinic/vet"
 )
 
-// @import { Application } from "github.com/StevenBuglione/spice/annotation/core"
-// @import { Enable } from "github.com/StevenBuglione/spice/annotation/management"
-// @import { Logging } from "github.com/StevenBuglione/spice/annotation/observability"
+// @import { Application } from "github.com/spice-framework/spice/annotation/core"
+// @import { Enable } from "github.com/spice-framework/spice/annotation/management"
+// @import { Logging } from "github.com/spice-framework/spice/annotation/observability"
 
 // @Application
 // @Enable(expose=["health", "liveness", "readiness", "info", "metrics", "configprops", "modules"], access="loopback")
