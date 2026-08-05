@@ -163,10 +163,12 @@ package from the loaded module graph for these expressions, so no otherwise
 unused ordinary Go import is required. The compiler rejects anonymous,
 pointer-to-interface, inaccessible, unresolved, non-interface, and
 constraint-only expressions; checks the concrete factory result's exact
-pointer/value method set; and emits a matching `var _ Interface =
-ConcreteExpression` assertion in a manifest-owned source shard in the
-implementation package. An `@Bean` returning an interface is already an exact
-interface provider and rejects redundant `@Implements`.
+pointer/value method set; and emits a conventional blank-identifier
+`var _ Interface = ConcreteExpression` assertion in the manifest-owned source
+shard. Pointer outputs use typed nil, struct values use a composite literal,
+and other valid concrete values use a zero-value expression. An `@Bean`
+returning an interface is already an exact interface provider and rejects
+redundant `@Implements`.
 
 The compiler service builds one defensive, deterministic catalog of named
 runtime interfaces from that same loaded `go/packages` type universe. It walks

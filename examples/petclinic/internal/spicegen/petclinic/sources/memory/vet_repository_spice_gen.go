@@ -24,5 +24,5 @@ func ConstructVetRepository_3a6aad84(dependency0 *memory.Database) (*memory.VetR
 	return value, nil, nil
 }
 
-// spiceImplementsVetRepositoryAsRepository_f75617ef verifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
-var spiceImplementsVetRepositoryAsRepository_f75617ef vet.Repository = *new(*memory.VetRepository)
+// spiceImplementsVetRepositoryAsRepository_f75617ef identifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository.
+var _ vet.Repository = (*memory.VetRepository)(nil)

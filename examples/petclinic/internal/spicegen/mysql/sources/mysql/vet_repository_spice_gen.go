@@ -24,5 +24,5 @@ func ConstructVetRepository_e6a8bff4(dependency0 *mysql.Database) (*mysql.VetRep
 	return value, nil, nil
 }
 
-// spiceImplementsVetRepositoryAsRepository_91b1c446 verifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository.
-var spiceImplementsVetRepositoryAsRepository_91b1c446 vet.Repository = *new(*mysql.VetRepository)
+// spiceImplementsVetRepositoryAsRepository_91b1c446 identifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|13:VetRepository.
+var _ vet.Repository = (*mysql.VetRepository)(nil)

@@ -24,5 +24,5 @@ func ConstructPetTypeRepository_1ad039a7(dependency0 *mysql.Database) (*mysql.Pe
 	return value, nil, nil
 }
 
-// spiceImplementsPetTypeRepositoryAsPetTypeRepository_da9a4220 verifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
-var spiceImplementsPetTypeRepositoryAsPetTypeRepository_da9a4220 owner.PetTypeRepository = *new(*mysql.PetTypeRepository)
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_da9a4220 identifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|17:PetTypeRepository.
+var _ owner.PetTypeRepository = (*mysql.PetTypeRepository)(nil)

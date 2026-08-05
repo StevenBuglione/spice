@@ -24,5 +24,5 @@ func ConstructPetTypeRepository_cc9e2d73(dependency0 *postgres.Database) (*postg
 	return value, nil, nil
 }
 
-// spiceImplementsPetTypeRepositoryAsPetTypeRepository_ce8e4c99 verifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
-var spiceImplementsPetTypeRepositoryAsPetTypeRepository_ce8e4c99 owner.PetTypeRepository = *new(*postgres.PetTypeRepository)
+// spiceImplementsPetTypeRepositoryAsPetTypeRepository_ce8e4c99 identifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository.
+var _ owner.PetTypeRepository = (*postgres.PetTypeRepository)(nil)

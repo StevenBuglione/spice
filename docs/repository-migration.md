@@ -77,7 +77,7 @@ security scan contains no known vulnerable selected module versions.
   workflows.
 - [x] Move handwritten tests outside generated ownership roots and enforce that
   every file below a generated target is manifest-owned.
-- [ ] Render conventional generated interface assertions while preserving
+- [x] Render conventional generated interface assertions while preserving
   exact pointer/value/generic validation.
 - [ ] Move the root-owned Commerce generated target and manifest into the
   Commerce module.

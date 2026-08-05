@@ -24,5 +24,5 @@ func ConstructOwnerRepository_2966447b(dependency0 *memory.Database) (*memory.Ow
 	return value, nil, nil
 }
 
-// spiceImplementsOwnerRepositoryAsRepository_f1a2fa85 verifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository.
-var spiceImplementsOwnerRepositoryAsRepository_f1a2fa85 owner.Repository = *new(*memory.OwnerRepository)
+// spiceImplementsOwnerRepositoryAsRepository_f1a2fa85 identifies the explicit @Implements binding for spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository.
+var _ owner.Repository = (*memory.OwnerRepository)(nil)

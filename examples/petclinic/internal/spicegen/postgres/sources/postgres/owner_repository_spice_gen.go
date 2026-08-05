@@ -24,5 +24,5 @@ func ConstructOwnerRepository_3fa14a0e(dependency0 *postgres.Database) (*postgre
 	return value, nil, nil
 }
 
-// spiceImplementsOwnerRepositoryAsRepository_55b41c6d verifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository.
-var spiceImplementsOwnerRepositoryAsRepository_55b41c6d owner.Repository = *new(*postgres.OwnerRepository)
+// spiceImplementsOwnerRepositoryAsRepository_55b41c6d identifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository.
+var _ owner.Repository = (*postgres.OwnerRepository)(nil)

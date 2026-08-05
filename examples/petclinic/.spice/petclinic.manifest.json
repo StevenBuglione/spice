@@ -472,7 +472,7 @@
     },
     {
       "path": "internal/spicegen/petclinic/sources/memory/owner_repository_spice_gen.go",
-      "sha256": "sha256:d667f797bc17f98395b4fae4de551469bea7599034c9775f7c4afde305fc39c6",
+      "sha256": "sha256:39ce942ba4fd92054e142b2416308f551b11db17df4e807c22a9e25ee39fc6ac",
       "role": "source-unit",
       "primary_source": {
         "path": "memory/owner_repository.go",
@@ -507,17 +507,17 @@
             "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|15:OwnerRepository"
           },
           "generated": {
-            "start_line": 27,
-            "start_column": 4,
-            "end_line": 27,
-            "end_column": 55
+            "start_line": 28,
+            "start_column": 7,
+            "end_line": 28,
+            "end_column": 23
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/petclinic/sources/memory/pet_type_repository_spice_gen.go",
-      "sha256": "sha256:410bff2c8e3f4e38d9077b15ac4e2d332c40ad7436ca0820ad7743f72f7f92cb",
+      "sha256": "sha256:e18c38c6795a166068eaebb4b63ef82504b1f3cc832160d382afd3a9ecf12879",
       "role": "source-unit",
       "primary_source": {
         "path": "memory/pet_type_repository.go",
@@ -552,10 +552,10 @@
             "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|17:PetTypeRepository"
           },
           "generated": {
-            "start_line": 27,
-            "start_column": 4,
-            "end_line": 27,
-            "end_column": 64
+            "start_line": 28,
+            "start_column": 7,
+            "end_line": 28,
+            "end_column": 30
           }
         }
       ]
@@ -591,7 +591,7 @@
     },
     {
       "path": "internal/spicegen/petclinic/sources/memory/vet_repository_spice_gen.go",
-      "sha256": "sha256:d0a646e60a1a607bf3c16297255a9900cd9a2d1d61f529678b2f1082488b0201",
+      "sha256": "sha256:cfa709b407613878748f1c9d6015de0747cb88e7a4b620f626aa580cef9d7852",
       "role": "source-unit",
       "primary_source": {
         "path": "memory/vet_repository.go",
@@ -626,10 +626,10 @@
             "symbol": "spice:symbol:v1|type|57:github.com/StevenBuglione/spice/examples/petclinic/memory|0:|13:VetRepository"
           },
           "generated": {
-            "start_line": 27,
-            "start_column": 4,
-            "end_line": 27,
-            "end_column": 53
+            "start_line": 28,
+            "start_column": 7,
+            "end_line": 28,
+            "end_column": 21
           }
         }
       ]

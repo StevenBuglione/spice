@@ -24,5 +24,5 @@ func ConstructVetRepository_0bc65553(dependency0 *postgres.Database) (*postgres.
 	return value, nil, nil
 }
 
-// spiceImplementsVetRepositoryAsRepository_d3988609 verifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|13:VetRepository.
-var spiceImplementsVetRepositoryAsRepository_d3988609 vet.Repository = *new(*postgres.VetRepository)
+// spiceImplementsVetRepositoryAsRepository_d3988609 identifies the explicit @Implements binding for spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|13:VetRepository.
+var _ vet.Repository = (*postgres.VetRepository)(nil)

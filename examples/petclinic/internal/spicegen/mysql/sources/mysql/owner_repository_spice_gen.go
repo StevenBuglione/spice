@@ -24,5 +24,5 @@ func ConstructOwnerRepository_055f5543(dependency0 *mysql.Database) (*mysql.Owne
 	return value, nil, nil
 }
 
-// spiceImplementsOwnerRepositoryAsRepository_3593c16a verifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
-var spiceImplementsOwnerRepositoryAsRepository_3593c16a owner.Repository = *new(*mysql.OwnerRepository)
+// spiceImplementsOwnerRepositoryAsRepository_3593c16a identifies the explicit @Implements binding for spice:symbol:v1|type|56:github.com/StevenBuglione/spice/examples/petclinic/mysql|0:|15:OwnerRepository.
+var _ owner.Repository = (*mysql.OwnerRepository)(nil)

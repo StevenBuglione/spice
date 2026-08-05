@@ -13,10 +13,10 @@ import (
 // Every argument is a typed Go interface expression resolved against the
 // annotation's physical source file. Spice verifies the factory's exact result
 // type in the compiler's shared go/types universe and emits the equivalent Go
-// compile-time assertion in a manifest-owned source shard. The annotation never
-// performs implicit assignability scanning: concrete injection uses the exact
-// result type, while interface injection sees only explicit Implements bindings
-// or factories that return the interface exactly.
+// blank-identifier compile-time assertion in a manifest-owned source shard.
+// The annotation never performs implicit assignability scanning: concrete
+// injection uses the exact result type, while interface injection sees only
+// explicit Implements bindings or factories that return the interface exactly.
 //
 //	// @import { Implements, Service } from "github.com/StevenBuglione/spice/annotation/core"
 //	// @import * as payments from "example.com/commerce/payments"

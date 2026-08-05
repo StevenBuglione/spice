@@ -125,7 +125,11 @@ runtime.
 
 `make goland` does more than instantiate folding APIs. On Windows and Linux it
 builds the current Spice CLI, packages the plugin, launches that archive in a
-clean pinned GoLand profile through JetBrains Starter/Driver, and then:
+clean pinned GoLand profile through JetBrains Starter/Driver. The Windows
+harness identifies the exact project-titled window and requires foreground
+ownership before physical input. It first attaches Win32 input threads and,
+when the foreground lock still rejects programmatic activation, clicks the
+window title bar once and rechecks the exact foreground handle. It then:
 
 1. opens a real Go module through the registered plugin extensions;
 2. runs native highlighting and asserts the exact text-attribute key and range

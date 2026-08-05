@@ -588,7 +588,7 @@
     },
     {
       "path": "internal/spicegen/postgres/sources/postgres/owner_repository_spice_gen.go",
-      "sha256": "sha256:76e10770274a47006667af1e9866053dd25dd13944c6f8b4295f3222b5556447",
+      "sha256": "sha256:635438c17e62c0dc375daf5c526e7cc85ca7ae08bd76628b0b6b32849746084c",
       "role": "source-unit",
       "primary_source": {
         "path": "postgres/owner_repository.go",
@@ -623,17 +623,17 @@
             "symbol": "spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|15:OwnerRepository"
           },
           "generated": {
-            "start_line": 27,
-            "start_column": 4,
-            "end_line": 27,
-            "end_column": 55
+            "start_line": 28,
+            "start_column": 7,
+            "end_line": 28,
+            "end_column": 23
           }
         }
       ]
     },
     {
       "path": "internal/spicegen/postgres/sources/postgres/pet_type_repository_spice_gen.go",
-      "sha256": "sha256:3edbcbebfd50a393b990dcc0d5faa83fda12f147d3b3635b8410d1818aff863d",
+      "sha256": "sha256:14b198f1d30370add782aab39ceff584c1964d84f5a8ef3021404a51b7c19cb2",
       "role": "source-unit",
       "primary_source": {
         "path": "postgres/pet_type_repository.go",
@@ -668,10 +668,10 @@
             "symbol": "spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|17:PetTypeRepository"
           },
           "generated": {
-            "start_line": 27,
-            "start_column": 4,
-            "end_line": 27,
-            "end_column": 64
+            "start_line": 28,
+            "start_column": 7,
+            "end_line": 28,
+            "end_column": 30
           }
         }
       ]
@@ -707,7 +707,7 @@
     },
     {
       "path": "internal/spicegen/postgres/sources/postgres/vet_repository_spice_gen.go",
-      "sha256": "sha256:70c7ce66c6505b6c59f1f22ab3674da016b1acd0e24b68c63eac6e4fd72c9f6f",
+      "sha256": "sha256:60b4c4dc5b0a091950f433d9d8bb034618d72a5affe84e5ce86764e80aec839e",
       "role": "source-unit",
       "primary_source": {
         "path": "postgres/vet_repository.go",
@@ -742,10 +742,10 @@
             "symbol": "spice:symbol:v1|type|59:github.com/StevenBuglione/spice/examples/petclinic/postgres|0:|13:VetRepository"
           },
           "generated": {
-            "start_line": 27,
-            "start_column": 4,
-            "end_line": 27,
-            "end_column": 53
+            "start_line": 28,
+            "start_column": 7,
+            "end_line": 28,
+            "end_column": 21
           }
         }
       ]

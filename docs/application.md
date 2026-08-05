@@ -132,7 +132,8 @@ of rebuilding the monolith.
 The handwritten command imports the target package directly. Every contributing
 handwritten file—including the application marker—owns one mirrored source
 unit; providers, configuration binders, application metadata, and
-`@Implements` assertions derived from that file live together there. Source
+conventional blank-identifier `@Implements` assertions derived from that file
+live together there. Source
 units use nested generated packages rather than appearing beside handwritten
 Go, and target provider wiring calls their typed exported adapters.
 
