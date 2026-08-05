@@ -9,6 +9,8 @@ evidence; repository creation alone never completes a stage.
 - Canonical source commit: `9a83a298c4e37a780b2f596f099ec137158fc298`.
 - Baseline source remote: the maintainer's personal `StevenBuglione` repository.
 - Canonical module and target remote: `github.com/spice-framework/spice`.
+- Current source remote: `github.com/spice-framework/spice`; the baseline URL
+  redirects to the same `main` history.
 - Target organization: `github.com/spice-framework`.
 - The target organization is active and the maintainer has organization
   administration access.
@@ -129,6 +131,15 @@ repository verifier scans the complete owned tree and rejects the retired
 personal-account module namespace. All six generated targets were proven
 current before the transition, migrated through their recorded SHA-256
 ownership, and rendered again by the independent stage-zero compiler.
+
+Transfer progress: the complete repository and issue history now resides at
+`spice-framework/spice`; both canonical and historical Git URLs resolve commit
+`9ab6bf3`, the local `origin` uses the organization SSH URL, and `main` rejects
+force pushes and deletion without requiring pull requests. Projects, the wiki,
+and merge commits are disabled; private vulnerability reporting, dependency
+alerts, and automated security fixes are enabled. The transfer checkbox remains
+open until a post-transfer Actions run and a clean-room canonical module
+resolution both pass.
 
 ## Stage 3: Extract independent consumers first
 

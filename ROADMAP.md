@@ -17,9 +17,11 @@ portable starter metadata, and the clean-room scaffold/dependency workflow are
 green. Organization governance, compatibility metadata, guarded workspace
 generation, and reusable cross-repository gates are now live under
 `github.com/spice-framework`. Core source, descriptors, generated provenance,
-fixtures, and vendor trees now use the canonical organization module path. The
-immediate priority is the history-preserving core transfer and clean-room
-redirect proof, followed by consumer/editor extraction.
+fixtures, and vendor trees now use the canonical organization module path, and
+the complete repository history has transferred to `spice-framework/spice`
+with the historical Git URL preserved as a redirect. The immediate priority is
+post-transfer CI/clean-room resolution evidence, followed by consumer/editor
+extraction.
 
 ## Current developer-proof priority
 

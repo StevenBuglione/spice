@@ -11,9 +11,10 @@
 Organization governance and cross-repository development tooling now live at
 [`spice-framework/.github`](https://github.com/spice-framework/.github) and
 [`spice-framework/development`](https://github.com/spice-framework/development).
-The core module now uses its canonical `github.com/spice-framework/spice`
-identity. The history-preserving organization transfer is the remaining core
-repository cutover before independent consumer extraction begins.
+The core module and complete source history now live at
+[`spice-framework/spice`](https://github.com/spice-framework/spice). Historical
+repository URLs redirect to the organization. Independent consumer/editor
+extraction is the next migration boundary.
 
 Spice is an opinionated, compile-time application platform for Go. Its goal is to bring the breadth, productivity, and operational completeness associated with Spring Boot together with Spring Modulith-style architectural enforcement—without importing JVM runtime magic into Go.
 
