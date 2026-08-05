@@ -115,10 +115,10 @@ the result.
   verification.
 - [x] Rewrite module, annotation import, documentation, and generated
   provenance paths to `github.com/spice-framework`.
-- [ ] Transfer the original repository to `spice-framework/spice` and verify
+- [x] Transfer the original repository to `spice-framework/spice` and verify
   Git redirects, default branch, rules, Actions, issues, and local remotes.
-- [ ] Publish a documented temporary migration tag only if clean-room module
-  resolution requires one.
+- [x] Record that no temporary migration tag was required after clean-room
+  canonical pseudo-version resolution passed.
 
 Exit evidence: a clean machine resolves the canonical core path without a
 personal-account replacement.
@@ -147,9 +147,8 @@ Transfer progress: the complete repository and issue history now resides at
 `9ab6bf3`, the local `origin` uses the organization SSH URL, and `main` rejects
 force pushes and deletion without requiring pull requests. Projects, the wiki,
 and merge commits are disabled; private vulnerability reporting, dependency
-alerts, and automated security fixes are enabled. The transfer checkbox remains
-open until a post-transfer Actions run and a clean-room canonical module
-resolution both pass.
+alerts, and automated security fixes are enabled. Post-transfer Actions and
+clean-room canonical module resolution are both green.
 
 ## Stage 3: Extract independent consumers first
 
@@ -167,10 +166,11 @@ resolution both pass.
 Exit evidence: both reference applications and both editors are external
 consumers of canonical artifacts.
 
-Commerce evidence: `spice-framework/commerce` commit `ab8431d` pins immutable
-canonical core source with no local replacement. Its repository-owned gate is
-green on Windows, Linux, and macOS, and its PostgreSQL 18.4 job proves durable
-transaction, migration, close, and reopen behavior. Core retains links to this
+Commerce evidence: `spice-framework/commerce` commit `4807b91` pins immutable
+canonical core and standalone SMTP source with no local replacement. Its
+repository-owned gate is green on Windows, Linux, and macOS, its PostgreSQL
+18.4 job proves durable transaction, migration, close, and reopen behavior,
+and GitHub reports no open dependency alerts. Core retains links to this
 evidence but no longer rebuilds or vendors the application.
 
 Petclinic evidence: `spice-framework/petclinic` commit `1e653f6` pins immutable
@@ -183,7 +183,7 @@ the application.
 
 ## Stage 4: Extract external-service starters
 
-For each starter repository:
+For each remaining starter repository:
 
 - [ ] filter and preserve relevant source history;
 - [ ] add an independent Go module, license, support matrix, ownership, and
@@ -194,6 +194,20 @@ For each starter repository:
 - [ ] publish checksums, SBOM/provenance, and a signed preview tag;
 - [ ] remove the durable source from the core repository only after the remote
   and clean-room consumer are green.
+
+`starter-smtp` is the first completed source extraction:
+
+- [x] preserve the package history in `spice-framework/starter-smtp`;
+- [x] publish an independent Go module, Apache-2.0 license, support matrix,
+  ownership contract, and dependency review;
+- [x] pass the fast and complete quality contracts plus authenticated,
+  required-STARTTLS Mailpit delivery;
+- [x] retain cancellation, timeout, conservative retry, cleanup, security, and
+  payload-free observation tests;
+- [ ] verify both the declared minimum and current compatible core versions;
+- [ ] publish checksums, SBOM/provenance, and a signed preview tag;
+- [x] migrate Commerce to the immutable module and remove the durable core copy
+  only after Windows, Linux, macOS, PostgreSQL, and dependency-graph gates pass.
 
 Extraction order follows dependency complexity:
 

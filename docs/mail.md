@@ -134,8 +134,10 @@ may safely inspect the same sender.
 
 ## Secure SMTP transport
 
-`starter/smtp` is the production transport. It is instance-owned, performs no
-network work during construction, and requires verified TLS:
+[`github.com/spice-framework/starter-smtp`](https://github.com/spice-framework/starter-smtp)
+is the independently versioned production transport. Add it through the normal
+Go module graph, import it as `smtp`, and construct an instance explicitly. It
+performs no network work during construction and requires verified TLS:
 
 ```go
 sender, err := smtp.New(smtp.Config{
@@ -189,4 +191,5 @@ The transport intentionally supports the stable SMTP subset in Go's
 standard-library `net/smtp`: STARTTLS or implicit TLS, AUTH PLAIN after TLS, and
 ordinary ASCII envelope addresses. SMTPUTF8, custom SASL mechanisms, DSN, and
 automatic ambiguous-delivery replay are not claimed. The dependency and
-security decision is recorded in `docs/dependency-reviews/net-smtp.md`.
+security decision is owned by the
+[`starter-smtp` dependency review](https://github.com/spice-framework/starter-smtp/blob/main/docs/dependency-review.md).

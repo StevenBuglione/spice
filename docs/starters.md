@@ -227,7 +227,7 @@ and dependency-review record. These records do not activate behavior:
 | `starter/websocket` | `web.websocket.client`, `web.websocket.server` | `github.com/coder/websocket` v1.8.15 |
 | `starter/postgres` | `batch.postgresql`, `data.postgresql`, `data.sql`, `event.outbox.postgresql`, `migration.postgresql` | `github.com/jackc/pgx/v5` v5.10.0 |
 | `starter/redis` | `cache.redis`, `data.redis` | `github.com/redis/go-redis/v9` v9.21.0 |
-| `starter/smtp` | `mail.smtp` | Go standard library |
+| [`github.com/spice-framework/starter-smtp`](https://github.com/spice-framework/starter-smtp) | `mail.smtp` | Go standard library |
 | `starter/oidc` | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
 | `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
 | `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.module-events`, `observability.tracing` | OpenTelemetry API modules v1.44.0 |

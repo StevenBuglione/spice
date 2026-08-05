@@ -52,9 +52,10 @@ The final reference workflow now composes the accepted contracts:
   `SystemClock` is an explicit clock binding. Commerce composes a deterministic
   typed MIME receipt with an attachment after transaction commit, delivers it
   through the bounded test transport in the default workflow, and can select
-  the isolated secure SMTP starter through typed secret-redacted
-  configuration. Tests inspect the decoded delivery and prove cancellation
-  plus error sanitization.
+  the independently versioned
+  [`starter-smtp`](https://github.com/spice-framework/starter-smtp) module
+  through typed secret-redacted configuration. Tests inspect the decoded
+  delivery and prove cancellation plus error sanitization.
 - `spice dev`, the overlay compiler service, the editor-neutral LSP, the
   independently versioned primary GoLand integration, and the supported Zed
   integration are available. GoLand's exact prefix concealment, native token

@@ -97,9 +97,10 @@ and Linux for native completion, diagnostics, modifier-click navigation, quick
 fixes, and semantic-token presentation, within Zed's public no-concealment
 boundary. The bounded test mail transport now supplies
 immutable decoded delivery snapshots, deterministic failure injection,
-explicit capacity behavior, and payload-free observations. The secure SMTP
-slice adds verified STARTTLS/implicit TLS, bounded cancellation and retry,
-ambiguous-delivery protection, and payload-free observations. Commerce now
+explicit capacity behavior, and payload-free observations. The independently
+versioned `spice-framework/starter-smtp` module adds verified
+STARTTLS/implicit TLS, bounded cancellation and retry, ambiguous-delivery
+protection, and payload-free observations. Commerce now
 uses generated exact-scope authorization, serializable transaction ownership,
 an explicit repository interface binding, module-owned lifecycle migration, a
 transaction-aware zero-dependency development database, a PostgreSQL

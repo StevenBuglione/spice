@@ -15,7 +15,6 @@ import (
 	"github.com/spice-framework/spice/starter/otel"
 	"github.com/spice-framework/spice/starter/postgres"
 	redisstarter "github.com/spice-framework/spice/starter/redis"
-	smtpstarter "github.com/spice-framework/spice/starter/smtp"
 	websocketstarter "github.com/spice-framework/spice/starter/websocket"
 )
 
@@ -191,13 +190,6 @@ func TestShippedStarterManifests(t *testing.T) {
 				},
 			},
 			activation: starter.ActivationExplicitConstructor,
-		},
-		{
-			name:         "smtp",
-			manifest:     smtpstarter.Manifest,
-			entrypoints:  []any{smtpstarter.New},
-			capabilities: []string{"mail.smtp"},
-			activation:   starter.ActivationExplicitConstructor,
 		},
 	}
 	seenIDs := make(map[string]struct{}, len(tests))
