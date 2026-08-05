@@ -171,18 +171,18 @@ linters:
           - maintidx
           - noctx
       # Process entrypoints alone translate the returned CLI status to the OS.
-      - path: "^(cmd/(spice|spice-bootstrap|spice-release)|internal/qualitygate/(fast|parity)|internal/qualitygate)/main\\.go$"
+      - path: "(^|.*[/\\\\])(cmd[/\\\\](spice|spice-bootstrap|spice-release)|internal[/\\\\]qualitygate([/\\\\](fast|parity))?)[/\\\\]main\\.go$"
         text: 'use of `os\.Exit`'
         linters:
           - forbidigo
-      - path: "^examples/commerce/main\\.go$"
+      - path: "(^|.*[/\\\\])examples[/\\\\]commerce[/\\\\]main\\.go$"
         text: 'use of `os\.Exit`'
         linters:
           - forbidigo
       # Commerce and Petclinic are committed consumer fixtures; their local
       # replacements test the unpublished framework tree and are removed by
       # clean-room release acceptance.
-      - path: "^examples[/\\\\](commerce|petclinic)[/\\\\]go\\.mod$"
+      - path: "(^|.*[/\\\\])examples[/\\\\](commerce|petclinic)[/\\\\]go\\.mod$"
         text: "local replacement are not allowed"
         linters:
           - gomoddirectives

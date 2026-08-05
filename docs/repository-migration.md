@@ -95,9 +95,9 @@ the result.
 
 ## Stage 2: Establish organization infrastructure and canonical paths
 
-- [ ] Create `spice-framework/.github` with the organization profile, security
+- [x] Create `spice-framework/.github` with the organization profile, security
   contacts, contribution policy, and reusable Go/Gradle workflows.
-- [ ] Create `spice-framework/development` with idempotent bootstrap tooling,
+- [x] Create `spice-framework/development` with idempotent bootstrap tooling,
   native workspace generation, compatibility metadata, and cross-repository
   verification.
 - [ ] Rewrite module, annotation import, documentation, and generated
@@ -109,6 +109,17 @@ the result.
 
 Exit evidence: a clean machine resolves the canonical core path without a
 personal-account replacement.
+
+Infrastructure evidence: `spice-framework/.github` publishes inherited
+governance and immutable-action reusable workflows. The standard-library-only
+`spice-framework/development` command validates its schema-1 catalog, safely
+bootstraps exact remotes, guards generated `go.work` and editor workspaces, and
+runs repository-owned gates concurrently with `GOWORK=off`. Its local gate
+passes race tests, security scans, trimpath builds, and 85.6% coverage. A clean
+organization workspace cloned all active and migrating repositories and proved
+current guarded workspace output plus independent Development and core
+verification; core linter exclusions are stable whether diagnostics are
+module-relative or containing-workspace-relative.
 
 ## Stage 3: Extract independent consumers first
 

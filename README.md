@@ -8,6 +8,12 @@
 > [repository migration ledger](docs/repository-migration.md). Until the first
 > signed preview is published, the project remains pre-alpha.
 
+Organization governance and cross-repository development tooling now live at
+[`spice-framework/.github`](https://github.com/spice-framework/.github) and
+[`spice-framework/development`](https://github.com/spice-framework/development).
+The core source remains canonical in this repository until its module-path
+rewrite and verified organization transfer are complete.
+
 Spice is an opinionated, compile-time application platform for Go. Its goal is to bring the breadth, productivity, and operational completeness associated with Spring Boot together with Spring Modulith-style architectural enforcement—without importing JVM runtime magic into Go.
 
 ## Product direction

@@ -14,8 +14,10 @@ acceptance evidence are maintained in
 Stage 0 and Stage 1 are complete: product truth, secure defaults, independent
 application ownership, source-owned composition, generated-tree purity,
 portable starter metadata, and the clean-room scaffold/dependency workflow are
-green. The immediate priority is organization infrastructure, canonical module
-paths, reusable cross-repository gates, and then consumer/editor extraction.
+green. Organization governance, compatibility metadata, guarded workspace
+generation, and reusable cross-repository gates are now live under
+`github.com/spice-framework`. The immediate priority is canonical module paths,
+core transfer, and then consumer/editor extraction.
 
 ## Current developer-proof priority
 
