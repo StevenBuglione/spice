@@ -1,10 +1,16 @@
 # gRPC integration
 
-`starter/grpc` integrates the standard grpc-go and protobuf toolchain without
-creating a second IDL, code generator, service registry, or resolver. Applications
+The independently versioned
+[`github.com/spice-framework/starter-grpc`](https://github.com/spice-framework/starter-grpc)
+module integrates the standard grpc-go and protobuf toolchain without creating
+a second IDL, code generator, service registry, or resolver. Applications
 continue to define `.proto` contracts and commit ordinary generated Go clients
-and servers. Spice owns only explicit construction, transport policy, lifecycle,
-limits, and payload-free observation.
+and servers. Spice owns only explicit construction, transport policy,
+lifecycle, limits, and payload-free observation.
+
+```text
+go get github.com/spice-framework/starter-grpc@latest
+```
 
 ## Server
 
@@ -79,3 +85,9 @@ Spice does not enable gRPC reflection, retries, proxy discovery, authentication,
 authorization, or load balancing implicitly. Applications compose those
 policies explicitly. The starter never scans packages or registers a global
 codec, resolver, connection, or server.
+
+The starter repository owns the canonical [dependency
+review](https://github.com/spice-framework/starter-grpc/blob/main/docs/dependency-review.md),
+[support policy](https://github.com/spice-framework/starter-grpc/blob/main/docs/support.md),
+compatibility manifest, and real TLS/mTLS acceptance evidence. This core
+document remains the ecosystem composition guide.

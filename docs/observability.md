@@ -53,11 +53,17 @@ another handler or observer set can omit the annotation and use
 
 ## OpenTelemetry starter
 
-`starter/otel` adapts generated route and typed module-event seams to the
-stable OpenTelemetry Go trace and metric APIs. Its annotation descriptor
+The independently versioned
+[`github.com/spice-framework/starter-otel`](https://github.com/spice-framework/starter-otel)
+module adapts generated route and typed module-event seams to the stable
+OpenTelemetry Go trace and metric APIs. Its annotation descriptor
 contributes the qualified `@otel.Enable` application annotation. Provide the
 application-owned OpenTelemetry inputs as an exact bean and explicitly import
 the descriptor before enabling the feature:
+
+```text
+go get github.com/spice-framework/starter-otel@latest
+```
 
 ```go
 // @Bean
@@ -120,8 +126,12 @@ export lifecycle.
 
 The starter does not install global OpenTelemetry providers, select an
 exporter, read environment variables, or contact a collector. Applications own
-provider/exporter construction and shutdown deadlines. See the
-[dependency review](dependency-reviews/opentelemetry-go.md).
+provider/exporter construction and shutdown deadlines. The starter repository
+owns the canonical [dependency
+review](https://github.com/spice-framework/starter-otel/blob/main/docs/dependency-review.md),
+[support policy](https://github.com/spice-framework/starter-otel/blob/main/docs/support.md),
+compatibility manifest, and verification evidence. This core document remains
+the ecosystem composition guide, not a duplicate release contract.
 
 Applications that need custom ordering or conditional observation can omit
 `@otel.Enable`, call `spiceotel.NewHTTPObserver` themselves, and pass it through

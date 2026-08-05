@@ -253,15 +253,35 @@ For each remaining starter repository:
 - [x] remove the duplicate core implementation and go-redis graph only after
   the standalone repository was durable and green.
 
+The observability, security-client, RPC/WebSocket, and Kafka extraction wave is
+also accepted. Each module preserves filtered history, carries an Apache-2.0
+license, support policy, canonical dependency review, reproducible vendor
+graph, and strict minimum/current Spice compatibility manifest. The linked
+main-branch run is the durable hosted acceptance record; the pseudo-version is
+the exact Go module revision accepted for consumer migration.
+
+| Module | Accepted commit and pseudo-version | Hosted evidence | Decisive acceptance |
+| --- | --- | --- | --- |
+| [`starter-otel`](https://github.com/spice-framework/starter-otel) | `d3a928b22d7b84a216199cf4480038bd2b2c2e71`; `v0.0.0-20260805193847-d3a928b22d7b` | [run `31040425162`](https://github.com/spice-framework/starter-otel/actions/runs/31040425162) | HTTP and module-event spans/metrics, payload-safe attributes, idempotent completion, minimum/current core, offline vendor, and Windows/Linux/macOS |
+| [`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client) | `b7518b4ed9d8ec5ac9548df8f2d6a5c7ff9f06ff`; `v0.0.0-20260805194856-b7518b4ed9d8` | [run `31041215328`](https://github.com/spice-framework/starter-oauth2client/actions/runs/31041215328) | Local TLS token/resource flow, redirect refusal, response limits, cancellation, credential-safe failures, minimum/current core, offline vendor, and Windows/Linux/macOS |
+| [`starter-oidc`](https://github.com/spice-framework/starter-oidc) | `d3bbf42c26a1be15ce5efb3ac0cd503f68c85f9e`; `v0.0.0-20260805195025-d3bbf42c26a1` | [run `31041320255`](https://github.com/spice-framework/starter-oidc/actions/runs/31041320255) | Local TLS discovery/JWKS, exact issuer/audience/expiry/signature checks, bounded transport, cancellation, token-safe failures, minimum/current core, offline vendor, and Windows/Linux/macOS |
+| [`starter-websocket`](https://github.com/spice-framework/starter-websocket) | `2990064511b4bada03fd61f33c560d62b29544a0`; `v0.0.0-20260805200426-2990064511b4` | [run `31042434587`](https://github.com/spice-framework/starter-websocket/actions/runs/31042434587) | Real local TLS client/server sessions, authentication/origin enforcement, limits, cancellation, graceful/forced close, payload-safe observations, minimum/current core, offline vendor, and Windows/Linux/macOS |
+| [`starter-grpc`](https://github.com/spice-framework/starter-grpc) | `b476d3301285ff5265cb4f8039b7a305a5b469fe`; `v0.0.0-20260805200534-b476d3301285` | [run `31042528507`](https://github.com/spice-framework/starter-grpc/actions/runs/31042528507) | Real local TLS/mTLS RPC and health, interceptors, cancellation, concurrency, message limits, graceful/forced cleanup, payload-safe diagnostics, minimum/current core, offline vendor, and Windows/Linux/macOS |
+| [`starter-kafka`](https://github.com/spice-framework/starter-kafka) | `2ea33867d1a16e0d0b97ae560e6c59c13f24345a`; `v0.0.0-20260805200634-2ea33867d1a1` | [run `31042594133`](https://github.com/spice-framework/starter-kafka/actions/runs/31042594133) | Authenticated Redpanda delivery, manual commit, restart/no-redelivery, cancellation, cleanup, minimum/current core, offline vendor, Windows/Linux/macOS, and a 43.1-second final local gate with 90.5% coverage; live TLS broker acceptance remains target-owned |
+
+These records complete source ownership and verification, not a signed preview
+release. Checksums, SBOM/provenance, and signed preview tags remain Stage 6
+release work.
+
 Extraction order follows dependency complexity:
 
 1. `starter-smtp`;
 2. `starter-postgres` and `starter-mysql`;
 3. `starter-redis`;
-4. `starter-observability`;
-5. `starter-security`;
-6. `starter-websocket` and `starter-grpc`;
-7. `starter-kafka`.
+4. `starter-otel` (accepted);
+5. `starter-oauth2client` and `starter-oidc` (accepted);
+6. `starter-websocket` and `starter-grpc` (accepted);
+7. `starter-kafka` (accepted).
 
 Exit evidence: importing core alone selects none of the starter client
 libraries and every advertised production starter has real-system results.
@@ -291,7 +311,9 @@ recoverable by stage zero.
 - [ ] Add risk-weighted coverage floors for critical packages in each repo.
 - [ ] Run the coordinated Windows, Linux, macOS, amd64, and arm64 matrix.
 - [ ] Run real PostgreSQL, MySQL, Redis, Kafka, SMTP, OIDC, gRPC, and WebSocket
-  acceptance for every starter presented as supported.
+  acceptance for every starter presented as supported. Kafka's authenticated
+  Redpanda protocol path is green; a live TLS broker configuration remains a
+  target-owned acceptance prerequisite rather than inferred evidence.
 - [ ] Publish the compatibility catalog and migration guide.
 - [ ] Publish signed preview versions of core, toolchain, editors, and supported
   starters.

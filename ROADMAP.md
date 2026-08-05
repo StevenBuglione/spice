@@ -107,11 +107,18 @@ transaction-aware zero-dependency development database, a PostgreSQL
 restart-persistence integration path, reviewed secure PostgreSQL and MySQL
 pool starters, an explicit `mail.Sender` binding, and a
 post-commit inspectable receipt workflow. That workflow is now repeatable on
-Windows and Linux. Reviewed Kafka producer/consumer-group, gRPC server/client,
-and WebSocket server/client integrations have resumed M4. The OpenTelemetry
-starter now also projects compiler-owned publisher/subscriber module event
-interactions into payload-free spans and bounded delivery metrics. MongoDB,
-OpenSearch, RabbitMQ, and GraphQL remain bounded follow-up slices.
+Windows and Linux. The independently versioned
+[`starter-kafka`](https://github.com/spice-framework/starter-kafka) module has
+passed real authenticated Redpanda delivery, commit/restart, cancellation, and
+cleanup acceptance; live TLS broker acceptance remains target-owned. The
+independently versioned [`starter-grpc`](https://github.com/spice-framework/starter-grpc) and
+[`starter-websocket`](https://github.com/spice-framework/starter-websocket)
+modules have passed their local, compatibility, offline, security, and hosted
+cross-platform gates. The independently versioned
+[`starter-otel`](https://github.com/spice-framework/starter-otel) module also
+projects compiler-owned publisher/subscriber module-event interactions into
+payload-free spans and bounded delivery metrics. MongoDB, OpenSearch,
+RabbitMQ, and GraphQL remain bounded follow-up slices.
 
 Petclinic now serves through a generated lifecycle-owned HTTP listener with
 bounded timeouts and graceful drain. Its shared responsive layout, embedded
@@ -266,8 +273,9 @@ byte-identical regeneration, rejects corruption, and proves recovery.
 ## M3 — Enterprise foundations
 
 - Externalized configuration and profiles.
-- Structured logging and OpenTelemetry.
-- Security policies, OAuth2/OIDC resource server support.
+- Structured logging and the independently versioned OpenTelemetry adapter.
+- Security policies plus independently versioned OAuth2 service-client and
+  OIDC JWT resource-server integrations.
 - SQL, reviewed PostgreSQL/MySQL pools, generated typed HTTP transaction
   boundaries, migrations, and repository support.
 - Cache abstraction.
@@ -283,9 +291,11 @@ byte-identical regeneration, rejects corruption, and proves recovery.
 
 ## M4 — Broad Spring Boot coverage
 
-- Kafka, RabbitMQ, and additional messaging starters.
+- The independently versioned Kafka integration; RabbitMQ and additional
+  messaging starters remain.
 - Redis, MongoDB, Elasticsearch/OpenSearch, and selected data starters.
-- gRPC, GraphQL, WebSocket, and outbound HTTP clients.
+- Independently versioned gRPC and WebSocket integrations; GraphQL and
+  additional outbound HTTP clients remain.
 - Immutable mail composition, test delivery, and a secure SMTP starter.
 - Last-known-good development supervision and cross-platform restart.
 - Starter SDK and third-party annotation SDK.

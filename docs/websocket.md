@@ -1,9 +1,15 @@
 # WebSocket integration
 
-`starter/websocket` provides an explicit RFC 6455 boundary backed by
+The independently versioned
+[`github.com/spice-framework/starter-websocket`](https://github.com/spice-framework/starter-websocket)
+module provides an explicit RFC 6455 boundary backed by
 `github.com/coder/websocket`. It does not add an annotation language, global
 connection hub, hidden goroutine pool, authentication scheme, or application
 message protocol.
+
+```text
+go get github.com/spice-framework/starter-websocket@latest
+```
 
 ## Server
 
@@ -13,6 +19,9 @@ registered Spice route:
 ```go
 handler, err := websocketstarter.NewHandler(
     websocketstarter.ServerConfig{
+        Authenticate: func(ctx context.Context, request *http.Request) error {
+            return authorizer.Check(ctx, request.Header.Get("Authorization"))
+        },
         Subprotocols:    []string{"petclinic.events.v1"},
         MaxMessageBytes: 1 << 20,
         MaxConnections:  256,
@@ -28,12 +37,13 @@ handler, err := websocketstarter.NewHandler(
 )
 ```
 
-TLS is required by default and remains owned by the surrounding `http.Server`.
-Plain HTTP development or trusted-proxy hops require an explicit
-`AllowInsecure` decision. Browser origins are same-host only by default.
+TLS and authentication are required by default and remain owned by the
+surrounding `http.Server` and application callback. Anonymous access and plain
+HTTP loopback development are separate explicit decisions. Browser origins are
+same-host only by default.
 Cross-origin host patterns are explicit, bounded, deduplicated, and validated;
 `*` is rejected. Disabling origin verification requires the separately visible
-`AllowAnyOrigin` flag.
+`AllowAnyOrigin` flag and is legal only with authentication.
 
 Message size defaults to 1 MiB and cannot exceed 16 MiB. Active sessions
 default to 256 and cannot exceed 4096. Capacity is acquired before the upgrade,
@@ -59,9 +69,7 @@ connection, response, cleanup, err := websocketstarter.Dial(
     websocketstarter.ClientConfig{
         URL:          "wss://events.example.internal:8443/owners",
         Subprotocols: []string{"petclinic.events.v1"},
-        Header: http.Header{
-            "Authorization": []string{"Bearer " + token},
-        },
+        Authorization: "Bearer " + token,
     },
     observer,
 )
@@ -85,3 +93,9 @@ Observers receive only direction, negotiated subprotocol, terminal
 normal/canceled/failed outcome, and duration. URLs, headers, origins, peer
 addresses, close reasons, credentials, and message payloads are deliberately
 absent.
+
+The starter repository owns the canonical [dependency
+review](https://github.com/spice-framework/starter-websocket/blob/main/docs/dependency-review.md),
+[support policy](https://github.com/spice-framework/starter-websocket/blob/main/docs/support.md),
+compatibility manifest, and real local TLS acceptance evidence. This core
+document remains the ecosystem composition guide.

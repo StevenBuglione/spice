@@ -14,7 +14,9 @@ Organization governance and cross-repository development tooling now live at
 The core module and complete source history now live at
 [`spice-framework/spice`](https://github.com/spice-framework/spice). Historical
 repository URLs redirect to the organization. Independent consumer/editor
-extraction is the next migration boundary.
+extraction and the first external-service starter wave are complete. The
+remaining migration stages and exact acceptance evidence are tracked in the
+repository migration ledger.
 
 Spice is an opinionated, compile-time application platform for Go. Its goal is to bring the breadth, productivity, and operational completeness associated with Spring Boot together with Spring Modulith-style architectural enforcement—without importing JVM runtime magic into Go.
 
@@ -84,13 +86,20 @@ The repository currently provides:
 - Immutable bounded external-message envelopes plus explicit publisher,
   handler, and acknowledgement/retry/reject settlement contracts for isolated
   broker starters.
-- An opt-in franz-go Kafka producer and sequential consumer group with verified
-  TLS/authentication defaults, explicit settlement, bounded polling, lifecycle
-  ownership, and payload-free observations.
-- An opt-in grpc-go server/client starter with TLS-by-default transport,
+- An independently versioned
+  [`starter-kafka`](https://github.com/spice-framework/starter-kafka) franz-go
+  producer and sequential consumer group with verified TLS/authentication
+  defaults, explicit settlement, bounded polling, lifecycle ownership,
+  payload-free observations, and authenticated Redpanda acceptance. Live TLS
+  broker acceptance remains application/environment-owned.
+- An independently versioned
+  [`starter-grpc`](https://github.com/spice-framework/starter-grpc) integration
+  with TLS-by-default transport,
   bounded messages and streams, ordinary generated-protobuf registration,
   standard health, graceful lifecycle drain, and payload-free observations.
-- An opt-in RFC 6455 WebSocket server/client starter with same-origin and
+- An independently versioned
+  [`starter-websocket`](https://github.com/spice-framework/starter-websocket)
+  RFC 6455 server/client integration with same-origin and
   TLS-by-default policy, bounded messages/connections/close, explicit
   subprotocols and compression, and payload-free session observations.
 - Explicit bounded retries with opt-in error classification, capped deterministic backoff, cancellation, typed exhaustion, and attempt observations.
@@ -107,15 +116,23 @@ The repository currently provides:
   bounded observations, a concurrency-safe capacity-bounded in-process store,
   a driver-neutral lease-aware SQL persistence protocol, and a real-container
   verified backend in the independent PostgreSQL starter.
-- An explicitly selected `@otel.Enable` OpenTelemetry v1.44 HTTP trace/metric
-  starter with exact generated observer-role validation, plus explicit
-  payload-free module-event interaction spans and metrics, with
-  application-owned providers/exporters.
+- An independently versioned
+  [`starter-otel`](https://github.com/spice-framework/starter-otel) adapter
+  selected through `@otel.Enable`, with OpenTelemetry v1.44 HTTP trace/metric
+  integration, exact generated observer-role validation, payload-free
+  module-event spans and metrics, and application-owned providers/exporters.
 - Immutable authenticated principals plus compile-time `@security.Authorize`
   route policies that generate deny-by-default RFC 9457 guards, stable
   module/policy identities, and bounded authorization observations.
-- An opt-in OIDC JWT resource server with strict bearer parsing, signature/issuer/audience/expiry verification, exact claim mapping, required or route-guard-compatible optional authentication, bounded discovery/JWK transport, and safe authentication failures.
-- An opt-in OAuth2 client-credentials integration with separate timed transports, HTTPS-only bounded token acquisition, safe failures, and cached Bearer authorization.
+- An independently versioned
+  [`starter-oidc`](https://github.com/spice-framework/starter-oidc) JWT resource
+  server with strict bearer parsing, signature/issuer/audience/expiry
+  verification, exact claim mapping, required or route-guard-compatible
+  optional authentication, bounded discovery/JWK transport, and safe failures.
+- An independently versioned
+  [`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client)
+  client-credentials integration with separate timed transports, HTTPS-only
+  bounded token acquisition, safe failures, and cached Bearer authorization.
 - Typed stateless HTTP sessions with AES-256-GCM confidentiality/integrity,
   bounded key rotation, embedded expiry, strict decoding, secure host-only
   cookie defaults, and concurrent-use verification.
@@ -385,6 +402,16 @@ debt are tracked explicitly in
 Outbound integrations can use the base-scoped, bounded typed JSON client in
 [`docs/http-client.md`](docs/http-client.md).
 
+OpenTelemetry composition is introduced in
+[`docs/observability.md`](docs/observability.md), with release ownership in
+[`starter-otel`](https://github.com/spice-framework/starter-otel).
+
+WebSocket and gRPC composition are introduced in
+[`docs/websocket.md`](docs/websocket.md) and [`docs/grpc.md`](docs/grpc.md), with
+release ownership in
+[`starter-websocket`](https://github.com/spice-framework/starter-websocket) and
+[`starter-grpc`](https://github.com/spice-framework/starter-grpc).
+
 SQL repositories and generated `@data.Transactional` HTTP boundaries use the
 explicit contracts in [`docs/data.md`](docs/data.md).
 
@@ -413,17 +440,22 @@ Restartable batch jobs and persistence contracts are documented in
 Authentication boundaries and generated authorization policies are documented
 in [`docs/security.md`](docs/security.md).
 
-OIDC JWT resource-server integration is documented in
-[`docs/oidc-resource-server.md`](docs/oidc-resource-server.md).
+OIDC JWT resource-server integration is introduced in
+[`docs/oidc-resource-server.md`](docs/oidc-resource-server.md); the canonical
+module, support contract, and dependency review live in
+[`starter-oidc`](https://github.com/spice-framework/starter-oidc).
 
-OAuth2 service-client integration is documented in
-[`docs/oauth2-client.md`](docs/oauth2-client.md).
+OAuth2 service-client integration is introduced in
+[`docs/oauth2-client.md`](docs/oauth2-client.md); the canonical module, support
+contract, and dependency review live in
+[`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client).
 
 Transactional outbox storage and dispatch semantics are documented in
 [`docs/outbox.md`](docs/outbox.md).
 
-Transport-neutral external messaging contracts are documented in
-[`docs/messaging.md`](docs/messaging.md).
+Transport-neutral external messaging and Kafka composition are documented in
+[`docs/messaging.md`](docs/messaging.md), with release ownership in
+[`starter-kafka`](https://github.com/spice-framework/starter-kafka).
 
 Module-owned database migration planning is documented in
 [`docs/migrations.md`](docs/migrations.md).
@@ -557,7 +589,14 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `schedule/`: public fixed-delay job registration and lifecycle runtime.
 - `security/`: public principals, deny-by-default policies, authorizer, and HTTP guards.
 - `observability/`: instance-owned structured lifecycle and HTTP logging adapters.
-- `starter/`: reviewed opt-in integrations, including OpenTelemetry telemetry and OIDC JWT resource-server authentication.
+- [`spice-framework/starter-otel`](https://github.com/spice-framework/starter-otel),
+  [`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client),
+  [`starter-oidc`](https://github.com/spice-framework/starter-oidc),
+  [`starter-websocket`](https://github.com/spice-framework/starter-websocket),
+  [`starter-grpc`](https://github.com/spice-framework/starter-grpc), and
+  [`starter-kafka`](https://github.com/spice-framework/starter-kafka):
+  independently versioned opt-in integrations. Any integration source still
+  below `starter/` is a migration-stage boundary, not the final ownership model.
 - `tools/`: isolated, pinned development tools module.
 - `docs/`: user and product documentation.
 - `docs/quality.md`: exact verification, tool, linter, and suppression policy.

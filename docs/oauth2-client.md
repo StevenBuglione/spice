@@ -1,8 +1,14 @@
 # OAuth2 service clients
 
-`starter/oauth2client` adds RFC 6749 client-credentials tokens to outbound HTTP
-requests. It is intended for a service acting on its own behalf, not delegated
-end-user authorization.
+The independently versioned
+[`github.com/spice-framework/starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client)
+module adds RFC 6749 client-credentials tokens to outbound HTTP requests. It is
+intended for a service acting on its own behalf, not delegated end-user
+authorization.
+
+```text
+go get github.com/spice-framework/starter-oauth2client@latest
+```
 
 ```go
 client, err := oauth2client.NewClient(
@@ -38,3 +44,10 @@ The constructor clones both clients but shares their transports. Fully
 configure the clients and transports before construction and do not mutate
 them concurrently. Standard HTTP/OpenTelemetry transports remain the
 observation seam for token and resource requests.
+
+The starter repository owns the canonical [dependency
+review](https://github.com/spice-framework/starter-oauth2client/blob/main/docs/dependency-review.md),
+[support policy](https://github.com/spice-framework/starter-oauth2client/blob/main/docs/support.md),
+compatibility manifest, and verification evidence. This core document remains
+an ecosystem usage guide; select and version the integration through ordinary
+Go modules.

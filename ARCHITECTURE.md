@@ -401,12 +401,25 @@ is no proxy, service locator, hidden queue, or global worker pool.
 
 ### Starters
 
-Third-party integrations live under `starter/` and remain opt-in at the package
-boundary. Each dependency requires a recorded maintenance, license, security,
-cancellation, observability, and configuration review. Starters accept
-caller-owned clients/providers, install no global state, and must not make
-network calls during construction unless their documented contract explicitly
-requires it.
+External-service integrations are independently versioned Go modules and
+remain opt-in at the import and construction boundary. The accepted first wave
+is
+[`starter-otel`](https://github.com/spice-framework/starter-otel),
+[`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client),
+[`starter-oidc`](https://github.com/spice-framework/starter-oidc),
+[`starter-websocket`](https://github.com/spice-framework/starter-websocket),
+[`starter-grpc`](https://github.com/spice-framework/starter-grpc), and
+[`starter-kafka`](https://github.com/spice-framework/starter-kafka). Each owning
+repository carries its module compatibility contract, dependency review,
+vendor graph, support policy, and platform/acceptance evidence. Any integration
+source still below core's `starter/` directory is transitional migration source,
+not the intended ownership boundary.
+
+Starters accept caller-owned clients/providers, install no global state, and
+must not make network calls during construction unless their documented
+contract explicitly requires it. Core exposes only the small typed contracts
+needed for direct composition and never imports an external starter or its
+third-party client graph.
 
 Built-in bootstrap features use the same qualified annotation SDK model
 available to third parties. Library-owned default beans use explicit Go imports
@@ -428,15 +441,17 @@ The reserved `observability.http-server` feature role composes selected typed
 entrypoint outputs into generated route observers. The compiler requires each
 mapped output to implement the exact `web.HTTPObserver` contract, and the
 renderer appends the already constructed provider before route middleware is
-created. The independently versioned OpenTelemetry starter uses this role for
-`@otel.Enable`; neither importing
-OpenTelemetry nor retaining its compatibility manifest activates telemetry without the
-application annotation.
+created. The independently versioned
+[`starter-otel`](https://github.com/spice-framework/starter-otel) module uses
+this role for `@otel.Enable`; neither importing OpenTelemetry nor retaining its
+compatibility manifest activates telemetry without the application annotation.
 
-Outbound OAuth2 service clients receive separate caller-owned token and
-resource clients plus an application-lifetime context. Token endpoints are
-HTTPS-only, bounded, and non-redirecting; provider failures cross the starter
-boundary only as safe cancellation-aware classes.
+The independently versioned
+[`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client)
+module receives separate caller-owned token and resource clients plus an
+application-lifetime context. Token endpoints are HTTPS-only, bounded, and
+non-redirecting; provider failures cross the starter boundary only as safe
+cancellation-aware classes.
 
 ### Constructor and interface dependency injection
 

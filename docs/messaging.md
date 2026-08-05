@@ -44,13 +44,20 @@ presence never creates a connection or listener.
 
 ## Kafka
 
-`starter/kafka` is the first reviewed transport. `Open` constructs a
-caller-owned franz-go v1.21 client without network I/O and returns lifecycle
-cleanup. It requires verified TLS 1.2+ and authentication by default; plaintext
-and unauthenticated local development require separate explicit flags. The
-producer retains franz-go's idempotent behavior, requires all in-sync replica
-acknowledgements, publishes synchronously with caller cancellation, and emits
-payload-free observations.
+The independently versioned
+[`github.com/spice-framework/starter-kafka`](https://github.com/spice-framework/starter-kafka)
+module is the first reviewed transport. Install it through ordinary Go modules:
+
+```text
+go get github.com/spice-framework/starter-kafka@latest
+```
+
+`Open` constructs a caller-owned franz-go v1.21 client without network I/O and
+returns lifecycle cleanup. It requires verified TLS 1.2+ and authentication by
+default; plaintext and unauthenticated local development require separate
+explicit flags. The producer retains franz-go's idempotent behavior, requires
+all in-sync replica acknowledgements, publishes synchronously with caller
+cancellation, and emits payload-free observations.
 
 The starter maps `Message.Topic`, `Key`, and payload directly and adds reserved
 `content-type`, `spice-message-id`, and `spice-occurred-at` headers. Application
@@ -66,6 +73,17 @@ carry the reserved metadata written by the producer. Malformed envelopes fail
 closed without committing. Consumer observers receive only group, topic,
 partition, duration, and error facts.
 
-Retry/dead-letter routing, transactions, generated listeners, and real-broker
-acceptance remain explicit follow-up work; the starter manifest is therefore
-classified as an integration rather than a complete Kafka platform.
+The owning repository proves authenticated Redpanda delivery, manual commit,
+restart/no-redelivery, cancellation, and cleanup. That acceptance deliberately
+uses the explicit local plaintext transport switch; it does not claim a live
+TLS broker handshake. Production teams own acceptance against their exact
+broker distribution, version, TLS certificates, authentication mechanism,
+replication/min-ISR policy, and failure topology. Retry/dead-letter routing,
+transactions, generated listeners, and those deployment-specific checks remain
+explicit integration work rather than a universal Kafka-platform claim.
+
+The starter repository owns the canonical [dependency
+review](https://github.com/spice-framework/starter-kafka/blob/main/docs/dependency-review.md),
+[support policy](https://github.com/spice-framework/starter-kafka/blob/main/docs/support.md),
+compatibility manifest, broker-acceptance contract, and hosted evidence. This
+core document remains the transport-neutral ecosystem composition guide.

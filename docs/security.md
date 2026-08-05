@@ -1,8 +1,12 @@
 # Authentication and authorization
 
-Spice separates authentication from authorization. An OAuth2/OIDC starter
-verifies a token and constructs an immutable `security.Principal`; core policy
-code never parses or trusts an unverified bearer token.
+Spice separates authentication from authorization. The independently versioned
+[`starter-oidc`](https://github.com/spice-framework/starter-oidc) module verifies
+JWT access tokens and constructs immutable `security.Principal` values; core
+policy code never parses or trusts an unverified bearer token. The separate
+[`starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client)
+module obtains client-credentials tokens for outbound service calls and does
+not authenticate incoming users.
 
 Generated guards are declared on HTTP routes:
 
@@ -53,10 +57,12 @@ Management-route network exposure is configured independently through
 proxy headers. This boundary is intentionally separate from generated
 application-route authentication and authorization.
 
-For applications with both public and protected routes, the OIDC starter's
-`OptionalMiddleware` is the safe global adapter: no credentials means no
-principal, while any presented credentials must verify successfully. Its
+For applications with both public and protected routes, the external OIDC
+starter's `OptionalMiddleware` is the safe global adapter: no credentials means
+no principal, while any presented credentials must verify successfully. Its
 required `Middleware` variant is appropriate when every route must authenticate.
+See the [OIDC resource-server guide](oidc-resource-server.md) and [OAuth2
+service-client guide](oauth2-client.md) for composition details.
 
 `ApplicationOptions.AuthorizationObservers` observes generated policy
 decisions. `AuthorizationWriteFailure` optionally receives a response-write

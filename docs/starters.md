@@ -218,27 +218,46 @@ reports the missing Go dependency and never downloads it.
 ## Shipped starter metadata
 
 Every current integration retains a package-level `Manifest()` compatibility
-and dependency-review record. These records do not activate behavior:
+record. Independently versioned starter repositories own their dependency
+review, support policy, compatibility manifest, vendor graph, and acceptance
+evidence. These records do not activate behavior:
 
 | Package | Capabilities | Reviewed dependency |
 |---|---|---|
-| `starter/grpc` | `rpc.grpc.client`, `rpc.grpc.server` | `google.golang.org/grpc` v1.82.1 |
-| `starter/kafka` | `messaging.kafka.consumer-group`, `messaging.kafka.producer` | `github.com/twmb/franz-go` v1.21.0 |
-| `starter/websocket` | `web.websocket.client`, `web.websocket.server` | `github.com/coder/websocket` v1.8.15 |
+| [`github.com/spice-framework/starter-grpc`](https://github.com/spice-framework/starter-grpc) | `rpc.grpc.client`, `rpc.grpc.server` | `google.golang.org/grpc` v1.82.1 |
+| [`github.com/spice-framework/starter-kafka`](https://github.com/spice-framework/starter-kafka) | `messaging.kafka.consumer-group`, `messaging.kafka.producer` | `github.com/twmb/franz-go` v1.21.0 |
+| [`github.com/spice-framework/starter-websocket`](https://github.com/spice-framework/starter-websocket) | `web.websocket.client`, `web.websocket.server` | `github.com/coder/websocket` v1.8.15 |
 | [`github.com/spice-framework/starter-postgres`](https://github.com/spice-framework/starter-postgres) | `batch.postgresql`, `data.postgresql`, `data.sql`, `event.outbox.postgresql`, `migration.postgresql` | `github.com/jackc/pgx/v5` v5.10.0 |
 | [`github.com/spice-framework/starter-mysql`](https://github.com/spice-framework/starter-mysql) | `data.mysql`, `data.sql` | `github.com/go-sql-driver/mysql` v1.10.0 |
 | [`github.com/spice-framework/starter-redis`](https://github.com/spice-framework/starter-redis) | `cache.redis`, `data.redis` | `github.com/redis/go-redis/v9` v9.21.0 |
 | [`github.com/spice-framework/starter-smtp`](https://github.com/spice-framework/starter-smtp) | `mail.smtp` | Go standard library |
-| `starter/oidc` | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
-| `starter/oauth2client` | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
-| `starter/otel` | `observability.http-server`, `observability.metrics`, `observability.module-events`, `observability.tracing` | OpenTelemetry API modules v1.44.0 |
+| [`github.com/spice-framework/starter-oidc`](https://github.com/spice-framework/starter-oidc) | `security.oidc-resource-server` | `github.com/coreos/go-oidc/v3` v3.20.0 |
+| [`github.com/spice-framework/starter-oauth2client`](https://github.com/spice-framework/starter-oauth2client) | `security.oauth2-client-credentials` | `golang.org/x/oauth2` v0.36.0 |
+| [`github.com/spice-framework/starter-otel`](https://github.com/spice-framework/starter-otel) | `observability.http-server`, `observability.metrics`, `observability.module-events`, `observability.tracing` | OpenTelemetry API modules v1.44.0 |
 
 Applications call explicit constructors directly or select separately published
 auto-configuration packages. OpenTelemetry contributes `@otel.Enable` through
 the annotation SDK and maps it to the reviewed `NewHTTPObserver` entrypoint plus
-the reserved `observability.http-server` generator role. Tests compile those
-symbols, validate every canonical compatibility record, and require each review
-document to exist.
+the reserved `observability.http-server` generator role. Each owning starter
+repository compiles those symbols, validates its exact minimum/current
+compatibility record, requires its canonical review document, and runs its
+platform and integration gates.
+
+Existing applications migrate imports directly:
+
+| Retired core import | Independent module import |
+| --- | --- |
+| `github.com/spice-framework/spice/starter/otel` | `github.com/spice-framework/starter-otel` |
+| `github.com/spice-framework/spice/starter/oauth2client` | `github.com/spice-framework/starter-oauth2client` |
+| `github.com/spice-framework/spice/starter/oidc` | `github.com/spice-framework/starter-oidc` |
+| `github.com/spice-framework/spice/starter/websocket` | `github.com/spice-framework/starter-websocket` |
+| `github.com/spice-framework/spice/starter/grpc` | `github.com/spice-framework/starter-grpc` |
+| `github.com/spice-framework/spice/starter/kafka` | `github.com/spice-framework/starter-kafka` |
+
+Pin the exact accepted preview revisions from the
+[repository migration ledger](repository-migration.md) until signed preview
+tags are published. Go modules—not a Spice registry—own selection and version
+resolution.
 
 An HTTP-observation feature is not an unchecked interface plug-in. Its selected
 entrypoint must produce the exact structural `web.HTTPObserver` contract and

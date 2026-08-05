@@ -84,6 +84,11 @@ drivers merely to reduce the repository count. Adding a starter repository
 requires a named maintainer, dependency review, real-system verification, and
 documented support matrix.
 
+[ADR 0013](0013-independent-starter-release-lifecycles.md) refines this initial
+inventory after implementation proved that OpenTelemetry, OAuth2 client, and
+OIDC resource-server integrations have independent dependency and acceptance
+lifecycles.
+
 ### Reference application repositories
 
 | Repository | Owns |

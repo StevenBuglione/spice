@@ -1,10 +1,16 @@
 # OIDC JWT resource server
 
-`starter/oidc` is the opt-in authentication boundary for RFC 9068 JWT access
-tokens. It requires the explicit `at+jwt` type, then uses `go-oidc` to verify
-the signature, exact HTTPS issuer, audience, and expiry before constructing an
-immutable `security.Principal`. An OIDC ID token is therefore never accepted as
-an API access token.
+The independently versioned
+[`github.com/spice-framework/starter-oidc`](https://github.com/spice-framework/starter-oidc)
+module is the opt-in authentication boundary for RFC 9068 JWT access tokens. It
+requires the explicit `at+jwt` type, then uses `go-oidc` to verify the signature,
+exact HTTPS issuer, audience, and expiry before constructing an immutable
+`security.Principal`. An OIDC ID token is therefore never accepted as an API
+access token.
+
+```text
+go get github.com/spice-framework/starter-oidc@latest
+```
 
 Applications explicitly supply a trusted key set:
 
@@ -44,3 +50,9 @@ client with a positive timeout, rejects non-HTTPS requests and redirects, and
 limits provider metadata and JWK responses to 1 MiB. The request context can
 cancel discovery and waiting callers; the client timeout also bounds the
 underlying shared JWK refresh.
+
+The starter repository owns the canonical [dependency
+review](https://github.com/spice-framework/starter-oidc/blob/main/docs/dependency-review.md),
+[support policy](https://github.com/spice-framework/starter-oidc/blob/main/docs/support.md),
+compatibility manifest, and local TLS acceptance evidence. This core document
+remains the ecosystem middleware-composition guide.
