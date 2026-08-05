@@ -17,10 +17,14 @@ runtime, generated applications, vendor tree, or deployed services.
 | IntelliJ Plugin Verifier | 1.409 | Binary/API verification | JetBrains-maintained, Apache-2.0 |
 | JUnit | 4.13.2 | Test only | Eclipse Public License 1.0 |
 
-`gradle.lockfile` fixes the resolved transitive graph. The produced plugin
-archive contains Spice classes/resources and the repository Apache-2.0 license;
-it does not bundle GoLand, the Go plugin, Gradle, the verifier, JUnit, or a
-second compiler implementation.
+`gradle.lockfile` fixes the resolved transitive graph for the exact downloadable
+GoLand distribution used by CI. `gradle-installed-goland.lockfile` separately
+fixes the graph for installed-IDE verification because the IntelliJ Platform
+plugin exposes that same build through a different `localIde` coordinate. Both
+lock states remain strict. The produced plugin archive contains Spice
+classes/resources and the repository Apache-2.0 license; it does not bundle
+GoLand, the Go plugin, Gradle, the verifier, JUnit, or a second compiler
+implementation.
 
 ## Security, cancellation, and data
 

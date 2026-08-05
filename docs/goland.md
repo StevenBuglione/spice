@@ -314,7 +314,11 @@ gradlew.bat -PgolandPath=C:\path\to\GoLand verifyPlugin
 
 Use `./gradlew` on Linux and macOS. The wrapper pins Gradle 9.6.1 and both the
 distribution and wrapper JAR checksums. `gradle.lockfile` fixes the complete
-GoLand `262.8665.336`, test-framework, JUnit, and verifier graph.
+downloaded GoLand `262.8665.336` graph used in CI, while
+`gradle-installed-goland.lockfile` independently fixes the installed-IDE graph
+selected by `-PgolandPath`. Both graphs keep the test framework, JUnit, and
+verifier dependencies strictly locked; neither execution mode falls back to an
+unlocked platform coordinate.
 
 ## Boundaries
 

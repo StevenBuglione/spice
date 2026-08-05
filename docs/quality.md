@@ -95,10 +95,12 @@ The product module separately pins `golang.org/x/tools v0.48.0` because `compile
 `editors/goland` pins IntelliJ Platform Gradle Plugin 2.18.1, GoLand
 2026.2.0.1 build `262.8665.336`, IntelliJ Plugin Verifier 1.409, and JUnit
 4.13.2. Its Gradle 9.6.1 distribution and wrapper JAR both have
-repository-checked SHA-256 values, while `gradle.lockfile` fixes the complete
-development graph. Java compilation enables all lint categories and treats
-warnings as errors. The archive contains no Java runtime or duplicate compiler
-and is isolated from the Go product modules. See
+repository-checked SHA-256 values. `gradle.lockfile` strictly fixes the pinned
+downloadable-IDE graph used by CI, and `gradle-installed-goland.lockfile`
+strictly fixes the installed-IDE graph used by local interaction tests. Java
+compilation enables all lint categories and treats warnings as errors. The
+archive contains no Java runtime or duplicate compiler and is isolated from the
+Go product modules. See
 [`dependency-reviews/goland-plugin.md`](dependency-reviews/goland-plugin.md).
 
 `editors/zed/rust-toolchain.toml` pins Rust 1.93.0, `rustfmt`, Clippy, and
