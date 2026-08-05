@@ -14,7 +14,10 @@ Use `make check` while editing. It verifies the exact Go toolchain, formatting,
 module tidiness, vet, the allowlisted linter and NilAway policy, and ordinary
 compilation of every package and test in the framework module. Independent
 consumers run their repository-owned gates against immutable Spice versions.
-Run the feature package's focused tests alongside it while editing; `make
+Concurrent ecosystem gates serialize only golangci-lint through its shared
+runner lock, preventing false failures and analysis oversubscription while
+leaving independent repository stages concurrent. Run the feature package's
+focused tests alongside it while editing; `make
 verify` remains responsible for executing the complete core suite. Warm runs
 reuse Go's build and test cache.
 
