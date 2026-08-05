@@ -39,9 +39,10 @@ evidence; repository creation alone never completes a stage.
 
 The current Go import graph identifies these extraction blockers:
 
-- `compiler/starter` imports the aggregate root `starter` catalog. Descriptor
-  and manifest validation must consume public generic metadata rather than a
-  compiled registry of every integration.
+- `compiler/starter` now consumes the portable `annotation/sdk/starter`
+  metadata contract instead of the aggregate runtime `starter` package. The
+  compatibility aliases at the old path remain only while integrations are
+  extracted and can be removed after their first independent releases.
 - Commerce owns its generated target, manifest, acceptance tests, module graph,
   and vendor tree below `examples/commerce`; root `internal` now belongs
   exclusively to the framework and toolchain.
@@ -81,7 +82,7 @@ security scan contains no known vulnerable selected module versions.
   exact pointer/value/generic validation.
 - [x] Move the root-owned Commerce generated target and manifest into the
   Commerce module.
-- [ ] Remove compiler dependency on the aggregate starter catalog.
+- [x] Remove compiler dependency on the aggregate starter catalog.
 - [ ] Add clean-room application scaffolding and dependency-add commands with
   previewable module changes.
 

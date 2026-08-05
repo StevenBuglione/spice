@@ -1,9 +1,12 @@
 # Starter manifests and annotation SDK
 
 Spice starters are opt-in Go integrations. Importing a package or adding a
-module to `go.mod` never enables one. The public `starter` package defines the
-portable `spice.starter/v1` manifest used to review and compose them without
-`init` hooks, global registries, reflection, or runtime package scanning.
+module to `go.mod` never enables one. The public `annotation/sdk/starter`
+package defines the portable `spice.starter/v1` manifest used to review and
+compose them without `init` hooks, global registries, reflection, or runtime
+package scanning. The root `starter` package temporarily re-exports compatible
+aliases so existing integrations remain source compatible during repository
+extraction; new integrations should import the SDK package directly.
 
 ## Compatibility record
 
@@ -27,6 +30,8 @@ Every entrypoint package must belong to the declared starter module; a manifest
 cannot redirect construction to unrelated application or dependency code.
 
 ```go
+import starter "github.com/StevenBuglione/spice/annotation/sdk/starter"
+
 manifest, err := starter.New(starter.Spec{
     Schema:    starter.Schema,
     ID:        "example.com/acme/starter/search",
@@ -105,12 +110,14 @@ explicit-annotation feature names the exact subset of activation entrypoints it
 selects; missing, duplicated, undeclared, and never-selected entrypoints fail
 manifest validation.
 
-`compiler/starter.New` is the explicit compiler adapter. It accepts
-application-selected manifests, verifies their exact Spice API and minimum Go contracts,
-sorts them by import-path identity, and rejects duplicate manifest,
-annotation, or capability identities. `Catalog.Registry` composes contributed
-syntax with a caller-owned base registry; `Catalog.BootstrapDefinitions`
-supplies immutable feature definitions to `application.BuildWithOptions`.
+`compiler/starter.New` is the explicit compiler adapter. It accepts SDK
+manifests selected by the application, verifies their exact Spice API and
+minimum Go contracts, sorts them by import-path identity, and rejects duplicate
+manifest, annotation, or capability identities. The compiler does not import
+the runtime `starter` package or a compiled integration registry.
+`Catalog.Registry` composes contributed syntax with a caller-owned base
+registry; `Catalog.BootstrapDefinitions` supplies immutable feature definitions
+to `application.BuildWithOptions`.
 Compiled features retain manifest identity, version, normalized options,
 runtime requirements, and exported entrypoints. Those inputs participate in
 the generated ownership hash, so changing selected integration metadata invalidates
