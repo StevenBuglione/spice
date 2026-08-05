@@ -44,11 +44,9 @@ still performs complete analysis and guarded generation. The development
 event stream reports generation/build duration and whether structural reuse
 occurred.
 
-Use `make verify` before every commit. After deterministic formatting,
-module, and vendor prerequisites, independent analysis, security, editor,
-and Zed stages run with at most four workers. Installed GoLand verification
-runs when editor, compiler/LSP, annotation SDK, Go module/vendor, or commerce
-UI-fixture inputs changed. The shuffled test pass emits the repository coverage
+Use `make verify` before every commit. After deterministic formatting, module,
+and vendor prerequisites, independent analysis, security, and Zed stages run
+with at most four workers. The shuffled test pass emits the repository coverage
 profile, eliminating a redundant all-package compilation while retaining the
 same tests and 85% floor. Race, fuzz, offline, and executable stages then run
 sequentially to reuse build caches; running them concurrently oversubscribes
@@ -60,10 +58,10 @@ repository-built Spice binary. Every applicable stage remains mandatory. Stage
 start and completion lines include durations so regressions are visible.
 
 Use `make verify-release` for release automation and explicit release
-ceremonies. It always includes installed GoLand verification regardless of
-changed paths, so commit-time dependency scoping cannot weaken release
-acceptance. It also enforces the benchmark budgets. After it passes, the
-repository-owned `cmd/spice-release` command
+ceremonies. It adds the benchmark budgets to the complete core verification.
+The independent GoLand repository owns Plugin Verifier plus installed-IDE
+Windows/Linux acceptance against exact core and Petclinic commits. After the
+coordinated compatibility tuple passes, the repository-owned `cmd/spice-release` command
 creates deterministic cross-platform archives, an SPDX SBOM, signed SHA-256
 checksums, and a public verification key as documented in
 [`releasing.md`](releasing.md).

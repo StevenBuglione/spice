@@ -182,6 +182,7 @@ See [testing.md](testing.md) for complete examples and cleanup behavior.
 
 - [application.md](application.md) explains discovery and generated ownership.
 - [annotations.md](annotations.md) lists the supported annotation contracts.
-- [goland.md](goland.md) installs and verifies the primary editor experience.
+- [Spice for GoLand](https://github.com/spice-framework/goland) installs and
+  verifies the independently versioned primary editor experience.
 - [spring-to-spice.md](spring-to-spice.md) maps familiar Spring concepts.
 - [developer-proof.md](developer-proof.md) runs the decisive editor/dev proof.

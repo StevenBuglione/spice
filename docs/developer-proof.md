@@ -106,9 +106,11 @@ go test -run TestNotifierDeliversInspectableTestReceipt ./notifications
 | PostgreSQL close/reopen durability | tagged storage integration test |
 | Offline third-party annotation SDK/tool | executable fixture smoke |
 
-`make verify` runs the complete mandatory set under Go 1.26.5, including
+`make verify` runs the complete mandatory core set under Go 1.26.5, including
 formatting, vet, lint/NilAway, gosec, govulncheck, shuffled/race tests, fuzz
 smoke, the 85% handwritten-product repository coverage floor (generated files
-remain compile/execution tested), vendor-offline tests, packaged plugin
-verification, installed-GoLand interaction tests, generated freshness, and
-executable smoke paths.
+remain compile/execution tested), vendor-offline tests, generated freshness,
+and executable smoke paths. The independently versioned
+[`spice-framework/goland`](https://github.com/spice-framework/goland)
+repository separately requires packaged-plugin verification and installed-IDE
+interaction tests on the exact compatible core and Petclinic commits.

@@ -122,7 +122,8 @@ The repository currently provides:
 - A runnable `spice` CLI with `version`, `annotations`, `verify`, `modules`,
   `generate`, `build`, `run`, last-known-good `dev`, and editor-neutral `lsp`
   commands.
-- A repository-owned GoLand plugin that renders canonical declaration comments
+- An independently versioned [GoLand plugin](https://github.com/spice-framework/goland)
+  that renders canonical declaration comments
   as zero-width-prefix annotations, applies configurable native syntax colors,
   resolves highlighted PSI references to their real Go SDK descriptor
   declarations, shows descriptor provenance in the gutter, runs applications
@@ -348,8 +349,10 @@ completion, hover, safe code actions, and workspace settings are documented in
 
 The primary GoLand plugin, exact prefix concealment, native color settings,
 PSI navigation, language-server setup, installable archive, and repeatable
-light/Darcula visual acceptance path are documented in
-[`docs/goland.md`](docs/goland.md).
+light/Darcula visual acceptance path are owned and documented by the
+independently versioned
+[`spice-framework/goland`](https://github.com/spice-framework/goland)
+repository.
 
 The supported secondary Zed extension, PATH/settings setup, modifier-click
 definition navigation, semantic annotation presentation, supported-API
@@ -510,7 +513,6 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 - `internal/spicegen/spice/`: committed typed production CLI application graph.
 - `internal/genfs/`: rooted, ownership-checked generated-file application.
 - `internal/qualitygate/`: cross-platform repository verification.
-- `editors/goland/`: primary native IntelliJ Platform presentation and LSP adapter.
 - `editors/zed/`: supported secondary Rust/WASM adapter that launches `spice lsp` for Go.
 - `config/`: public configuration schema, source, snapshot, decode, validation, and redaction runtime.
 - `resource/`: instance-owned canonical locations over explicit caller-owned
@@ -546,7 +548,10 @@ lifecycle/HTTP observers, writers, loggers, and shutdown timing.
 ## Status
 
 Spice is pre-1.0. Its developer-proof core, generated application lifecycle,
-Modulith enforcement, web/configuration/security/data foundations, Petclinic
-reference workflow, and primary GoLand integration are executable and locally
-gated. Public contracts may still evolve until every coverage row is resolved
-and the v1.0 compatibility policy is frozen.
+Modulith enforcement, web/configuration/security/data foundations, and
+Petclinic reference workflow are executable and locally gated. The primary
+GoLand integration is independently versioned and gated on Windows, Linux, and
+macOS from
+[`spice-framework/goland`](https://github.com/spice-framework/goland). Public
+contracts may still evolve until every coverage row is resolved and the v1.0
+compatibility policy is frozen.

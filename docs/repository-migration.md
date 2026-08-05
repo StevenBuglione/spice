@@ -143,12 +143,14 @@ resolution both pass.
 
 ## Stage 3: Extract independent consumers first
 
-- [ ] Extract `goland` with history, package the plugin, run Plugin Verifier,
+- [x] Extract `goland` with history, package the plugin, run Plugin Verifier,
   and execute the installed Windows/Linux UI matrix against a released CLI.
-- [ ] Extract `zed` with history and verify LSP behavior within Zed's supported
+- [x] Extract `zed` with history and verify LSP behavior within Zed's supported
   presentation ceiling.
-- [ ] Extract `petclinic` and `commerce` with history; remove unpublished
-  replacements from their release acceptance.
+- [x] Extract `petclinic` with history and prove its clean-room, offline, SQL,
+  and cross-platform acceptance gates.
+- [ ] Extract `commerce` with history and remove unpublished replacements from
+  its release acceptance.
 - [ ] Make reference applications test the minimum and current compatible core
   and toolchain versions.
 

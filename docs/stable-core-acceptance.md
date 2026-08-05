@@ -56,10 +56,11 @@ The final reference workflow now composes the accepted contracts:
   configuration. Tests inspect the decoded delivery and prove cancellation
   plus error sanitization.
 - `spice dev`, the overlay compiler service, the editor-neutral LSP, the
-  primary GoLand integration, and the supported Zed integration are available.
-  GoLand's exact prefix concealment, native token colors, PSI navigation, and
-  light/Darcula visual reports are repository-gated, including proof that
-  concealment preserves saved and copied valid Go. Raw annotation lines receive
+  independently versioned primary GoLand integration, and the supported Zed
+  integration are available. GoLand's exact prefix concealment, native token
+  colors, PSI navigation, and light/Darcula visual reports are gated in
+  [`spice-framework/goland`](https://github.com/spice-framework/goland),
+  including proof that concealment preserves saved and copied valid Go. Raw annotation lines receive
   exact LSP diagnostics and a versioned comment-prefix repair instead of an
   opaque temporary-loader failure. Together with the commerce executable slice,
   these gates cover the decisive invalid-edit/fix/regenerate/restart/
