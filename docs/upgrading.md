@@ -16,6 +16,19 @@ Do not delete `.spice/*.manifest.json` to force an upgrade. The manifests are
 the proof of generated ownership and let Spice distinguish a stale file from a
 manual edit.
 
+If the application itself moves to a different Go module path, preserve that
+generated tree and manifest, update the handwritten module and import paths,
+then run one guarded relocation pass before the normal check:
+
+```text
+spice generate --relocate-module-from example.com/previous/module ./...
+spice generate --check ./...
+```
+
+Relocation is not a force option. Spice verifies the previous target identity
+and every recorded generated-file hash, so a manual edit or unrelated manifest
+still fails closed.
+
 ## Canonical organization namespace hard cut
 
 The current pre-alpha line moved from the maintainer's personal module

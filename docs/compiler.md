@@ -441,6 +441,15 @@ and replaces the manifest last. Byte-identical source and manifest files are
 not rewritten, preserving mtimes and Go build cache inputs. This is a guarded
 multi-file protocol, not a claim of global filesystem atomicity.
 
+When an application intentionally changes its Go module path, one explicit
+write pass may use `spice generate --relocate-module-from <previous-module>`.
+Spice accepts only a manifest whose target is otherwise identical and whose
+package and entrypoint paths are exact descendants of that previous module.
+Every owned file must still match its recorded SHA-256 before generation can
+replace it. The option rejects the current module path, malformed paths,
+manual edits, foreign targets, and use with `--check` or `--diff`; later runs
+use ordinary generation with the newly written ownership manifest.
+
 `spice generate --check` and `--diff` are read-only. Check mode reports every
 deterministically sorted difference and returns nonzero; diff mode additionally
 prints bounded unified-style expected/current content. `spice build` performs
