@@ -65,11 +65,12 @@ spice generate --check
 spice build
 ```
 
-In a monorepo, pass only the command package and select the command
-unambiguously:
+When a module has multiple application targets, pass only the command package
+and select the command unambiguously. For example, in the standalone
+[`commerce`](https://github.com/spice-framework/commerce) repository:
 
 ```text
-cd examples/commerce
+cd commerce
 spice generate --target Commerce .
 ```
 
@@ -82,7 +83,7 @@ not runtime activation.
 `spice run` is the first-class development execution path:
 
 ```text
-cd examples/commerce
+cd commerce
 spice run --target Commerce . -- -check
 ```
 

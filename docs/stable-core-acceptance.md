@@ -73,16 +73,16 @@ The final reference workflow now composes the accepted contracts:
 
 ## Reproduction
 
-From the repository root with Go 1.26.5, then from the independent Commerce
-module:
+From the core repository root with Go 1.26.5, then from a checkout of the
+independent [`commerce`](https://github.com/spice-framework/commerce) module:
 
 ```text
 make verify
-cd examples/commerce
+cd commerce
 spice verify --format=json ./...
 spice generate --check --target Commerce .
 spice build --target Commerce .
 spice run --target Commerce . -- -check
 spice modules --format=json ./...
-spice test --module github.com/spice-framework/spice/examples/commerce/orders --count=1 ./...
+spice test --module github.com/spice-framework/commerce/orders --count=1 ./...
 ```

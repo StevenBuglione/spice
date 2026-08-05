@@ -46,9 +46,9 @@ The current Go import graph identifies these extraction blockers:
   metadata contract instead of the aggregate runtime `starter` package. The
   compatibility aliases at the old path remain only while integrations are
   extracted and can be removed after their first independent releases.
-- Commerce owns its generated target, manifest, acceptance tests, module graph,
-  and vendor tree below `examples/commerce`; root `internal` now belongs
-  exclusively to the framework and toolchain.
+- The independent `spice-framework/commerce` repository owns its generated
+  target, manifest, acceptance tests, module graph, vendor tree, and complete
+  application verification; core no longer duplicates that source or gate.
 - application package scope is repeated in CLI arguments. Composition must be
   declared through ordinary Go imports at the application entrypoint so
   extracted applications remain self-describing.
@@ -149,13 +149,19 @@ resolution both pass.
   presentation ceiling.
 - [x] Extract `petclinic` with history and prove its clean-room, offline, SQL,
   and cross-platform acceptance gates.
-- [ ] Extract `commerce` with history and remove unpublished replacements from
+- [x] Extract `commerce` with history and remove unpublished replacements from
   its release acceptance.
 - [ ] Make reference applications test the minimum and current compatible core
   and toolchain versions.
 
 Exit evidence: both reference applications and both editors are external
 consumers of canonical artifacts.
+
+Commerce evidence: `spice-framework/commerce` commit `ab8431d` pins immutable
+canonical core source with no local replacement. Its repository-owned gate is
+green on Windows, Linux, and macOS, and its PostgreSQL 18.4 job proves durable
+transaction, migration, close, and reopen behavior. Core retains links to this
+evidence but no longer rebuilds or vendors the application.
 
 ## Stage 4: Extract external-service starters
 
@@ -231,7 +237,7 @@ cloning the Spice development workspace.
 | `research/` | Tracked design evidence | Retain until each document is incorporated or explicitly archived |
 | `.zed/settings.json` | User-facing supported editor configuration | Move with the Zed repository or replace with documented workspace setup |
 | `.spice/*.manifest.json` | Generated ownership metadata | Move with the generated target; never use for plugin or repository selection |
-| generated Commerce target | Application-owned generated source below `examples/commerce/internal/spicegen` | Move with Commerce repository history during extraction |
+| generated Commerce target | Owned by `spice-framework/commerce` below `internal/spicegen` | Retain and verify only in the standalone application repository |
 | generated-tree handwritten tests | Useful tests in the wrong ownership boundary | Relocate; do not delete |
 
 ## Audit remediation ownership

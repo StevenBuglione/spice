@@ -470,8 +470,10 @@ unrelated ill-typed code. Verification and annotation listing load the ordinary
 committed program. Targeted regeneration can therefore exclude stale output,
 while ordinary Go commands omit the tag and compile committed output.
 
-The committed commerce target is the executable reference for this contract.
-`examples/commerce` declares four modules, typed configuration, generated
+The independently versioned
+[`spice-framework/commerce`](https://github.com/spice-framework/commerce)
+application is the executable reference for this contract. It declares four
+modules, typed configuration, generated
 controllers, explicit providers, lifecycle hooks, fixed-delay and bounded
 asynchronous work, and qualified management and logging bootstrap annotations.
 Its annotated `main.go` imports the generated commerce target explicitly.
@@ -482,8 +484,8 @@ generated command owns
 conventional environment loading, process signals, management composition,
 metrics, and the shutdown deadline. The handwritten process boundary is only
 `os.Exit(spiceapp.Main(args))`.
-Repository
-verification runs generation freshness, generated construction, live typed
+Its repository-owned verification runs generation freshness, generated
+construction, live typed
 HTTP, failure mapping, cache/event interaction, typed asynchronous submission
 and drain, redacted configuration reporting, runtime module metadata, metrics,
 and graceful-drain checks.

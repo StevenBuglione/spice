@@ -254,11 +254,12 @@ make fast
 make check
 go run ./cmd/spice version
 go run ./cmd/spice verify ./...
-cd examples/commerce
+git clone https://github.com/spice-framework/commerce.git
+cd commerce
 spice annotations list ./...
 spice annotations doctor ./...
 spice verify --format=json ./...
-spice test --module github.com/spice-framework/spice/examples/commerce/orders --count=1 ./...
+spice test --module github.com/spice-framework/commerce/orders --count=1 ./...
 spice generate --check --target Commerce .
 spice run --target Commerce . -- -check
 spice dev --target Commerce .
@@ -289,7 +290,7 @@ package main
 import (
     "os"
 
-    spiceapp "github.com/spice-framework/spice/examples/commerce/internal/spicegen/commerce"
+    spiceapp "github.com/spice-framework/commerce/internal/spicegen/commerce"
 )
 
 // @import { Application } from "github.com/spice-framework/spice/annotation/core"
@@ -457,7 +458,8 @@ either direction.
 To start the example HTTP server:
 
 ```bash
-cd examples/commerce
+git clone https://github.com/spice-framework/commerce.git
+cd commerce
 spice run --target Commerce .
 curl -H "Content-Type: application/json" -d "{\"quantity\":2}" http://localhost:8081/orders
 curl http://localhost:8081/actuator/health/readiness
@@ -466,20 +468,22 @@ curl http://localhost:8081/actuator/configprops
 curl http://localhost:8081/actuator/modules
 ```
 
-The modular commerce `main.go` enables structured request/lifecycle logging
+The independently versioned
+[`spice-framework/commerce`](https://github.com/spice-framework/commerce)
+application enables structured request/lifecycle logging
 and exactly seven management endpoints. Its generated command owns
 `SIGINT`/`SIGTERM`, conventional environment loading, check mode, stable exit
 codes, and fresh bounded shutdown. Its generated application also owns the
 fixed-delay audit and exposes a typed, bounded asynchronous inventory
 verification method that drains before provider cleanup. The generated
 `Application` itself never captures process signals. Generated source and
-OpenAPI are committed under `examples/commerce/internal/spicegen/commerce`;
+OpenAPI are committed under `internal/spicegen/commerce` in that repository;
 source-owned
 application metadata, configuration binders, constructors, and interface
 checks use mirrored files below
-`examples/commerce/internal/spicegen/commerce/sources`. The matching ownership
-manifest is `examples/commerce/.spice/commerce.manifest.json`. Commerce is a
-separate consuming Go module with its own module graph and vendor tree.
+`internal/spicegen/commerce/sources`. The matching ownership manifest is
+`.spice/commerce.manifest.json`. Commerce is a separate consuming Go module
+with its own verification policy, module graph, and vendor tree.
 
 For embedding and specialized policies, the generated application retains
 `NewApplication`, `NewApplicationWithOptions`, `Application.Start`,

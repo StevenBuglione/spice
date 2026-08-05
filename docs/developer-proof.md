@@ -65,16 +65,18 @@ lifecycle, management, and persistence boundaries. PostgreSQL and MySQL
 profiles select different repository implementations at compile time and are
 covered by real-database workflow tests.
 
-The separate commerce integration remains the polished mail proof. Its receipt
+The independently versioned
+[`spice-framework/commerce`](https://github.com/spice-framework/commerce)
+integration remains the polished mail proof. Its receipt
 response reports a stable message ID, `transport: "test"`,
 `accepted: true`, and the attachment filename. The decoded test-transport
 acceptance test additionally verifies the exact envelope, subject, text body,
 and attachment bytes. The generated application package in the independent
-Commerce module at `examples/commerce/internal/spicegen/commerce` visibly
+Commerce module at `internal/spicegen/commerce` visibly
 separates contracts, configuration,
 providers, bounded assembly, features, HTTP coordination, one stable file per
 route, lifecycle, and command behavior. Mirrored files under
-`examples/commerce/internal/spicegen/commerce/sources/<package>` contain
+`internal/spicegen/commerce/sources/<package>` contain
 source-owned direct
 constructors, configuration binders, and explicit interface assignments.
 The schema-5 manifest provides exact source/generated locations and concern
@@ -86,7 +88,7 @@ Run the focused executable proofs directly:
 
 ```text
 go test -run TestPetclinicDevelopmentWorkflowKeepsLastKnownGoodAndRestarts ./internal/cli
-cd examples/commerce
+cd commerce
 go test -run TestCommerceDeveloperProof .
 go test -run TestNotifierDeliversInspectableTestReceipt ./notifications
 ```
