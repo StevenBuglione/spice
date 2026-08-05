@@ -19,7 +19,7 @@ ordinary Go toolchain
 cmd/spice
     -> internal/spicegen/spice
        -> internal/autoconfigure.DefaultRuntime
-       -> 13 ordered internal/cli.Handler beans
+       -> 15 ordered internal/cli.Handler beans
        -> internal/autoconfigure.DefaultCommand([]cli.Handler)
        -> internal/cli.Command
 ```
@@ -33,7 +33,7 @@ runtime and CLI packages, but those packages never import it.
 The application marker is `internal/spiceapp.Spice`. It requires the typed
 `*internal/cli.Command` root and declares its module dependency on
 `internal/cli`. The blank-imported `internal/autoconfigure` package contributes
-one runtime factory, 13 independently replaceable ordered handler interface
+one runtime factory, 15 independently replaceable ordered handler interface
 factories, and the command collection factory. Each contribution lives in one
 handwritten file and maps to one small source adapter. The generated graph
 therefore uses the same import-driven default selection, interface collection
@@ -89,6 +89,7 @@ complete package set:
 ./internal/genfs
 ./internal/lsp
 ./internal/cli
+./internal/scaffold
 ./internal/spiceapp
 ./internal/autoconfigure
 ```
@@ -133,16 +134,18 @@ source navigation, and focused module testing.
 
 ## Modulith boundary
 
-The complete self-hosting slice declares six primary modules:
+The complete self-hosting slice declares seven primary modules:
 
 ```text
 spiceapp -> cli -> compiler named interfaces
                    devloop
                    genfs -> compiler::generate
                    lsp   -> compiler::{annotationinstall,diagnostic,parser,service}
+                   scaffold -> compiler::targetid
 ```
 
-The compiler root exposes 14 named interfaces used by the CLI and LSP. The
+The compiler root exposes 15 named interfaces used by the CLI, LSP, and
+scaffolder. The
 canvas must have zero cycles and zero unassigned packages. The canonical
 `internal/autoconfigure` package is intentionally absent from module
 annotation discovery because auto-configuration packages are auxiliary typed

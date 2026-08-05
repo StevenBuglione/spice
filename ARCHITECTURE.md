@@ -202,7 +202,7 @@ ordinary-Go compiler and imports no generated application package.
 The handwritten `internal/spiceapp` marker declares the production application
 root and module boundary. Its explicit blank import of
 `internal/autoconfigure` selects a reviewed graph containing the CLI runtime,
-13 ordered `internal/cli.Handler` interface beans, and the
+15 ordered `internal/cli.Handler` interface beans, and the
 `*internal/cli.Command` that consumes their generated `[]Handler` collection.
 Every handler has its own ordinary Go factory and mirrored source adapter.
 Generation exposes every bean through typed `Components` and `BeanOverrides`;
@@ -214,8 +214,10 @@ context.
 Spice also validates its own production module canvas. `compiler` is one module
 whose supported CLI/LSP packages are explicit named interfaces; `cli`,
 `devloop`, `genfs`, `lsp`, and `spiceapp` are separate modules with exact
-allowed dependencies. The self-hosting package set has no cycles or unassigned
-packages. Canonical `autoconfigure` packages remain compiler auxiliaries, so
+allowed dependencies. The `scaffold` module depends only on the compiler's
+stable `targetid` named interface. The seven-module self-hosting package set
+has no cycles or unassigned packages. Canonical `autoconfigure` packages remain
+compiler auxiliaries, so
 their package annotations cannot silently change application module ownership.
 
 The mandatory bootstrap proof builds stage zero offline, audits the absence of

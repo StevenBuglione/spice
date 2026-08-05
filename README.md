@@ -178,6 +178,13 @@ command against a temporary modfile, shows the exact `go.mod`/`go.sum` diff,
 and requires a separate confirmed action before applying the still-current
 preview.
 
+`spice new` creates a minimal valid-Go application and exact Go module without
+downloads or destructive overwrite. `spice add package@version` and
+`spice add --tool package@version` expose the same temporary-modfile planner to
+developers: preview is the default, and `--apply` writes only a freshly
+validated hash-guarded plan. The clean-room smoke gate generates from zero
+output, vendors offline, compiles, tests, builds, and executes that scaffold.
+
 The independent modules under
 [`testdata/annotationfixture`](testdata/annotationfixture) and
 [`testdata/annotationapp`](testdata/annotationapp) prove that a third party can

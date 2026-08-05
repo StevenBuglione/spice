@@ -11,10 +11,11 @@ preview are complete.
 The executable migration order, extraction blockers, cleanup decisions, and
 acceptance evidence are maintained in
 [`docs/repository-migration.md`](docs/repository-migration.md). The immediate
-priority is product truth and safety: secure management defaults, current
-dependencies, real installed-GoLand Run/Debug proof, correct affected CI,
-source-owned application composition, generated-tree purity, and public API
-classification. Repository extraction begins only from that green baseline.
+Stage 0 and Stage 1 are complete: product truth, secure defaults, independent
+application ownership, source-owned composition, generated-tree purity,
+portable starter metadata, and the clean-room scaffold/dependency workflow are
+green. The immediate priority is organization infrastructure, canonical module
+paths, reusable cross-repository gates, and then consumer/editor extraction.
 
 ## Current developer-proof priority
 
@@ -208,7 +209,7 @@ handwritten renderer and CLI are partitioned by the same semantic boundaries
 as their generated artifacts and commands.
 
 Spice now self-hosts its production command through a dedicated generated
-`Spice` target: imported reviewed fallbacks construct the CLI runtime, 13
+`Spice` target: imported reviewed fallbacks construct the CLI runtime, 15
 ordered handler interface beans, and their typed command collection. The
 generated application owns configuration, lifecycle, and shutdown, while
 target-specific `spicetest` cases prove per-handler overrides, LSP streams,

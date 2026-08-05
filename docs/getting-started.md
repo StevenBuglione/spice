@@ -22,6 +22,43 @@ go build -trimpath -o ./bin/spice ./cmd/spice
 The executable is a development build. Release archives are produced only
 from clean exact tags by the process in [releasing.md](releasing.md).
 
+## Create a clean application
+
+`spice new` creates a valid-Go application and its ordinary `go.mod` without
+running a Go command, downloading a module, initializing Git, or overwriting a
+non-empty directory:
+
+```text
+spice new --module example.com/acme/hello --directory hello
+cd hello
+go mod download
+spice generate --target Hello .
+spice verify .
+spice run --target Hello .
+```
+
+The target name and generated-package ID derive from the final module-path
+segment through the same compiler-owned normalization used during analysis.
+Initial generation supplies the missing generated package through an in-memory
+overlay; no physical stub is created. Run `go mod tidy` after that first
+generation. `--spice-version` selects an exact pre-release or release when the
+CLI build should not select its own version. `--replace` is an explicit local
+development option and is never emitted by a release workflow by default.
+
+Add an ordinary dependency through a previewed standard Go operation:
+
+```text
+spice add golang.org/x/sync/errgroup@v0.22.0
+spice add --apply golang.org/x/sync/errgroup@v0.22.0
+```
+
+The first command runs `go get` only against a temporary sibling modfile and
+prints the exact bounded `go.mod`/`go.sum` diff. `--apply` creates a fresh plan,
+prints it, and writes its exact after-images only while both original file
+hashes still match. Add `--tool` to use Go's `go get -tool` authorization path.
+These commands are explicit network-capable developer actions; normal
+analysis, generation, and editor operation remain offline and read-only.
+
 ## Inspect the application
 
 Petclinic is an independent consumer module. Its `go.mod` selects Spice,

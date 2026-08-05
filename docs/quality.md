@@ -45,7 +45,7 @@ entrypoint collection selection, the generated application, `spicetest`,
 configuration, lifecycle, LSP, and last-known-good development restart, then
 builds stage zero and stage one offline. The executables check the complete
 self-hosting target, inspect all 15 selected bean contributions, validate the
-cycle-free six-module canvas, resolve a source-to-generated location, and run
+cycle-free seven-module canvas, resolve a source-to-generated location, and run
 the CLI module's focused test slice. It does not replace `make verify` before a
 commit.
 

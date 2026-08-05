@@ -83,12 +83,15 @@ security scan contains no known vulnerable selected module versions.
 - [x] Move the root-owned Commerce generated target and manifest into the
   Commerce module.
 - [x] Remove compiler dependency on the aggregate starter catalog.
-- [ ] Add clean-room application scaffolding and dependency-add commands with
+- [x] Add clean-room application scaffolding and dependency-add commands with
   previewable module changes.
 
 Exit evidence: Petclinic and Commerce generate, build, run, debug, and test
 using only their package-main path plus target selection when genuinely
-ambiguous.
+ambiguous. The mandatory smoke gate also creates a new external application,
+proves dependency preview is read-only, applies the exact guarded plan,
+generates from zero output, vendors offline, compiles, tests, builds, and runs
+the result.
 
 ## Stage 2: Establish organization infrastructure and canonical paths
 
