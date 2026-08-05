@@ -60,9 +60,15 @@ The repository currently provides:
   integration with secure URL/TLS policy, explicit pool ownership, and
   real-container transaction, repository, migration, batch, outbox, and SQL
   test-slice verification.
-- An opt-in go-redis starter with secure URL/TLS/authentication policy,
-  deterministic bounded pool ownership, exact cleanup, and a namespaced typed
-  JSON cache store verified against a real Redis server.
+- An independently versioned
+  [`starter-mysql`](https://github.com/spice-framework/starter-mysql)
+  integration with verified TLS, explicit bounded pool ownership, cancellation,
+  secret-safe failures, and real-MySQL acceptance consumed by Petclinic.
+- An independently versioned
+  [`starter-redis`](https://github.com/spice-framework/starter-redis)
+  integration with secure URL/TLS/authentication policy, deterministic bounded
+  pool ownership, exact cleanup, and a namespaced typed JSON cache store
+  verified against a real Redis server.
 - An independently versioned
   [`starter-smtp`](https://github.com/spice-framework/starter-smtp) integration
   with required verified TLS, bounded cancellation/retry, duplicate-safe
@@ -391,8 +397,9 @@ Context-aware resilience policies are documented in
 Typed caching and the built-in bounded store are documented in
 [`docs/cache.md`](docs/cache.md).
 
-Secure Redis client ownership and distributed typed caching are documented in
-[`docs/redis.md`](docs/redis.md).
+Secure Redis client ownership and distributed typed caching are documented by
+the independently versioned
+[`starter-redis`](https://github.com/spice-framework/starter-redis).
 
 Bounded asynchronous task execution is documented in
 [`docs/async.md`](docs/async.md).

@@ -9,11 +9,9 @@ import (
 	"github.com/spice-framework/spice/starter"
 	grpcstarter "github.com/spice-framework/spice/starter/grpc"
 	kafkastarter "github.com/spice-framework/spice/starter/kafka"
-	mysqlstarter "github.com/spice-framework/spice/starter/mysql"
 	"github.com/spice-framework/spice/starter/oauth2client"
 	"github.com/spice-framework/spice/starter/oidc"
 	"github.com/spice-framework/spice/starter/otel"
-	redisstarter "github.com/spice-framework/spice/starter/redis"
 	websocketstarter "github.com/spice-framework/spice/starter/websocket"
 )
 
@@ -85,20 +83,6 @@ func TestShippedStarterManifests(t *testing.T) {
 			activation: starter.ActivationExplicitConstructor,
 		},
 		{
-			name:         "mysql",
-			manifest:     mysqlstarter.Manifest,
-			entrypoints:  []any{mysqlstarter.Open},
-			capabilities: []string{"data.mysql", "data.sql"},
-			dependencies: []starter.Dependency{
-				{
-					Module:  "github.com/go-sql-driver/mysql",
-					Version: "v1.10.0",
-					License: "MPL-2.0",
-				},
-			},
-			activation: starter.ActivationExplicitConstructor,
-		},
-		{
 			name:         "oauth2client",
 			manifest:     oauth2client.Manifest,
 			entrypoints:  []any{oauth2client.NewClient},
@@ -155,20 +139,6 @@ func TestShippedStarterManifests(t *testing.T) {
 			requirements: []string{
 				"http.serve-mux",
 			},
-		},
-		{
-			name:         "redis",
-			manifest:     redisstarter.Manifest,
-			entrypoints:  []any{redisstarter.Open},
-			capabilities: []string{"cache.redis", "data.redis"},
-			dependencies: []starter.Dependency{
-				{
-					Module:  "github.com/redis/go-redis/v9",
-					Version: "v9.21.0",
-					License: "BSD-2-Clause",
-				},
-			},
-			activation: starter.ActivationExplicitConstructor,
 		},
 	}
 	seenIDs := make(map[string]struct{}, len(tests))

@@ -336,11 +336,13 @@ connection while holding a session advisory lock, runs each parameter-free
 migration script and parameterized registry insert in one transaction, and
 closes the physical connection whenever unlock ownership cannot be confirmed.
 
-The MySQL starter constructs go-sql-driver connectors without global driver or
-TLS registration. Complete URLs, verified TLS, bounded pool lifetimes, parsed
-dates, context cancellation, and caller-owned cleanup are explicit. MySQL DDL
-is atomic per supported InnoDB statement but implicitly commits, so consumers
-must not present it as the transactional migration backend contract.
+The independently versioned
+[`starter-mysql`](https://github.com/spice-framework/starter-mysql) module
+constructs go-sql-driver connectors without global driver or TLS registration.
+Complete URLs, verified TLS, bounded pool lifetimes, parsed dates, context
+cancellation, and caller-owned cleanup are explicit. MySQL DDL is atomic per
+supported InnoDB statement but implicitly commits, so consumers must not
+present it as the transactional migration backend contract.
 Petclinic's MySQL target instead pins one connection, holds a database-scoped
 advisory lock, verifies immutable checksums, and replays only idempotent steps
 before recording completion. An interrupted migration is therefore observable
@@ -426,7 +428,8 @@ The reserved `observability.http-server` feature role composes selected typed
 entrypoint outputs into generated route observers. The compiler requires each
 mapped output to implement the exact `web.HTTPObserver` contract, and the
 renderer appends the already constructed provider before route middleware is
-created. `starter/otel` uses this role for `@otel.Enable`; neither importing
+created. The independently versioned OpenTelemetry starter uses this role for
+`@otel.Enable`; neither importing
 OpenTelemetry nor retaining its compatibility manifest activates telemetry without the
 application annotation.
 

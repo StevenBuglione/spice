@@ -206,7 +206,7 @@ For each remaining starter repository:
   required-STARTTLS Mailpit delivery;
 - [x] retain cancellation, timeout, conservative retry, cleanup, security, and
   payload-free observation tests;
-- [ ] verify both the declared minimum and current compatible core versions;
+- [x] verify both the declared minimum and current compatible core versions;
 - [ ] publish checksums, SBOM/provenance, and a signed preview tag;
 - [x] migrate Commerce to the immutable module and remove the durable core copy
   only after Windows, Linux, macOS, PostgreSQL, and dependency-graph gates pass.
@@ -223,11 +223,35 @@ For each remaining starter repository:
   slices against the immutable PostgreSQL 18.4 container digest;
 - [x] verify Windows, Linux, macOS, and the real PostgreSQL job in hosted run
   `31034798376` at commit `6310c4b`;
-- [ ] verify both the declared minimum and current compatible core versions;
+- [x] verify both the declared minimum and current compatible core versions;
 - [ ] publish checksums, SBOM/provenance, and a signed preview tag;
 - [x] migrate Commerce and Petclinic to the immutable module and remove pgx and
   the durable PostgreSQL implementation from core only after both consumer
   matrices passed.
+
+`starter-mysql` is independently published and consumed by Petclinic:
+
+- [x] preserve its filtered package and dependency-review history;
+- [x] publish an independent module, Apache-2.0 license, support policy,
+  reproducible vendor graph, and exact core compatibility metadata;
+- [x] verify secure configuration, cancellation, cleanup, recovery, and pool
+  ownership against the immutable MySQL 8.4.11 container digest;
+- [x] pass Windows, Linux, macOS, offline, quality, and real-MySQL hosted jobs;
+- [x] migrate Petclinic to the immutable standalone module before removing the
+  core implementation and driver graph.
+
+`starter-redis` is independently published at commit `260a181`:
+
+- [x] preserve its filtered client and typed-cache history;
+- [x] publish an independent module, Apache-2.0 license, support policy,
+  reproducible vendor graph, and minimum/current core compatibility metadata;
+- [x] verify authenticated opt-in plaintext configuration, independent pools,
+  typed JSON, expiry, cancellation, deletion, and idempotent cleanup against
+  the immutable Redis 8.4.0 container digest;
+- [x] pass Windows, Linux, macOS, offline, compatibility, quality, and real
+  Redis hosted jobs with 94.5% coverage and zero reachable vulnerabilities;
+- [x] remove the duplicate core implementation and go-redis graph only after
+  the standalone repository was durable and green.
 
 Extraction order follows dependency complexity:
 

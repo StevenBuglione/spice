@@ -1,6 +1,7 @@
 # Redis starter
 
-`starter/redis` is an isolated, opt-in integration built on the official
+[`github.com/spice-framework/starter-redis`](https://github.com/spice-framework/starter-redis)
+is an independently versioned, opt-in integration built on the official
 `go-redis` client. Importing it or adding its dependency never activates it.
 Its explicit-constructor manifest contributes `cache.redis` and `data.redis`
 capabilities and pins the reviewed dependency version.
@@ -70,7 +71,7 @@ cleanup. The reviewed test image is
 `redis:8.4.0-alpine@sha256:4eec4565e45aa0b3966554c866bc73211e281b0b3d89fe9a33c982e6faca809d`.
 
 ```text
-go test -tags=integration -count=1 ./starter/redis
+go test -tags=integration -race -shuffle=on -count=1 ./...
 ```
 
 Production credentials and endpoints belong in typed, redacted application

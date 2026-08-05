@@ -28,9 +28,10 @@ concurrent use.
 Snapshots expose aggregate hit, miss, put, delete, eviction, expiration, and
 size counters. Observations contain only compiler-owned cache/module identity
 and bounded operation results; keys and values are never included. The
-reviewed opt-in Redis starter supplies a bounded typed JSON implementation of
-the same contract; see [`redis.md`](redis.md). Other distributed stores remain
-separate integrations.
+reviewed opt-in
+[`starter-redis`](https://github.com/spice-framework/starter-redis) module
+supplies a bounded typed JSON implementation of the same contract. Other
+distributed stores remain separate integrations.
 
 The compiler recognizes explicit cacheable typed HTTP reads:
 
