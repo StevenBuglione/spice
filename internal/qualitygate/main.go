@@ -83,6 +83,8 @@ func run(ctx context.Context, mode string) error {
 		return offline(ctx, root)
 	case "verify":
 		return verify(ctx, root)
+	case "verify-release":
+		return verify(ctx, root)
 	default:
 		return fmt.Errorf("unknown mode %q", mode)
 	}
@@ -184,6 +186,9 @@ func publicPackages(ctx context.Context, root string) ([]string, error) {
 
 func checkRepositoryContract(ctx context.Context, root string) error {
 	if err := checkFastTarget(root); err != nil {
+		return err
+	}
+	if err := checkReleaseContract(root); err != nil {
 		return err
 	}
 	files, err := repositoryFiles(ctx, root)

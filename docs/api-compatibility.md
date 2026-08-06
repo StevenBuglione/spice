@@ -21,7 +21,10 @@ The longest matching package prefix owns a package.
 
 No package is stable before the first signed preview. `preview-stable` records
 intent and review priority; it does not retroactively create a compatibility
-promise for the current untagged repository.
+promise for the current untagged repository. The protected source-release
+workflow, per-repository trust anchor, and immutable tag controls establish how
+that first preview can be authenticated; configuring those controls is not a
+release and does not advance package maturity by itself.
 
 ## Current boundary
 

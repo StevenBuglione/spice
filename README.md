@@ -287,6 +287,7 @@ migration map.
 make fast
 make check
 make verify
+make verify-release
 go tool github.com/spice-framework/toolchain/cmd/spice version
 go tool github.com/spice-framework/toolchain/cmd/spice verify ./...
 git clone https://github.com/spice-framework/commerce.git
@@ -302,8 +303,11 @@ go tool github.com/spice-framework/toolchain/cmd/spice dev --target Commerce .
 
 Use `make fast` for changed packages and their reverse dependency closure, then
 `make check` for the broader core-library loop. Run `make verify` on the exact
-tree before committing. Toolchain release automation and performance budgets
-run in the standalone toolchain repository.
+tree before committing. `make verify-release` is the unconditional full-gate
+entrypoint used by the protected, source-only core release workflow; its trust
+anchor and approval model are documented in
+[`docs/releasing.md`](docs/releasing.md). Toolchain binary release automation
+and performance budgets run in the standalone toolchain repository.
 
 In an application module containing one typed `@Application` marker:
 

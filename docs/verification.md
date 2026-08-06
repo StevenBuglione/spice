@@ -18,6 +18,7 @@ make fuzz      # short parser/decoder/validation fuzz smoke
 make test      # one shuffled race-enabled public-package pass plus coverage
 make offline   # public packages with -mod=vendor and all network resolution off
 make verify    # complete core commit gate
+make verify-release # unconditional alias for the same complete gate in the protected release workflow
 ```
 
 `make fast` is a repository-owned Go command, so PowerShell, Linux, and macOS
@@ -77,3 +78,5 @@ The separately versioned repositories own their specialized gates:
 
 Run `make verify` on the exact tree before a core commit. Release decisions
 add the coordinated ecosystem evidence; they do not weaken or bypass this gate.
+`make verify-release` deliberately executes the same complete verifier and is
+the exact entrypoint used by the pinned organization source-release workflow.
