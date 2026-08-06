@@ -1,10 +1,13 @@
-.PHONY: check coverage fmt fuzz lint offline security test vet verify
+.PHONY: check coverage fast fmt fuzz lint offline security test vet verify
 
 check:
 	go run ./internal/qualitygate -mode=check
 
 coverage:
 	go run ./internal/qualitygate -mode=coverage
+
+fast:
+	go run ./internal/qualitygate -mode=fast
 
 fmt:
 	go run ./internal/qualitygate -mode=fmt

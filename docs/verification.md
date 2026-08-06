@@ -10,6 +10,7 @@ implementation.
 Use focused package tests while editing, then:
 
 ```text
+make fast      # changed packages plus their reverse import/test-import closure
 make check     # version, boundaries, docs, formatting, tidy/vendor, and vet
 make lint      # allowlisted golangci-lint plus NilAway
 make security  # gosec plus govulncheck
@@ -18,6 +19,20 @@ make test      # one shuffled race-enabled public-package pass plus coverage
 make offline   # public packages with -mod=vendor and all network resolution off
 make verify    # complete core commit gate
 ```
+
+`make fast` is a repository-owned Go command, so PowerShell, Linux, and macOS
+execute the same selection logic. It reads staged, unstaged, and untracked
+paths from Git, ignores `.tmp`, maps changed package-owned files through
+`go list`, and tests the affected packages plus every in-module reverse import,
+test-import, and external-test-import consumer. A module-file change or a Go
+file with uncertain ownership widens safely to every core package. Documentation
+and build-contract edits exercise the quality orchestrator; a clean tree does
+the same. The selected tests run once with module-read-only, network-disabled
+settings and intentionally omit race and coverage instrumentation for speed.
+
+This narrow command never replaces `make check` or `make verify`. It exists to
+catch package-local compile and behavior defects before paying for the broader
+repository contracts.
 
 `make test` deliberately combines race testing and coverage in one invocation
 across the exact 50 public packages. It enforces at least 85% aggregate

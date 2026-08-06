@@ -61,9 +61,10 @@ For every product change:
 - offline vendor-only tests;
 - Spice CLI verification and executable example smoke tests.
 
-`make check` is the fast local feedback loop. `make coverage` isolates the
-whole-repository coverage calculation, and `make verify-release` is the
-unconditional release alias. See `docs/verification.md`.
+`make fast` is the affected-package feedback loop, and `make check` is the
+broader repository edit loop. `make coverage` isolates the whole-repository
+coverage calculation, and `make verify-release` is the unconditional release
+alias. See `docs/verification.md`.
 
 Do not weaken, skip, or broadly suppress a gate to land a change. A narrow suppression is acceptable only for a demonstrated false positive, with the reason adjacent to the suppression.
 

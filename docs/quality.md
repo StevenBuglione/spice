@@ -8,6 +8,7 @@ from PowerShell, Linux, and macOS.
 
 ```text
 make fmt       # apply goimports and gofumpt
+make fast      # changed packages and their in-module reverse dependency closure
 make check     # boundaries, docs, formatting, modules/vendor, and vet
 make coverage  # shuffled race-enabled public tests and the 85% floor
 make lint      # allowlisted golangci-lint plus NilAway
@@ -18,10 +19,16 @@ make offline   # -mod=vendor public tests with network resolution disabled
 make verify    # complete core gate
 ```
 
-Focused `go test` commands remain the fastest edit loop. The complete gate
-does not run separate broad ordinary, race, and coverage suites: one shuffled
-race-enabled invocation proves all three outcomes and computes aggregate
-coverage across exactly 50 public packages.
+`make fast` is the portable default for focused feedback. The Go orchestrator
+derives changed package ownership from Git and `go list`, includes reverse
+ordinary and test-import consumers, and widens to all packages when ownership
+is uncertain. It runs the selected tests once with network access disabled;
+there is no Bash or PowerShell selection script. Explicit focused `go test`
+commands remain useful while working within one known package.
+
+The complete gate does not run separate broad ordinary, race, and coverage
+suites: one shuffled race-enabled invocation proves all three outcomes and
+computes aggregate coverage across exactly 50 public packages.
 
 ## Pinned tools
 

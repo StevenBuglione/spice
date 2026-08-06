@@ -65,6 +65,8 @@ func run(ctx context.Context, mode string) error {
 	switch mode {
 	case "fmt":
 		return format(ctx, root, true)
+	case "fast":
+		return fast(ctx, root)
 	case "check":
 		return check(ctx, root)
 	case "vet":
@@ -181,6 +183,9 @@ func publicPackages(ctx context.Context, root string) ([]string, error) {
 }
 
 func checkRepositoryContract(ctx context.Context, root string) error {
+	if err := checkFastTarget(root); err != nil {
+		return err
+	}
 	files, err := repositoryFiles(ctx, root)
 	if err != nil {
 		return err
@@ -198,7 +203,7 @@ func checkRepositoryContract(ctx context.Context, root string) error {
 				return fmt.Errorf("toolchain-owned path remains in core: %s", slash)
 			}
 		}
-		if strings.HasPrefix(slash, "internal/") && slash != "internal/qualitygate/main.go" && slash != "internal/qualitygate/main_test.go" {
+		if strings.HasPrefix(slash, "internal/") && !strings.HasPrefix(slash, "internal/qualitygate/") {
 			return fmt.Errorf("unsupported internal implementation remains in core: %s", slash)
 		}
 		if !isTextContractFile(slash) || strings.HasPrefix(slash, ".tmp/") {
