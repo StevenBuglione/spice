@@ -200,6 +200,37 @@ target, stable Go symbol ID, package path, exact type identity when available,
 and non-executable declaration facts. It never contains a provider value or an
 instruction to execute application code.
 
+Function annotations can inspect generic, compiler-produced result metadata
+without parsing the declaration's complete signature or importing compiler
+packages. `Invocation.FunctionResultFacts` reads the optional reserved
+`go.function.results.*` entries from the existing v1alpha2 `Facts` string map.
+Each ordered result exposes:
+
+- its original readable import-path-qualified type ID, preserving a source
+  alias;
+- its canonical type ID after top-level Go alias removal;
+- its effective Go kind after reducing a named type to its underlying kind,
+  such as `interface`, `struct`, `pointer`, or `type-parameter`; and
+- for a canonical named type, the origin declaration's package path and name.
+
+An instantiated generic named type retains its concrete type arguments in the
+canonical type ID, reports the underlying kind such as `interface`, and uses
+its named origin to identify the generic declaration.
+The predeclared `error` origin has name `error` and an empty package path.
+Pointers and other non-named top-level types have no named origin. The public
+`FunctionResultFact`, `EncodeFunctionResultFacts`, and
+`DecodeFunctionResultFacts` contracts are annotation-neutral; they do not name
+or special-case any Spice or third-party interface.
+
+The fact set has an explicit canonical decimal count, stable zero-based keys,
+a 64-result bound, and bounded UTF-8 type identities. A partial set, unknown
+key inside the reserved namespace, unsupported kind, noncanonical index,
+missing named origin, or malformed value fails closed when a handler elects to
+decode it. Invocations from earlier v1alpha2 hosts have no reserved result
+facts and are reported as absent, while unrelated future fact namespaces are
+ignored. This evolution adds no JSON field: older v1alpha2 tools continue to
+decode the same `facts` map and may ignore its new entries.
+
 Handlers return the public `sdk.Contribution` discriminated union. The current
 typed capabilities cover application roots, service stereotypes, providers,
 explicit interface bindings, configuration, controllers, routes, modules,
