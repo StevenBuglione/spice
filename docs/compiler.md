@@ -162,6 +162,9 @@ After ordinary annotation target and argument validation, each valid `@Bean`
 method on a constructible `@Configuration` contributes one deterministic
 provider record. Its receiver is an exact dependency and its parameters remain
 ordinary provider dependencies. Package-level beans remain a migration form.
+Provider metadata and explicit interface contributions target method beans as
+well as package functions, so selection, ordering, scope, and exposure remain
+attached to the declaration that produces the value.
 Constructible `@Component`, `@Configuration`, `@Service`, `@Controller`, and
 `@Repository` types select an explicit constructor, same-file `New<Type>`, or
 generated `new(T)`; the `java-structured` profile rejects the generic package

@@ -225,6 +225,25 @@ func TestJavaStructuredDefinitionTargets(t *testing.T) {
 			want:       []sdk.Target{sdk.TargetFunction, sdk.TargetMethod},
 		},
 		{
+			name:       "method bean modifier",
+			definition: Fallback(),
+			want: []sdk.Target{
+				sdk.TargetType,
+				sdk.TargetFunction,
+				sdk.TargetMethod,
+			},
+		},
+		{
+			name:       "qualified method bean",
+			definition: Qualifier(),
+			want: []sdk.Target{
+				sdk.TargetType,
+				sdk.TargetFunction,
+				sdk.TargetMethod,
+				sdk.TargetParameter,
+			},
+		},
+		{
 			name:       "component type",
 			definition: Component(),
 			want:       []sdk.Target{sdk.TargetType},
@@ -252,5 +271,25 @@ func TestJavaStructuredDefinitionTargets(t *testing.T) {
 				t.Fatalf("targets = %v, want %v", test.definition.Targets, test.want)
 			}
 		})
+	}
+}
+
+func TestProviderModifiersTargetBeanMethods(t *testing.T) {
+	t.Parallel()
+	for _, definition := range []sdk.Definition{
+		Fallback(),
+		Implements(),
+		Order(),
+		Primary(),
+		Prototype(),
+		Qualifier(),
+		RequestScope(),
+		SessionScope(),
+		Singleton(),
+	} {
+		if !slices.Contains(definition.Targets, sdk.TargetMethod) {
+			t.Errorf("%s targets = %v; method is missing",
+				definition.Name, definition.Targets)
+		}
 	}
 }

@@ -201,6 +201,12 @@ called. Generic or variadic providers, malformed result ordering, multiple
 cleanup or error results, and extra values are rejected with source-positioned
 diagnostics.
 
+Provider modifiers retain the same declaration ownership on either bean form.
+`@Qualifier`, `@Primary`, `@Fallback`, `@Order`, `@Singleton`, `@Prototype`,
+`@RequestScope`, `@SessionScope`, and `@Implements` can therefore annotate an
+`@Bean` method directly; their metadata applies to that method's output rather
+than to the owning configuration object.
+
 `spice verify` validates catalog and graph metadata but does not execute
 providers or cleanup callbacks. The pure generator renders exported providers
 as direct calls in graph order and registers cleanup immediately; filesystem
