@@ -82,7 +82,7 @@ func TestCoreHandlers(t *testing.T) {
 			arguments: []sdk.InvocationArgument{{
 				Name:  "prefix",
 				Kind:  sdk.KindString,
-				Value: json.RawMessage(`"commerce"`),
+				Value: json.RawMessage(`"agent.runtime-plugin"`),
 			}},
 			kind: sdk.ContributionConfiguration,
 		},

@@ -75,7 +75,10 @@ func (UserController) CreateUser() {}
 
 Marker annotations such as `@Application`, `@Bean`, `@Enum`, `@OnStart`,
 `@OnStop`, and `@observability.Logging` accept no arguments.
-`@ConfigurationProperties` accepts an optional named `prefix` string.
+`@ConfigurationProperties` accepts an optional named `prefix` string using
+dot-separated lowercase identifier segments. A segment may contain digits
+after its first letter and single interior hyphens, as in
+`agent.runtime-plugin`.
 `@Component`, `@Configuration`, `@Repository`, and `@Service` accept optional
 `constructor`, `name`, and `aliases` bean-construction metadata.
 `@management.Enable` requires the named `expose` list.

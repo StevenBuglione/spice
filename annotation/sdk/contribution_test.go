@@ -201,6 +201,67 @@ func TestContributionRejectsMalformedValues(t *testing.T) {
 	}
 }
 
+func TestConfigurationContributionPrefixGrammar(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name    string
+		prefix  string
+		wantErr bool
+	}{
+		{name: "empty", prefix: ""},
+		{name: "single letter", prefix: "a"},
+		{name: "plain segments", prefix: "server.http"},
+		{name: "interior hyphen", prefix: "agent.runtime-plugin"},
+		{name: "digits after letter", prefix: "agent2.runtime-plugin3"},
+		{name: "multiple single hyphens", prefix: "agent.runtime-plugin-host"},
+		{name: "leading hyphen", prefix: "agent.-runtime", wantErr: true},
+		{name: "trailing hyphen", prefix: "agent.runtime-", wantErr: true},
+		{name: "repeated hyphen", prefix: "agent.runtime--plugin", wantErr: true},
+		{name: "empty leading segment", prefix: ".agent", wantErr: true},
+		{name: "empty interior segment", prefix: "agent..runtime", wantErr: true},
+		{name: "empty trailing segment", prefix: "agent.", wantErr: true},
+		{name: "uppercase", prefix: "agent.Runtime", wantErr: true},
+		{name: "leading digit", prefix: "2agent.runtime", wantErr: true},
+		{name: "underscore", prefix: "agent.runtime_plugin", wantErr: true},
+		{name: "whitespace", prefix: "agent. runtime", wantErr: true},
+		{name: "surrounding whitespace", prefix: " agent.runtime", wantErr: true},
+		{name: "punctuation", prefix: "agent.runtime/plugin", wantErr: true},
+		{name: "non ascii", prefix: "agent.runtíme", wantErr: true},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			contribution := Contribution{
+				Kind: ContributionConfiguration,
+				Configuration: &ConfigurationContribution{
+					Prefix: test.prefix,
+				},
+			}
+			err := contribution.Validate()
+			if test.wantErr && err == nil {
+				t.Fatalf("Validate() error = nil for prefix %q", test.prefix)
+			}
+			if !test.wantErr && err != nil {
+				t.Fatalf("Validate() error = %v for prefix %q", err, test.prefix)
+			}
+		})
+	}
+}
+
+func TestConfigurationContributionPrefixDiagnostic(t *testing.T) {
+	t.Parallel()
+	contribution := Contribution{
+		Kind: ContributionConfiguration,
+		Configuration: &ConfigurationContribution{
+			Prefix: "agent.runtime--plugin",
+		},
+	}
+	want := "annotation configuration prefix \"agent.runtime--plugin\" must be dot-separated lowercase identifiers with optional single interior hyphens"
+	if err := contribution.Validate(); err == nil || err.Error() != want {
+		t.Fatalf("Validate() error = %v, want %q", err, want)
+	}
+}
+
 func TestEveryContributionKindValidatesAndClones(t *testing.T) {
 	t.Parallel()
 	for _, contribution := range validContributions() {

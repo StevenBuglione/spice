@@ -6,14 +6,18 @@ values and provenance; generated Go performs typed struct construction.
 ## Declaration contract
 
 `@ConfigurationProperties` targets a defined, non-generic named struct and
-accepts an optional named `prefix` string. Every exported field must declare an explicit
+accepts an optional named `prefix` string. A prefix is a dot-separated sequence
+of lowercase identifier segments. Each segment starts with a letter, may then
+contain lowercase letters or digits, and may contain single interior hyphens;
+for example, `agent.runtime-plugin`. Leading, trailing, or repeated hyphens and
+empty segments are rejected. Every exported field must declare an explicit
 `spice` tag or opt out with `spice:"-"`. Untagged private fields are ignored;
 embedded fields and tagged private fields are rejected because generated code
 cannot initialize them safely.
 
 ```go
-// @ConfigurationProperties(prefix="server")
-type ServerProperties struct {
+// @ConfigurationProperties(prefix="agent.runtime-plugin")
+type RuntimePluginProperties struct {
     Port     int           `spice:"port,default=8080,env=SERVER_PORT"`
     Timeout time.Duration `spice:"timeout,default=5s"`
     Token   string        `spice:"token,required,secret,env=SERVER_TOKEN"`
