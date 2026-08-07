@@ -1,0 +1,59 @@
+{
+  "$schema": "https://spiceframework.dev/schemas/spice-docs.schema.json",
+  "schema": 1,
+  "product": {
+    "id": "framework",
+    "title": "Spice Framework",
+    "family": "framework",
+    "summary": "A Go-native application platform with compile-time validation, deterministic generated Go, and explicit modular architecture.",
+    "maturity": "preview",
+    "audience": [
+      "application-developer",
+      "framework-contributor",
+      "extension-author",
+      "evaluator"
+    ]
+  },
+  "content": [
+    {
+      "source": "README.md",
+      "route": "index",
+      "kind": "concept",
+      "order": 0,
+      "search": true
+    },
+    {
+      "source": "docs/**/*.md",
+      "routeFrom": "docs",
+      "order": 10,
+      "search": true
+    },
+    {
+      "source": "ARCHITECTURE.md",
+      "route": "architecture",
+      "kind": "concept",
+      "order": 20,
+      "search": true
+    },
+    {
+      "source": "adrs/**/*.md",
+      "routeFrom": "adrs",
+      "kind": "adr",
+      "order": 30,
+      "search": true
+    }
+  ],
+  "snippets": [
+    {
+      "root": ".",
+      "include": [
+        "**/*.go"
+      ],
+      "exclude": [
+        "vendor/**",
+        "internal/spicegen/**",
+        ".generated/**"
+      ]
+    }
+  ]
+}
