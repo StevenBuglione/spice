@@ -23,25 +23,26 @@ topic, err := event.NewTopic(
 The compiler can now derive this topic contract from valid Go declarations:
 
 ```go
+// @event.Topic
+type OrderPlaced struct {
+    OrderID string
+}
+
 // @event.Listener(order=10)
 func (*Inventory) Reserve(context.Context, OrderPlaced) error {
     return nil
 }
-
-// @event.Topic
-func OrderEvents(*Inventory) event.Publisher[OrderPlaced] {
-    panic("compile-time marker; Spice never executes this body")
-}
 ```
 
-The marker becomes a synthetic exact `event.Publisher[OrderPlaced]` provider.
-Its parameters are ordinary exact dependencies on listener-owner providers.
+The payload declaration contributes a synthetic exact
+`event.Publisher[OrderPlaced]` provider. Listener receivers become ordinary
+exact dependencies discovered from the typed listener model.
 The compiler validates method signatures, provider ownership, exported payload
 identity, unique topic selection, module ownership, deterministic order, and
 the resulting provider graph. Generation calls `event.NewTopic` directly,
 binds each listener method to its already-constructed provider receiver, and
-assigns the topic to the synthetic exact publisher variable. It never calls
-the marker body.
+assigns the topic to the synthetic exact publisher variable. No annotation
+target or provider body executes during analysis.
 
 Producers depend on `event.Publisher[OrderPlaced]`, preserving the exact event
 payload type at compile time. `ApplicationOptions.EventObservers` supplies

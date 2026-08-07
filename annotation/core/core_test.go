@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	"encoding/json"
+	"slices"
 	"testing"
 
 	"github.com/spice-framework/spice/annotation/sdk"
@@ -13,7 +14,10 @@ func TestCoreDefinitions(t *testing.T) {
 	for _, definition := range []sdk.Definition{
 		Application(),
 		Bean(),
+		Component(),
 		Configuration(),
+		ConfigurationProperties(),
+		Enum(),
 		Fallback(),
 		Implements(),
 		Order(),
@@ -57,16 +61,37 @@ func TestCoreHandlers(t *testing.T) {
 			kind:      sdk.ContributionProvider,
 		},
 		{
+			name:      "component",
+			symbol:    "Component",
+			canonical: "Component",
+			handler:   ComponentHandler,
+			kind:      sdk.ContributionStereotype,
+		},
+		{
 			name:      "configuration",
 			symbol:    "Configuration",
 			canonical: "Configuration",
 			handler:   ConfigurationHandler,
+			kind:      sdk.ContributionStereotype,
+		},
+		{
+			name:      "configuration properties",
+			symbol:    "ConfigurationProperties",
+			canonical: "ConfigurationProperties",
+			handler:   ConfigurationPropertiesHandler,
 			arguments: []sdk.InvocationArgument{{
 				Name:  "prefix",
 				Kind:  sdk.KindString,
 				Value: json.RawMessage(`"commerce"`),
 			}},
 			kind: sdk.ContributionConfiguration,
+		},
+		{
+			name:      "enum",
+			symbol:    "Enum",
+			canonical: "Enum",
+			handler:   EnumHandler,
+			kind:      sdk.ContributionEnum,
 		},
 		{
 			name:      "implements",
@@ -182,6 +207,49 @@ func TestCoreHandlers(t *testing.T) {
 				DescriptorSymbol:  test.symbol,
 			}); err == nil {
 				t.Fatal("handler accepted a foreign descriptor")
+			}
+		})
+	}
+}
+
+func TestJavaStructuredDefinitionTargets(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name       string
+		definition sdk.Definition
+		want       []sdk.Target
+	}{
+		{
+			name:       "bean functions and methods",
+			definition: Bean(),
+			want:       []sdk.Target{sdk.TargetFunction, sdk.TargetMethod},
+		},
+		{
+			name:       "component type",
+			definition: Component(),
+			want:       []sdk.Target{sdk.TargetType},
+		},
+		{
+			name:       "configuration type",
+			definition: Configuration(),
+			want:       []sdk.Target{sdk.TargetType},
+		},
+		{
+			name:       "properties type",
+			definition: ConfigurationProperties(),
+			want:       []sdk.Target{sdk.TargetType},
+		},
+		{
+			name:       "enum type",
+			definition: Enum(),
+			want:       []sdk.Target{sdk.TargetType},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			if !slices.Equal(test.definition.Targets, test.want) {
+				t.Fatalf("targets = %v, want %v", test.definition.Targets, test.want)
 			}
 		})
 	}

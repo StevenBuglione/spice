@@ -73,9 +73,11 @@ func (UserController) GetUserCompact() {}
 func (UserController) CreateUser() {}
 ```
 
-Marker annotations such as `@Application`, `@Bean`, `@Service`, `@OnStart`,
+Marker annotations such as `@Application`, `@Bean`, `@Enum`, `@OnStart`,
 `@OnStop`, and `@observability.Logging` accept no arguments.
-`@Configuration` accepts an optional named `prefix` string.
+`@ConfigurationProperties` accepts an optional named `prefix` string.
+`@Component`, `@Configuration`, `@Repository`, and `@Service` accept optional
+`constructor`, `name`, and `aliases` bean-construction metadata.
 `@management.Enable` requires the named `expose` list.
 
 The bootstrap parser supports strings, integers, booleans, identifiers, and
@@ -153,16 +155,33 @@ Both companions are valid only on an `@Application` function. Endpoint names
 are exact, duplicates and unknown names fail at their source positions, and
 the normalized metadata becomes part of the immutable application IR.
 
-## `@Bean` provider functions
+## `@Configuration`, `@Component`, and `@Bean` methods
 
-`@Bean` marks an ordinary package-level Go factory function for compile-time provider metadata:
+`@Component` fills the generic managed-object role between the specialized
+`@Service`, `@Repository`, and `@Controller` stereotypes. All constructible
+stereotypes select an ordinary constructor at compile time and are compatible
+with explicit interface bindings and bean metadata.
+
+`@Configuration` is a constructible factory type. `@Bean` normally marks one
+of its methods, which makes the configuration receiver an explicit provider
+dependency in addition to the method parameters:
 
 ```go
+// @Configuration
+type UserConfiguration struct{}
+
 // @Bean
-func NewUserService(repository UserRepository) (*UserService, error) {
+func (*UserConfiguration) UserService(
+    repository UserRepository,
+) (*UserService, error) {
     return &UserService{repository: repository}, nil
 }
 ```
+
+Package-level `@Bean` functions remain supported for pre-0.2 migration, but
+the `java-structured` profile rejects them with
+`spice.style.package-bean`. Generated code calls either form directly; no
+configuration or provider body executes during analysis.
 
 The catalog accepts these exact forms:
 
@@ -175,7 +194,12 @@ func(dependencies...) (T, lifecycle.Cleanup, error)
 
 `lifecycle.Cleanup` is the named context-aware callback `func(context.Context) error`. An alias to that exact type is accepted; unnamed or distinct defined function types are rejected even when their underlying signatures match. Cleanup is metadata only in this release: it must be the second result, `error` must be final, and the first result remains the sole provided value. A one-result provider whose value itself has type `lifecycle.Cleanup` is an ordinary provider of that value.
 
-Every parameter is a required exact-type dependency for the graph phase. Provider methods, generic or variadic functions, annotation arguments, malformed result ordering, multiple cleanup or error results, and extra values are rejected with source-positioned diagnostics.
+Every parameter is a required exact-type dependency for the graph phase. A
+method provider must have a receiver whose exact named type is a constructible
+`@Configuration`; that configuration bean is constructed before the method is
+called. Generic or variadic providers, malformed result ordering, multiple
+cleanup or error results, and extra values are rejected with source-positioned
+diagnostics.
 
 `spice verify` validates catalog and graph metadata but does not execute
 providers or cleanup callbacks. The pure generator renders exported providers
@@ -261,28 +285,47 @@ on an accepted worker; there is no proxy or runtime method lookup.
 `func(receiver)(context.Context, Event) error`; optional named integer `order`
 controls deterministic delivery order.
 
-An exported `@event.Topic` marker function selects listener owners through its
-exact parameter types and returns one exact `event.Publisher[Event]`:
+`@event.Topic` belongs on the exported event payload type:
 
 ```go
+// @event.Topic
+type OrderPlaced struct {
+    OrderID string
+}
+
 // @event.Listener(order=10)
 func (*Inventory) Reserve(context.Context, OrderPlaced) error {
     // ...
 }
-
-// @event.Topic
-func OrderEvents(*Inventory) event.Publisher[OrderPlaced] {
-    panic("Spice never executes event topic marker bodies")
-}
 ```
 
-The event must be an exported named value. Every marker parameter must select
-exactly one listener for that payload, every annotated listener must belong to
-one topic, and an ordinary provider may depend on the synthetic exact
+The event must be an exported named value. Every annotated listener must belong
+to one topic, and an ordinary provider may depend on the synthetic exact
 `event.Publisher[Event]` node. Provider cycles and duplicate publishers fail in
-the normal graph/catalog stages. Generation binds the listener methods directly
-to their constructed provider receivers and constructs an instance-owned
-`event.Topic[Event]`; it never calls the marker body.
+the normal graph/catalog stages. Generation discovers listener-owner providers,
+binds their methods directly, and constructs an instance-owned
+`event.Topic[Event]`. Package-level function markers remain migration-only and
+are rejected by `java-structured`.
+
+## Closed enums
+
+`@Enum` marks one named scalar type whose same-file typed constants are the
+complete legal value set:
+
+```go
+// @Enum
+type OrderStatus string
+
+const (
+    OrderStatusPending   OrderStatus = "pending"
+    OrderStatusCompleted OrderStatus = "completed"
+)
+```
+
+The compiler rejects missing members, duplicate underlying values, members of
+another type, and typed constants for the enum declared in another file. It
+generates ordinary `ParseOrderStatus`, `String`, and `Valid` helpers in the
+source mirror; it does not create a reflection registry.
 
 ## Cacheable HTTP reads
 
@@ -375,7 +418,7 @@ controller.go:3:1: annotation @Controller does not define argument "prefx"; avai
 controller.go:8:1: annotation @Get requires argument "path"
 controller.go:13:1: annotation @Get argument "path" requires string, got integer
 controller.go:18:1: annotation @Get assigns argument "path" more than once
-service.go:3:1: annotation @Service does not accept arguments
+service.go:3:1: annotation @Service does not define argument "magic"; available arguments: aliases, constructor, name
 ```
 
 A positional value is accepted only when exactly one definition argument is explicitly positional. Spice rejects multiple positional values and rejects positional syntax for named-only definitions.
@@ -385,11 +428,13 @@ A positional value is accepted only when exactly one definition argument is expl
 | Annotation | Allowed target | Defined arguments |
 |---|---|---|
 | `@Application` | Package-level function | None |
-| `@Bean` | Package-level function | None |
+| `@Bean` | Method on `@Configuration`; package function during migration | `name` string and `aliases` string list, optional and named-only |
+| `@Component` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
 | `@async.Execute` | Exact provider-owned exported method | None |
 | `@cache.Cacheable` | Exact typed `@Get` method | `name` string, required and named-only |
-| `@Configuration` | Type | `prefix` string, optional, named-only |
-| `@Controller` | Type | `prefix` string, optional, named-only |
+| `@Configuration` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
+| `@ConfigurationProperties` | Type | `prefix` string, optional, named-only |
+| `@Controller` | Type | `prefix` string, `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
 | `@Get` | Method | `path` string, required, named or positional |
 | `@management.Enable` | `@Application` package-level function | `expose` string list, required, named-only |
 | `@Module` | Package documentation | `allowedDependencies` string list, optional and named-only |
@@ -398,11 +443,13 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@OnStart` | Method | None |
 | `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |
+| `@Repository` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
 | `@data.Transactional` | Exact typed `@Get` or `@Post` method | `isolation` string and `readOnly` Boolean, optional and named-only |
 | `@event.Listener` | Exact provider-owned exported method | `order` integer, optional and named-only |
-| `@event.Topic` | Exported package-level marker function | None |
+| `@Enum` | Named scalar type | None |
+| `@event.Topic` | Exported event payload type; package function during migration | None |
 | `@security.Authorize` | `@Get` or `@Post` method | `authenticated` Boolean; `anyRoles`, `allRoles`, and `allScopes` string lists; all optional and named-only, but at least one requirement is mandatory |
 | `@schedule.FixedDelay` | Exact provider-owned exported method | `delay` duration string, required; `initialDelay` duration string and `continueOnError` Boolean, optional; all named-only |
-| `@Service` | Type | None |
+| `@Service` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
 
 Annotations may be discovered on packages, types, functions, methods, variables, and constants. Each annotation definition determines which declaration kinds and invocation forms are legal.

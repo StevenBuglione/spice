@@ -219,6 +219,10 @@ func validContributions() []Contribution {
 			},
 		},
 		{
+			Kind: ContributionEnum,
+			Enum: &EnumContribution{},
+		},
+		{
 			Kind:       ContributionController,
 			Controller: &ControllerContribution{Prefix: "/api"},
 		},

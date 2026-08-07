@@ -81,7 +81,8 @@ controller signatures or requiring a telemetry dependency in core.
 
 `compiler/controller` validates controller metadata from the same typed program
 used for dependency injection. An exported, non-generic named struct marked
-`@Controller` does not create an instance: an exact `@Bean` provider must
+`@Controller` is a constructible stereotype: its selected constructor or
+generated zero-value construction must
 produce the receiver type used by every route.
 
 Typed route methods use:

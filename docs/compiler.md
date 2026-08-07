@@ -158,7 +158,24 @@ compatibility tests but is no longer the authoritative CLI source.
 
 `compiler/provider` consumes the same `load.Program` and `resolve.Result` already produced for one CLI command. It never reloads packages, reparses files, walks function bodies, reflects on runtime values, or executes provider functions.
 
-After ordinary annotation target and argument validation, each valid package-level `@Bean` function contributes one deterministic provider record. Constructible `@Service`, `@Controller`, and `@Repository` types select an explicit constructor, same-package `New<Type>`, unambiguous package `New`, or generated `new(T)`, in that order. Validated `@Configuration` structs contribute explicit generated-binder provider records before graph construction. Accepted constructor signatures are `func(dependencies...) T`, `func(dependencies...) (T, error)`, `func(dependencies...) (T, lifecycle.Cleanup)`, and `func(dependencies...) (T, lifecycle.Cleanup, error)`. `lifecycle.Cleanup` is the canonical named `func(context.Context) error` type. Recognition uses the result's live `go/types` named identity from the owning program: aliases to the canonical type are accepted, while unnamed or distinct defined callback types are rejected. No second package load or application function execution occurs.
+After ordinary annotation target and argument validation, each valid `@Bean`
+method on a constructible `@Configuration` contributes one deterministic
+provider record. Its receiver is an exact dependency and its parameters remain
+ordinary provider dependencies. Package-level beans remain a migration form.
+Constructible `@Component`, `@Configuration`, `@Service`, `@Controller`, and
+`@Repository` types select an explicit constructor, same-file `New<Type>`, or
+generated `new(T)`; the `java-structured` profile rejects the generic package
+`New` fallback. Validated `@ConfigurationProperties` structs contribute
+explicit generated-binder provider records before graph construction. Accepted
+constructor and bean signatures are `func(dependencies...) T`,
+`func(dependencies...) (T, error)`,
+`func(dependencies...) (T, lifecycle.Cleanup)`, and
+`func(dependencies...) (T, lifecycle.Cleanup, error)`.
+`lifecycle.Cleanup` is the canonical named `func(context.Context) error` type.
+Recognition uses the result's live `go/types` named identity from the owning
+program: aliases to the canonical type are accepted, while unnamed or distinct
+defined callback types are rejected. No second package load or application,
+constructor, configuration, or provider execution occurs.
 
 The first result remains the sole output. Provider records retain `ReturnsCleanup` and `ReturnsError` flags but no runtime callback value. Inputs preserve parameter order and positions, and cleanup metadata creates no dependency edge or injectable implicit value. Records retain live `go/types.Type` values only for the owning program, plus import-path-qualified stable type strings for diagnostics and later serialization.
 
@@ -553,7 +570,8 @@ and callback outcome. Core selects no global observer, tracer, meter, or
 exporter.
 
 Typed event compilation uses the same program and provider graph. An
-`@event.Topic` marker contributes a synthetic `event.Publisher[T]` provider;
+`@event.Topic` on a named payload type contributes a synthetic
+`event.Publisher[T]` provider;
 its exact parameters become graph dependencies on provider-owned
 `@event.Listener` receivers. The event IR retains the marker, payload, module,
 listener method, order, and exact provider identities. Marker and listener

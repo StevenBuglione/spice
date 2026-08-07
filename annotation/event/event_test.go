@@ -3,6 +3,7 @@ package event
 import (
 	"context"
 	"encoding/json"
+	"slices"
 	"testing"
 
 	"github.com/spice-framework/spice/annotation/sdk"
@@ -14,6 +15,16 @@ func TestEventDefinitions(t *testing.T) {
 		if err := definition.Validate(); err != nil {
 			t.Fatalf("%s definition: %v", definition.Name, err)
 		}
+	}
+}
+
+func TestTopicPrefersTypeAndRetainsFunctionMigrationTarget(t *testing.T) {
+	t.Parallel()
+	if got, want := Topic().Targets, []sdk.Target{
+		sdk.TargetType,
+		sdk.TargetFunction,
+	}; !slices.Equal(got, want) {
+		t.Fatalf("Topic targets = %v, want %v", got, want)
 	}
 }
 

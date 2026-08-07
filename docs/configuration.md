@@ -5,15 +5,15 @@ values and provenance; generated Go performs typed struct construction.
 
 ## Declaration contract
 
-`@Configuration` targets a defined, non-generic named struct and accepts an
-optional named `prefix` string. Every exported field must declare an explicit
+`@ConfigurationProperties` targets a defined, non-generic named struct and
+accepts an optional named `prefix` string. Every exported field must declare an explicit
 `spice` tag or opt out with `spice:"-"`. Untagged private fields are ignored;
 embedded fields and tagged private fields are rejected because generated code
 cannot initialize them safely.
 
 ```go
-// @Configuration(prefix="server")
-type Server struct {
+// @ConfigurationProperties(prefix="server")
+type ServerProperties struct {
     Port     int           `spice:"port,default=8080,env=SERVER_PORT"`
     Timeout time.Duration `spice:"timeout,default=5s"`
     Token   string        `spice:"token,required,secret,env=SERVER_TOKEN"`
@@ -31,7 +31,7 @@ Generated platform features also contribute typed properties. A
   `SPICE_CACHE_PRODUCTS_BY_ID_TTL`, default `5m`.
 
 Generated property keys and environment variables are framework-owned.
-Collisions with `@Configuration` fields fail before rendering. Cache capacity
+Collisions with `@ConfigurationProperties` fields fail before rendering. Cache capacity
 must fit a positive platform `int`; a zero TTL disables expiration and a
 negative TTL fails application construction.
 
@@ -154,7 +154,7 @@ server, err := config.Decode(ctx, snapshot, func(snapshot config.Snapshot) (Serv
 ```
 
 The compiler retains exact field types and property metadata in the immutable
-application IR. Each configuration struct becomes an exact-type provider node,
+application IR. Each configuration-properties struct becomes an exact-type provider node,
 so ordinary `@Bean` parameters and `@Application` roots can consume it.
 Generated binders emit direct scalar access, named-type conversion, and
 integer-width checks before constructing the struct.

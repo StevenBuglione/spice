@@ -48,6 +48,7 @@ func TestEveryContributionKindRoundTrips(t *testing.T) {
 			},
 		},
 		{Kind: sdk.ContributionConfiguration, Configuration: &sdk.ConfigurationContribution{Prefix: "server"}},
+		{Kind: sdk.ContributionEnum, Enum: &sdk.EnumContribution{}},
 		{Kind: sdk.ContributionController, Controller: &sdk.ControllerContribution{Prefix: "/api"}},
 		{Kind: sdk.ContributionRoute, Route: &sdk.RouteContribution{Method: http.MethodGet, Path: "/"}},
 		{Kind: sdk.ContributionModule, Module: &sdk.ModuleContribution{AllowedDependencies: []string{"example.com/api"}}},

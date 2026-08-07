@@ -1,5 +1,23 @@
 # Upgrading Spice
 
+## Migrating to the Java-structured annotation model
+
+The pre-0.2 annotation vocabulary aligns configuration ownership with Spring's
+familiar concepts while retaining ordinary Go execution:
+
+- replace typed `@Configuration(prefix="...")` declarations with
+  `@ConfigurationProperties(prefix="...")`;
+- introduce a constructible `@Configuration` type and move package-level
+  `@Bean` providers onto its methods;
+- annotate event payload types with `@event.Topic` instead of declaring marker
+  functions;
+- use `@Component` for generic managed collaborators rather than stretching
+  `@Service` or a provider function.
+
+Package-level beans and function topics remain accepted outside the
+`java-structured` profile during the migration window. Generated application
+behavior remains direct Go calls with no reflection or runtime scanning.
+
 Spice is pre-1.0. Public contracts may change between minor releases while the
 v1 compatibility policy is being established. Upgrades must nevertheless be
 reviewable: module selection, source edits, generated changes, and runtime
