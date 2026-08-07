@@ -66,8 +66,10 @@ The application graph must contain exactly one `@Bean` whose exact output type
 is `*data.Manager`. Spice rejects an executor parameter without the annotation,
 an annotated route without the executor parameter, raw `net/http` handlers,
 and missing or ambiguous manager providers. Generation emits a direct
-`Manager.Within` call; it does not use reflection, a service locator, or a
-transaction stored in `context.Context`.
+`Manager.Within` call; it does not use reflection or a service locator. Within
+also exposes the exact transaction-owned executor through
+`data.ExecutorFromContext` for generated interface-bound service decorators;
+typed HTTP routes continue to receive the same executor directly.
 
 `isolation` is optional and defaults to `default`. Accepted values are
 `default`, `read-uncommitted`, `read-committed`, `write-committed`,

@@ -97,7 +97,7 @@ secondary LSP adapter contract.
 ## Core responsibility
 
 This repository does not run toolchain dogfood, bootstrap, CLI smoke, editor UI,
-or generated-target freshness gates. Its `make verify` proves the 50 public
+or generated-target freshness gates. Its `make verify` proves the 51 public
 annotation/runtime/test-support packages, standard-library-only module graph,
 API maturity and architecture boundaries that the external dogfood consumes.
 Cross-repository release readiness is coordinated against exact immutable

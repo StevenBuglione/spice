@@ -292,7 +292,7 @@ libraries and every advertised production starter has real-system results.
 - [x] Remove compiler, CLI, LSP, bootstrap, generated-toolchain, fixture,
   benchmark-baseline, and release-construction ownership from the core cutover
   tree.
-- [x] Reduce core to its 50 public annotation/runtime/test-support packages, a
+- [x] Reduce core to its 51 public annotation/runtime/test-support packages, a
   standard-library-only module graph, and one repository-only quality gate.
 - [ ] Publish and accept the extracted `toolchain` repository with relevant
   history, independently green verification, and the recoverable ordinary-Go

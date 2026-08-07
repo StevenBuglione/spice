@@ -174,7 +174,7 @@ The core verifier enforces:
 - root and tools `go mod tidy -diff`;
 - a standard-library-only root graph and reproducibly empty vendor result;
 - vet, allowlisted golangci-lint, NilAway, gosec, and govulncheck;
-- one combined shuffled race/coverage pass across exactly 50 public packages;
+- one combined shuffled race/coverage pass across exactly 51 public packages;
 - at least 85% aggregate public-source coverage;
 - bounded parser/decoder fuzz smoke and offline public-package tests;
 - API maturity, Spring coverage, documentation, namespace, package-direction,

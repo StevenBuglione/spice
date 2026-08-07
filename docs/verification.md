@@ -36,7 +36,7 @@ catch package-local compile and behavior defects before paying for the broader
 repository contracts.
 
 `make test` deliberately combines race testing and coverage in one invocation
-across the exact 50 public packages. It enforces at least 85% aggregate
+across the exact 51 public packages. It enforces at least 85% aggregate
 public-source statement coverage without adding the repository-only quality
 gate to the denominator.
 

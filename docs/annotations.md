@@ -323,9 +323,11 @@ const (
 ```
 
 The compiler rejects missing members, duplicate underlying values, members of
-another type, and typed constants for the enum declared in another file. It
-generates ordinary `ParseOrderStatus`, `String`, and `Valid` helpers in the
-source mirror; it does not create a reflection registry.
+another type, and typed constants for the enum declared in another file. The
+LSP offers an explicit source edit that adds missing `ParseOrderStatus`,
+`String`, and `Valid` helpers to the owning handwritten file. This is a source
+edit because Go forbids a generated package from attaching methods to an
+application-owned type. No reflection registry is created.
 
 ## Cacheable HTTP reads
 
@@ -373,9 +375,34 @@ The exact route signature is
 `func(receiver)(context.Context, data.Executor, RequestDTO) (Response, error)`.
 An exact `*data.Manager` provider is required. `isolation` is an optional
 named string and `readOnly` is an optional named Boolean. Generation wraps the
-direct route call in `Manager.Within`; Spice never places a transaction in the
-context or performs runtime annotation lookup. See
+direct route call in `Manager.Within`. For service-method decorators,
+`Manager.Within` also installs the exact transaction-owned executor in the
+callback context; repositories retrieve it with `data.ExecutorFromContext`.
+Spice performs no runtime annotation lookup. See
 [`data.md`](data.md) for isolation values and runtime semantics.
+
+## Interface-bound service method policies
+
+Cross-cutting service behavior compiles into one ordered method-policy IR and
+an ordinary generated interface decorator. A managed `@Service` using a method
+policy must declare an exact `@Implements(ServiceInterface)` relationship. The
+generated decorator supplies that interface; constructors that inject the raw
+concrete service are rejected because they would bypass policy behavior.
+
+The policy annotations are `@data.Transactional`, `@cache.Cacheable`,
+`@security.Authorize`, `@retry.Retryable`, and
+`@observability.Observed`. Policy methods accept `context.Context` first and
+return `error` last. Cacheable service methods additionally return one value
+and use their comparable non-context parameters as a generated exact key.
+Retry is bounded and context-aware; an optional exported `func(error) bool`
+classifier can replace the conservative `retry.Transient` default. Observed
+methods report duration, failure, and panic through instance-owned observers.
+
+Policy nesting is deterministic: observation, authorization, cache, retry,
+transaction, then the direct target method call. A cache hit therefore skips
+retry and transaction work, and every retry attempt receives a fresh
+transaction boundary. No runtime proxy, service locator, reflection lookup, or
+annotation scan is involved.
 
 ## Application modules
 
@@ -431,7 +458,7 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@Bean` | Method on `@Configuration`; package function during migration | `name` string and `aliases` string list, optional and named-only |
 | `@Component` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
 | `@async.Execute` | Exact provider-owned exported method | None |
-| `@cache.Cacheable` | Exact typed `@Get` method | `name` string, required and named-only |
+| `@cache.Cacheable` | Exact typed `@Get` method or interface-bound `@Service` method | `name` string, required and named-only |
 | `@Configuration` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
 | `@ConfigurationProperties` | Type | `prefix` string, optional, named-only |
 | `@Controller` | Type | `prefix` string, `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
@@ -440,15 +467,17 @@ A positional value is accepted only when exactly one definition argument is expl
 | `@Module` | Package documentation | `allowedDependencies` string list, optional and named-only |
 | `@NamedInterface` | Package documentation | Interface name string, required, named or positional; repeatable |
 | `@observability.Logging` | `@Application` package-level function | None |
+| `@observability.Observed` | Interface-bound `@Service` method | `name` string, optional and named-only |
 | `@OnStart` | Method | None |
 | `@OnStop` | Method | None |
 | `@Post` | Method | `path` string, required, named or positional |
 | `@Repository` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
-| `@data.Transactional` | Exact typed `@Get` or `@Post` method | `isolation` string and `readOnly` Boolean, optional and named-only |
+| `@data.Transactional` | Exact typed route or interface-bound `@Service` method | `isolation` string and `readOnly` Boolean, optional and named-only |
 | `@event.Listener` | Exact provider-owned exported method | `order` integer, optional and named-only |
 | `@Enum` | Named scalar type | None |
 | `@event.Topic` | Exported event payload type; package function during migration | None |
-| `@security.Authorize` | `@Get` or `@Post` method | `authenticated` Boolean; `anyRoles`, `allRoles`, and `allScopes` string lists; all optional and named-only, but at least one requirement is mandatory |
+| `@security.Authorize` | `@Get`, `@Post`, or interface-bound `@Service` method | `authenticated` Boolean; `anyRoles`, `allRoles`, and `allScopes` string lists; all optional and named-only, but at least one requirement is mandatory |
+| `@retry.Retryable` | Interface-bound `@Service` method | `maxAttempts` integer, `initialBackoff` and `maxBackoff` duration strings, `multiplier` integer, and `classifier` identifier; all optional and named-only |
 | `@schedule.FixedDelay` | Exact provider-owned exported method | `delay` duration string, required; `initialDelay` duration string and `continueOnError` Boolean, optional; all named-only |
 | `@Service` | Type | `constructor` identifier, `name` string, and `aliases` string list, optional and named-only |
 

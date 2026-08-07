@@ -55,7 +55,7 @@ The independently versioned Spice ecosystem currently provides:
 - Import-path application modules with root APIs, named interfaces, explicit dependencies, internal-boundary checks, unassigned-package reporting, and deterministic cycle detection.
 - Module-aware synchronous lifecycle observations that generated applications expose without a global tracer or telemetry dependency.
 - Reflection-free typed configuration declarations, exact provider injection, generated schema/binders, and a runtime with rooted JSON/profile files, explicit precedence, provenance, environment mapping, defaults, validation, and secret redaction.
-- Standard-library SQL transaction management with repository-friendly executors, module-owned boundary metadata, rollback-safe error/panic behavior, synchronous observations, and generated `@data.Transactional` typed HTTP boundaries.
+- Standard-library SQL transaction management with repository-friendly executors, explicit callback-context executor access, module-owned boundary metadata, rollback-safe error/panic behavior, synchronous observations, and generated `@data.Transactional` typed HTTP or interface-bound service boundaries.
 - Immutable reflection-free repository queries with explicit SQL, typed row decoders, exact single-result cardinality, bounded lists, and safe failures.
 - An independently versioned
   [`starter-postgres`](https://github.com/spice-framework/starter-postgres)
@@ -122,8 +122,11 @@ The independently versioned Spice ecosystem currently provides:
   integration, exact generated observer-role validation, payload-free
   module-event spans and metrics, and application-owned providers/exporters.
 - Immutable authenticated principals plus compile-time `@security.Authorize`
-  route policies that generate deny-by-default RFC 9457 guards, stable
+  route and service-method policies that generate deny-by-default guards, stable
   module/policy identities, and bounded authorization observations.
+- Compile-time interface decorators for service-method `@data.Transactional`,
+  `@cache.Cacheable`, `@security.Authorize`, `@retry.Retryable`, and
+  `@observability.Observed` policies, with raw concrete injection rejected.
 - An independently versioned
   [`starter-oidc`](https://github.com/spice-framework/starter-oidc) JWT resource
   server with strict bearer parsing, signature/issuer/audience/expiry

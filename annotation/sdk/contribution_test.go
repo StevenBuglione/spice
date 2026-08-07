@@ -156,6 +156,40 @@ func TestContributionRejectsMalformedValues(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "invalid retry attempts",
+			value: Contribution{
+				Kind: ContributionRetry,
+				Retry: &RetryContribution{
+					MaxAttempts: 0, InitialBackoff: "100ms", MaxBackoff: "1s", Multiplier: 2,
+				},
+			},
+		},
+		{
+			name: "invalid retry backoff",
+			value: Contribution{
+				Kind: ContributionRetry,
+				Retry: &RetryContribution{
+					MaxAttempts: 3, InitialBackoff: "2s", MaxBackoff: "1s", Multiplier: 2,
+				},
+			},
+		},
+		{
+			name: "invalid retry multiplier",
+			value: Contribution{
+				Kind: ContributionRetry,
+				Retry: &RetryContribution{
+					MaxAttempts: 3, InitialBackoff: "100ms", MaxBackoff: "1s", Multiplier: 1,
+				},
+			},
+		},
+		{
+			name: "untrimmed observation",
+			value: Contribution{
+				Kind:        ContributionObservation,
+				Observation: &ObservationContribution{Name: " orders.create"},
+			},
+		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -311,6 +345,22 @@ func validContributions() []Contribution {
 				AllRoles:      []string{"member"},
 				AllScopes:     []string{"orders.read"},
 				Expression:    `authenticated && hasRole("operator")`,
+			},
+		},
+		{
+			Kind: ContributionRetry,
+			Retry: &RetryContribution{
+				MaxAttempts:    3,
+				InitialBackoff: "100ms",
+				MaxBackoff:     "1s",
+				Multiplier:     2,
+				Classifier:     "IsTransient",
+			},
+		},
+		{
+			Kind: ContributionObservation,
+			Observation: &ObservationContribution{
+				Name: "orders.create",
 			},
 		},
 		{

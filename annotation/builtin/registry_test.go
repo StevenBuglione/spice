@@ -38,8 +38,10 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 		{name: "OnStop", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "management.Enable", targets: []annotation.Target{annotation.TargetFunction}, argumentName: "expose", kinds: []annotation.Kind{annotation.KindList}, required: true},
 		{name: "observability.Logging", targets: []annotation.Target{annotation.TargetFunction}},
+		{name: "observability.Observed", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "name", kinds: []annotation.Kind{annotation.KindString}},
 		{name: "Post", targets: []annotation.Target{annotation.TargetMethod}, argumentName: "path", kinds: []annotation.Kind{annotation.KindString}, required: true, positional: true},
 		{name: "security.Authorize", targets: []annotation.Target{annotation.TargetMethod}},
+		{name: "retry.Retryable", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "schedule.FixedDelay", targets: []annotation.Target{annotation.TargetMethod}},
 		{name: "Service", targets: []annotation.Target{annotation.TargetType}},
 	}
@@ -73,6 +75,12 @@ func TestRegistryContainsBuiltInDefinitions(t *testing.T) {
 			}
 			if test.name == "data.Transactional" {
 				assertTransactionDefinition(t, definition)
+				return
+			}
+			if test.name == "retry.Retryable" {
+				if len(definition.Arguments) != 5 {
+					t.Fatalf("%s argument count = %d, want 5", test.name, len(definition.Arguments))
+				}
 				return
 			}
 			if test.argumentName == "" {

@@ -62,6 +62,8 @@ func TestEveryContributionKindRoundTrips(t *testing.T) {
 		{Kind: sdk.ContributionEventListener, EventListener: &sdk.EventListenerContribution{Order: 2}},
 		{Kind: sdk.ContributionCache, Cache: &sdk.CacheContribution{Name: "orders"}},
 		{Kind: sdk.ContributionAuthorization, Authorization: &sdk.AuthorizationContribution{AnyRoles: []string{"operator"}}},
+		{Kind: sdk.ContributionRetry, Retry: &sdk.RetryContribution{MaxAttempts: 3, InitialBackoff: "100ms", MaxBackoff: "1s", Multiplier: 2}},
+		{Kind: sdk.ContributionObservation, Observation: &sdk.ObservationContribution{Name: "orders.create"}},
 		{Kind: sdk.ContributionGeneratedFile, GeneratedFile: &sdk.GeneratedFileContribution{Path: "generated/feature.go", Content: "package generated\n"}},
 	}
 	for _, value := range values {

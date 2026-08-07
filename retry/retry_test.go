@@ -69,6 +69,23 @@ func TestDoRetriesWithCappedBackoffAndReturnsValue(t *testing.T) {
 	}
 }
 
+func TestTransientRequiresExplicitMarkerAndRejectsCancellation(t *testing.T) {
+	t.Parallel()
+	if Transient(nil) || Transient(errPermanent) ||
+		Transient(context.Canceled) || Transient(context.DeadlineExceeded) {
+		t.Fatal("Transient accepted an unmarked or cancellation error")
+	}
+	if !Transient(transientTestError{allowed: true}) ||
+		Transient(transientTestError{allowed: false}) {
+		t.Fatal("Transient marker decision mismatch")
+	}
+}
+
+type transientTestError struct{ allowed bool }
+
+func (err transientTestError) Error() string   { return "marked transient" }
+func (err transientTestError) Transient() bool { return err.allowed }
+
 func TestDoStopsAtNonRetryableFailure(t *testing.T) {
 	t.Parallel()
 	policy := validPolicy()

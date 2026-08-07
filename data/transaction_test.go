@@ -38,6 +38,10 @@ func TestManagerCommitsSuccessfulWork(t *testing.T) {
 		if value, ok := ctx.Value(observationContextKey{}).(string); !ok || value != definition.ID {
 			return errors.New("observer context was not propagated")
 		}
+		contextExecutor, ok := ExecutorFromContext(ctx)
+		if !ok || contextExecutor != executor {
+			return errors.New("transaction executor was not propagated")
+		}
 		_, executeErr := executor.ExecContext(ctx, "INSERT INTO orders VALUES (?)", "order-1")
 		return executeErr
 	})
@@ -55,6 +59,16 @@ func TestManagerCommitsSuccessfulWork(t *testing.T) {
 	result := observer.onlyResult(t)
 	if result.Definition != definition || result.Err != nil || result.Panicked || result.Duration < 0 {
 		t.Fatalf("observation result = %#v", result)
+	}
+}
+
+func TestExecutorFromContextRejectsMissingContext(t *testing.T) {
+	t.Parallel()
+	if executor, ok := ExecutorFromContext(nil); ok || executor != nil { //nolint:staticcheck // Nil context is an intentional fail-closed boundary case.
+		t.Fatalf("ExecutorFromContext(nil) = %#v, %t", executor, ok)
+	}
+	if executor, ok := ExecutorFromContext(context.Background()); ok || executor != nil {
+		t.Fatalf("ExecutorFromContext(background) = %#v, %t", executor, ok)
 	}
 }
 

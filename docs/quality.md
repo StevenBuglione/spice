@@ -28,7 +28,7 @@ commands remain useful while working within one known package.
 
 The complete gate does not run separate broad ordinary, race, and coverage
 suites: one shuffled race-enabled invocation proves all three outcomes and
-computes aggregate coverage across exactly 50 public packages.
+computes aggregate coverage across exactly 51 public packages.
 
 ## Pinned tools
 
