@@ -1,5 +1,7 @@
 # Spice Framework for Go
 
+Unified documentation: [spiceframework.dev/framework](https://spiceframework.dev/framework/).
+
 > **Ecosystem migration:** Spice is moving to independently versioned core,
 > toolchain, editor, starter, and reference-application repositories under
 > [`github.com/spice-framework`](https://github.com/spice-framework). The
